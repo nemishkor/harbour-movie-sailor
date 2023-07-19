@@ -9,17 +9,36 @@
     </message>
 </context>
 <context>
-    <name>FirstPage</name>
+    <name>DiscoverPage</name>
     <message>
-        <source>Show Page 2</source>
+        <source>Movie discovery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>UI Template</source>
+        <source>Include adult</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Hello Sailors</source>
+        <source>Include video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LanguageDialog</name>
+    <message>
+        <source>Select language filter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

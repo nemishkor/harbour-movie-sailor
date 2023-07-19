@@ -14,11 +14,21 @@ TARGET = harbour-movie-sailor
 
 CONFIG += sailfishapp
 
-SOURCES += src/harbour-movie-sailor.cpp
+SOURCES += src/harbour-movie-sailor.cpp \
+    src/api.cpp \
+    src/apiworker.cpp \
+    src/app.cpp \
+    src/cache.cpp \
+    src/models/language.cpp \
+    src/models/requestinfo.cpp \
+    src/viewmodels/languageslistmodel.cpp
 
 DISTFILES += qml/harbour-movie-sailor.qml \
+    qml/components/LanguageDialog.qml \
+    qml/components/Menu.qml \
     qml/cover/CoverPage.qml \
-    qml/pages/FirstPage.qml \
+    qml/pages/BasePage.qml \
+    qml/pages/DiscoverPage.qml \
     qml/pages/SecondPage.qml \
     rpm/harbour-movie-sailor.changes.in \
     rpm/harbour-movie-sailor.changes.run.in \
@@ -37,3 +47,12 @@ CONFIG += sailfishapp_i18n
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
 TRANSLATIONS += translations/harbour-movie-sailor-de.ts
+
+HEADERS += \
+    src/api.h \
+    src/apiworker.h \
+    src/app.h \
+    src/cache.h \
+    src/models/language.h \
+    src/models/requestinfo.h \
+    src/viewmodels/languageslistmodel.h

@@ -3,18 +3,12 @@ Type=Application
 X-Nemo-Application-Type=silica-qt5
 Icon=harbour-movie-sailor
 Exec=harbour-movie-sailor
-Name=harbour-movie-sailor
-# translation example:
-# your app name in German locale (de)
-#
-# Remember to comment out the following line, if you do not want to use
-# a different app name in German locale (de).
-Name[de]=harbour-movie-sailor
+Name=Movie sailor
 
 [X-Sailjail]
 # Replace with your organization as a reverse domain name
-OrganizationName=org.myorg
+OrganizationName=nemishkor
 # ApplicationName does not have to be identical to Name
-ApplicationName=movie-sailor
+ApplicationName=harbour-movie-sailor
 # Add the required permissions here
-Permissions=
+Permissions=Internet

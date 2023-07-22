@@ -14,6 +14,8 @@
 #include "api.h"
 #include "cache.h"
 #include "viewmodels/languageslistmodel.h"
+#include "viewmodels/configurationlistmodel.h"
+
 
 class App : public QObject
 {
@@ -23,21 +25,28 @@ public:
     ~App();
 
     Q_INVOKABLE void initializeLanguages();
+    Q_INVOKABLE void initializeCountries();
 
+    Api &getApi();
     LanguagesListModel *getLanguagesListModel() const;
+    ConfigurationListModel *getCountriesListModel() const;
 
-    RequestInfo *getLanguagesRequestInfo();
 
 private:
     Api api;
-    QLocale locale;
+    QString systemLanguage;
+    QString systemCountry;
     LanguagesListModel *languagesListModel;
+    ConfigurationListModel *countriesListModel;
     Cache languagesCache;
+    Cache countriesCache;
 
     void fillLanguages(const QByteArray &data);
+    void fillCountries(const QByteArray &data);
 
 public slots:
     void languagesLoaded(QByteArray &data);
+    void countriesLoaded(QByteArray &data);
 
 };
 

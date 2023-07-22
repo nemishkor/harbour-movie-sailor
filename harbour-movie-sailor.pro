@@ -19,13 +19,20 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/apiworker.cpp \
     src/app.cpp \
     src/cache.cpp \
+    src/models/configuration.cpp \
+    src/models/country.cpp \
     src/models/language.cpp \
     src/models/requestinfo.cpp \
+    src/viewmodels/configurationlistmodel.cpp \
     src/viewmodels/languageslistmodel.cpp
 
 DISTFILES += qml/harbour-movie-sailor.qml \
+    qml/components/ConfigurationDialog.qml \
     qml/components/LanguageDialog.qml \
     qml/components/Menu.qml \
+    qml/components/OrderByDialog.qml \
+    qml/components/VoteSlider.qml \
+    qml/components/VoteSliderPoint.qml \
     qml/cover/CoverPage.qml \
     qml/pages/BasePage.qml \
     qml/pages/DiscoverPage.qml \
@@ -53,6 +60,9 @@ HEADERS += \
     src/apiworker.h \
     src/app.h \
     src/cache.h \
+    src/models/configuration.h \
+    src/models/country.h \
     src/models/language.h \
     src/models/requestinfo.h \
+    src/viewmodels/configurationlistmodel.h \
     src/viewmodels/languageslistmodel.h

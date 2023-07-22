@@ -2,7 +2,8 @@
 
 Api::Api(QObject *parent) :
     QObject(parent),
-    configurationLanguagesWorker(&networkManager, &configurationLanguagesInfo)
+    configurationLanguagesWorker(&networkManager),
+    configurationCountriesWorker(&networkManager)
 {
     baseUrl = "https://api.themoviedb.org/3/";
     token = "";
@@ -17,6 +18,11 @@ void Api::loadConfigurationLanguages()
     configurationLanguagesWorker.get(buildRequest("configuration/languages"));
 }
 
+void Api::loadConfigurationCounries()
+{
+    configurationCountriesWorker.get(buildRequest("configuration/countries"));
+}
+
 QNetworkRequest Api::buildRequest(const QString &path)
 {
     QNetworkRequest request(QUrl(baseUrl + path));
@@ -26,12 +32,12 @@ QNetworkRequest Api::buildRequest(const QString &path)
     return request;
 }
 
-RequestInfo &Api::getConfigurationLanguagesInfo()
+ApiWorker &Api::getConfigurationCountriesWorker()
 {
-    return configurationLanguagesInfo;
+    return configurationCountriesWorker;
 }
 
-const ApiWorker &Api::getConfigurationLanguagesWorker() const
+ApiWorker &Api::getConfigurationLanguagesWorker()
 {
     return configurationLanguagesWorker;
 }

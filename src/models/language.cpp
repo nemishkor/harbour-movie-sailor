@@ -36,22 +36,6 @@ Language::Language(const QJsonObject &json, bool isPrimary) :
 
 }
 
-bool Language::operator <(const Language &other) const
-{
-    qDebug() << id << "<" << other.id;
-    qDebug() << isPrimary << "<" << other.isPrimary;
-    if(isPrimary && other.isPrimary){
-        return id > other.id;
-    }
-    if (isPrimary && !other.isPrimary) {
-        return false;
-    }
-    if(id == other.id){
-        return true;
-    }
-    return id > other.id;
-}
-
 const QString &Language::getId() const
 {
     return id;

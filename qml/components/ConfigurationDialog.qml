@@ -2,23 +2,23 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Dialog {
-    id: languageDialog
+    id: dialog
+
+    property string entityId: "null"
+    property string entityLabel
+    property var requestInfo
+    property var model
+    property string title
+
     allowedOrientations: Orientation.All
     clip: true
-
     onStatusChanged: {
         pageContainer.anchors.bottomMargin = Theme.itemSizeMedium
     }
-
-    property string languageId
-    property string languageEnglishName
-    property string languageName
-
-    canAccept: languageId !== ""
-    Component.onCompleted: app.initializeLanguages()
+    canAccept: entityId !== "null"
 
     Item {
-        visible: languagesRequestInfo.state === 1
+        visible: dialog.requestInfo.state === 1
         anchors.fill: parent
 
         BusyIndicator {
@@ -38,13 +38,13 @@ Dialog {
             }
             width: parent.width
             maximumValue: 100
-            value: languagesRequestInfo.progress
+            value: dialog.requestInfo.progress
         }
     }
 
     Label {
-        visible: languagesRequestInfo.state === 3
-        text: languagesRequestInfo.error === "" ? "Oops. Unknown error" : languagesRequestInfo.error
+        visible: dialog.requestInfo.state === 3
+        text: dialog.requestInfo.error === "" ? "Oops. Unknown error" : dialog.requestInfo.error
         color: Theme.errorColor
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
@@ -55,14 +55,14 @@ Dialog {
     }
 
     SilicaListView {
-        visible: languagesRequestInfo.state === 0 || languagesRequestInfo.state === 2
-        model: languagesListModel
+        visible: dialog.requestInfo.state === 0 || dialog.requestInfo.state === 2
+        model: dialog.model
         anchors.fill: parent
         currentIndex: -1 // otherwise currentItem will steal focus
         header:  Column {
             width: parent.width
             PageHeader {
-                title: qsTr("Select language")
+                title: dialog.title
             }
         }
 
@@ -76,11 +76,10 @@ Dialog {
         }
 
         delegate: BackgroundItem {
-            highlighted: model.id === languageDialog.languageId
+            highlighted: model.id === dialog.entityId
             onClicked: {
-                languageDialog.languageId = model.id
-                languageDialog.languageEnglishName = model.englishName
-                languageDialog.languageName = model.name
+                dialog.entityId = model.id
+                dialog.entityLabel = model.label
             }
 
             Label {
@@ -89,12 +88,7 @@ Dialog {
                 anchors.verticalCenter: parent.verticalCenter
                 font.bold: model.isPrimary
                 color: highlighted ? Theme.highlightColor : Theme.primaryColor
-                text: {
-                    var text = model.englishName
-                    if(model.name !== "" && model.name !== model.englishName)
-                        text += " (" + model.name + ")"
-                    return text
-                }
+                text: qsTr(model.label)
                 truncationMode: TruncationMode.Fade
                 wrapMode: "WordWrap"
             }

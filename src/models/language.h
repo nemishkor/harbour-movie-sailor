@@ -4,7 +4,6 @@
 #include <QString>
 #include <QJsonObject>
 #include <QJsonValue>
-#include <QDebug>
 
 
 class Language
@@ -14,8 +13,6 @@ public:
     Language(const QJsonObject &json);
     Language(const QJsonObject &json, bool isPrimary);
     Language(const Language &language);
-
-    bool operator <(const Language& other) const;
 
     const QString &getId() const;
 

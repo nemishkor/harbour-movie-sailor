@@ -18,14 +18,16 @@ class ApiWorker : public QObject
 {
     Q_OBJECT
 public:
-    explicit ApiWorker(QNetworkAccessManager* networkManager, RequestInfo *requestInfo, QObject *parent = nullptr);
+    explicit ApiWorker(QNetworkAccessManager* networkManager, QObject *parent = nullptr);
     ~ApiWorker();
     void post(const QNetworkRequest &request, const QByteArray &data);
     void get(const QNetworkRequest &request);
 
+    RequestInfo *getRequestInfo();
+
 private:
     QNetworkAccessManager* networkManager;
-    RequestInfo *requestInfo;
+    RequestInfo requestInfo;
     QNetworkReply *reply;
 
 signals:

@@ -17,10 +17,10 @@ public:
     ~Api();
 
     void loadConfigurationLanguages();
+    void loadConfigurationCounries();
 
-    const ApiWorker &getConfigurationLanguagesWorker() const;
-
-    RequestInfo &getConfigurationLanguagesInfo();
+    ApiWorker &getConfigurationLanguagesWorker();
+    ApiWorker &getConfigurationCountriesWorker();
 
 private:
     QNetworkAccessManager networkManager;
@@ -28,8 +28,8 @@ private:
     QString baseUrl;
     QString token;
 
-    RequestInfo configurationLanguagesInfo;
     ApiWorker configurationLanguagesWorker;
+    ApiWorker configurationCountriesWorker;
 
 };
 

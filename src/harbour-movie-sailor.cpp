@@ -21,7 +21,9 @@ int main(int argc, char *argv[])
 
     QQmlContext *context = view.data()->rootContext();
     context->setContextProperty("languagesListModel", app.getLanguagesListModel());
-    context->setContextProperty("languagesRequestInfo", app.getLanguagesRequestInfo());
+    context->setContextProperty("languagesRequestInfo", app.getApi().getConfigurationLanguagesWorker().getRequestInfo());
+    context->setContextProperty("countriesListModel", app.getCountriesListModel());
+    context->setContextProperty("countriesRequestInfo", app.getApi().getConfigurationLanguagesWorker().getRequestInfo());
     context->setContextProperty("app", &app);
 
     view->setSource(SailfishApp::pathTo("qml/harbour-movie-sailor.qml"));

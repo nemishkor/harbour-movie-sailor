@@ -230,11 +230,16 @@ BasePage {
                 error: movieProvidersRequestInfo.error
             }
 
-            GridView {
-
+            Label {
+                visible: providersGrid.rowsCount > 3
+                text: movieProvidersListModel.count + " " + qsTr("providers")
+                horizontalAlignment: Text.AlignHCenter
+                color: Theme.secondaryColor
+                width: parent.width
+                font.pixelSize: Theme.fontSizeSmall
             }
 
-            SilicaGridView {
+            Item {
                 id: providersGrid
 
                 property real extraHorizontalSpace: 2 * Theme.paddingMedium
@@ -242,80 +247,109 @@ BasePage {
                 property real _cellHeight: size + Theme.iconSizeSmall + Theme.paddingMedium
                 property real _width: parent.width - 2 * Theme.horizontalPageMargin
                 property real itemsPerRow: Math.floor(parent.width / size)
+                property real rowsCount: Math.ceil(movieProvidersListModel.count / itemsPerRow)
 
-                width: _width
+                height: Math.min(3, providersGrid.rowsCount) * providersGrid._cellHeight + (providersGrid.rowsCount > 3 ? Theme.itemSizeMedium : 0)
+                width: providersGrid._width
                 x: Theme.horizontalPageMargin
-                height: Math.ceil(movieProvidersListModel.count / itemsPerRow) * _cellHeight
-                visible: watchRegionControl.hasRegion && configurationDetailsService.initialized && movieProvidersService.initialized
-                model: movieProvidersListModel
-                cellWidth: _width / itemsPerRow
-                cellHeight: _cellHeight
-                delegate: Item {
-                    id: provider
 
-                    width: providersGrid.cellWidth
-                    height: providersGrid.cellHeight
+                SilicaGridView {
+                    id: providersGridView
 
-                    Image {
-                        id: providerLogo
-                        source: configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.imagesLogoSize + model.logo
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top: parent.top
-                        fillMode: Image.PreserveAspectFit
-                        width: providersGrid.size - providersGrid.extraHorizontalSpace
-                        height: width
+                    width: parent.width
+                    height: parent.height
+                    visible: watchRegionControl.hasRegion && configurationDetailsService.initialized && movieProvidersService.initialized
+                    model: movieProvidersListModel
+                    cellWidth: providersGrid._width / providersGrid.itemsPerRow
+                    cellHeight: providersGrid._cellHeight
+                    delegate: Item {
+                        id: provider
 
-                        BusyIndicator {
-                            visible: providerLogo.status == Image.Loading
-                            running: true
-                            size: BusyIndicatorSize.Small
-                            anchors.centerIn: parent
+                        width: providersGridView.cellWidth
+                        height: providersGridView.cellHeight
+
+                        Image {
+                            id: providerLogo
+                            source: configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.imagesLogoSize + model.logo
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top: parent.top
+                            fillMode: Image.PreserveAspectFit
+                            width: providersGrid.size - providersGrid.extraHorizontalSpace
+                            height: width
+
+                            BusyIndicator {
+                                visible: providerLogo.status == Image.Loading
+                                running: true
+                                size: BusyIndicatorSize.Small
+                                anchors.centerIn: parent
+                            }
+
+                            Rectangle {
+                                visible: true
+                                anchors.fill: parent
+                                color: Theme.highlightColor
+                                opacity: model.checked ? 0.9 : 0.0
+
+                                Behavior on opacity {
+                                    NumberAnimation {
+                                        duration: 200
+                                    }
+                                }
+                            }
+
+                            Icon {
+                                anchors.centerIn: parent
+                                source: "image://theme/icon-l-acknowledge"
+                                opacity: model.checked ? 1.0 : 0.0
+
+                                Behavior on opacity {
+                                    NumberAnimation {
+                                        duration: 200
+                                    }
+                                }
+                            }
                         }
 
-                        Rectangle {
-                            visible: true
+                        Item {
+                            id: providerLabel
+
+                            anchors {
+                                top: providerLogo.bottom
+                                bottomMargin: Theme.paddingMedium
+                                horizontalCenter: parent.horizontalCenter
+                            }
+                            height: Theme.iconSizeSmall
+                            width: parent.width
+
+                            Label {
+                                anchors.fill: parent
+                                text: model.name
+                                font.pixelSize: Theme.fontSizeSmall
+                                horizontalAlignment: Text.AlignHCenter
+                                color: Theme.highlightColor
+                            }
+                        }
+
+                        OpacityRampEffect {
+                            slope: 4
+                            offset: 0.73
+                            sourceItem: providerLabel
+                            direction: OpacityRamp.BothSides
+                        }
+
+                        MouseArea {
                             anchors.fill: parent
-                            color: Theme.highlightColor
-                            opacity: model.checked ? 0.9 : 0.0
-
-                            Behavior on opacity {
-                                NumberAnimation {
-                                    duration: 200
-                                }
-                            }
-                        }
-
-                        Icon {
-                            anchors.centerIn: parent
-                            source: "image://theme/icon-l-acknowledge"
-                            opacity: model.checked ? 1.0 : 0.0
-
-                            Behavior on opacity {
-                                NumberAnimation {
-                                    duration: 200
-                                }
-                            }
+                            onClicked: model.checked = !model.checked
                         }
                     }
+                }
 
-                    Label {
-                        anchors {
-                            top: providerLogo.bottom
-                            bottomMargin: Theme.paddingMedium
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                        width: parent.width - providersGrid.extraHorizontalSpace
-                        text: model.name
-                        font.pixelSize: Theme.fontSizeSmall
-                        horizontalAlignment: Text.AlignHCenter
-                        color: Theme.highlightColor
-                        truncationMode: TruncationMode.Fade
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: model.checked = !model.checked
-                    }
+                OpacityRampEffect {
+                    enabled: providersGrid.rowsCount > 3
+                    slope: 3.6
+                    offset: 0.77
+                    sourceItem: providersGridView
+                    direction: OpacityRamp.TopToBottom
                 }
             }
 

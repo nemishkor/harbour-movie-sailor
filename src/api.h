@@ -21,11 +21,13 @@ public:
     void loadConfigurationLanguages();
     void loadConfigurationCounries();
     void loadWatchMovieProviders(const QString &region);
+    void loadSearchPersons(const QString &query, bool includeAdults = true, const QString &language = "", int page = 1);
 
     ApiWorker &getConfigurationDetailsWorker();
     ApiWorker &getConfigurationLanguagesWorker();
     ApiWorker &getConfigurationCountriesWorker();
     ApiWorker &getWatchMovieProvidersWorker();
+    ApiWorker &getSearchPersonsWorker();
 
 private:
     QNetworkAccessManager networkManager;
@@ -37,12 +39,14 @@ private:
     ApiWorker configurationLanguagesWorker;
     ApiWorker configurationCountriesWorker;
     ApiWorker watchMovieProvidersWorker;
+    ApiWorker searchPersonsWorker;
 
 signals:
     void configurationDetailsDone(const QByteArray &data);
     void configurationLanguagesDone(const QByteArray &data);
     void configurationCountriesDone(const QByteArray &data);
     void watchMovieProvidersDone(const QByteArray &data);
+    void searchPersonsDone(const QByteArray &data);
 
 };
 

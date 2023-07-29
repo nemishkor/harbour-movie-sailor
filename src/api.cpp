@@ -5,7 +5,8 @@ Api::Api(QObject *parent) :
     configurationDetailsWorker(&networkManager),
     configurationLanguagesWorker(&networkManager),
     configurationCountriesWorker(&networkManager),
-    watchMovieProvidersWorker(&networkManager)
+    watchMovieProvidersWorker(&networkManager),
+    searchPersonsWorker(&networkManager)
 {
     baseUrl = "https://api.themoviedb.org/3/";
     token = "";
@@ -14,6 +15,7 @@ Api::Api(QObject *parent) :
     connect(&configurationLanguagesWorker, &ApiWorker::done, this, &Api::configurationLanguagesDone);
     connect(&configurationCountriesWorker, &ApiWorker::done, this, &Api::configurationCountriesDone);
     connect(&watchMovieProvidersWorker, &ApiWorker::done, this, &Api::watchMovieProvidersDone);
+    connect(&searchPersonsWorker, &ApiWorker::done, this, &Api::searchPersonsDone);
 }
 
 void Api::loadConfigurationDetails()
@@ -48,6 +50,33 @@ void Api::loadWatchMovieProviders(const QString &region)
     watchMovieProvidersWorker.get(buildRequest(url));
 }
 
+void Api::loadSearchPersons(const QString &query, bool includeAdults, const QString &language, int page)
+{
+    qDebug() << "loadSearchPersons()";
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("query", query);
+    urlQuery.addQueryItem("include_adult", includeAdults ? "true" : "false");
+    urlQuery.addQueryItem("page", QString::number(page));
+
+    if (!language.isEmpty()) {
+        urlQuery.addQueryItem("language", language);
+    }
+
+    QUrl url(baseUrl + "search/person");
+    url.setQuery(urlQuery);
+
+    searchPersonsWorker.get(buildRequest(url));
+}
+
+QNetworkRequest Api::buildRequest(const QUrl &url)
+{
+    QNetworkRequest request(url);
+    request.setRawHeader(QByteArray("Authorization"), QString("Bearer %1").arg(token).toUtf8());
+    request.setRawHeader(QByteArray("accept"), QByteArray("application/json"));
+
+    return request;
+}
+
 ApiWorker &Api::getConfigurationDetailsWorker()
 {
     return configurationDetailsWorker;
@@ -63,16 +92,12 @@ ApiWorker &Api::getConfigurationLanguagesWorker()
     return configurationLanguagesWorker;
 }
 
-QNetworkRequest Api::buildRequest(const QUrl &url)
-{
-    QNetworkRequest request(url);
-    request.setRawHeader(QByteArray("Authorization"), QString("Bearer %1").arg(token).toUtf8());
-    request.setRawHeader(QByteArray("accept"), QByteArray("application/json"));
-
-    return request;
-}
-
 ApiWorker &Api::getWatchMovieProvidersWorker()
 {
     return watchMovieProvidersWorker;
+}
+
+ApiWorker &Api::getSearchPersonsWorker()
+{
+    return searchPersonsWorker;
 }

@@ -18,6 +18,12 @@ ApiWorker::~ApiWorker()
 void ApiWorker::get(const QNetworkRequest &request)
 {
     qDebug() << "GET request to" << request.url().toString();
+
+    if (reply != nullptr && requestInfo.getState() == RequestInfo::Running) {
+        qDebug() << "Abort previous request";
+        reply->abort();
+    }
+
     requestInfo.setError("");
     requestInfo.setState(RequestInfo::Running);
     requestInfo.setProgress(0);

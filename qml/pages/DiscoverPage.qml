@@ -478,6 +478,29 @@ BasePage {
                 label: qsTr("Minimum User Votes")
             }
 
+            SectionHeader {
+                text: qsTr("Extend")
+            }
+
+            ValueButton {
+                id: cast
+
+                function openCastDialog() {
+                    app.initializeConfigurationDetails();
+
+                    var obj = pageStack.animatorPush("../components/CastDialog.qml")
+
+                    obj.pageCompleted.connect(function(page) {
+                        page.accepted.connect(function() {
+                        })
+                    })
+                }
+
+                width: parent.width
+                label: qsTr("With Cast")
+                value: personsListModel.count === 0 ? qsTr("Select") : (castListModel.count + " " + qsTr("selected"))
+                onClicked: openCastDialog()
+            }
 
         }
     }

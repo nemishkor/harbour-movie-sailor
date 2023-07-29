@@ -6,7 +6,8 @@ App::App(QQmlContext *context, QObject *parent) :
     configurationDetailsManager(api, cache, this),
     movieProvidersManager(api, cache, this),
     languagesListService(system, api, cache, this),
-    countriesListService(system, api, cache, this)
+    countriesListService(system, api, cache, this),
+    personsListService(api, cache, this)
 {
     context->setContextProperty("configurationDetailsService", &configurationDetailsManager);
     context->setContextProperty("configurationDetailsModel", configurationDetailsManager.getModel());
@@ -23,6 +24,11 @@ App::App(QQmlContext *context, QObject *parent) :
     context->setContextProperty("countriesService", &countriesListService);
     context->setContextProperty("countriesListModel", countriesListService.getModel());
     context->setContextProperty("countriesRequestInfo", api.getConfigurationCountriesWorker().getRequestInfo());
+
+    context->setContextProperty("personsService", &personsListService);
+    context->setContextProperty("personsListModel", personsListService.getModel());
+    context->setContextProperty("searchPersonsRequestInfo", api.getSearchPersonsWorker().getRequestInfo());
+    context->setContextProperty("castListModel", personsListService.getCast());
 
     context->setContextProperty("app", this);
 }
@@ -49,4 +55,10 @@ void App::initializeCountries()
 {
     qDebug() << "initializeCountries()";
     countriesListService.initialize();
+}
+
+void App::initializePersons(const QString &query, bool includeAdult, const QString &language, int page)
+{
+    qDebug() << "initializePersons()";
+    personsListService.initialize(query, includeAdult, language, page);
 }

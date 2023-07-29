@@ -19,6 +19,8 @@
 #include "src/services/configurationdetailsmanager.h"
 #include "src/services/languageslistservice.h"
 #include "src/services/movieprovidersmanager.h"
+#include "src/services/personslistservice.h"
+#include "src/viewmodels/castlistmodel.h"
 #include "src/viewmodels/languageslistmodel.h"
 #include "src/viewmodels/configurationlistmodel.h"
 #include "src/system.h"
@@ -34,6 +36,7 @@ public:
     Q_INVOKABLE void initializeMovieProviders(const QString &region);
     Q_INVOKABLE void initializeLanguages();
     Q_INVOKABLE void initializeCountries();
+    Q_INVOKABLE void initializePersons(const QString &query, bool includeAdult = true, const QString &language = "", int page = 1);
 
 private:
     System system;
@@ -44,7 +47,7 @@ private:
     MovieProvidersManager movieProvidersManager;
     LanguagesListService languagesListService;
     CountriesListService countriesListService;
-
+    PersonsListService personsListService;
 
 };
 

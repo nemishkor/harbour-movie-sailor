@@ -2,6 +2,25 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>CastDialog</name>
+    <message>
+        <source>Select cast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>My Cover</source>
@@ -110,6 +129,14 @@
         <source>providers</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Extend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>With Cast</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LanguageDialog</name>
@@ -142,6 +169,17 @@
     </message>
     <message>
         <source>Sort by</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SearchPersonDialog</name>
+    <message>
+        <source>Search a person</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

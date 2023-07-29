@@ -21,6 +21,10 @@ void MovieProvidersManager::initialize(const QString &region)
         emit initializedChanged();
     }
 
+    if (region == "") {
+        return;
+    }
+
     if (initialized) {
         return;
     }

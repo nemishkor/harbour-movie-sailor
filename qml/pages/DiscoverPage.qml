@@ -249,6 +249,7 @@ BasePage {
                 property real itemsPerRow: Math.floor(parent.width / size)
                 property real rowsCount: Math.ceil(movieProvidersListModel.count / itemsPerRow)
 
+                visible: watchRegionControl.hasRegion && configurationDetailsService.initialized && movieProvidersService.initialized
                 height: Math.min(3, providersGrid.rowsCount) * providersGrid._cellHeight + (providersGrid.rowsCount > 3 ? Theme.itemSizeMedium : 0)
                 width: providersGrid._width
                 x: Theme.horizontalPageMargin
@@ -258,7 +259,6 @@ BasePage {
 
                     width: parent.width
                     height: parent.height
-                    visible: watchRegionControl.hasRegion && configurationDetailsService.initialized && movieProvidersService.initialized
                     model: movieProvidersListModel
                     cellWidth: providersGrid._width / providersGrid.itemsPerRow
                     cellHeight: providersGrid._cellHeight

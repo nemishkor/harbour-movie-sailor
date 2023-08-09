@@ -19,12 +19,12 @@ Item {
     Label {
         text: root.value
         anchors.centerIn: parent
-        font.pixelSize: root.highlighted ? Theme.fontSizeExtraLarge : Theme.fontSizeMedium
+        font.pixelSize: root.highlighted ? Theme.fontSizeHuge : Theme.fontSizeMedium
         color: root.highlighted ? Theme.highlightColor : Theme.primaryColor
 
         Behavior on font.pixelSize {
             NumberAnimation {
-                duration: 200
+                duration: 100
             }
         }
     }

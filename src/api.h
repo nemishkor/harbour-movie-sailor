@@ -10,6 +10,7 @@
 #include <QUrlQuery>
 
 #include "apiworker.h"
+#include "src/models/searchpeopleform.h"
 
 class Api : public QObject
 {
@@ -21,7 +22,7 @@ public:
     void loadConfigurationLanguages();
     void loadConfigurationCounries();
     void loadWatchMovieProviders(const QString &region);
-    void loadSearchPersons(const QString &query, bool includeAdults = true, const QString &language = "", int page = 1);
+    void loadSearchPersons(const SearchPeopleForm &form);
 
     ApiWorker &getConfigurationDetailsWorker();
     ApiWorker &getConfigurationLanguagesWorker();

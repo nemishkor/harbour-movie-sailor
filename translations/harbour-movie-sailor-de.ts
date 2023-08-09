@@ -2,25 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
-    <name>CastDialog</name>
-    <message>
-        <source>Select cast</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>and</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>or</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CoverPage</name>
     <message>
         <source>My Cover</source>
@@ -130,11 +111,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Extend</source>
+        <source>People in movie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>With Cast</source>
+        <source>Any role</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Crew</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -173,6 +170,82 @@
     </message>
 </context>
 <context>
+    <name>PeopleFilterDialog</name>
+    <message>
+        <source>Filter by people</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Any role</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Crew</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PeopleFilterList</name>
+    <message>
+        <source>Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All of them together</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PeopleFilterSummary</name>
+    <message>
+        <source>Filter by </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>person</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>people</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PersonListItem</name>
+    <message>
+        <source>Any role</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Crew</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SearchPersonDialog</name>
     <message>
         <source>Search a person</source>
@@ -180,6 +253,18 @@
     </message>
     <message>
         <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Any role</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Crew</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

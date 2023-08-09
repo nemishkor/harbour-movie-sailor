@@ -15,12 +15,13 @@
 #include "src/api.h"
 #include "src/filecache.h"
 #include "src/models/configurationdetails.h"
+#include "src/models/searchpeopleform.h"
 #include "src/services/countrieslistservice.h"
 #include "src/services/configurationdetailsmanager.h"
 #include "src/services/languageslistservice.h"
 #include "src/services/movieprovidersmanager.h"
 #include "src/services/personslistservice.h"
-#include "src/viewmodels/castlistmodel.h"
+#include "src/viewmodels/peoplelistmodel.h"
 #include "src/viewmodels/languageslistmodel.h"
 #include "src/viewmodels/configurationlistmodel.h"
 #include "src/system.h"
@@ -36,7 +37,7 @@ public:
     Q_INVOKABLE void initializeMovieProviders(const QString &region);
     Q_INVOKABLE void initializeLanguages();
     Q_INVOKABLE void initializeCountries();
-    Q_INVOKABLE void initializePersons(const QString &query, bool includeAdult = true, const QString &language = "", int page = 1);
+    Q_INVOKABLE void initializePersons();
 
 private:
     System system;
@@ -48,6 +49,8 @@ private:
     LanguagesListService languagesListService;
     CountriesListService countriesListService;
     PersonsListService personsListService;
+
+    SearchPeopleForm searchPeopleForm;
 
 };
 

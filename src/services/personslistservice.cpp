@@ -5,26 +5,28 @@ PersonsListService::PersonsListService(Api &api, FileCache &cache, QObject *pare
     api(api),
     cache(cache),
     key("search", "persons", "1"),
-    model(this),
-    cast(this),
+    searchPersonListModel(this),
+    peopleListModel(this),
+    castListModel(this),
+    crewListModel(this),
     initialized(false)
 {
     connect(&api, &Api::searchPersonsDone, this, &PersonsListService::apiRequestDone);
 }
 
-void PersonsListService::initialize(const QString &query, bool includeAdult, const QString &language, int page)
+void PersonsListService::search(const SearchPeopleForm &form)
 {
-    QString newKey = query + "|" + (includeAdult ? "true" : "false") + "|" + language + "|" + QString::number(page);
-    qDebug() << "initialize persons list:" << newKey;
+    QString newKey = form.getQuery() + "|" + (form.getWithAdult() ? "true" : "false") + "|" + form.getLanguage() + "|" + QString::number(form.getPage());
+    qDebug() << "initialize search person list with" << newKey;
 
     if (key.key != newKey) {
         key.key = newKey;
-        model.clear();
+        searchPersonListModel.clear();
         initialized = false;
         emit initializedChanged();
     }
 
-    if (query == "") {
+    if (form.getQuery() == "") {
         return;
     }
 
@@ -33,18 +35,33 @@ void PersonsListService::initialize(const QString &query, bool includeAdult, con
     }
 
     if (cache.exists(key, "json")) {
-        model.fillFromCache(cache.load(key));
+        searchPersonListModel.fillFromCache(cache.load(key));
         initialized = true;
         emit initializedChanged();
         return;
     }
 
-    api.loadSearchPersons(query, includeAdult, language, page);
+    api.loadSearchPersons(form);
 }
 
-PersonsListModel *PersonsListService::getModel()
+SearchPersonListModel *PersonsListService::getSearchPersonListModel()
 {
-    return &model;
+    return &searchPersonListModel;
+}
+
+PeopleListModel *PersonsListService::getPeopleListModel()
+{
+    return &peopleListModel;
+}
+
+PeopleListModel *PersonsListService::getCastListModel()
+{
+    return &castListModel;
+}
+
+PeopleListModel *PersonsListService::getCrewListModel()
+{
+    return &crewListModel;
 }
 
 bool PersonsListService::isInitialized()
@@ -52,24 +69,25 @@ bool PersonsListService::isInitialized()
     return initialized;
 }
 
-CastListModel *PersonsListService::getCast()
-{
-    return &cast;
-}
-
 void PersonsListService::addSelectedToCastList()
 {
-    const QList<PersonListItem> &persons = model.getItems();
-    for (QList<PersonListItem>::const_iterator it = persons.constBegin(); it != persons.constEnd(); it++) {
-        if ((*it).getChecked()) {
-            cast.add((*it));
-        }
+    const QList<SearchPersonListItem> &persons = searchPersonListModel.getItems();
+    for (QList<SearchPersonListItem>::const_iterator it = persons.constBegin(); it != persons.constEnd(); it++) {
+        if (!(*it).getChecked())
+            continue;
+        if ((*it).getRole() == SearchPersonListItem::AnyRole)
+            peopleListModel.add((*it));
+        if ((*it).getRole() == SearchPersonListItem::CastRole)
+            castListModel.add((*it));
+        if ((*it).getRole() == SearchPersonListItem::CrewRole)
+            crewListModel.add((*it));
     }
+    searchPersonListModel.clear();
 }
 
 void PersonsListService::apiRequestDone(const QByteArray &data)
 {
-    QJsonDocument newJson = model.fillFromAPI(QJsonDocument::fromJson(data));
+    QJsonDocument newJson = searchPersonListModel.fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     initialized = true;
     emit initializedChanged();

@@ -26,35 +26,38 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/language.cpp \
     src/models/movieprovider.cpp \
     src/models/person.cpp \
-    src/models/personlistitem.cpp \
     src/models/requestinfo.cpp \
+    src/models/searchpeopleform.cpp \
+    src/models/searchpersonlistitem.cpp \
     src/services/configurationdetailsmanager.cpp \
     src/services/countrieslistservice.cpp \
     src/services/languageslistservice.cpp \
     src/services/movieprovidersmanager.cpp \
     src/services/personslistservice.cpp \
     src/system.cpp \
-    src/viewmodels/castlistmodel.cpp \
     src/viewmodels/configurationlistmodel.cpp \
     src/viewmodels/languageslistmodel.cpp \
     src/viewmodels/movieproviderslistmodel.cpp \
-    src/viewmodels/personslistmodel.cpp
+    src/viewmodels/peoplelistmodel.cpp \
+    src/viewmodels/searchpersonlistmodel.cpp
 
 DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/Anatomy.qml \
-    qml/components/CastDialog.qml \
     qml/components/ConfigurationDialog.qml \
     qml/components/FailedRequestInColumn.qml \
     qml/components/FullPageRequestProgress.qml \
     qml/components/LanguageDialog.qml \
     qml/components/Menu.qml \
     qml/components/OrderByDialog.qml \
+    qml/components/PeopleFilterList.qml \
+    qml/components/PeopleFilterSummary.qml \
     qml/components/PersonListItem.qml \
-    qml/components/SearchPersonDialog.qml \
     qml/components/VoteSlider.qml \
     qml/components/VoteSliderLabel.qml \
     qml/components/VoteSliderPoint.qml \
     qml/cover/CoverPage.qml \
+    qml/dialogs/PeopleFilterDialog.qml \
+    qml/dialogs/SearchPersonDialog.qml \
     qml/pages/BasePage.qml \
     qml/pages/DiscoverPage.qml \
     qml/pages/SecondPage.qml \
@@ -88,16 +91,17 @@ HEADERS += \
     src/models/language.h \
     src/models/movieprovider.h \
     src/models/person.h \
-    src/models/personlistitem.h \
     src/models/requestinfo.h \
+    src/models/searchpeopleform.h \
+    src/models/searchpersonlistitem.h \
     src/services/configurationdetailsmanager.h \
     src/services/countrieslistservice.h \
     src/services/languageslistservice.h \
     src/services/movieprovidersmanager.h \
     src/services/personslistservice.h \
     src/system.h \
-    src/viewmodels/castlistmodel.h \
     src/viewmodels/configurationlistmodel.h \
     src/viewmodels/languageslistmodel.h \
     src/viewmodels/movieproviderslistmodel.h \
-    src/viewmodels/personslistmodel.h
+    src/viewmodels/peoplelistmodel.h \
+    src/viewmodels/searchpersonlistmodel.h

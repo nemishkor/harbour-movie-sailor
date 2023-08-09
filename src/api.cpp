@@ -50,16 +50,16 @@ void Api::loadWatchMovieProviders(const QString &region)
     watchMovieProvidersWorker.get(buildRequest(url));
 }
 
-void Api::loadSearchPersons(const QString &query, bool includeAdults, const QString &language, int page)
+void Api::loadSearchPersons(const SearchPeopleForm &form)
 {
     qDebug() << "loadSearchPersons()";
     QUrlQuery urlQuery;
-    urlQuery.addQueryItem("query", query);
-    urlQuery.addQueryItem("include_adult", includeAdults ? "true" : "false");
-    urlQuery.addQueryItem("page", QString::number(page));
+    urlQuery.addQueryItem("query", form.getQuery());
+    urlQuery.addQueryItem("include_adult", form.getWithAdult() ? "true" : "false");
+    urlQuery.addQueryItem("page", QString::number(form.getPage()));
 
-    if (!language.isEmpty()) {
-        urlQuery.addQueryItem("language", language);
+    if (!form.getLanguage().isEmpty()) {
+        urlQuery.addQueryItem("language", form.getLanguage());
     }
 
     QUrl url(baseUrl + "search/person");

@@ -8,8 +8,9 @@
 #include "src/api.h"
 #include "src/cachekey.h"
 #include "src/filecache.h"
-#include "src/viewmodels/castlistmodel.h"
-#include "src/viewmodels/personslistmodel.h"
+#include "src/models/searchpeopleform.h"
+#include "src/viewmodels/peoplelistmodel.h"
+#include "src/viewmodels/searchpersonlistmodel.h"
 
 class PersonsListService : public QObject
 {
@@ -18,18 +19,24 @@ class PersonsListService : public QObject
 public:
     PersonsListService(Api &api, FileCache &cache, QObject *parent);
 
-    void initialize(const QString &query, bool includeAdult = true, const QString &language = "", int page = 1);
-    PersonsListModel *getModel();
-    bool isInitialized();
-    CastListModel *getCast();
     Q_INVOKABLE void addSelectedToCastList();
+
+    void search(const SearchPeopleForm &form);
+
+    SearchPersonListModel *getSearchPersonListModel();
+    PeopleListModel *getPeopleListModel();
+    PeopleListModel *getCastListModel();
+    PeopleListModel *getCrewListModel();
+    bool isInitialized();
 
 private:
     Api &api;
     FileCache &cache;
     CacheKey key;
-    PersonsListModel model;
-    CastListModel cast;
+    SearchPersonListModel searchPersonListModel;
+    PeopleListModel peopleListModel;
+    PeopleListModel castListModel;
+    PeopleListModel crewListModel;
     bool initialized;
 
 public slots:

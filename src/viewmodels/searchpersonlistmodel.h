@@ -1,5 +1,5 @@
-#ifndef PERSONSLISTMODEL_H
-#define PERSONSLISTMODEL_H
+#ifndef SEARCHPERSONLISTMODEL_H
+#define SEARCHPERSONLISTMODEL_H
 
 #include <QAbstractListModel>
 #include <QJsonDocument>
@@ -7,9 +7,9 @@
 #include <QJsonValue>
 #include <QJsonObject>
 
-#include "src/models/personlistitem.h"
+#include "src/models/searchpersonlistitem.h"
 
-class PersonsListModel : public QAbstractListModel
+class SearchPersonListModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
@@ -19,29 +19,30 @@ public:
         IdRole = Qt::UserRole + 1,
         NameRole,
         KnownForDepartment,
-        ProfilePath
+        ProfilePath,
+        RoleRole,
     };
-    explicit PersonsListModel(QObject *parent);
+    explicit SearchPersonListModel(QObject *parent);
 
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     Q_INVOKABLE bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
-    void add(const PersonListItem &item);
+    void add(const SearchPersonListItem &item);
     void clear();
     void fillFromCache(const QJsonDocument &json);
     const QJsonDocument fillFromAPI(const QJsonDocument &json);
 
-    const QList<PersonListItem> &getItems() const;
+    const QList<SearchPersonListItem> &getItems() const;
 
 protected:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    QList<PersonListItem> items;
+    QList<SearchPersonListItem> items;
 
 signals:
     void countChanged();
 };
 
-#endif // PERSONSLISTMODEL_H
+#endif // SEARCHPERSONLISTMODEL_H

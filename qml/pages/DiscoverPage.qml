@@ -479,29 +479,47 @@ BasePage {
             }
 
             SectionHeader {
-                text: qsTr("Extend")
+                text: qsTr("People in movie")
             }
 
-            ValueButton {
-                id: cast
+            PeopleFilterSummary {
+                roleName: qsTr("Any role")
+                model: peopleListModel
+            }
 
-                function openCastDialog() {
-                    app.initializeConfigurationDetails();
+            PeopleFilterSummary {
+                roleName: qsTr("Cast")
+                model: castListModel
+            }
 
-                    var obj = pageStack.animatorPush("../components/CastDialog.qml")
+            PeopleFilterSummary {
+                roleName: qsTr("Crew")
+                model: crewListModel
+            }
 
-                    obj.pageCompleted.connect(function(page) {
-                        page.accepted.connect(function() {
-                        })
-                    })
+            ButtonLayout {
+                preferredWidth: Theme.buttonWidthMedium
+
+                Button {
+                    id: changePeopleFiltersButton
+
+                    property bool isEmpty: peopleListModel.count === 0 && castListModel.count === 0 && crewListModel.count === 0
+
+                    function openPeopleDialog() {
+                        app.initializeConfigurationDetails();
+                        app.initializePersons("");
+                        pageStack.animatorPush("../dialogs/PeopleFilterDialog.qml")
+                    }
+
+                    text: changePeopleFiltersButton.isEmpty ? qsTr("Add") : qsTr("Change")
+                    onClicked: openPeopleDialog()
                 }
-
-                width: parent.width
-                label: qsTr("With Cast")
-                value: personsListModel.count === 0 ? qsTr("Select") : (castListModel.count + " " + qsTr("selected"))
-                onClicked: openCastDialog()
             }
 
+            Item {
+                width: parent.width
+                height: Theme.paddingMedium
+            }
         }
     }
 }

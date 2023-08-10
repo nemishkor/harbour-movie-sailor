@@ -15,6 +15,7 @@ Column {
             h += modeSelect.height + Theme.paddingMedium
         return h
     }
+    Behavior on height { NumberAnimation { duration: 400 } }
 
     ComboBox {
         id: modeSelect
@@ -57,9 +58,12 @@ Column {
         removeDisplaced: Transition {
             NumberAnimation {
                 property: "y"
-                duration: 200
+                duration: 400
                 easing.type: Easing.OutQuad
             }
+        }
+        remove: Transition {
+            NumberAnimation { property: "opacity"; from: 1.0; to: 0; duration: 400 }
         }
         delegate: Item {
             id: row

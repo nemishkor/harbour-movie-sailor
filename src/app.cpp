@@ -4,10 +4,11 @@ App::App(QQmlContext *context) :
     QObject(nullptr),
     api(this),
     configurationDetailsManager(api, cache, this),
-    movieProvidersManager(api, cache, this),
-    languagesListService(system, api, cache, this),
     companiesService(api, cache, this),
     countriesListService(system, api, cache, this),
+    genresMovieService(api, cache, system, this),
+    movieProvidersManager(api, cache, this),
+    languagesListService(system, api, cache, this),
     personsListService(api, cache, this),
     searchPeopleForm(this)
 {
@@ -31,6 +32,10 @@ App::App(QQmlContext *context) :
     context->setContextProperty("companiesModel", companiesService.getModel());
     context->setContextProperty("companiesSearchModel", companiesService.getSearchModel());
     context->setContextProperty("companiesRequestInfo", api.getRequestInfo(Api::SearchCompanies));
+
+    context->setContextProperty("genresMovieService", &genresMovieService);
+    context->setContextProperty("genresMovieModel", genresMovieService.getModel());
+    context->setContextProperty("genresRequestInfo", api.getRequestInfo(Api::Genres));
 
     context->setContextProperty("personsService", &personsListService);
     context->setContextProperty("personsListModel", personsListService.getSearchPersonListModel());

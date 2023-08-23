@@ -8,6 +8,7 @@ Api::Api(QObject *parent) : QObject(parent)
     setupWorker(ConfigurationCountries, SIGNAL(configurationCountriesDone(QByteArray &)));
     setupWorker(ConfigurationDetails, SIGNAL(configurationDetailsDone(QByteArray &)));
     setupWorker(ConfigurationLanguages, SIGNAL(configurationLanguagesDone(QByteArray &)));
+    setupWorker(Genres, SIGNAL(genresDone(QByteArray &)));
     setupWorker(WatchMovieProviders, SIGNAL(watchMovieProvidersDone(QByteArray &)));
     setupWorker(SearchCompanies, SIGNAL(searchCompaniesDone(QByteArray &)));
     setupWorker(SearchPeople, SIGNAL(searchPersonsDone(QByteArray &)));
@@ -31,6 +32,26 @@ void Api::loadConfigurationDetails()
 void Api::loadConfigurationLanguages()
 {
     getWorker(ConfigurationLanguages)->get(buildRequest(QUrl(baseUrl + "configuration/languages")));
+}
+
+void Api::loadMovieGenres(const QString &language)
+{
+    QUrl url(baseUrl + "genre/movie/list");
+    QUrlQuery query;
+    query.addQueryItem("language", language);
+    url.setQuery(query);
+
+    getWorker(Genres)->get(buildRequest(url));
+}
+
+void Api::loadTVGenres(const QString &language)
+{
+    QUrl url(baseUrl + "genre/tv/list");
+    QUrlQuery query;
+    query.addQueryItem("language", language);
+    url.setQuery(query);
+
+    getWorker(Genres)->get(buildRequest(url));
 }
 
 void Api::loadWatchMovieProviders(const QString &region)

@@ -24,6 +24,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/configurationdetails.cpp \
     src/models/configurationlistitem.cpp \
     src/models/country.cpp \
+    src/models/genre.cpp \
     src/models/language.cpp \
     src/models/movieprovider.cpp \
     src/models/person.cpp \
@@ -33,6 +34,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/services/companiesservice.cpp \
     src/services/configurationdetailsmanager.cpp \
     src/services/countrieslistservice.cpp \
+    src/services/genresmovieservice.cpp \
     src/services/languageslistservice.cpp \
     src/services/movieprovidersmanager.cpp \
     src/services/personslistservice.cpp \
@@ -40,6 +42,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/viewmodels/companieslistmodel.cpp \
     src/viewmodels/companiessearchlistmodel.cpp \
     src/viewmodels/configurationlistmodel.cpp \
+    src/viewmodels/genreslistmodel.cpp \
     src/viewmodels/languageslistmodel.cpp \
     src/viewmodels/movieproviderslistmodel.cpp \
     src/viewmodels/peoplelistmodel.cpp \
@@ -62,10 +65,13 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/VoteSlider.qml \
     qml/components/VoteSliderLabel.qml \
     qml/components/VoteSliderPoint.qml \
+    qml/components/filters/CombineModeComboBox.qml \
+    qml/components/filters/ListValueButton.qml \
     qml/components/filters/PeoplesValueButton.qml \
     qml/components/filters/PeoplesValueButtonTitle.qml \
     qml/cover/CoverPage.qml \
     qml/dialogs/CompaniesDialog.qml \
+    qml/dialogs/GenresDialog.qml \
     qml/dialogs/PeopleFilterDialog.qml \
     qml/pages/BasePage.qml \
     qml/pages/DiscoverPage.qml \
@@ -98,6 +104,7 @@ HEADERS += \
     src/models/configurationdetails.h \
     src/models/configurationlistitem.h \
     src/models/country.h \
+    src/models/genre.h \
     src/models/language.h \
     src/models/movieprovider.h \
     src/models/person.h \
@@ -108,6 +115,7 @@ HEADERS += \
     src/services/companiesservice.h \
     src/services/configurationdetailsmanager.h \
     src/services/countrieslistservice.h \
+    src/services/genresmovieservice.h \
     src/services/languageslistservice.h \
     src/services/movieprovidersmanager.h \
     src/services/personslistservice.h \
@@ -115,6 +123,7 @@ HEADERS += \
     src/viewmodels/companieslistmodel.h \
     src/viewmodels/companiessearchlistmodel.h \
     src/viewmodels/configurationlistmodel.h \
+    src/viewmodels/genreslistmodel.h \
     src/viewmodels/languageslistmodel.h \
     src/viewmodels/movieproviderslistmodel.h \
     src/viewmodels/peoplelistmodel.h \

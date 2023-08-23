@@ -5,7 +5,6 @@ BackgroundItem {
     id: root
 
     property color labelColor: root.down ? palette.highlightColor : palette.primaryColor
-    property color descriptionColor: root.down ? palette.secondaryHighlightColor : palette.secondaryColor
     property real minimumContentHeight: Theme.itemSizeSmall
 
     width: parent.width

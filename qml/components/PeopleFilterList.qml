@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../components/filters"
 
 Column {
     id: root
@@ -15,19 +16,9 @@ Column {
             h += modeSelect.height + Theme.paddingMedium
         return h
     }
+
     Behavior on height { NumberAnimation { duration: 400 } }
-
-    ComboBox {
-        id: modeSelect
-
-        visible: root.listModel.count > 1
-        label: qsTr("Mode")
-        currentIndex: root.listModel.andMode ? 0 : 1
-        menu: ContextMenu {
-            MenuItem { text: qsTr("All of them together"); onClicked: root.listModel.andMode = true }
-            MenuItem { text: qsTr("At least one"); onClicked: root.listModel.andMode = false }
-        }
-    }
+    CombineModeComboBox { model: root.listModel }
 
     Item {
         visible: root.listModel.count > 1

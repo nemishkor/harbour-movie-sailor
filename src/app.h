@@ -19,6 +19,7 @@
 #include "src/services/countrieslistservice.h"
 #include "src/services/configurationdetailsmanager.h"
 #include "src/services/companiesservice.h"
+#include "src/services/genresmovieservice.h"
 #include "src/services/languageslistservice.h"
 #include "src/services/movieprovidersmanager.h"
 #include "src/services/personslistservice.h"
@@ -46,10 +47,11 @@ private:
     FileCache cache;
 
     ConfigurationDetailsManager configurationDetailsManager;
-    MovieProvidersManager movieProvidersManager;
-    LanguagesListService languagesListService;
     CompaniesService companiesService;
     CountriesListService countriesListService;
+    GenresMovieService genresMovieService;
+    MovieProvidersManager movieProvidersManager;
+    LanguagesListService languagesListService;
     PersonsListService personsListService;
     SearchPeopleForm searchPeopleForm;
 

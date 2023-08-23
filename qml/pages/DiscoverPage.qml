@@ -498,6 +498,15 @@ BasePage {
                     pageStack.animatorPush("../dialogs/CompaniesDialog.qml")
                 }
             }
+
+            ListValueButton {
+                label: qsTr("Genres")
+                model: genresMovieModel
+                onClicked: {
+                    genresMovieService.initialize();
+                    pageStack.animatorPush("../dialogs/GenresDialog.qml")
+                }
+            }
         }
     }
 }

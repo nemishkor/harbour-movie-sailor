@@ -22,6 +22,7 @@ public:
         ConfigurationCountries,
         ConfigurationDetails,
         ConfigurationLanguages,
+        Genres,
         WatchMovieProviders,
         SearchCompanies,
         SearchPeople,
@@ -33,6 +34,8 @@ public:
     void loadConfigurationCounries();
     void loadConfigurationDetails();
     void loadConfigurationLanguages();
+    void loadMovieGenres(const QString &language);
+    void loadTVGenres(const QString &language);
     void loadWatchMovieProviders(const QString &region);
     void loadSearchPersons(const SearchPeopleForm &form);
     void searchCompanies(const QString &query);
@@ -51,6 +54,7 @@ signals:
     void configurationCountriesDone(QByteArray &data);
     void configurationDetailsDone(QByteArray &data);
     void configurationLanguagesDone(QByteArray &data);
+    void genresDone(QByteArray &data);
     void watchMovieProvidersDone(QByteArray &data);
     void searchCompaniesDone(QByteArray &data);
     void searchPersonsDone(QByteArray &data);

@@ -35,7 +35,6 @@ void PeopleListModel::add(const SearchPersonListItem &item)
     if (ids.contains(item.getId())) {
         return;
     }
-    qDebug() << "OK";
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     ids.append(item.getId());
     items.append(item);

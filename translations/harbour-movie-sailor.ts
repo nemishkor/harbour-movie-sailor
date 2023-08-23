@@ -13,6 +13,21 @@
     </message>
 </context>
 <context>
+    <name>CombineModeComboBox</name>
+    <message>
+        <source>Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All of them together</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CompaniesDialog</name>
     <message>
         <source>Filter by a company</source>
@@ -28,18 +43,6 @@
     </message>
     <message>
         <source>Origin country</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All of them together</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>At least one</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -164,11 +167,29 @@
         <source>Movies made by a certain studio</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Genres</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GenresDialog</name>
+    <message>
+        <source>Filter by genres</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LanguageDialog</name>
     <message>
         <source>Select language</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ListValueButton</name>
+    <message>
+        <source>None</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -224,18 +245,6 @@
 </context>
 <context>
     <name>PeopleFilterList</name>
-    <message>
-        <source>Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All of them together</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>At least one</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>No filter</source>
         <translation type="unfinished"></translation>

@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../components"
+import "../components/filters"
 
 BasePage {
     id: page
@@ -287,7 +288,7 @@ BasePage {
                             Rectangle {
                                 visible: true
                                 anchors.fill: parent
-                                color: Theme.highlightColor
+                                color: Theme.highlightDimmerColor
                                 opacity: model.checked ? 0.9 : 0.0
 
                                 Behavior on opacity {
@@ -478,47 +479,24 @@ BasePage {
                 label: qsTr("Minimum User Votes")
             }
 
-            SectionHeader {
-                text: qsTr("People in movie")
-            }
-
-            PeopleFilterSummary {
-                roleName: qsTr("Any role")
-                model: peopleListModel
-            }
-
-            PeopleFilterSummary {
-                roleName: qsTr("Cast")
-                model: castListModel
-            }
-
-            PeopleFilterSummary {
-                roleName: qsTr("Crew")
-                model: crewListModel
-            }
-
-            ButtonLayout {
-                preferredWidth: Theme.buttonWidthMedium
-
-                Button {
-                    id: changePeopleFiltersButton
-
-                    property bool isEmpty: peopleListModel.count === 0 && castListModel.count === 0 && crewListModel.count === 0
-
-                    function openPeopleDialog() {
-                        app.initializeConfigurationDetails();
-                        app.initializePersons("");
-                        pageStack.animatorPush("../dialogs/PeopleFilterDialog.qml")
-                    }
-
-                    text: changePeopleFiltersButton.isEmpty ? qsTr("Add") : qsTr("Change")
-                    onClicked: openPeopleDialog()
+            PeoplesValueButton {
+                function openPeopleDialog() {
+                    app.initializeConfigurationDetails();
+                    app.initializePersons("");
+                    pageStack.animatorPush("../dialogs/PeopleFilterDialog.qml")
                 }
+
+                onClicked: openPeopleDialog()
             }
 
-            Item {
-                width: parent.width
-                height: Theme.paddingMedium
+            ValueButton {
+                label: qsTr("Companies")
+                value: companiesModel.count === 0 ? qsTr("None") : companiesModel.summary
+                description: qsTr("Movies made by a certain studio")
+                onClicked: {
+                    app.initializeConfigurationDetails();
+                    pageStack.animatorPush("../dialogs/CompaniesDialog.qml")
+                }
             }
         }
     }

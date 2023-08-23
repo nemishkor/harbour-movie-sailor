@@ -1,37 +1,43 @@
 #include "app.h"
 
-App::App(QQmlContext *context, QObject *parent) :
-    QObject(parent),
+App::App(QQmlContext *context) :
+    QObject(nullptr),
     api(this),
     configurationDetailsManager(api, cache, this),
     movieProvidersManager(api, cache, this),
     languagesListService(system, api, cache, this),
+    companiesService(api, cache, this),
     countriesListService(system, api, cache, this),
     personsListService(api, cache, this),
     searchPeopleForm(this)
 {
+    context->setContextProperty("countriesService", &countriesListService);
+    context->setContextProperty("countriesListModel", countriesListService.getModel());
+    context->setContextProperty("countriesRequestInfo", api.getRequestInfo(Api::ConfigurationCountries));
+
     context->setContextProperty("configurationDetailsService", &configurationDetailsManager);
     context->setContextProperty("configurationDetailsModel", configurationDetailsManager.getModel());
-    context->setContextProperty("configurationDetailsRequestInfo", api.getConfigurationDetailsWorker().getRequestInfo());
+    context->setContextProperty("configurationDetailsRequestInfo", api.getRequestInfo(Api::ConfigurationDetails));
 
     context->setContextProperty("movieProvidersService", &movieProvidersManager);
     context->setContextProperty("movieProvidersListModel", movieProvidersManager.getModel());
-    context->setContextProperty("movieProvidersRequestInfo", api.getWatchMovieProvidersWorker().getRequestInfo());
+    context->setContextProperty("movieProvidersRequestInfo", api.getRequestInfo(Api::WatchMovieProviders));
 
     context->setContextProperty("languagesService", &languagesListService);
     context->setContextProperty("languagesListModel", languagesListService.getModel());
-    context->setContextProperty("languagesRequestInfo", api.getConfigurationLanguagesWorker().getRequestInfo());
+    context->setContextProperty("languagesRequestInfo", api.getRequestInfo(Api::ConfigurationLanguages));
 
-    context->setContextProperty("countriesService", &countriesListService);
-    context->setContextProperty("countriesListModel", countriesListService.getModel());
-    context->setContextProperty("countriesRequestInfo", api.getConfigurationCountriesWorker().getRequestInfo());
+    context->setContextProperty("companiesService", &companiesService);
+    context->setContextProperty("companiesModel", companiesService.getModel());
+    context->setContextProperty("companiesSearchModel", companiesService.getSearchModel());
+    context->setContextProperty("companiesRequestInfo", api.getRequestInfo(Api::SearchCompanies));
 
     context->setContextProperty("personsService", &personsListService);
     context->setContextProperty("personsListModel", personsListService.getSearchPersonListModel());
-    context->setContextProperty("searchPersonsRequestInfo", api.getSearchPersonsWorker().getRequestInfo());
-    context->setContextProperty("peopleListModel", personsListService.getPeopleListModel());
-    context->setContextProperty("castListModel", personsListService.getCastListModel());
-    context->setContextProperty("crewListModel", personsListService.getCrewListModel());
+    context->setContextProperty("searchPersonsRequestInfo", api.getRequestInfo(Api::SearchPeople));
+    context->setContextProperty("peopleListModel", personsListService.getAnyRoleList());
+    context->setContextProperty("castListModel", personsListService.getCastRoleList());
+    context->setContextProperty("crewListModel", personsListService.getCrewRoleList());
     context->setContextProperty("searchPeopleForm", &searchPeopleForm);
 
     context->setContextProperty("app", this);

@@ -1,8 +1,7 @@
 #include "searchpersonlistitem.h"
 
 SearchPersonListItem::SearchPersonListItem() :
-    checked(false),
-    role(AnyRole)
+    role(NoRole)
 {
 
 }
@@ -25,16 +24,6 @@ const QString &SearchPersonListItem::getName() const
 void SearchPersonListItem::setName(const QString &newName)
 {
     name = newName;
-}
-
-bool SearchPersonListItem::getChecked() const
-{
-    return checked;
-}
-
-void SearchPersonListItem::setChecked(bool newChecked)
-{
-    checked = newChecked;
 }
 
 const QString &SearchPersonListItem::getKnownForDepartment() const

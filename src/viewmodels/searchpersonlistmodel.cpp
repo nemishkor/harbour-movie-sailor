@@ -15,8 +15,6 @@ QVariant SearchPersonListModel::data(const QModelIndex &index, int role) const
     if (index.row() < 0 || index.row() >= items.count())
         return QVariant();
     const SearchPersonListItem &item = items[index.row()];
-    if (role == CheckStateRole)
-        return item.getChecked();
     if (role == IdRole)
         return item.getId();
     if (role == NameRole)
@@ -36,11 +34,6 @@ bool SearchPersonListModel::setData(const QModelIndex &index, const QVariant &va
         return false;
 
     SearchPersonListItem &item = items[index.row()];
-    if(role == CheckStateRole){
-        item.setChecked(value.toBool());
-        emit dataChanged(index, index, QVector<int>{role});
-        return true;
-    }
     if(role == RoleRole){
         item.setRole(static_cast<SearchPersonListItem::PersonRole>(value.toInt()));
         emit dataChanged(index, index, QVector<int>{role});
@@ -50,10 +43,17 @@ bool SearchPersonListModel::setData(const QModelIndex &index, const QVariant &va
     return false;
 }
 
-Qt::ItemFlags SearchPersonListModel::flags(const QModelIndex &index) const
+void SearchPersonListModel::resetRole(int id)
 {
-    Q_UNUSED(index);
-    return Qt::ItemIsUserCheckable;
+    int i = 0;
+    for (QList<SearchPersonListItem>::iterator it = items.begin(); it != items.end(); it++) {
+        if (id == it->getId()) {
+            it->setRole(SearchPersonListItem::NoRole);
+            emit dataChanged(createIndex(i, 0), createIndex(i, 0), QVector<int>{RoleRole});
+            return;
+        }
+        i++;
+    }
 }
 
 void SearchPersonListModel::add(const SearchPersonListItem &item)
@@ -88,10 +88,11 @@ void SearchPersonListModel::fillFromCache(const QJsonDocument &json)
     }
 }
 
-const QJsonDocument SearchPersonListModel::fillFromAPI(const QJsonDocument &json)
+const QJsonDocument SearchPersonListModel::fillFromAPI(const QJsonDocument &json, QMap<SearchPersonListItem::PersonRole, QList<int>> selectedPeoplePerRole)
 {
     QJsonArray jsonItems = json.object()["results"].toArray();
     QJsonArray newJsonItems;
+    QMap<SearchPersonListItem::PersonRole, QList<int>>::const_iterator itS;
 
     for (QJsonArray::const_iterator it = jsonItems.constBegin(); it != jsonItems.constEnd(); it++) {
         QJsonObject jsonObj = (*it).toObject();
@@ -102,6 +103,12 @@ const QJsonDocument SearchPersonListModel::fillFromAPI(const QJsonDocument &json
         QJsonValue profilePath = jsonObj["profile_path"];
         if (profilePath.isString())
             model.setProfilePath(jsonObj["profile_path"].toString());
+        for (itS = selectedPeoplePerRole.constBegin(); itS != selectedPeoplePerRole.constEnd(); itS++) {
+            if (itS.value().contains(model.getId())) {
+                model.setRole(itS.key());
+                break;
+            }
+        }
         add(model);
         QJsonObject newJsonItem;
         newJsonItem.insert("id", model.getId());
@@ -117,7 +124,6 @@ const QJsonDocument SearchPersonListModel::fillFromAPI(const QJsonDocument &json
 QHash<int, QByteArray> SearchPersonListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[CheckStateRole] = "checked";
     roles[IdRole] = "id";
     roles[NameRole] = "name";
     roles[KnownForDepartment] = "knownForDepartment";

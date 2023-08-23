@@ -18,6 +18,7 @@
 #include "src/models/searchpeopleform.h"
 #include "src/services/countrieslistservice.h"
 #include "src/services/configurationdetailsmanager.h"
+#include "src/services/companiesservice.h"
 #include "src/services/languageslistservice.h"
 #include "src/services/movieprovidersmanager.h"
 #include "src/services/personslistservice.h"
@@ -31,7 +32,7 @@ class App : public QObject
 {
     Q_OBJECT
 public:
-    explicit App(QQmlContext *context, QObject *parent = nullptr);
+    explicit App(QQmlContext *context);
 
     Q_INVOKABLE void initializeConfigurationDetails();
     Q_INVOKABLE void initializeMovieProviders(const QString &region);
@@ -47,9 +48,9 @@ private:
     ConfigurationDetailsManager configurationDetailsManager;
     MovieProvidersManager movieProvidersManager;
     LanguagesListService languagesListService;
+    CompaniesService companiesService;
     CountriesListService countriesListService;
     PersonsListService personsListService;
-
     SearchPeopleForm searchPeopleForm;
 
 };

@@ -6,9 +6,9 @@ PersonsListService::PersonsListService(Api &api, FileCache &cache, QObject *pare
     cache(cache),
     key("search", "persons", "1"),
     searchPersonListModel(this),
-    peopleListModel(this),
-    castListModel(this),
-    crewListModel(this),
+    anyRoleList(this),
+    castRoleList(this),
+    crewRoleList(this),
     initialized(false)
 {
     connect(&api, &Api::searchPersonsDone, this, &PersonsListService::apiRequestDone);
@@ -49,19 +49,19 @@ SearchPersonListModel *PersonsListService::getSearchPersonListModel()
     return &searchPersonListModel;
 }
 
-PeopleListModel *PersonsListService::getPeopleListModel()
+PeopleListModel *PersonsListService::getAnyRoleList()
 {
-    return &peopleListModel;
+    return &anyRoleList;
 }
 
-PeopleListModel *PersonsListService::getCastListModel()
+PeopleListModel *PersonsListService::getCastRoleList()
 {
-    return &castListModel;
+    return &castRoleList;
 }
 
-PeopleListModel *PersonsListService::getCrewListModel()
+PeopleListModel *PersonsListService::getCrewRoleList()
 {
-    return &crewListModel;
+    return &crewRoleList;
 }
 
 bool PersonsListService::isInitialized()
@@ -69,25 +69,57 @@ bool PersonsListService::isInitialized()
     return initialized;
 }
 
-void PersonsListService::addSelectedToCastList()
+void PersonsListService::select(int id)
 {
+    qDebug() << "select the person" << id;
     const QList<SearchPersonListItem> &persons = searchPersonListModel.getItems();
     for (QList<SearchPersonListItem>::const_iterator it = persons.constBegin(); it != persons.constEnd(); it++) {
-        if (!(*it).getChecked())
-            continue;
-        if ((*it).getRole() == SearchPersonListItem::AnyRole)
-            peopleListModel.add((*it));
-        if ((*it).getRole() == SearchPersonListItem::CastRole)
-            castListModel.add((*it));
-        if ((*it).getRole() == SearchPersonListItem::CrewRole)
-            crewListModel.add((*it));
+        if (id == it->getId()) {
+            qDebug() << "found a person to select in search list";
+            qDebug() << "role" << it->getRole();
+            if (it->getRole() == SearchPersonListItem::AnyRole) {
+                anyRoleList.add(*it);
+                castRoleList.remove(id);
+                crewRoleList.remove(id);
+                return;
+            }
+            if (it->getRole() == SearchPersonListItem::CastRole) {
+                anyRoleList.remove(id);
+                castRoleList.add(*it);
+                crewRoleList.remove(id);
+                return;
+            }
+            if (it->getRole() == SearchPersonListItem::CrewRole) {
+                anyRoleList.remove(id);
+                castRoleList.remove(id);
+                crewRoleList.add(*it);
+                return;
+            }
+            return;
+        }
     }
-    searchPersonListModel.clear();
+}
+
+void PersonsListService::remove(int id)
+{
+    qDebug() << "remove the person" << id;
+    if (anyRoleList.getIds().contains(id))
+        anyRoleList.remove(id);
+    else if (castRoleList.getIds().contains(id))
+        castRoleList.remove(id);
+    else if (crewRoleList.getIds().contains(id))
+        crewRoleList.remove(id);
+    searchPersonListModel.resetRole(id);
 }
 
 void PersonsListService::apiRequestDone(const QByteArray &data)
 {
-    QJsonDocument newJson = searchPersonListModel.fillFromAPI(QJsonDocument::fromJson(data));
+    QJsonDocument apiJson = QJsonDocument::fromJson(data);
+    QMap<SearchPersonListItem::PersonRole, QList<int>> selectedPeoplePerRole;
+    selectedPeoplePerRole.insert(SearchPersonListItem::AnyRole, anyRoleList.getIds());
+    selectedPeoplePerRole.insert(SearchPersonListItem::CastRole, castRoleList.getIds());
+    selectedPeoplePerRole.insert(SearchPersonListItem::CrewRole, crewRoleList.getIds());
+    QJsonDocument newJson = searchPersonListModel.fillFromAPI(apiJson, selectedPeoplePerRole);
     cache.save(key, newJson);
     initialized = true;
     emit initializedChanged();

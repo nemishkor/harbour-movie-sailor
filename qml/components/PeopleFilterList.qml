@@ -54,7 +54,7 @@ Column {
 
         model: root.listModel
         width: parent.width
-        height: root.listModel.count * delegateHeight
+        height: childrenRect.height
         removeDisplaced: Transition {
             NumberAnimation {
                 property: "y"
@@ -65,89 +65,15 @@ Column {
         remove: Transition {
             NumberAnimation { property: "opacity"; from: 1.0; to: 0; duration: 400 }
         }
-        delegate: Item {
-            id: row
-
-            property bool isLast: index < (root.listModel.count - 1)
-
-            width: parent.width - 2 * Theme.horizontalPageMargin
-            x: Theme.horizontalPageMargin
-            height: peopleList.personBlockHeight +
-                    (row.isLast ? peopleList.separatorBlockHeight : 0)
-
-            Rectangle {
-                id: personBlock
-
-                height: peopleList.personBlockHeight
-                width: parent.width
-                radius: 10 * Theme.pixelRatio
-                color: Theme.highlightDimmerColor
-
-                Row {
-                    spacing: Theme.paddingMedium
-                    height: Theme.itemSizeLarge
-                    width: parent.width - 2 * Theme.paddingMedium
-                    y: Theme.paddingMedium
-                    x: Theme.paddingMedium
-
-                    Image {
-                        visible: configurationDetailsService.initialized
-                        source: model.profilePath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.profilePath)
-                        height: parent.height
-                        width: height
-                        fillMode: Image.PreserveAspectCrop
-                    }
-
-                    Column {
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: parent.width - parent.height - 2 * Theme.paddingMedium - Theme.iconSizeMedium
-                        x: Theme.horizontalPageMargin + Theme.itemSizeSmall + Theme.paddingMedium
-
-                        Label {
-                            text: model.name
-                            truncationMode: TruncationMode.Fade
-                        }
-
-                        Label {
-                            visible: model.knownForDepartment !== ""
-                            color: Theme.secondaryColor
-                            text: model.knownForDepartment
-                        }
-                    }
-
-                    Column {
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        IconButton {
-                            icon.source: "image://theme/icon-m-reset"
-                            onClicked: root.listModel.remove(model.id)
-                        }
-                    }
-                }
+        delegate: AndOrListItem {
+            isLast: index < (root.listModel.count - 1)
+            imageSource: model.profilePath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.profilePath)
+            title: model.name
+            description: model.knownForDepartment
+            button.onClicked: {
+                personsService.remove(model.id)
             }
-
-            Item {
-                id: separator
-                visible: row.isLast
-                width: parent.width
-                height: peopleList.separatorBlockHeight
-                y: peopleList.personBlockHeight
-
-                Rectangle{
-                    color: Theme.highlightDimmerColor
-                    radius: 10 * Theme.pixelRatio
-                    anchors.centerIn: parent
-                    width: Theme.itemSizeLarge
-                    height: Theme.fontSizeMedium * 1.1
-
-                    Text {
-                        anchors.centerIn: parent
-                        text: root.listModel.andMode ? qsTr("and") : qsTr("or")
-                        color: Theme.highlightColor
-                        font.pixelSize: Theme.fontSizeSmall
-                    }
-                }
-            }
+            andMode: root.listModel.andMode
         }
     }
 }

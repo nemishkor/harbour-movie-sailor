@@ -63,7 +63,7 @@ void ConfigurationListModel::fillFromCache(const QJsonDocument &json)
 {
     add(ConfigurationListItem("", "All countries", true));
     QJsonArray items = json.array();
-    for(QJsonArray::const_iterator it = items.constBegin(); it != items.constEnd(); it++){
+    for (QJsonArray::const_iterator it = items.constBegin(); it != items.constEnd(); it++) {
         add(ConfigurationListItem((*it).toObject()));
     }
 }

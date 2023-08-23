@@ -20,6 +20,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/app.cpp \
     src/cachekey.cpp \
     src/filecache.cpp \
+    src/models/company.cpp \
     src/models/configurationdetails.cpp \
     src/models/configurationlistitem.cpp \
     src/models/country.cpp \
@@ -29,12 +30,15 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/requestinfo.cpp \
     src/models/searchpeopleform.cpp \
     src/models/searchpersonlistitem.cpp \
+    src/services/companiesservice.cpp \
     src/services/configurationdetailsmanager.cpp \
     src/services/countrieslistservice.cpp \
     src/services/languageslistservice.cpp \
     src/services/movieprovidersmanager.cpp \
     src/services/personslistservice.cpp \
     src/system.cpp \
+    src/viewmodels/companieslistmodel.cpp \
+    src/viewmodels/companiessearchlistmodel.cpp \
     src/viewmodels/configurationlistmodel.cpp \
     src/viewmodels/languageslistmodel.cpp \
     src/viewmodels/movieproviderslistmodel.cpp \
@@ -43,21 +47,26 @@ SOURCES += src/harbour-movie-sailor.cpp \
 
 DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/Anatomy.qml \
+    qml/components/AndOrListItem.qml \
+    qml/components/CompaniesValueButton.qml \
     qml/components/ConfigurationDialog.qml \
     qml/components/FailedRequestInColumn.qml \
+    qml/components/FilterSearchResultItem.qml \
     qml/components/FullPageRequestProgress.qml \
     qml/components/LanguageDialog.qml \
     qml/components/Menu.qml \
     qml/components/OrderByDialog.qml \
     qml/components/PeopleFilterList.qml \
-    qml/components/PeopleFilterSummary.qml \
     qml/components/PersonListItem.qml \
+    qml/components/RemovableListItem.qml \
     qml/components/VoteSlider.qml \
     qml/components/VoteSliderLabel.qml \
     qml/components/VoteSliderPoint.qml \
+    qml/components/filters/PeoplesValueButton.qml \
+    qml/components/filters/PeoplesValueButtonTitle.qml \
     qml/cover/CoverPage.qml \
+    qml/dialogs/CompaniesDialog.qml \
     qml/dialogs/PeopleFilterDialog.qml \
-    qml/dialogs/SearchPersonDialog.qml \
     qml/pages/BasePage.qml \
     qml/pages/DiscoverPage.qml \
     qml/pages/SecondPage.qml \
@@ -85,6 +94,7 @@ HEADERS += \
     src/app.h \
     src/cachekey.h \
     src/filecache.h \
+    src/models/company.h \
     src/models/configurationdetails.h \
     src/models/configurationlistitem.h \
     src/models/country.h \
@@ -94,12 +104,16 @@ HEADERS += \
     src/models/requestinfo.h \
     src/models/searchpeopleform.h \
     src/models/searchpersonlistitem.h \
+    src/models/workernames.h \
+    src/services/companiesservice.h \
     src/services/configurationdetailsmanager.h \
     src/services/countrieslistservice.h \
     src/services/languageslistservice.h \
     src/services/movieprovidersmanager.h \
     src/services/personslistservice.h \
     src/system.h \
+    src/viewmodels/companieslistmodel.h \
+    src/viewmodels/companiessearchlistmodel.h \
     src/viewmodels/configurationlistmodel.h \
     src/viewmodels/languageslistmodel.h \
     src/viewmodels/movieproviderslistmodel.h \

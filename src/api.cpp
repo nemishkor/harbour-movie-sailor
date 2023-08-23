@@ -1,44 +1,40 @@
 #include "api.h"
 
-Api::Api(QObject *parent) :
-    QObject(parent),
-    configurationDetailsWorker(&networkManager),
-    configurationLanguagesWorker(&networkManager),
-    configurationCountriesWorker(&networkManager),
-    watchMovieProvidersWorker(&networkManager),
-    searchPersonsWorker(&networkManager)
+Api::Api(QObject *parent) : QObject(parent)
 {
     baseUrl = "https://api.themoviedb.org/3/";
     token = "";
 
-    connect(&configurationDetailsWorker, &ApiWorker::done, this, &Api::configurationDetailsDone);
-    connect(&configurationLanguagesWorker, &ApiWorker::done, this, &Api::configurationLanguagesDone);
-    connect(&configurationCountriesWorker, &ApiWorker::done, this, &Api::configurationCountriesDone);
-    connect(&watchMovieProvidersWorker, &ApiWorker::done, this, &Api::watchMovieProvidersDone);
-    connect(&searchPersonsWorker, &ApiWorker::done, this, &Api::searchPersonsDone);
+    setupWorker(ConfigurationCountries, SIGNAL(configurationCountriesDone(QByteArray &)));
+    setupWorker(ConfigurationDetails, SIGNAL(configurationDetailsDone(QByteArray &)));
+    setupWorker(ConfigurationLanguages, SIGNAL(configurationLanguagesDone(QByteArray &)));
+    setupWorker(WatchMovieProviders, SIGNAL(watchMovieProvidersDone(QByteArray &)));
+    setupWorker(SearchCompanies, SIGNAL(searchCompaniesDone(QByteArray &)));
+    setupWorker(SearchPeople, SIGNAL(searchPersonsDone(QByteArray &)));
 }
 
-void Api::loadConfigurationDetails()
+RequestInfo *Api::getRequestInfo(WorkerName name)
 {
-    qDebug() << "loadConfigurationDetails()";
-    configurationDetailsWorker.get(buildRequest(QUrl(baseUrl + "configuration")));
-}
-
-void Api::loadConfigurationLanguages()
-{
-    qDebug() << "loadConfigurationLanguages()";
-    configurationLanguagesWorker.get(buildRequest(QUrl(baseUrl + "configuration/languages")));
+    return workers[name]->getRequestInfo();
 }
 
 void Api::loadConfigurationCounries()
 {
-    qDebug() << "loadConfigurationCounries()";
-    configurationCountriesWorker.get(buildRequest(QUrl(baseUrl + "configuration/countries")));
+    getWorker(ConfigurationCountries)->get(buildRequest(QUrl(baseUrl + "configuration/countries")));
+}
+
+void Api::loadConfigurationDetails()
+{
+    getWorker(ConfigurationDetails)->get(buildRequest(QUrl(baseUrl + "configuration")));
+}
+
+void Api::loadConfigurationLanguages()
+{
+    getWorker(ConfigurationLanguages)->get(buildRequest(QUrl(baseUrl + "configuration/languages")));
 }
 
 void Api::loadWatchMovieProviders(const QString &region)
 {
-    qDebug() << "loadWatchMovieProviders()";
     QUrl url(baseUrl + "watch/providers/movie");
 
     if (!region.isEmpty()) {
@@ -47,12 +43,11 @@ void Api::loadWatchMovieProviders(const QString &region)
         url.setQuery(query);
     }
 
-    watchMovieProvidersWorker.get(buildRequest(url));
+    getWorker(WatchMovieProviders)->get(buildRequest(url));
 }
 
 void Api::loadSearchPersons(const SearchPeopleForm &form)
 {
-    qDebug() << "loadSearchPersons()";
     QUrlQuery urlQuery;
     urlQuery.addQueryItem("query", form.getQuery());
     urlQuery.addQueryItem("include_adult", form.getWithAdult() ? "true" : "false");
@@ -65,7 +60,19 @@ void Api::loadSearchPersons(const SearchPeopleForm &form)
     QUrl url(baseUrl + "search/person");
     url.setQuery(urlQuery);
 
-    searchPersonsWorker.get(buildRequest(url));
+    getWorker(SearchPeople)->get(buildRequest(url));
+}
+
+void Api::searchCompanies(const QString &query)
+{
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("query", query);
+    urlQuery.addQueryItem("page", QString::number(1));
+
+    QUrl url(baseUrl + "search/company");
+    url.setQuery(urlQuery);
+
+    getWorker(SearchCompanies)->get(buildRequest(url));
 }
 
 QNetworkRequest Api::buildRequest(const QUrl &url)
@@ -77,27 +84,15 @@ QNetworkRequest Api::buildRequest(const QUrl &url)
     return request;
 }
 
-ApiWorker &Api::getConfigurationDetailsWorker()
+void Api::setupWorker(WorkerName name, const char *method)
 {
-    return configurationDetailsWorker;
+    ApiWorker* worker = new ApiWorker(&networkManager, this);
+    workers.insert(name, worker);
+    connect(worker, SIGNAL(done(QByteArray &)), this, method);
 }
 
-ApiWorker &Api::getConfigurationCountriesWorker()
+ApiWorker *Api::getWorker(WorkerName name) const
 {
-    return configurationCountriesWorker;
-}
-
-ApiWorker &Api::getConfigurationLanguagesWorker()
-{
-    return configurationLanguagesWorker;
-}
-
-ApiWorker &Api::getWatchMovieProvidersWorker()
-{
-    return watchMovieProvidersWorker;
-}
-
-ApiWorker &Api::getSearchPersonsWorker()
-{
-    return searchPersonsWorker;
+    qDebug() << "worker" << name;
+    return workers[name];
 }

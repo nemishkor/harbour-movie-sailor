@@ -4,6 +4,8 @@
 #include <QByteArray>
 #include <QDebug>
 #include <QObject>
+#include <QMap>
+#include <QMetaMethod>
 #include <QNetworkRequest>
 #include <QString>
 #include <QUrl>
@@ -16,19 +18,24 @@ class Api : public QObject
 {
     Q_OBJECT
 public:
-    explicit Api(QObject *parent = nullptr);
+    enum WorkerName {
+        ConfigurationCountries,
+        ConfigurationDetails,
+        ConfigurationLanguages,
+        WatchMovieProviders,
+        SearchCompanies,
+        SearchPeople,
+    };
+    explicit Api(QObject *parent);
 
+    RequestInfo* getRequestInfo(WorkerName name);
+
+    void loadConfigurationCounries();
     void loadConfigurationDetails();
     void loadConfigurationLanguages();
-    void loadConfigurationCounries();
     void loadWatchMovieProviders(const QString &region);
     void loadSearchPersons(const SearchPeopleForm &form);
-
-    ApiWorker &getConfigurationDetailsWorker();
-    ApiWorker &getConfigurationLanguagesWorker();
-    ApiWorker &getConfigurationCountriesWorker();
-    ApiWorker &getWatchMovieProvidersWorker();
-    ApiWorker &getSearchPersonsWorker();
+    void searchCompanies(const QString &query);
 
 private:
     QNetworkAccessManager networkManager;
@@ -36,18 +43,17 @@ private:
     QString baseUrl;
     QString token;
 
-    ApiWorker configurationDetailsWorker;
-    ApiWorker configurationLanguagesWorker;
-    ApiWorker configurationCountriesWorker;
-    ApiWorker watchMovieProvidersWorker;
-    ApiWorker searchPersonsWorker;
+    QMap<WorkerName, ApiWorker*> workers;
+    void setupWorker(WorkerName name, const char *method);
+    ApiWorker* getWorker(WorkerName name) const;
 
 signals:
-    void configurationDetailsDone(const QByteArray &data);
-    void configurationLanguagesDone(const QByteArray &data);
-    void configurationCountriesDone(const QByteArray &data);
-    void watchMovieProvidersDone(const QByteArray &data);
-    void searchPersonsDone(const QByteArray &data);
+    void configurationCountriesDone(QByteArray &data);
+    void configurationDetailsDone(QByteArray &data);
+    void configurationLanguagesDone(QByteArray &data);
+    void watchMovieProvidersDone(QByteArray &data);
+    void searchCompaniesDone(QByteArray &data);
+    void searchPersonsDone(QByteArray &data);
 
 };
 

@@ -31,12 +31,13 @@ QVariant PeopleListModel::data(const QModelIndex &index, int role) const
 
 void PeopleListModel::add(const SearchPersonListItem &item)
 {
-    for (QList<SearchPersonListItem>::const_iterator it = items.constBegin(); it != items.constEnd(); it++) {
-        if (item.getId() == (*it).getId()) {
-            return;
-        }
+    qDebug() << "add" << item.getId() << "to the role model";
+    if (ids.contains(item.getId())) {
+        return;
     }
+    qDebug() << "OK";
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    ids.append(item.getId());
     items.append(item);
     endInsertRows();
     emit countChanged();
@@ -46,6 +47,7 @@ void PeopleListModel::add(const SearchPersonListItem &item)
 void PeopleListModel::clear()
 {
     beginRemoveRows(QModelIndex(), 0, items.count() - 1);
+    ids.clear();
     items.clear();
     endRemoveRows();
     emit countChanged();
@@ -54,9 +56,12 @@ void PeopleListModel::clear()
 
 void PeopleListModel::remove(int id)
 {
+    qDebug() << "remove the person" << id << "from the list model";
     for (int row = 0; row < items.count(); row++) {
         if (id == items.at(row).getId()) {
+            qDebug() << "found the person to remove";
             beginRemoveRows(QModelIndex(), row, row);
+            ids.removeAt(row);
             items.removeAt(row);
             endRemoveRows();
             emit countChanged();
@@ -74,6 +79,11 @@ QHash<int, QByteArray> PeopleListModel::roleNames() const
     roles[KnownForDepartment] = "knownForDepartment";
     roles[ProfilePath] = "profilePath";
     return roles;
+}
+
+const QList<int> &PeopleListModel::getIds() const
+{
+    return ids;
 }
 
 void PeopleListModel::updateSummary()

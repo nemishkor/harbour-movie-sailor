@@ -2,6 +2,48 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>AndOrListItem</name>
+    <message>
+        <source>and</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CompaniesDialog</name>
+    <message>
+        <source>Filter by a company</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selected companies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Origin country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All of them together</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>My Cover</source>
@@ -111,27 +153,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>People in movie</source>
+        <source>Companies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Any role</source>
+        <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cast</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Crew</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add</source>
+        <source>Movies made by a certain studio</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -187,6 +217,10 @@
         <source>Crew</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeopleFilterList</name>
@@ -203,37 +237,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>and</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>or</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>No filter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PeopleFilterSummary</name>
+    <name>PeoplesValueButton</name>
     <message>
-        <source>Filter by </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>person</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>people</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PersonListItem</name>
-    <message>
-        <source>Any role</source>
+        <source>People with any role</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -246,15 +257,14 @@
     </message>
 </context>
 <context>
-    <name>SearchPersonDialog</name>
+    <name>PeoplesValueButtonTitle</name>
     <message>
-        <source>Search a person</source>
+        <source>None</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Search</source>
-        <translation type="unfinished"></translation>
-    </message>
+</context>
+<context>
+    <name>PersonListItem</name>
     <message>
         <source>Any role</source>
         <translation type="unfinished"></translation>

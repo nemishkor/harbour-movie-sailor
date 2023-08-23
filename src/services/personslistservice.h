@@ -19,14 +19,15 @@ class PersonsListService : public QObject
 public:
     PersonsListService(Api &api, FileCache &cache, QObject *parent);
 
-    Q_INVOKABLE void addSelectedToCastList();
+    Q_INVOKABLE void select(int id);
+    Q_INVOKABLE void remove(int id);
 
     void search(const SearchPeopleForm &form);
 
     SearchPersonListModel *getSearchPersonListModel();
-    PeopleListModel *getPeopleListModel();
-    PeopleListModel *getCastListModel();
-    PeopleListModel *getCrewListModel();
+    PeopleListModel *getAnyRoleList();
+    PeopleListModel *getCastRoleList();
+    PeopleListModel *getCrewRoleList();
     bool isInitialized();
 
 private:
@@ -34,9 +35,9 @@ private:
     FileCache &cache;
     CacheKey key;
     SearchPersonListModel searchPersonListModel;
-    PeopleListModel peopleListModel;
-    PeopleListModel castListModel;
-    PeopleListModel crewListModel;
+    PeopleListModel anyRoleList;
+    PeopleListModel castRoleList;
+    PeopleListModel crewRoleList;
     bool initialized;
 
 public slots:

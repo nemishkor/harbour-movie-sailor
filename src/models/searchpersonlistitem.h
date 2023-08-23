@@ -7,7 +7,8 @@ class SearchPersonListItem
 {
 public:
     enum PersonRole {
-        AnyRole = 0,
+        NoRole = 0,
+        AnyRole,
         CastRole,
         CrewRole
     };
@@ -19,9 +20,6 @@ public:
 
     const QString &getName() const;
     void setName(const QString &newName);
-
-    bool getChecked() const;
-    void setChecked(bool newChecked);
 
     const QString &getKnownForDepartment() const;
     void setKnownForDepartment(const QString &newKnownForDepartment);
@@ -35,7 +33,6 @@ public:
 private:
     int id;
     QString name;
-    bool checked;
     QString knownForDepartment;
     QString profilePath;
     PersonRole role;

@@ -15,7 +15,6 @@ class SearchPersonListModel : public QAbstractListModel
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     enum PersonRoles {
-        CheckStateRole = Qt::CheckStateRole,
         IdRole = Qt::UserRole + 1,
         NameRole,
         KnownForDepartment,
@@ -27,11 +26,11 @@ public:
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     Q_INVOKABLE bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
-    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    void resetRole(int id);
     void add(const SearchPersonListItem &item);
     void clear();
     void fillFromCache(const QJsonDocument &json);
-    const QJsonDocument fillFromAPI(const QJsonDocument &json);
+    const QJsonDocument fillFromAPI(const QJsonDocument &json, QMap<SearchPersonListItem::PersonRole, QList<int>> selectedPeoplePerRole);
 
     const QList<SearchPersonListItem> &getItems() const;
 

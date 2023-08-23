@@ -5,10 +5,9 @@ BackgroundItem {
     id: root
 
     property var personModel
-    property bool roleMenuIsOpen: false
 
     height: Theme.itemSizeLarge + 2 * Theme.paddingSmall
-    highlighted: down || model.checked
+    highlighted: down || model.role > 0
 
     Item {
         height: Theme.itemSizeLarge
@@ -60,7 +59,7 @@ BackgroundItem {
             Item {
                 id: roleLabelRowItem
 
-                visible: root.personModel.checked
+                visible: root.personModel.role > 0
                 width: roleLabelWrapper.width + Theme.paddingLarge
                 height: parent.height
 
@@ -78,14 +77,13 @@ BackgroundItem {
 
                         anchors.centerIn: parent
                         text: {
-                            if (!root.personModel.checked)
-                                return ""
-                            if (root.personModel.role === 0)
-                                return qsTr("Any role")
                             if (root.personModel.role === 1)
-                                return qsTr("Cast")
+                                return qsTr("Any role")
                             if (root.personModel.role === 2)
+                                return qsTr("Cast")
+                            if (root.personModel.role === 3)
                                 return qsTr("Crew")
+                            return ""
                         }
                         color: Theme.highlightColor
                     }

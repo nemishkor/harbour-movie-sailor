@@ -18,54 +18,14 @@ Dialog {
     }
     canAccept: entityId !== "null"
 
-    Item {
-        visible: dialog.requestInfo.state === 1
-        anchors.fill: parent
-
-        BusyIndicator {
-            id: busyIndicator
-            running: true
-            size: BusyIndicatorSize.Large
-            anchors.centerIn: parent
-        }
-
-        ProgressBar {
-            id: progressBar
-
-            anchors {
-                top: busyIndicator.bottom
-                topMargin: Theme.paddingMedium
-                horizontalCenter: parent.horizontalCenter
-            }
-            width: parent.width
-            maximumValue: 100
-            value: dialog.requestInfo.progress
-        }
-    }
-
-    Label {
-        visible: dialog.requestInfo.state === 3
-        text: dialog.requestInfo.error === "" ? "Oops. Unknown error" : dialog.requestInfo.error
-        color: Theme.errorColor
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        horizontalAlignment: Text.AlignHCenter
-        wrapMode: Text.Wrap
-        x: Theme.horizontalPageMargin
-        width: parent.width - 2 * Theme.horizontalPageMargin
-    }
+    FullPageRequestProgress { requestInfo: dialog.requestInfo }
 
     SilicaListView {
         visible: dialog.service.initialized
         model: dialog.model
         anchors.fill: parent
         currentIndex: -1 // otherwise currentItem will steal focus
-        header:  Column {
-            width: parent.width
-            PageHeader {
-                title: dialog.title
-            }
-        }
+        header:  PageHeader { title: dialog.title }
 
         section {
             property: 'section'

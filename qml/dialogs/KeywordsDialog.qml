@@ -111,7 +111,6 @@ BaseDialog {
                         text: model.name
                         truncationMode: TruncationMode.Fade
                     }
-
                 }
             }
         }

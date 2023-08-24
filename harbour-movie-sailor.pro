@@ -24,6 +24,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/configurationdetails.cpp \
     src/models/configurationlistitem.cpp \
     src/models/country.cpp \
+    src/models/discovermovie.cpp \
     src/models/genre.cpp \
     src/models/keyword.cpp \
     src/models/language.cpp \
@@ -72,7 +73,6 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/VoteSliderLabel.qml \
     qml/components/VoteSliderPoint.qml \
     qml/components/filters/CombineModeComboBox.qml \
-    qml/components/filters/ListValueButton.qml \
     qml/components/filters/PeoplesValueButton.qml \
     qml/components/filters/PeoplesValueButtonTitle.qml \
     qml/components/filters/SearchResultItem.qml \
@@ -113,6 +113,7 @@ HEADERS += \
     src/models/configurationdetails.h \
     src/models/configurationlistitem.h \
     src/models/country.h \
+    src/models/discovermovie.h \
     src/models/genre.h \
     src/models/keyword.h \
     src/models/language.h \

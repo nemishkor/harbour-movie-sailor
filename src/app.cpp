@@ -6,6 +6,7 @@ App::App(QQmlContext *context) :
     configurationDetailsManager(api, cache, this),
     companiesService(api, cache, this),
     countriesListService(system, api, cache, this),
+    discoverMovie(this),
     genresMovieService(api, cache, system, this),
     keywordsService(api, cache, this),
     movieProvidersManager(api, cache, this),
@@ -13,6 +14,8 @@ App::App(QQmlContext *context) :
     personsListService(api, cache, this),
     searchPeopleForm(this)
 {
+    context->setContextProperty("discoverMovie", &discoverMovie);
+
     context->setContextProperty("countriesService", &countriesListService);
     context->setContextProperty("countriesListModel", countriesListService.getModel());
     context->setContextProperty("countriesRequestInfo", api.getRequestInfo(Api::ConfigurationCountries));

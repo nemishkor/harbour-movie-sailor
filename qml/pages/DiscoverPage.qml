@@ -499,21 +499,47 @@ BasePage {
                 }
             }
 
-            ListValueButton {
+            ValueButton {
                 label: qsTr("Genres")
-                model: genresMovieModel
+                value: genresMovieModel.count === 0 ? qsTr("None") : genresMovieModel.summary
                 onClicked: {
                     genresMovieService.initialize();
                     pageStack.animatorPush("../dialogs/GenresDialog.qml")
                 }
             }
 
-            ListValueButton {
+            ValueButton {
                 label: qsTr("Keywords")
-                model: keywordsModel
+                value: keywordsModel.count === 0 ? qsTr("None") : keywordsModel.summary
                 onClicked: {
                     pageStack.animatorPush("../dialogs/KeywordsDialog.qml")
                 }
+            }
+
+            ValueButton {
+                id: originCountry
+
+                function openOriginCountriesDialog() {
+                    app.initializeCountries(false)
+                    var params = {
+                        "entityId": discoverMovie.originCountry.id,
+                        "service": countriesService,
+                        "model": countriesListModel,
+                        "requestInfo": countriesRequestInfo,
+                        "title": qsTr("Select an origin country")
+                    };
+                    var obj = pageStack.animatorPush("../components/ConfigurationDialog.qml", params)
+                    obj.pageCompleted.connect(function(page) {
+                        page.accepted.connect(function() {
+                            discoverMovie.originCountry.id = page.entityId
+                            discoverMovie.originCountry.name = page.entityLabel
+                        })
+                    })
+                }
+
+                label: qsTr("Origin country")
+                value: discoverMovie.originCountry.name ? discoverMovie.originCountry.name : qsTr("None")
+                onClicked: openOriginCountriesDialog()
             }
         }
     }

@@ -14,6 +14,7 @@
 
 #include "src/api.h"
 #include "src/filecache.h"
+#include "src/models/discovermovie.h"
 #include "src/models/configurationdetails.h"
 #include "src/models/searchpeopleform.h"
 #include "src/services/countrieslistservice.h"
@@ -50,11 +51,13 @@ private:
     ConfigurationDetailsManager configurationDetailsManager;
     CompaniesService companiesService;
     CountriesListService countriesListService;
+    DiscoverMovie discoverMovie;
     GenresMovieService genresMovieService;
     KeywordsService keywordsService;
     MovieProvidersManager movieProvidersManager;
     LanguagesListService languagesListService;
     PersonsListService personsListService;
+
     SearchPeopleForm searchPeopleForm;
 
 };

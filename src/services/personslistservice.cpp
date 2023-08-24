@@ -26,15 +26,11 @@ void PersonsListService::search(const SearchPeopleForm &form)
         emit initializedChanged();
     }
 
-    if (form.getQuery() == "") {
+    if (form.getQuery().isEmpty() || initialized) {
         return;
     }
 
-    if (initialized) {
-        return;
-    }
-
-    if (cache.exists(key, "json")) {
+    if (cache.exists(key)) {
         searchPersonListModel.fillFromCache(cache.load(key));
         initialized = true;
         emit initializedChanged();

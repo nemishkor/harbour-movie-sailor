@@ -171,11 +171,26 @@
         <source>Genres</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Keywords</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GenresDialog</name>
     <message>
         <source>Filter by genres</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>KeywordsDialog</name>
+    <message>
+        <source>Filter by keywords</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

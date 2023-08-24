@@ -33,7 +33,7 @@ bool GenresListModel::setData(const QModelIndex &index, const QVariant &value, i
         return false;
 
     Genre &item = items[index.row()];
-    if(role == CheckedRole){
+    if (role == CheckedRole) {
         item.setChecked(value.toBool());
         emit dataChanged(index, index, QVector<int>{role});
         updateSummary();

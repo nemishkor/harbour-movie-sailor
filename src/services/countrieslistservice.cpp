@@ -23,7 +23,7 @@ void CountriesListService::initialize()
         return;
     }
 
-    if (cache.exists(key, "json")) {
+    if (cache.exists(key)) {
         qDebug() << "initialize model using cache";
         model.fillFromCache(cache.load(key));
         initialized = true;

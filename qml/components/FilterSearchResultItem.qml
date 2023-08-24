@@ -4,9 +4,9 @@ import Sailfish.Silica 1.0
 BackgroundItem {
     id: root
 
-    property string imageSource
-    property string text
-    property string description
+    property string imageSource: ""
+    property string text: ""
+    property string description: ""
     property alias button: actionIconButton
     property real animationDuration: 200
 
@@ -43,7 +43,7 @@ BackgroundItem {
 
     Row {
         height: Theme.itemSizeLarge - 2 * Theme.paddingSmall
-        width: parent.width - 2 * Theme.horizontalPageMargin
+        width: parent.width - actionIconButton.width - 2 * Theme.horizontalPageMargin
         x: Theme.horizontalPageMargin
         y: Theme.paddingSmall
 
@@ -63,7 +63,7 @@ BackgroundItem {
 
         Column {
             anchors.verticalCenter: parent.verticalCenter
-            width: parent.width - Theme.itemSizeMedium - actionIconButton.width
+            width: parent.width - Theme.itemSizeMedium
 
             Label {
                 width: parent.width

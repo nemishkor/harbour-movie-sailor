@@ -507,6 +507,14 @@ BasePage {
                     pageStack.animatorPush("../dialogs/GenresDialog.qml")
                 }
             }
+
+            ListValueButton {
+                label: qsTr("Keywords")
+                model: keywordsModel
+                onClicked: {
+                    pageStack.animatorPush("../dialogs/KeywordsDialog.qml")
+                }
+            }
         }
     }
 }

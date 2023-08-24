@@ -7,6 +7,7 @@ App::App(QQmlContext *context) :
     companiesService(api, cache, this),
     countriesListService(system, api, cache, this),
     genresMovieService(api, cache, system, this),
+    keywordsService(api, cache, this),
     movieProvidersManager(api, cache, this),
     languagesListService(system, api, cache, this),
     personsListService(api, cache, this),
@@ -20,14 +21,6 @@ App::App(QQmlContext *context) :
     context->setContextProperty("configurationDetailsModel", configurationDetailsManager.getModel());
     context->setContextProperty("configurationDetailsRequestInfo", api.getRequestInfo(Api::ConfigurationDetails));
 
-    context->setContextProperty("movieProvidersService", &movieProvidersManager);
-    context->setContextProperty("movieProvidersListModel", movieProvidersManager.getModel());
-    context->setContextProperty("movieProvidersRequestInfo", api.getRequestInfo(Api::WatchMovieProviders));
-
-    context->setContextProperty("languagesService", &languagesListService);
-    context->setContextProperty("languagesListModel", languagesListService.getModel());
-    context->setContextProperty("languagesRequestInfo", api.getRequestInfo(Api::ConfigurationLanguages));
-
     context->setContextProperty("companiesService", &companiesService);
     context->setContextProperty("companiesModel", companiesService.getModel());
     context->setContextProperty("companiesSearchModel", companiesService.getSearchModel());
@@ -36,6 +29,19 @@ App::App(QQmlContext *context) :
     context->setContextProperty("genresMovieService", &genresMovieService);
     context->setContextProperty("genresMovieModel", genresMovieService.getModel());
     context->setContextProperty("genresRequestInfo", api.getRequestInfo(Api::Genres));
+
+    context->setContextProperty("keywordsService", &keywordsService);
+    context->setContextProperty("keywordsModel", keywordsService.getModel());
+    context->setContextProperty("keywordsSearchModel", keywordsService.getSearchModel());
+    context->setContextProperty("keywordsRequestInfo", api.getRequestInfo(Api::Keywords));
+
+    context->setContextProperty("movieProvidersService", &movieProvidersManager);
+    context->setContextProperty("movieProvidersListModel", movieProvidersManager.getModel());
+    context->setContextProperty("movieProvidersRequestInfo", api.getRequestInfo(Api::WatchMovieProviders));
+
+    context->setContextProperty("languagesService", &languagesListService);
+    context->setContextProperty("languagesListModel", languagesListService.getModel());
+    context->setContextProperty("languagesRequestInfo", api.getRequestInfo(Api::ConfigurationLanguages));
 
     context->setContextProperty("personsService", &personsListService);
     context->setContextProperty("personsListModel", personsListService.getSearchPersonListModel());

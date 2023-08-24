@@ -20,6 +20,7 @@
 #include "src/services/configurationdetailsmanager.h"
 #include "src/services/companiesservice.h"
 #include "src/services/genresmovieservice.h"
+#include "src/services/keywordsservice.h"
 #include "src/services/languageslistservice.h"
 #include "src/services/movieprovidersmanager.h"
 #include "src/services/personslistservice.h"
@@ -50,6 +51,7 @@ private:
     CompaniesService companiesService;
     CountriesListService countriesListService;
     GenresMovieService genresMovieService;
+    KeywordsService keywordsService;
     MovieProvidersManager movieProvidersManager;
     LanguagesListService languagesListService;
     PersonsListService personsListService;

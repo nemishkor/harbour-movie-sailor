@@ -30,7 +30,7 @@ void CompaniesService::search(const QString &query)
         return;
     }
 
-    if (cache.exists(key, "json")) {
+    if (cache.exists(key)) {
         qDebug() << "load companies from cache for the query" << query;
         searchModel.fillFromCache(cache.load(key));
         initialized = true;

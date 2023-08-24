@@ -16,7 +16,7 @@ class FileCache : public QObject
     Q_OBJECT
 public:
     explicit FileCache(QObject *parent = nullptr);
-    bool exists(const CacheKey &key, const QString &format) const;
+    bool exists(const CacheKey &key, const QString &format = "json") const;
     QJsonDocument load(const CacheKey &key) const;
     void save(const CacheKey &key, const QJsonDocument &json) const;
 

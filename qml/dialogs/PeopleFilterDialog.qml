@@ -2,7 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../components"
 
-Dialog {
+BaseDialog {
     id: root
 
     property var focusedPersonModel
@@ -15,11 +15,6 @@ Dialog {
         root.focusedPersonModel = undefined
     }
 
-    allowedOrientations: Orientation.All
-    clip: true
-    onStatusChanged: {
-        pageContainer.anchors.bottomMargin = Theme.itemSizeMedium
-    }
     backNavigation: false
     canAccept: true
 
@@ -49,25 +44,8 @@ Dialog {
             SectionHeader { visible: crewListModel.count > 0; text: qsTr("Crew") }
             PeopleFilterList { visible: crewListModel.count > 0; listModel: crewListModel }
 
-            GlassItem {
-                height: root.isEmpty ? 0 : Theme.paddingLarge
-                Behavior on height {
-                    NumberAnimation { duration: 200 }
-                }
-                width: parent.width
-                falloffRadius: 0.15
-                radius: 0.15
-                color: Theme.highlightColor
-                cache: false
-            }
-
-            Item {
-                width: parent.width
-                height: root.isEmpty ? 0 : Theme.paddingMedium
-                Behavior on height {
-                    NumberAnimation { duration: 200 }
-                }
-            }
+            GlassSpacer { visible: root.listModel.count > 0 }
+            Spacer { visible: !root.isEmpty }
 
             SearchField {
                 id: searchField

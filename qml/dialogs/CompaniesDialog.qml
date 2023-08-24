@@ -3,17 +3,12 @@ import Sailfish.Silica 1.0
 import "../components"
 import "../components/filters"
 
-Dialog {
+BaseDialog {
     id: root
 
     property var listModel: companiesModel
     property var searchListModel: companiesSearchModel
 
-    allowedOrientations: Orientation.All
-    clip: true
-    onStatusChanged: {
-        pageContainer.anchors.bottomMargin = Theme.itemSizeMedium
-    }
     backNavigation: false
     canAccept: true
 
@@ -63,21 +58,8 @@ Dialog {
                 }
             }
 
-            GlassItem {
-                visible: root.listModel.count > 0
-                height: Theme.paddingLarge
-                width: parent.width
-                falloffRadius: 0.15
-                radius: 0.15
-                color: Theme.highlightColor
-                cache: false
-            }
-
-            Item {
-                visible: root.listModel.count > 0
-                width: parent.width
-                height: Theme.paddingLarge
-            }
+            GlassSpacer { visible: root.listModel.count > 0 }
+            Spacer { visible: root.listModel.count > 0 }
 
             SearchField {
                 id: searchField

@@ -3,15 +3,10 @@ import Sailfish.Silica 1.0
 import "../components"
 import "../components/filters"
 
-Dialog {
+BaseDialog {
     id: root
-    allowedOrientations: Orientation.All
-    clip: true
 
-    onStatusChanged: {
-        pageContainer.anchors.bottomMargin = Theme.itemSizeMedium
-    }
-
+    backNavigation: false
     canAccept: true
 
     SilicaFlickable {

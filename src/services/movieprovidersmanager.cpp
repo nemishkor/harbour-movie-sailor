@@ -29,7 +29,7 @@ void MovieProvidersManager::initialize(const QString &region)
         return;
     }
 
-    if (cache.exists(key, "json")) {
+    if (cache.exists(key)) {
         model.fillFromCache(cache.load(key));
         initialized = true;
         emit initializedChanged();

@@ -19,7 +19,7 @@ void GenresMovieService::initialize()
         return;
     }
 
-    if (cache.exists(key, "json")) {
+    if (cache.exists(key)) {
         qDebug() << "load movie genres from cache";
         model.fillFromCache(cache.load(key));
         initialized = true;

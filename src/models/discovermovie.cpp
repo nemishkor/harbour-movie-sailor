@@ -2,12 +2,24 @@
 
 DiscoverMovie::DiscoverMovie(QObject *parent) :
     QObject(parent),
-    originCountry(this)
+    originCountry(new Country(this)),
+    language(new Language(this)),
+    originLanguage(new Language(this))
 {
 
 }
 
-Country *DiscoverMovie::getOriginCountry()
+Country *DiscoverMovie::getOriginCountry() const
 {
-    return &originCountry;
+    return originCountry;
+}
+
+Language *DiscoverMovie::getLanguage() const
+{
+    return language;
+}
+
+Language *DiscoverMovie::getOriginLanguage() const
+{
+    return originLanguage;
 }

@@ -1,41 +1,30 @@
 #ifndef LANGUAGE_H
 #define LANGUAGE_H
 
+#include <QObject>
 #include <QString>
-#include <QJsonObject>
-#include <QJsonValue>
-#include <QDebug>
 
-
-class Language
+class Language : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(QString id READ getId WRITE setId NOTIFY idChanged)
+    Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
 public:
-    Language();
-    Language(const QJsonObject &json);
-    Language(const Language &language);
-    Language(Language &language, bool isPrimary);
+    explicit Language(QObject *parent);
 
     const QString &getId() const;
     void setId(const QString &newId);
 
-    const QString &getEnglishName() const;
-    void setEnglishName(const QString &newEnglishName);
-
     const QString &getName() const;
     void setName(const QString &newName);
 
-    const QString getSection() const;
-
-    bool getIsPrimary() const;
-    void setIsPrimary(bool newIsPrimary);
-
-    const QJsonObject toJson() const;
+signals:
+    void idChanged();
+    void nameChanged();
 
 private:
     QString id;
-    QString englishName;
     QString name;
-    bool isPrimary = false;
 };
 
 #endif // LANGUAGE_H

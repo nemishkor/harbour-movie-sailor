@@ -14,6 +14,7 @@ App::App(QQmlContext *context) :
     personsListService(api, cache, this),
     searchPeopleForm(this)
 {
+//    qRegisterMetaType<Country>("Country");
     context->setContextProperty("discoverMovie", &discoverMovie);
 
     context->setContextProperty("countriesService", &countriesListService);

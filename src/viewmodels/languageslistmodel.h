@@ -8,7 +8,7 @@
 #include <QJsonObject>
 
 #include "src/system.h"
-#include "src/models/language.h"
+#include "src/models/languagelistitem.h"
 
 class LanguagesListModel : public QAbstractListModel
 {
@@ -26,7 +26,7 @@ public:
     explicit LanguagesListModel(System &system, QObject *parent);
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
-    void add(const Language &language);
+    void add(const LanguageListItem &language);
 
     void fillFromCache(const QJsonDocument &json);
     const QJsonDocument fillFromAPI(const QJsonDocument &json);
@@ -36,7 +36,7 @@ protected:
 
 private:
     System &system;
-    QList<Language> items;
+    QList<LanguageListItem> items;
 
 signals:
     void countChanged();

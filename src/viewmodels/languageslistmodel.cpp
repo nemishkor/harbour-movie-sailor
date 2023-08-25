@@ -14,7 +14,7 @@ int LanguagesListModel::rowCount(const QModelIndex &) const{
 QVariant LanguagesListModel::data(const QModelIndex &index, int role) const{
     if (index.row() < 0 || index.row() >= items.count())
         return QVariant();
-    const Language &language = items[index.row()];
+    const LanguageListItem &language = items[index.row()];
     if(role == IdRole)
         return language.getId();
     if(role == EnglishNameRole)
@@ -28,7 +28,7 @@ QVariant LanguagesListModel::data(const QModelIndex &index, int role) const{
     return QVariant();
 }
 
-void LanguagesListModel::add(const Language &language)
+void LanguagesListModel::add(const LanguageListItem &language)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     items.append(language);
@@ -40,15 +40,15 @@ void LanguagesListModel::fillFromCache(const QJsonDocument &json)
 {
     QJsonArray languages = json.array();
     for(QJsonArray::const_iterator it = languages.constBegin(); it != languages.constEnd(); it++){
-        add(Language((*it).toObject()));
+        add(LanguageListItem((*it).toObject()));
     }
 }
 
 const QJsonDocument LanguagesListModel::fillFromAPI(const QJsonDocument &json)
 {
     QJsonArray jsonLanguages = json.array();
-    QVector<Language> items(jsonLanguages.count() + 1);
-    QVector<Language>::iterator itemsIt = items.begin();
+    QVector<LanguageListItem> items(jsonLanguages.count() + 1);
+    QVector<LanguageListItem>::iterator itemsIt = items.begin();
     bool foundSystemLanguage = false;
 
     for (QJsonArray::const_iterator it = jsonLanguages.constBegin(); it != jsonLanguages.constEnd(); it++) {
@@ -59,7 +59,7 @@ const QJsonDocument LanguagesListModel::fillFromAPI(const QJsonDocument &json)
 
         if (!foundSystemLanguage && (*itemsIt).getId() == system.getLanguage()) {
             foundSystemLanguage = true;
-            Language& lastLanguage = *itemsIt;
+            LanguageListItem& lastLanguage = *itemsIt;
             itemsIt++;
             itemsIt->setId(lastLanguage.getId());
             itemsIt->setName(lastLanguage.getName());
@@ -70,13 +70,13 @@ const QJsonDocument LanguagesListModel::fillFromAPI(const QJsonDocument &json)
         itemsIt++;
     }
 
-    std::sort(items.begin(), items.end(), [](const Language &a, const Language &b)
+    std::sort(items.begin(), items.end(), [](const LanguageListItem &a, const LanguageListItem &b)
     {
         return ((a.getIsPrimary() || a.getId() == "xx") ? "" : a.getEnglishName()) < ((b.getIsPrimary() || b.getId() == "xx") ? "" : b.getEnglishName());
     });
 
     for (int i = 0; i < items.count(); i++) {
-        const Language &language = items.at(i);
+        const LanguageListItem &language = items.at(i);
         qDebug() << "add language" << language.getId() << " " << language.getEnglishName() << " " << language.getName();
         add(language);
         jsonLanguages.replace(i, language.toJson());

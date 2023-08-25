@@ -76,10 +76,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Any</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sort by</source>
         <translation type="unfinished"></translation>
     </message>
@@ -181,6 +177,10 @@
     </message>
     <message>
         <source>Origin country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Origin language</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

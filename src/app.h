@@ -16,6 +16,7 @@
 #include "src/filecache.h"
 #include "src/models/discovermovie.h"
 #include "src/models/configurationdetails.h"
+#include "src/models/country.h"
 #include "src/models/searchpeopleform.h"
 #include "src/services/countrieslistservice.h"
 #include "src/services/configurationdetailsmanager.h"

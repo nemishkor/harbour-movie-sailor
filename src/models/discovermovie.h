@@ -4,21 +4,25 @@
 #include <QObject>
 
 #include "src/models/country.h"
+#include "src/models/language.h"
 
 class DiscoverMovie : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Country* originCountry READ getOriginCountry NOTIFY originCountryChanged)
+    Q_PROPERTY(Country* originCountry READ getOriginCountry CONSTANT)
+    Q_PROPERTY(Language* language READ getLanguage CONSTANT)
+    Q_PROPERTY(Language* originLanguage READ getOriginLanguage CONSTANT)
 public:
     explicit DiscoverMovie(QObject *parent);
 
-    Country *getOriginCountry();
+    Country *getOriginCountry() const;
+    Language *getLanguage() const;
+    Language *getOriginLanguage() const;
 
 private:
-    Country originCountry;
-
-signals:
-    void originCountryChanged();
+    Country *originCountry;
+    Language *language;
+    Language *originLanguage;
 };
 
 #endif // DISCOVERMOVIE_H

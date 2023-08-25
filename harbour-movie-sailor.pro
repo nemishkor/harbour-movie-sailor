@@ -28,6 +28,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/genre.cpp \
     src/models/keyword.cpp \
     src/models/language.cpp \
+    src/models/languagelistitem.cpp \
     src/models/movieprovider.cpp \
     src/models/person.cpp \
     src/models/requestinfo.cpp \
@@ -117,6 +118,7 @@ HEADERS += \
     src/models/genre.h \
     src/models/keyword.h \
     src/models/language.h \
+    src/models/languagelistitem.h \
     src/models/movieprovider.h \
     src/models/person.h \
     src/models/requestinfo.h \

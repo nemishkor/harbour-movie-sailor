@@ -4,7 +4,7 @@ import Sailfish.Silica 1.0
 Rectangle {
     id: dock
 
-    property string selectedPage: "pages/Discovery.qml"
+    property string selectedPage: "pages/DiscoverMovie.qml"
 
     width: orientation === Orientation.Portrait ? parent.width : parent.height
     height: Theme.itemSizeMedium
@@ -32,7 +32,7 @@ Rectangle {
 
                 ListElement {
                     icon: "icon-m-search"
-                    page: "pages/Discovery.qml"
+                    page: "pages/DiscoverMovie.qml"
                 }
             }
             delegate: Rectangle {

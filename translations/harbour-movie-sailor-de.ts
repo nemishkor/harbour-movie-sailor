@@ -54,25 +54,9 @@
     </message>
 </context>
 <context>
-    <name>DiscoverPage</name>
-    <message>
-        <source></source>
-        <translation></translation>
-    </message>
+    <name>DiscoverMoviePage</name>
     <message>
         <source>Movie discovery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Include adult</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Include video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -96,6 +80,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Genres</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Where to watch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -108,15 +100,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Choose a country to select providers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>providers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Release dates in </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -144,7 +136,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>User Score</source>
+        <source>User score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -152,19 +144,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Other filters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include adult</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Companies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Movies made by a certain studio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Genres</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -180,8 +176,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Origin language</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DiscoverPage</name>
+    <message>
+        <source></source>
+        <translation></translation>
     </message>
 </context>
 <context>

@@ -84,7 +84,8 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/dialogs/KeywordsDialog.qml \
     qml/dialogs/PeopleFilterDialog.qml \
     qml/pages/BasePage.qml \
-    qml/pages/DiscoverPage.qml \
+    qml/pages/DiscoverMoviePage.qml \
+    qml/pages/DiscoverMovieResultsPage.qml \
     qml/pages/SecondPage.qml \
     rpm/harbour-movie-sailor.changes.in \
     rpm/harbour-movie-sailor.changes.run.in \

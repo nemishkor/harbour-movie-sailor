@@ -10,7 +10,19 @@ BasePage {
     property string languageEnglishName: ""
     property string languageName: ""
 
+    Component.onCompleted: {
+        genresMovieService.initialize()
+    }
+
+    Item {
+        visible: !genresMovieService.initialized
+        anchors.fill: parent
+
+        FullPageRequestProgress { requestInfo: genresRequestInfo }
+    }
+
     SilicaFlickable {
+        visible: genresMovieService.initialized
         anchors.fill: parent
         contentHeight: column.height + Theme.paddingMedium
 
@@ -128,10 +140,7 @@ BasePage {
             ValueButton {
                 label: qsTr("Genres")
                 value: genresMovieModel.summary === "" ? qsTr("None") : genresMovieModel.summary
-                onClicked: {
-                    genresMovieService.initialize();
-                    pageStack.animatorPush("../dialogs/GenresDialog.qml")
-                }
+                onClicked: pageStack.animatorPush("../dialogs/GenresDialog.qml")
             }
 
             ExpandingSection {
@@ -241,7 +250,7 @@ BasePage {
 
                                 Image {
                                     id: providerLogo
-                                    source: configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.imagesLogoSize + model.logo
+                                    source: configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.logoSize + model.logo
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     anchors.top: parent.top
                                     fillMode: Image.PreserveAspectFit
@@ -521,7 +530,7 @@ BasePage {
                         function openOriginCountriesDialog() {
                             app.initializeCountries(false)
                             var params = {
-                                "entityId": discoverMovie.originCountry.id,
+                                "entityId": discoverMovieService.form.originCountry.id,
                                 "service": countriesService,
                                 "model": countriesListModel,
                                 "requestInfo": countriesRequestInfo,
@@ -530,14 +539,14 @@ BasePage {
                             var obj = pageStack.animatorPush("../components/ConfigurationDialog.qml", params)
                             obj.pageCompleted.connect(function(page) {
                                 page.accepted.connect(function() {
-                                    discoverMovie.originCountry.id = page.entityId
-                                    discoverMovie.originCountry.name = page.entityLabel
+                                    discoverMovieService.form.originCountry.id = page.entityId
+                                    discoverMovieService.form.originCountry.name = page.entityLabel
                                 })
                             })
                         }
 
                         label: qsTr("Origin country")
-                        value: discoverMovie.originCountry.name ? discoverMovie.originCountry.name : qsTr("None")
+                        value: discoverMovieService.form.originCountry.name ? discoverMovieService.form.originCountry.name : qsTr("None")
                         onClicked: openOriginCountriesDialog()
                     }
 
@@ -546,17 +555,17 @@ BasePage {
                             app.initializeLanguages()
                             var obj = pageStack.animatorPush(
                                         "../components/LanguageDialog.qml",
-                                        {"languageId": discoverMovie.language.id})
+                                        {"languageId": discoverMovieService.form.language.id})
                             obj.pageCompleted.connect(function(page) {
                                 page.accepted.connect(function() {
-                                    discoverMovie.language.name = page.languageEnglishName
-                                    discoverMovie.language.id = page.languageId
+                                    discoverMovieService.form.language.name = page.languageEnglishName
+                                    discoverMovieService.form.language.id = page.languageId
                                 })
                             })
                         }
 
                         label: qsTr("Language")
-                        value: discoverMovie.language.name ? discoverMovie.language.name : qsTr("None")
+                        value: discoverMovieService.form.language.name ? discoverMovieService.form.language.name : qsTr("None")
                         onClicked: openLanguageDialog()
                     }
 
@@ -565,17 +574,17 @@ BasePage {
                             app.initializeLanguages()
                             var obj = pageStack.animatorPush(
                                         "../components/LanguageDialog.qml",
-                                        {"languageId": discoverMovie.originLanguage.id})
+                                        {"languageId": discoverMovieService.form.originLanguage.id})
                             obj.pageCompleted.connect(function(page) {
                                 page.accepted.connect(function() {
-                                    discoverMovie.originLanguage.name = page.languageEnglishName
-                                    discoverMovie.originLanguage.id = page.languageId
+                                    discoverMovieService.form.originLanguage.name = page.languageEnglishName
+                                    discoverMovieService.form.originLanguage.id = page.languageId
                                 })
                             })
                         }
 
                         label: qsTr("Origin language")
-                        value: discoverMovie.originLanguage.name ? discoverMovie.originLanguage.name : qsTr("None")
+                        value: discoverMovieService.form.originLanguage.name ? discoverMovieService.form.originLanguage.name : qsTr("None")
                         onClicked: openOriginLanguageDialog()
                     }
                 }
@@ -584,7 +593,16 @@ BasePage {
             Button {
                 text: qsTr("Search")
                 anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: pageStack.animatorPush("DiscoverMovieResultsPage.qml")
+                onClicked: {
+                    console.log("1")
+                    discoverMovieService.form.page = 1
+                    console.log("2")
+                    app.initializeConfigurationDetails()
+                    console.log("3")
+                    discoverMovieService.search()
+                    console.log("4")
+                    pageStack.animatorPush("./DiscoverMovieResultsPage.qml")
+                }
             }
         }
     }

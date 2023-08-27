@@ -6,17 +6,14 @@ App::App(QQmlContext *context) :
     configurationDetailsManager(api, cache, this),
     companiesService(api, cache, this),
     countriesListService(system, api, cache, this),
-    discoverMovie(this),
     genresMovieService(api, cache, system, this),
+    discoverMovieService(api, genresMovieService, cache, this),
     keywordsService(api, cache, this),
     movieProvidersManager(api, cache, this),
     languagesListService(system, api, cache, this),
     personsListService(api, cache, this),
     searchPeopleForm(this)
 {
-//    qRegisterMetaType<Country>("Country");
-    context->setContextProperty("discoverMovie", &discoverMovie);
-
     context->setContextProperty("countriesService", &countriesListService);
     context->setContextProperty("countriesListModel", countriesListService.getModel());
     context->setContextProperty("countriesRequestInfo", api.getRequestInfo(Api::ConfigurationCountries));
@@ -24,6 +21,9 @@ App::App(QQmlContext *context) :
     context->setContextProperty("configurationDetailsService", &configurationDetailsManager);
     context->setContextProperty("configurationDetailsModel", configurationDetailsManager.getModel());
     context->setContextProperty("configurationDetailsRequestInfo", api.getRequestInfo(Api::ConfigurationDetails));
+
+    context->setContextProperty("discoverMovieService", &discoverMovieService);
+    context->setContextProperty("discoverMovieRequestInfo", api.getRequestInfo(Api::DiscoverMovies));
 
     context->setContextProperty("companiesService", &companiesService);
     context->setContextProperty("companiesModel", companiesService.getModel());

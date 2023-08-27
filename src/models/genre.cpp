@@ -8,6 +8,11 @@ Genre::Genre(int id, const QString &name) :
 
 }
 
+bool Genre::operator==(const Genre &other)
+{
+    return id == other.id;
+}
+
 int Genre::getId() const
 {
     return id;

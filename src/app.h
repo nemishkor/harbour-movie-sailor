@@ -21,6 +21,7 @@
 #include "src/services/countrieslistservice.h"
 #include "src/services/configurationdetailsmanager.h"
 #include "src/services/companiesservice.h"
+#include "src/services/discovermovieservice.h"
 #include "src/services/genresmovieservice.h"
 #include "src/services/keywordsservice.h"
 #include "src/services/languageslistservice.h"
@@ -52,8 +53,8 @@ private:
     ConfigurationDetailsManager configurationDetailsManager;
     CompaniesService companiesService;
     CountriesListService countriesListService;
-    DiscoverMovie discoverMovie;
     GenresMovieService genresMovieService;
+    DiscoverMovieService discoverMovieService;
     KeywordsService keywordsService;
     MovieProvidersManager movieProvidersManager;
     LanguagesListService languagesListService;

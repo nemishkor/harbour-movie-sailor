@@ -4,7 +4,7 @@ import "pages"
 import "components"
 
 ApplicationWindow {
-    initialPage: Component { DiscoverPage { } }
+    initialPage: Component { DiscoverMoviePage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
 

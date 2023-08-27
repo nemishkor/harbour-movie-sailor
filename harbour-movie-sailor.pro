@@ -25,6 +25,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/configurationlistitem.cpp \
     src/models/country.cpp \
     src/models/discovermovie.cpp \
+    src/models/discovermovieresultitem.cpp \
     src/models/genre.cpp \
     src/models/keyword.cpp \
     src/models/language.cpp \
@@ -37,6 +38,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/services/companiesservice.cpp \
     src/services/configurationdetailsmanager.cpp \
     src/services/countrieslistservice.cpp \
+    src/services/discovermovieservice.cpp \
     src/services/genresmovieservice.cpp \
     src/services/keywordsservice.cpp \
     src/services/languageslistservice.cpp \
@@ -46,6 +48,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/viewmodels/companieslistmodel.cpp \
     src/viewmodels/companiessearchlistmodel.cpp \
     src/viewmodels/configurationlistmodel.cpp \
+    src/viewmodels/discovermovieresultlistmodel.cpp \
     src/viewmodels/genreslistmodel.cpp \
     src/viewmodels/keywordslistmodel.cpp \
     src/viewmodels/keywordssearchlistmodel.cpp \
@@ -59,6 +62,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/AndOrListItem.qml \
     qml/components/CompaniesValueButton.qml \
     qml/components/ConfigurationDialog.qml \
+    qml/components/DiscoverMovieResultsItem.qml \
     qml/components/FailedRequestInColumn.qml \
     qml/components/FilterSearchResultItem.qml \
     qml/components/FullPageRequestProgress.qml \
@@ -116,6 +120,7 @@ HEADERS += \
     src/models/configurationlistitem.h \
     src/models/country.h \
     src/models/discovermovie.h \
+    src/models/discovermovieresultitem.h \
     src/models/genre.h \
     src/models/keyword.h \
     src/models/language.h \
@@ -129,6 +134,7 @@ HEADERS += \
     src/services/companiesservice.h \
     src/services/configurationdetailsmanager.h \
     src/services/countrieslistservice.h \
+    src/services/discovermovieservice.h \
     src/services/genresmovieservice.h \
     src/services/keywordsservice.h \
     src/services/languageslistservice.h \
@@ -138,6 +144,7 @@ HEADERS += \
     src/viewmodels/companieslistmodel.h \
     src/viewmodels/companiessearchlistmodel.h \
     src/viewmodels/configurationlistmodel.h \
+    src/viewmodels/discovermovieresultlistmodel.h \
     src/viewmodels/genreslistmodel.h \
     src/viewmodels/keywordslistmodel.h \
     src/viewmodels/keywordssearchlistmodel.h \

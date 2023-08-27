@@ -13,6 +13,7 @@
 
 #include "apiworker.h"
 #include "src/models/searchpeopleform.h"
+#include "src/models/discovermovie.h"
 
 class Api : public QObject
 {
@@ -22,6 +23,7 @@ public:
         ConfigurationCountries,
         ConfigurationDetails,
         ConfigurationLanguages,
+        DiscoverMovies,
         Genres,
         Keywords,
         WatchMovieProviders,
@@ -32,6 +34,7 @@ public:
 
     RequestInfo* getRequestInfo(WorkerName name);
 
+    void discoverMovies(const DiscoverMovie &form);
     void loadConfigurationCounries();
     void loadConfigurationDetails();
     void loadConfigurationLanguages();
@@ -53,14 +56,15 @@ private:
     ApiWorker* getWorker(WorkerName name) const;
 
 signals:
-    void configurationCountriesDone(QByteArray &data);
-    void configurationDetailsDone(QByteArray &data);
-    void configurationLanguagesDone(QByteArray &data);
-    void genresDone(QByteArray &data);
-    void keywordsDone(QByteArray &data);
-    void watchMovieProvidersDone(QByteArray &data);
-    void searchCompaniesDone(QByteArray &data);
-    void searchPersonsDone(QByteArray &data);
+    void configurationCountriesDone(QByteArray &);
+    void configurationDetailsDone(QByteArray &);
+    void configurationLanguagesDone(QByteArray &);
+    void discoverMoviesDone(QByteArray &);
+    void genresDone(QByteArray &);
+    void keywordsDone(QByteArray &);
+    void watchMovieProvidersDone(QByteArray &);
+    void searchCompaniesDone(QByteArray &);
+    void searchPersonsDone(QByteArray &);
 
 };
 

@@ -2,6 +2,7 @@
 
 DiscoverMovie::DiscoverMovie(QObject *parent) :
     QObject(parent),
+    page(1),
     originCountry(new Country(this)),
     language(new Language(this)),
     originLanguage(new Language(this))
@@ -22,4 +23,17 @@ Language *DiscoverMovie::getLanguage() const
 Language *DiscoverMovie::getOriginLanguage() const
 {
     return originLanguage;
+}
+
+int DiscoverMovie::getPage() const
+{
+    return page;
+}
+
+void DiscoverMovie::setPage(int newPage)
+{
+    if (page == newPage)
+        return;
+    page = newPage;
+    emit pageChanged();
 }

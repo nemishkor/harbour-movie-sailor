@@ -14,7 +14,9 @@ class ConfigurationDetails : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString imagesSecureBaseUrl READ getImagesSecureBaseUrl NOTIFY imagesSecureBaseUrlChanged)
-    Q_PROPERTY(QString imagesLogoSize READ getImagesLogoSize NOTIFY imagesLogoSizeChanged)
+    Q_PROPERTY(QString backdropSizeInList READ getBackdropSizeInList WRITE setBackdropSizeInList NOTIFY backdropSizeInListChanged)
+    Q_PROPERTY(QString logoSize READ getLogoSize WRITE setLogoSize NOTIFY logoSizeChanged)
+    Q_PROPERTY(QString posterSize READ getPosterSize WRITE setPosterSize NOTIFY posterSizeChanged)
     Q_PROPERTY(QString profileSize READ getProfileSize NOTIFY profileSizeChanged)
 public:
     ConfigurationDetails(QObject *parent);
@@ -23,29 +25,37 @@ public:
     const QJsonDocument fillFromAPI(const QJsonDocument &json);
 
     const QString &getImagesSecureBaseUrl() const;
-    const QString &getImagesLogoSize() const;
+    void setImagesSecureBaseUrl(const QString &newImagesSecureBaseUrl);
+
+    const QString &getBackdropSizeInList() const;
+    void setBackdropSizeInList(const QString &newBackdropSizeInList);
+
+    const QString &getLogoSize() const;
+    void setLogoSize(const QString &newLogoSize);
+
+    const QString &getPosterSize() const;
+    void setPosterSize(const QString &newPosterSize);
+
     const QString &getProfileSize() const;
+    void setProfileSize(const QString &newProfileSize);
 
 private:
+    const QString optimalSize; // Optimal for list/grid view on Sony 10 II
+    const QString optimalPosterSize;
     QString imagesSecureBaseUrl;
-    QStringList imagesDropSizes;
-    QStringList imagesLogoSizes;
-    QString imagesLogoSize;
-    QStringList imagesPosterSizes;
-    QStringList imagesProfileSizes;
+    QString backdropSizeInList;
+    QString logoSize;
+    QString posterSize;
     QString profileSize;
-    QStringList imagesStillSizes;
-    QStringList changeKeys;
 
-    void jsonArrayToStringList(const QJsonArray& json, QStringList& list);
-    void setImagesLogoSize();
-    void setProfileSize();
+    QString findInJsonStringArray(const QJsonArray &haystack, const QString &needle, const QString &defaultValue);
 
 signals:
     void imagesSecureBaseUrlChanged();
-    void imagesLogoSizeChanged();
+    void backdropSizeInListChanged();
+    void logoSizeChanged();
+    void posterSizeChanged();
     void profileSizeChanged();
-
 };
 
 #endif // CONFIGURATIONDETAILS_H

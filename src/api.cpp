@@ -8,6 +8,7 @@ Api::Api(QObject *parent) : QObject(parent)
     setupWorker(ConfigurationCountries, SIGNAL(configurationCountriesDone(QByteArray &)));
     setupWorker(ConfigurationDetails, SIGNAL(configurationDetailsDone(QByteArray &)));
     setupWorker(ConfigurationLanguages, SIGNAL(configurationLanguagesDone(QByteArray &)));
+    setupWorker(DiscoverMovies, SIGNAL(discoverMoviesDone(QByteArray &)));
     setupWorker(Genres, SIGNAL(genresDone(QByteArray &)));
     setupWorker(Keywords, SIGNAL(keywordsDone(QByteArray &)));
     setupWorker(WatchMovieProviders, SIGNAL(watchMovieProvidersDone(QByteArray &)));
@@ -18,6 +19,16 @@ Api::Api(QObject *parent) : QObject(parent)
 RequestInfo *Api::getRequestInfo(WorkerName name)
 {
     return workers[name]->getRequestInfo();
+}
+
+void Api::discoverMovies(const DiscoverMovie &form)
+{
+    QUrl url(baseUrl + "discover/movie");
+    QUrlQuery query;
+    query.addQueryItem("page", QString::number(form.getPage()));
+    url.setQuery(query);
+
+    getWorker(DiscoverMovies)->get(buildRequest(url));
 }
 
 void Api::loadConfigurationCounries()

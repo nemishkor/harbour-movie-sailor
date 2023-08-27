@@ -8,6 +8,8 @@ class Genre
 public:
     Genre(int id, const QString &name);
 
+    bool operator==(const Genre &other);
+
     int getId() const;
 
     const QString &getName() const;

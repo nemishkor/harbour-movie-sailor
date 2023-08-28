@@ -4,7 +4,7 @@ import Sailfish.Silica 1.0
 Dialog {
     id: dialog
 
-    property string key: "popularity"
+    property string key
     property string label: qsTr("Popularity")
 
     canAccept: key !== ""
@@ -55,6 +55,7 @@ Dialog {
                 dialog.label = model.label
                 dialog.accept()
             }
+            highlighted: down || dialog.key === model.key
 
             Label {
                 anchors.verticalCenter: parent.verticalCenter

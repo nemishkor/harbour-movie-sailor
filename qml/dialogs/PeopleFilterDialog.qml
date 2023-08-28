@@ -11,7 +11,7 @@ BaseDialog {
     function selectRole(role) {
         root.focusedPersonModel.role = role
         root.focusedPersonModel.checked = true
-        personsService.select(root.focusedPersonModel.id)
+        discoverMovieService.personsListService.select(root.focusedPersonModel.id)
         root.focusedPersonModel = undefined
     }
 
@@ -44,7 +44,7 @@ BaseDialog {
             SectionHeader { visible: crewListModel.count > 0; text: qsTr("Crew") }
             PeopleFilterList { visible: crewListModel.count > 0; listModel: crewListModel }
 
-            GlassSpacer { visible: root.listModel.count > 0 }
+            GlassSpacer { visible: !root.isEmpty }
             Spacer { visible: !root.isEmpty }
 
             SearchField {
@@ -68,7 +68,7 @@ BaseDialog {
             }
 
             ListView {
-                model: personsListModel
+                model: discoverMovieService.personsListService.searchPersonListModel
                 currentIndex: -1 // otherwise currentItem will steal focus
                 width: parent.width
                 height: childrenRect.height
@@ -181,7 +181,7 @@ BaseDialog {
     }
 
     Item {
-        visible: !personsService.initialized
+        visible: !discoverMovieService.personsListService.initialized
         anchors.fill: parent
 
         FullPageRequestProgress { requestInfo: searchPersonsRequestInfo }

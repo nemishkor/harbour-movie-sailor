@@ -28,6 +28,8 @@ public:
     bool getAndMode() const;
     void setAndMode(bool newAndMode);
 
+    const QString toQueryString();
+
 protected:
     QHash<int, QByteArray> roleNames() const override;
 

@@ -1,12 +1,12 @@
 #include "keywordsservice.h"
 
-KeywordsService::KeywordsService(Api &api, FileCache &cache, QObject *parent) :
+KeywordsService::KeywordsService(Api &api, FileCache &cache, KeywordsListModel *model, QObject *parent) :
     QObject(parent),
     api(api),
     cache(cache),
     key("search", "keyword", "1"),
-    model(this),
-    searchModel(model.getItems(), this),
+    model(model),
+    searchModel(this->model->getItems(), this),
     initialized(false)
 {
     connect(&api, &Api::keywordsDone, this, &KeywordsService::apiRequestDone);
@@ -40,21 +40,16 @@ void KeywordsService::search(const QString &query, int page)
 void KeywordsService::select(int id)
 {
     const Keyword &keyword = searchModel.getItems()[searchModel.getItems().indexOf(Keyword(id, ""))];
-    if (model.getItems().indexOf(keyword) == -1) {
-        model.add(keyword);
+    if (model->getItems().indexOf(keyword) == -1) {
+        model->add(keyword);
         searchModel.selectChanged(keyword);
     }
 }
 
 void KeywordsService::unselect(int id)
 {
-    model.remove(Keyword(id, ""));
+    model->remove(Keyword(id, ""));
     searchModel.selectChanged(Keyword(id, ""));
-}
-
-KeywordsListModel *KeywordsService::getModel()
-{
-    return &model;
 }
 
 KeywordsSearchListModel *KeywordsService::getSearchModel()

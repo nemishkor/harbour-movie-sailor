@@ -1,11 +1,11 @@
 #include "movieprovidersmanager.h"
 
-MovieProvidersManager::MovieProvidersManager(Api &api, FileCache &cache, QObject *parent) :
+MovieProvidersManager::MovieProvidersManager(Api &api, FileCache &cache, MovieProvidersListModel *model, QObject *parent) :
     QObject(parent),
     api(api),
     cache(cache),
     key("watch-providers", "movie-providers", "1"),
-    model(this),
+    model(model),
     initialized(false)
 {
     connect(&api, &Api::watchMovieProvidersDone, this, &MovieProvidersManager::apiRequestDone);
@@ -16,12 +16,12 @@ void MovieProvidersManager::initialize(const QString &region)
     qDebug() << "initialize movie providers for the region" << region;
     if (key.key != region) {
         key.key = region;
-        model.clear();
+        model->clear();
         initialized = false;
         emit initializedChanged();
     }
 
-    if (region == "") {
+    if (region.isEmpty()) {
         return;
     }
 
@@ -30,18 +30,13 @@ void MovieProvidersManager::initialize(const QString &region)
     }
 
     if (cache.exists(key)) {
-        model.fillFromCache(cache.load(key));
+        model->fillFromCache(cache.load(key));
         initialized = true;
         emit initializedChanged();
         return;
     }
 
     api.loadWatchMovieProviders(region);
-}
-
-MovieProvidersListModel *MovieProvidersManager::getModel()
-{
-    return &model;
 }
 
 bool MovieProvidersManager::isInitialized()
@@ -51,7 +46,7 @@ bool MovieProvidersManager::isInitialized()
 
 void MovieProvidersManager::apiRequestDone(const QByteArray &data)
 {
-    QJsonDocument newJson = model.fillFromAPI(QJsonDocument::fromJson(data));
+    QJsonDocument newJson = model->fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     initialized = true;
     emit initializedChanged();

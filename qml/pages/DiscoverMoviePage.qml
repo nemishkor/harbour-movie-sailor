@@ -11,6 +11,7 @@ BasePage {
     property string languageName: ""
 
     Component.onCompleted: {
+        app.initializeConfigurationDetails()
         genresMovieService.initialize()
     }
 
@@ -37,16 +38,14 @@ BasePage {
             ValueButton {
                 id: sortedByItem
 
-                property string sortBy: "popularity.desc"
-
                 function openSortByDialog() {
                     var obj = pageStack.animatorPush("../components/OrderByDialog.qml",
-                                                     { key: sortBy })
+                                                     { key: discoverMovieService.form.sortBy })
 
                     obj.pageCompleted.connect(function(page) {
                         page.accepted.connect(function() {
                             value = page.label
-                            sortBy = page.key
+                            discoverMovieService.form.sortBy = page.key
                         })
                     })
                 }
@@ -59,13 +58,11 @@ BasePage {
             BackgroundItem {
                 id: orderbyControl
 
-                property string orderBy: "desc"
-
                 width: parent.width
                 height: contentItem.height
                 contentHeight: Theme.itemSizeSmall
                 onClicked: {
-                    orderBy = orderBy === "asc" ? "desc" : "asc"
+                    discoverMovieService.form.order = discoverMovieService.form.order === "asc" ? "desc" : "asc"
                 }
 
                 Column {
@@ -98,8 +95,8 @@ BasePage {
 
                                 anchors.centerIn: parent
                                 source: "image://theme/icon-s-low-importance?" + Theme.highlightColor
-                                rotation: orderbyControl.orderBy === "asc" ? 180 : 0
-                                state: orderbyControl.orderBy
+                                rotation: discoverMovieService.form.order === "asc" ? 180 : 0
+                                state: discoverMovieService.form.order
                                 states: [
                                     State {
                                         name: "desc"
@@ -131,7 +128,7 @@ BasePage {
                             color: Theme.highlightColor
                             width: Math.min(implicitWidth, parent.width)
                             truncationMode: TruncationMode.Fade
-                            text: orderbyControl.orderBy === "asc" ? qsTr("Ascending") : qsTr("Descending")
+                            text: discoverMovieService.form.order === "asc" ? qsTr("Ascending") : qsTr("Descending")
                         }
                     }
                 }
@@ -154,18 +151,12 @@ BasePage {
                     ValueButton {
                         id: watchRegionControl
 
-                        property string regionId: ""
-                        property bool hasRegion: regionId !== ""
-
-                        onRegionIdChanged: {
-                            app.initializeConfigurationDetails()
-                            app.initializeMovieProviders(regionId)
-                        }
+                        property bool hasRegion: discoverMovieService.form.watchRegion !== ""
 
                         function openCountriesDialog() {
                             app.initializeCountries(false)
                             var params = {
-                                "entityId": regionId,
+                                "entityId": discoverMovieService.form.watchRegion,
                                 "service": countriesService,
                                 "model": countriesListModel,
                                 "requestInfo": countriesRequestInfo,
@@ -175,7 +166,7 @@ BasePage {
 
                             obj.pageCompleted.connect(function(page) {
                                 page.accepted.connect(function() {
-                                    watchRegionControl.regionId = page.entityId
+                                    discoverMovieService.form.watchRegion = page.entityId
                                     value = page.entityLabel
                                 })
                             })
@@ -346,13 +337,12 @@ BasePage {
                     ValueButton {
                         id: regionControl
 
-                        property string regionId: ""
-                        property bool hasRegion: regionId !== ""
+                        property bool hasRegion: discoverMovieService.form.region.id !== ""
 
                         function openCountriesDialog() {
                             app.initializeCountries(true)
                             var params = {
-                                "entityId": regionId,
+                                "entityId": discoverMovieService.form.region.id,
                                 "service": countriesService,
                                 "model": countriesListModel,
                                 "requestInfo": countriesRequestInfo,
@@ -362,14 +352,14 @@ BasePage {
 
                             obj.pageCompleted.connect(function(page) {
                                 page.accepted.connect(function() {
-                                    regionId = page.entityId
-                                    value = page.entityLabel
+                                    discoverMovieService.form.region.id = page.entityId
+                                    discoverMovieService.form.region.name = page.entityLabel
                                 })
                             })
                         }
 
                         label: qsTr("Country")
-                        value: qsTr("All countries")
+                        value: discoverMovieService.form.region.id ? discoverMovieService.form.region.name : qsTr("Any")
                         onClicked: openCountriesDialog()
                     }
 
@@ -381,6 +371,16 @@ BasePage {
                             id: primaryReleaseYearRange
                             width: parent.width / 2
                             text: qsTr("Dates range")
+                            onCheckedChanged: {
+                                if (primaryReleaseYearRange.checked) {
+                                    discoverMovieService.form.primaryReleaseYear = ""
+                                } else {
+                                    releaseDateMin.value = qsTr("Select")
+                                    releaseDateMax.value = qsTr("Select")
+                                    discoverMovieService.form.primaryReleaseDateGte = ""
+                                    discoverMovieService.form.primaryReleaseDateLte = ""
+                                }
+                            }
                         }
 
                         TextField {
@@ -391,6 +391,10 @@ BasePage {
                             validator: RegExpValidator { regExp: /^(\d{4}|\d{0})$/ }
                             label: "Year"
                             placeholderText: label
+                            text: discoverMovieService.form.primaryReleaseYear
+                            onTextChanged: {
+                                discoverMovieService.form.primaryReleaseYear = primaryReleaseYear.text
+                            }
                         }
                     }
 
@@ -401,16 +405,19 @@ BasePage {
                         ValueButton {
                             id: releaseDateMin
 
-                            property date selectedDate
-
                             function openPrimaryReleaseDateMinDialog() {
-                                var obj = pageStack.animatorPush("Sailfish.Silica.DatePickerDialog",
-                                                                 { date: selectedDate })
+                                var obj = pageStack.animatorPush("Sailfish.Silica.DatePickerDialog")
 
                                 obj.pageCompleted.connect(function(page) {
                                     page.accepted.connect(function() {
                                         value = page.dateText
-                                        selectedDate = page.date
+                                        var month = page.date.getMonth() + 1
+                                        if (month < 10)
+                                            month = "0" + month
+                                        var day = page.date.getDate();
+                                        if (day < 10)
+                                            day = "0" + day
+                                        discoverMovieService.form.primaryReleaseDateGte = page.date.getFullYear() + "-" + month + "-" + day
                                     })
                                 })
                             }
@@ -424,16 +431,19 @@ BasePage {
                         ValueButton {
                             id: releaseDateMax
 
-                            property date selectedDate
-
                             function openPrimaryReleaseDateMaxDialog() {
-                                var obj = pageStack.animatorPush("Sailfish.Silica.DatePickerDialog",
-                                                                 { date: selectedDate })
+                                var obj = pageStack.animatorPush("Sailfish.Silica.DatePickerDialog")
 
                                 obj.pageCompleted.connect(function(page) {
                                     page.accepted.connect(function() {
                                         value = page.dateText
-                                        selectedDate = page.date
+                                        var month = page.date.getMonth() + 1
+                                        if (month < 10)
+                                            month = "0" + month
+                                        var day = page.date.getDate();
+                                        if (day < 10)
+                                            day = "0" + day
+                                        discoverMovieService.form.primaryReleaseDateLte = page.date.getFullYear() + "-" + month + "-" + day
                                     })
                                 })
                             }
@@ -457,6 +467,13 @@ BasePage {
 
                     VoteSlider {
                         id: voteAverageRange
+
+                        onLeftValueChanged: {
+                            discoverMovieService.form.voteAverageGte = voteAverageRange.leftValue
+                        }
+                        onRightValueChanged: {
+                            discoverMovieService.form.voteAverageLte = voteAverageRange.rightValue
+                        }
                     }
 
                     Slider {
@@ -468,6 +485,9 @@ BasePage {
                         stepSize: 50
                         valueText: value
                         label: qsTr("Minimum User Votes")
+                        onValueChanged: {
+                            discoverMovieService.form.voteCountGte = vodeCountMin.value
+                        }
                     }
                 }
             }
@@ -488,6 +508,9 @@ BasePage {
                             width: parent.width / 2
                             text: qsTr("Include adult")
                             checked: true
+                            onCheckedChanged: {
+                                discoverMovieService.form.includeAdult = checked
+                            }
                         }
 
                         TextSwitch {
@@ -495,12 +518,14 @@ BasePage {
                             width: parent.width / 2
                             text: qsTr("Include video")
                             checked: true
+                            onCheckedChanged: {
+                                discoverMovieService.form.includeVideo = checked
+                            }
                         }
                     }
 
                     PeoplesValueButton {
                         function openPeopleDialog() {
-                            app.initializeConfigurationDetails();
                             app.initializePersons("");
                             pageStack.animatorPush("../dialogs/PeopleFilterDialog.qml")
                         }
@@ -513,7 +538,6 @@ BasePage {
                         value: companiesModel.count === 0 ? qsTr("None") : companiesModel.summary
                         description: qsTr("Movies made by a certain studio")
                         onClicked: {
-                            app.initializeConfigurationDetails();
                             pageStack.animatorPush("../dialogs/CompaniesDialog.qml")
                         }
                     }
@@ -594,13 +618,9 @@ BasePage {
                 text: qsTr("Search")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
-                    console.log("1")
                     discoverMovieService.form.page = 1
-                    console.log("2")
-                    app.initializeConfigurationDetails()
-                    console.log("3")
+                    discoverMovieService.model.clear()
                     discoverMovieService.search()
-                    console.log("4")
                     pageStack.animatorPush("./DiscoverMovieResultsPage.qml")
                 }
             }

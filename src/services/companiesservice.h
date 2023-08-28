@@ -16,10 +16,9 @@ class CompaniesService : public QObject
     Q_OBJECT
     Q_PROPERTY(bool initialized READ isInitialized NOTIFY initializedChanged)
 public:
-    explicit CompaniesService(Api &api, FileCache &cache, QObject *parent);
+    explicit CompaniesService(Api &api, FileCache &cache, CompaniesListModel *model, QObject *parent);
     Q_INVOKABLE void search(const QString &query);
     Q_INVOKABLE void addFromSearch(int id);
-    CompaniesListModel *getModel();
     CompaniesSearchListModel *getSearchModel();
     bool isInitialized();
 
@@ -27,7 +26,7 @@ private:
     Api &api;
     FileCache &cache;
     CacheKey key;
-    CompaniesListModel model;
+    CompaniesListModel *model;
     CompaniesSearchListModel searchModel;
     bool initialized;
 

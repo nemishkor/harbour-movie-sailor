@@ -1,11 +1,11 @@
 #include "genresmovieservice.h"
 
-GenresMovieService::GenresMovieService(Api &api, FileCache &cache, System &system, QObject *parent) :
+GenresMovieService::GenresMovieService(Api &api, FileCache &cache, System &system, GenresListModel *model, QObject *parent) :
     QObject(parent),
     api(api),
     cache(cache),
     key("genres", "movie", "1"),
-    model(this),
+    model(model),
     initialized(false)
 {
     language = system.getLanguage();
@@ -21,18 +21,13 @@ void GenresMovieService::initialize()
 
     if (cache.exists(key)) {
         qDebug() << "load movie genres from cache";
-        model.fillFromCache(cache.load(key));
+        model->fillFromCache(cache.load(key));
         initialized = true;
         emit initializedChanged();
         return;
     }
 
     api.loadMovieGenres(language);
-}
-
-GenresListModel *GenresMovieService::getModel()
-{
-    return &model;
 }
 
 bool GenresMovieService::isInitialized()
@@ -43,7 +38,7 @@ bool GenresMovieService::isInitialized()
 void GenresMovieService::apiRequestDone(const QByteArray &data)
 {
     qDebug() << "genres api request is done";
-    QJsonDocument newJson = model.fillFromAPI(QJsonDocument::fromJson(data));
+    QJsonDocument newJson = model->fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     initialized = true;
     emit initializedChanged();

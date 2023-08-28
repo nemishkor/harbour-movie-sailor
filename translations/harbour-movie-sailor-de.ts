@@ -60,80 +60,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sort by</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Popularity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Order</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ascending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Descending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Genres</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Where to watch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select a country</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Country</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source></source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Choose a country to select providers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>providers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Release dates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All countries</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dates range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>From</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>User score</source>
@@ -187,6 +119,74 @@
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Sort by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Popularity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Descending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Genres</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Where to watch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose a country to select providers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>providers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Release dates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Any</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dates range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DiscoverMovieResultsItem</name>
@@ -204,6 +204,10 @@
     </message>
     <message>
         <source>no votes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>vote</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

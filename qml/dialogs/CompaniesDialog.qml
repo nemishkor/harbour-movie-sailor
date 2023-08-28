@@ -75,7 +75,7 @@ BaseDialog {
 
                     repeat: false
                     onTriggered: function() {
-                        companiesService.search(searchField.text)
+                        discoverMovieService.companiesService.search(searchField.text)
                     }
                 }
             }
@@ -91,7 +91,7 @@ BaseDialog {
                     text: model.name
                     description: model.country === "" ? "" : (qsTr("Origin country") + ": " + model.country)
                     button.onClicked: {
-                        companiesService.addFromSearch(model.id)
+                        discoverMovieService.companiesService.addFromSearch(model.id)
                     }
                 }
             }
@@ -101,7 +101,7 @@ BaseDialog {
     }
 
     Item {
-        visible: !companiesService.initialized
+        visible: !discoverMovieService.companiesService.initialized
         anchors.fill: parent
 
         FullPageRequestProgress { requestInfo: companiesRequestInfo }

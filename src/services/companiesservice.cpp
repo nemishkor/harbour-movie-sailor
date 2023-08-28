@@ -1,12 +1,12 @@
 #include "companiesservice.h"
 
-CompaniesService::CompaniesService(Api &api, FileCache &cache, QObject *parent) :
+CompaniesService::CompaniesService(Api &api, FileCache &cache, CompaniesListModel *model, QObject *parent) :
     QObject(parent),
     api(api),
     cache(cache),
     key("search", "company", "1"),
-    model(this),
-    searchModel(model, this)
+    model(model),
+    searchModel(*this->model, this)
 {
     connect(&api, &Api::searchCompaniesDone, this, &CompaniesService::apiRequestDone);
 }
@@ -47,14 +47,9 @@ void CompaniesService::addFromSearch(int id)
     Company item = searchModel.findById(id);
     qDebug() << "found item" << item.getId();
     if (item.getId() != -1) {
-        model.add(item);
+        model->add(item);
         searchModel.removeOneById(item.getId());
     }
-}
-
-CompaniesListModel *CompaniesService::getModel()
-{
-    return &model;
 }
 
 CompaniesSearchListModel *CompaniesService::getSearchModel()

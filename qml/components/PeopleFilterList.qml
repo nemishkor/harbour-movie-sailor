@@ -18,7 +18,7 @@ Column {
     }
 
     Behavior on height { NumberAnimation { duration: 400 } }
-    CombineModeComboBox { model: root.listModel }
+    CombineModeComboBox { id: modeSelect; model: root.listModel }
 
     Item {
         visible: root.listModel.count > 1
@@ -62,7 +62,7 @@ Column {
             title: model.name
             description: model.knownForDepartment
             button.onClicked: {
-                personsService.remove(model.id)
+                discoverMovieService.personsListService.remove(model.id)
             }
             andMode: root.listModel.andMode
         }

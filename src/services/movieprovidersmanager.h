@@ -15,17 +15,16 @@ class MovieProvidersManager : public QObject
     Q_OBJECT
     Q_PROPERTY(bool initialized READ isInitialized NOTIFY initializedChanged)
 public:
-    explicit MovieProvidersManager(Api &api, FileCache &cache, QObject *parent);
+    explicit MovieProvidersManager(Api &api, FileCache &cache, MovieProvidersListModel *model, QObject *parent);
 
     void initialize(const QString &region);
-    MovieProvidersListModel *getModel();
     bool isInitialized();
 
 private:
     Api &api;
     FileCache &cache;
     CacheKey key;
-    MovieProvidersListModel model;
+    MovieProvidersListModel *model;
     bool initialized;
 
 public slots:

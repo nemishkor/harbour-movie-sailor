@@ -16,7 +16,7 @@ class GenresMovieService : public QObject
     Q_OBJECT
     Q_PROPERTY(bool initialized READ isInitialized NOTIFY initializedChanged)
 public:
-    explicit GenresMovieService(Api &api, FileCache &cache, System &system, QObject *parent);
+    explicit GenresMovieService(Api &api, FileCache &cache, System &system, GenresListModel *model, QObject *parent);
     Q_INVOKABLE void initialize();
     GenresListModel *getModel();
     bool isInitialized();
@@ -26,7 +26,7 @@ private:
     FileCache &cache;
     QString language;
     CacheKey key;
-    GenresListModel model;
+    GenresListModel *model;
     bool initialized;
 
 public slots:

@@ -40,6 +40,8 @@ public:
 
     const QList<int> &getIds() const;
 
+    const QString toQueryString();
+
 protected:
     QHash<int, QByteArray> roleNames() const override;
 

@@ -80,6 +80,20 @@ void KeywordsListModel::setAndMode(bool newAndMode)
     updateSummary();
 }
 
+const QString KeywordsListModel::toQueryString()
+{
+    QString separator = andMode ? "," : "|";
+    QString str = "";
+    for (QList<Keyword>::const_iterator it = items.constBegin(); it != items.constEnd(); it++) {
+        if (str != "") {
+            str.append(separator);
+        }
+        str.append(QString::number(it->getId()));
+    }
+
+    return str;
+}
+
 QHash<int, QByteArray> KeywordsListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;

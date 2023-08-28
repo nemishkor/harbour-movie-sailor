@@ -85,6 +85,20 @@ const QList<int> &PeopleListModel::getIds() const
     return ids;
 }
 
+const QString PeopleListModel::toQueryString()
+{
+    QString separator = andMode ? "," : "|";
+    QString str = "";
+    for (QList<SearchPersonListItem>::const_iterator it = items.constBegin(); it != items.constEnd(); it++) {
+        if (str != "") {
+            str.append(separator);
+        }
+        str.append(QString::number(it->getId()));
+    }
+
+    return str;
+}
+
 void PeopleListModel::updateSummary()
 {
     QString newSummary = "";

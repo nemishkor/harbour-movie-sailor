@@ -94,6 +94,20 @@ void CompaniesListModel::setSummary(const QString &newSummary)
     emit summaryChanged();
 }
 
+const QString CompaniesListModel::toQueryString()
+{
+    QString separator = andMode ? "," : "|";
+    QString str = "";
+    for (QList<Company>::const_iterator it = items.constBegin(); it != items.constEnd(); it++) {
+        if (str != "") {
+            str.append(separator);
+        }
+        str.append(QString::number(it->getId()));
+    }
+
+    return str;
+}
+
 QHash<int, QByteArray> CompaniesListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;

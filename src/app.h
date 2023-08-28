@@ -20,13 +20,8 @@
 #include "src/models/searchpeopleform.h"
 #include "src/services/countrieslistservice.h"
 #include "src/services/configurationdetailsmanager.h"
-#include "src/services/companiesservice.h"
 #include "src/services/discovermovieservice.h"
-#include "src/services/genresmovieservice.h"
-#include "src/services/keywordsservice.h"
 #include "src/services/languageslistservice.h"
-#include "src/services/movieprovidersmanager.h"
-#include "src/services/personslistservice.h"
 #include "src/viewmodels/peoplelistmodel.h"
 #include "src/viewmodels/languageslistmodel.h"
 #include "src/viewmodels/configurationlistmodel.h"
@@ -40,7 +35,6 @@ public:
     explicit App(QQmlContext *context);
 
     Q_INVOKABLE void initializeConfigurationDetails();
-    Q_INVOKABLE void initializeMovieProviders(const QString &region);
     Q_INVOKABLE void initializeLanguages();
     Q_INVOKABLE void initializeCountries();
     Q_INVOKABLE void initializePersons();
@@ -51,17 +45,10 @@ private:
     FileCache cache;
 
     ConfigurationDetailsManager configurationDetailsManager;
-    CompaniesService companiesService;
     CountriesListService countriesListService;
-    GenresMovieService genresMovieService;
     DiscoverMovieService discoverMovieService;
-    KeywordsService keywordsService;
-    MovieProvidersManager movieProvidersManager;
     LanguagesListService languagesListService;
-    PersonsListService personsListService;
-
     SearchPeopleForm searchPeopleForm;
-
 };
 
 #endif // APP_H

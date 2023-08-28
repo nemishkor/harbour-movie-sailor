@@ -31,6 +31,7 @@ public:
     void clear();
     void fillFromCache(const QJsonDocument &json);
     const QJsonDocument fillFromAPI(const QJsonDocument &json);
+    QString toQueryString() const;
 
 protected:
     QHash<int, QByteArray> roleNames() const override;

@@ -109,6 +109,22 @@ const QJsonDocument MovieProvidersListModel::fillFromAPI(const QJsonDocument &js
     return QJsonDocument(jsonItems);
 }
 
+QString MovieProvidersListModel::toQueryString() const
+{
+    QString separator = "|";
+    QString str = "";
+    for (QList<MovieProvider>::const_iterator it = items.constBegin(); it != items.constEnd(); it++) {
+        if (it->getChecked()) {
+            if (str != "") {
+                str.append(separator);
+            }
+            str.append(QString::number(it->getId()));
+        }
+    }
+
+    return str;
+}
+
 QHash<int, QByteArray> MovieProvidersListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;

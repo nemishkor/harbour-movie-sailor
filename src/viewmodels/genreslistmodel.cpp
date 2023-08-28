@@ -128,6 +128,22 @@ void GenresListModel::setAndMode(bool newAndMode)
     updateSummary();
 }
 
+QString GenresListModel::toQueryString()
+{
+    QString genresSeparator = andMode ? "," : "|";
+    QString genresString = "";
+    for (QList<Genre>::const_iterator it = items.constBegin(); it != items.constEnd(); it++) {
+        if (it->getChecked()) {
+            if (genresString != "") {
+                genresString.append(genresSeparator);
+            }
+            genresString.append(QString::number(it->getId()));
+        }
+    }
+
+    return genresString;
+}
+
 void GenresListModel::updateSummary()
 {
     QString newSummary = "";

@@ -31,6 +31,6 @@ Flow {
         color: Theme.highlightColor
         width: Math.min(implicitWidth, parent.width)
         truncationMode: TruncationMode.Fade
-        text: model.count === 0 ? qsTr("None") : model.summary
+        text: (!model || model.count === 0) ? qsTr("None") : model.summary
     }
 }

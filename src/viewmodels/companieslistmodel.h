@@ -32,6 +32,8 @@ public:
     const QString &getSummary() const;
     void setSummary(const QString &newSummary);
 
+    const QString toQueryString();
+
 protected:
     enum CompanyRoles {
         IdRole = Qt::UserRole + 1,

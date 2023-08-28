@@ -14,12 +14,12 @@ ListItem {
     property int voteCount
     property var genres
 
-    contentHeight: container.height + 2 * Theme.paddingMedium
+    contentHeight: Math.max(container.height + 2 * Theme.paddingMedium, Theme.itemSizeLarge)
 
     Item {
         id: backdropImageRect
         anchors.fill: parent
-        visible: !root.highlighted
+        visible: !root.highlighted && root.backdropPath !== ""
         opacity: backdropImage.status == Image.Ready ? 1.0 : 0.0
 
         Behavior on opacity {
@@ -38,14 +38,13 @@ ListItem {
             id: blur
             anchors.fill: backdropImage
             source: backdropImage
-            radius: 64
+            radius: 40
         }
 
-        BrightnessContrast {
-            anchors.fill: blur
-            source: blur
-            brightness: Theme.colorScheme === Theme.DarkOnLight ? 0.25 : -0.75
-            contrast: -0.25
+        Rectangle {
+            anchors.fill: parent
+            opacity: Theme.opacityHigh
+            color: Theme.colorScheme === Theme.DarkOnLight ? "white" : "black"
         }
     }
 
@@ -84,7 +83,7 @@ ListItem {
                     right: parent.right
                     bottom: parent.bottom
                 }
-                color: Theme.primaryColor
+                color: Theme.highlightBackgroundColor
                 height: adultLabel.height
 
                 Label {
@@ -93,6 +92,7 @@ ListItem {
                     text: qsTr("Adult content")
                     horizontalAlignment: Text.AlignHCenter
                     width: parent.width
+                    font.pixelSize: Theme.fontSizeSmall
                 }
             }
         }
@@ -113,6 +113,7 @@ ListItem {
                 height: ratingCircle.height + 2 * Theme.paddingSmall
                 color: Theme.highlightDimmerColor
                 radius: width
+                opacity: root.voteCount < 10 ? Theme.opacityLow : 1.0
 
                 ProgressCircle {
                     id: ratingCircle
@@ -153,7 +154,7 @@ ListItem {
                 }
 
                 Label {
-                    text: root.voteCount > 0 ? qsTr("votes") : qsTr("no votes")
+                    text: root.voteCount > 0 ? (root.voteCount === 1 ? qsTr("vote") : qsTr("votes")) : qsTr("no votes")
                     font.pixelSize: Theme.fontSizeSmall
                     color: Theme.secondaryColor
                 }
@@ -186,6 +187,7 @@ ListItem {
 
             Label {
                 id: releaseLabel
+                visible: model.releaseDate !== ""
                 text: qsTr("Release") + ": " + model.releaseDate
                 color: Theme.secondaryHighlightColor
                 font.pixelSize: Theme.fontSizeSmall

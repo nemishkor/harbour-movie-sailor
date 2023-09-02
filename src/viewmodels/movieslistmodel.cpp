@@ -1,22 +1,23 @@
-#include "discovermovieresultlistmodel.h"
+#include "movieslistmodel.h"
 
-DiscoverMovieResultListModel::DiscoverMovieResultListModel(QObject *parent) :
+MoviesListModel::MoviesListModel(QObject *parent) :
     QAbstractListModel(parent),
-    totalPages(-1)
+    totalPages(-1),
+    dirty(true)
 {
 
 }
 
-int DiscoverMovieResultListModel::rowCount(const QModelIndex &) const
+int MoviesListModel::rowCount(const QModelIndex &) const
 {
     return items.size();
 }
 
-QVariant DiscoverMovieResultListModel::data(const QModelIndex &index, int role) const
+QVariant MoviesListModel::data(const QModelIndex &index, int role) const
 {
     if (index.row() < 0 || index.row() >= items.count())
         return QVariant();
-    const DiscoverMovieResultItem &item = items[index.row()];
+    const MovieListItem &item = items[index.row()];
     if(role == IdRole)
         return item.getId();
     if(role == AdultRole)
@@ -26,13 +27,13 @@ QVariant DiscoverMovieResultListModel::data(const QModelIndex &index, int role) 
     if(role == GenresRole)
         return item.getGenres();
     if(role == OriginalTitleRole)
-        return item.getTitle();
+        return item.getOriginalTitle();
     if(role == OverviewRole)
         return item.getOverview();
     if(role == PosterPathRole)
         return item.getPosterPath();
-    if(role == ReleaseDateRole)
-        return item.getReleaseDate();
+    if(role == ReleaseYearRole)
+        return item.getReleaseYear();
     if(role == TitleRole)
         return item.getTitle();
     if(role == VoteAvarageRole)
@@ -43,7 +44,7 @@ QVariant DiscoverMovieResultListModel::data(const QModelIndex &index, int role) 
     return QVariant();
 }
 
-void DiscoverMovieResultListModel::add(const DiscoverMovieResultItem &item)
+void MoviesListModel::add(const MovieListItem &item)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     items.insert(item.getId(), item);
@@ -51,7 +52,7 @@ void DiscoverMovieResultListModel::add(const DiscoverMovieResultItem &item)
     emit countChanged();
 }
 
-void DiscoverMovieResultListModel::clear()
+void MoviesListModel::clear()
 {
     beginRemoveRows(QModelIndex(), 0, items.count() - 1);
     items.clear();
@@ -59,9 +60,9 @@ void DiscoverMovieResultListModel::clear()
     emit countChanged();
 }
 
-void DiscoverMovieResultListModel::fillFromAPI(const QJsonDocument &json, const QList<Genre> &allGenres)
+void MoviesListModel::fillFromAPI(const QJsonDocument &json, const QList<Genre> &allGenres)
 {
-    qDebug() << "fill discovery movie results from API";
+    qDebug() << "fill movie list from API";
 
     QJsonObject object = json.object();
 
@@ -80,7 +81,7 @@ void DiscoverMovieResultListModel::fillFromAPI(const QJsonDocument &json, const 
                 genreNames.append(genre.getName());
             }
         }
-        add(DiscoverMovieResultItem(
+        add(MovieListItem(
             jsonObj["adult"].toBool(),
             jsonObj["backdrop_path"].toString(),
             genreNames,
@@ -88,19 +89,19 @@ void DiscoverMovieResultListModel::fillFromAPI(const QJsonDocument &json, const 
             jsonObj["original_title"].toString(),
             jsonObj["overview"].toString(),
             jsonObj["poster_path"].toString(),
-            jsonObj["release_date"].toString(),
+            jsonObj["release_date"].toString().mid(0, 4),
             jsonObj["title"].toString(),
             jsonObj["vote_average"].toDouble(),
             jsonObj["vote_count"].toInt()));
     }
 }
 
-int DiscoverMovieResultListModel::getTotalPages() const
+int MoviesListModel::getTotalPages() const
 {
     return totalPages;
 }
 
-void DiscoverMovieResultListModel::setTotalPages(int newTotalPages)
+void MoviesListModel::setTotalPages(int newTotalPages)
 {
     if (totalPages == newTotalPages)
         return;
@@ -108,7 +109,12 @@ void DiscoverMovieResultListModel::setTotalPages(int newTotalPages)
     emit totalPagesChanged();
 }
 
-QHash<int, QByteArray> DiscoverMovieResultListModel::roleNames() const
+const QList<MovieListItem> &MoviesListModel::getItems() const
+{
+    return items;
+}
+
+QHash<int, QByteArray> MoviesListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[IdRole] = "id";
@@ -118,9 +124,19 @@ QHash<int, QByteArray> DiscoverMovieResultListModel::roleNames() const
     roles[OriginalTitleRole] = "originalTitle";
     roles[OverviewRole] = "overview";
     roles[PosterPathRole] = "posterPath";
-    roles[ReleaseDateRole] = "releaseDate";
+    roles[ReleaseYearRole] = "releaseYear";
     roles[TitleRole] = "title";
     roles[VoteAvarageRole] = "voteAvarage";
     roles[VoteCountRole] = "voteCount";
     return roles;
+}
+
+bool MoviesListModel::getDirty() const
+{
+    return dirty;
+}
+
+void MoviesListModel::setDirty(bool newDirty)
+{
+    dirty = newDirty;
 }

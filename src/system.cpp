@@ -2,7 +2,6 @@
 
 System::System()
 {
-    QLocale locale;
     QString localeName = locale.name();
     int separatorPosition = localeName.indexOf('_');
     if (separatorPosition != -1 && localeName.length() >= (separatorPosition + 3)) {
@@ -19,4 +18,9 @@ const QString &System::getLanguage() const
 const QString &System::getCountry() const
 {
     return country;
+}
+
+const QLocale &System::getLocale() const
+{
+    return locale;
 }

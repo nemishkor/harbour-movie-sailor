@@ -27,15 +27,21 @@ BasePage {
         model: discoverMovieService.model
         visible: discoverMovieService.initialized && discoverMovieService.model.count > 0
         header: PageHeader { title: qsTr("Movies") }
-        delegate: DiscoverMovieResultsItem {
+        delegate: MoviesListItem {
             backdropPath: model.backdropPath
             posterPath: model.posterPath
             title: model.title
+            originalTitle: model.originalTitle
             overview: model.overview
+            releaseYear: model.releaseYear
             adult: model.adult
             voteAvarage: model.voteAvarage
             voteCount: model.voteCount
             genres: model.genres
+            onClicked: {
+                discoverMovieService.select(model.id)
+                pageStack.animatorPush("./MoviePage.qml")
+            }
         }
 
         PushUpMenu{

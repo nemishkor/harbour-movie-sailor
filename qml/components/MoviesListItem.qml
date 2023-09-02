@@ -8,7 +8,9 @@ ListItem {
     property string backdropPath
     property string posterPath
     property string title
+    property string originalTitle
     property string overview
+    property string releaseYear
     property bool adult
     property double voteAvarage
     property int voteCount
@@ -16,36 +18,9 @@ ListItem {
 
     contentHeight: Math.max(container.height + 2 * Theme.paddingMedium, Theme.itemSizeLarge)
 
-    Item {
-        id: backdropImageRect
-        anchors.fill: parent
+    BackdropBackgroundImage {
+        path: root.backdropPath
         visible: !root.highlighted && root.backdropPath !== ""
-        opacity: backdropImage.status == Image.Ready ? 1.0 : 0.0
-
-        Behavior on opacity {
-            NumberAnimation { duration: 2000 }
-        }
-
-        Image {
-            id: backdropImage
-
-            source: root.backdropPath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.backdropSizeInList + root.backdropPath)
-            anchors.fill: parent
-            fillMode: Image.PreserveAspectCrop
-        }
-
-        FastBlur {
-            id: blur
-            anchors.fill: backdropImage
-            source: backdropImage
-            radius: 40
-        }
-
-        Rectangle {
-            anchors.fill: parent
-            opacity: Theme.opacityHigh
-            color: Theme.colorScheme === Theme.DarkOnLight ? "white" : "black"
-        }
     }
 
     Item {
@@ -54,7 +29,7 @@ ListItem {
         y: Theme.paddingMedium
         x: Theme.horizontalPageMargin
         width: parent.width - 2 * Theme.horizontalPageMargin
-        height: Math.max(info.height, poster.height + voting.height + Theme.paddingMedium)
+        height: Math.max(info.height + Theme.itemSizeMedium, poster.height + voting.height + Theme.paddingMedium)
 
         Image {
             id: poster
@@ -168,7 +143,7 @@ ListItem {
             width: parent.width - poster.width - Theme.paddingMedium
 
             Label {
-                text: model.title
+                text: root.title + " (" + root.releaseYear + ")"
                 font.pixelSize: Theme.fontSizeLarge
                 color: Theme.highlightColor
                 wrapMode: "WordWrap"
@@ -176,21 +151,13 @@ ListItem {
             }
 
             Label {
-                visible: model.title !== model.originalTitle
-                text: model.originalTitle
+                visible: root.title !== root.originalTitle
+                text: root.originalTitle
                 font.pixelSize: Theme.fontSizeTiny
                 color: Theme.secondaryHighlightColor
                 wrapMode: "WordWrap"
                 font.italic: true
                 width: parent.width
-            }
-
-            Label {
-                id: releaseLabel
-                visible: model.releaseDate !== ""
-                text: qsTr("Release") + ": " + model.releaseDate
-                color: Theme.secondaryHighlightColor
-                font.pixelSize: Theme.fontSizeSmall
             }
 
             Flow {

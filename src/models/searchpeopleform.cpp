@@ -4,7 +4,6 @@ SearchPeopleForm::SearchPeopleForm(QObject *parent) :
     QObject(parent),
     query(""),
     withAdult(true),
-    language(""),
     page(1)
 {
 
@@ -34,19 +33,6 @@ void SearchPeopleForm::setWithAdult(bool newWithAdult)
         return;
     withAdult = newWithAdult;
     emit withAdultChanged();
-}
-
-const QString &SearchPeopleForm::getLanguage() const
-{
-    return language;
-}
-
-void SearchPeopleForm::setLanguage(const QString &newLanguage)
-{
-    if (language == newLanguage)
-        return;
-    language = newLanguage;
-    emit languageChanged();
 }
 
 int SearchPeopleForm::getPage() const

@@ -22,6 +22,7 @@ public:
     PersonsListService(
             Api &api,
             FileCache &cache,
+            Settings &settings,
             PeopleListModel *anyRoleList,
             PeopleListModel *castRoleList,
             PeopleListModel *crewRoleList,
@@ -29,22 +30,28 @@ public:
 
     Q_INVOKABLE void select(int id);
     Q_INVOKABLE void remove(int id);
-
-    void search(const SearchPeopleForm &form);
+    Q_INVOKABLE void search();
 
     SearchPersonListModel *getSearchPersonListModel();
 
+    void setInitialized(bool newInitialized);
     bool isInitialized();
+
+    SearchPeopleForm *getForm() const;
 
 private:
     Api &api;
     FileCache &cache;
+    Settings &settings;
     CacheKey key;
+    SearchPeopleForm *form;
     SearchPersonListModel *searchPersonListModel;
     PeopleListModel *anyRoleList;
     PeopleListModel *castRoleList;
     PeopleListModel *crewRoleList;
     bool initialized;
+
+    Q_PROPERTY(SearchPeopleForm * form READ getForm CONSTANT)
 
 public slots:
     void apiRequestDone(const QByteArray &data);

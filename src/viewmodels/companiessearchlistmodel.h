@@ -1,18 +1,18 @@
 #ifndef COMPANIESSEARCHLISTMODEL_H
 #define COMPANIESSEARCHLISTMODEL_H
 
-#include "companieslistmodel.h"
+#include "filterbycompanieslistmodel.h"
 
-class CompaniesSearchListModel : public CompaniesListModel
+class CompaniesSearchListModel : public FilterByCompaniesListModel
 {
 public:
-    explicit CompaniesSearchListModel(CompaniesListModel &model, QObject *parent);
+    explicit CompaniesSearchListModel(FilterByCompaniesListModel &model, QObject *parent);
     Company findById(int id);
     void fillFromCache(const QJsonDocument &json);
     const QJsonDocument fillFromAPI(const QJsonDocument &json);
 
 private:
-    CompaniesListModel &model;
+    FilterByCompaniesListModel &model;
 };
 
 #endif // COMPANIESSEARCHLISTMODEL_H

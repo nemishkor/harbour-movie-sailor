@@ -4,8 +4,6 @@ import Sailfish.Silica 1.0
 Rectangle {
     id: dock
 
-    property string selectedPage: "pages/DiscoverMovie.qml"
-
     width: orientation === Orientation.Portrait ? parent.width : parent.height
     height: Theme.itemSizeMedium
     anchors {
@@ -32,11 +30,21 @@ Rectangle {
 
                 ListElement {
                     icon: "icon-m-search"
-                    page: "pages/DiscoverMovie.qml"
+                    page: "pages/DiscoverMoviePage.qml"
+                }
+
+                ListElement {
+                    icon: "icon-m-media-artists"
+                    page: "pages/AccountPage.qml"
+                }
+
+                ListElement {
+                    icon: "icon-m-developer-mode"
+                    page: "pages/SettingsPage.qml"
                 }
             }
             delegate: Rectangle {
-                property bool isCurrent: dock.selectedPage === model.page
+                property bool isCurrent: index === app.menu
 
                 height: parent.height
                 width: dock.width / buttons.count
@@ -58,8 +66,8 @@ Rectangle {
                     onClicked: {
                         if(isCurrent)
                             return
-                        dock.selectedPage = model.page
-                        pageStack.animatorReplace(Qt.resolvedUrl(model.page), {}, PageStackAction.Immediate)
+                        app.menu = index
+                        pageStack.replaceAbove(null, Qt.resolvedUrl(model.page), {}, PageStackAction.Immediate)
                     }
                 }
             }

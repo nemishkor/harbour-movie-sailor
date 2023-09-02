@@ -1,5 +1,5 @@
-#ifndef DISCOVERMOVIERESULTLISTMODEL_H
-#define DISCOVERMOVIERESULTLISTMODEL_H
+#ifndef MOVIESLISTMODEL_H
+#define MOVIESLISTMODEL_H
 
 #include <QAbstractListModel>
 #include <QDebug>
@@ -8,25 +8,30 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "src/models/discovermovieresultitem.h"
+#include "src/models/movielistitem.h"
 #include "src/models/genre.h"
 
-class DiscoverMovieResultListModel : public QAbstractListModel
+class MoviesListModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(int totalPages READ getTotalPages WRITE setTotalPages NOTIFY totalPagesChanged)
 
 public:
-    explicit DiscoverMovieResultListModel(QObject *parent);
+    explicit MoviesListModel(QObject *parent);
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
-    void add(const DiscoverMovieResultItem &item);
+    void add(const MovieListItem &item);
     Q_INVOKABLE void clear();
     void fillFromAPI(const QJsonDocument &json, const QList<Genre> &genres);
 
     int getTotalPages() const;
     void setTotalPages(int newTotalPages);
+
+    const QList<MovieListItem> &getItems() const;
+
+    bool getDirty() const;
+    void setDirty(bool newDirty);
 
 protected:
     enum DiscoveryMovieResultsRoles {
@@ -37,18 +42,19 @@ protected:
         OriginalTitleRole,
         OverviewRole,
         PosterPathRole,
-        ReleaseDateRole,
+        ReleaseYearRole,
         TitleRole,
         VoteAvarageRole,
         VoteCountRole
     };
     int totalPages;
-    QList<DiscoverMovieResultItem> items;
+    QList<MovieListItem> items;
     QHash<int, QByteArray> roleNames() const override;
+    bool dirty;
 
 signals:
     void countChanged();
     void totalPagesChanged();
 };
 
-#endif // DISCOVERMOVIERESULTLISTMODEL_H
+#endif // MOVIESLISTMODEL_H

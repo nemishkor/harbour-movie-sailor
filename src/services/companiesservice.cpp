@@ -1,6 +1,6 @@
 #include "companiesservice.h"
 
-CompaniesService::CompaniesService(Api &api, FileCache &cache, CompaniesListModel *model, QObject *parent) :
+CompaniesService::CompaniesService(Api &api, FileCache &cache, FilterByCompaniesListModel *model, QObject *parent) :
     QObject(parent),
     api(api),
     cache(cache),

@@ -22,6 +22,7 @@ public:
     ~ApiWorker();
     void post(const QNetworkRequest &request, const QByteArray &data);
     void get(const QNetworkRequest &request);
+    void deleteResource(const QNetworkRequest &request);
 
     RequestInfo *getRequestInfo();
 

@@ -9,18 +9,18 @@
 #include "src/system.h"
 #include "src/models/discovermovie.h"
 #include "src/services/companiesservice.h"
-#include "src/services/genresmovieservice.h"
 #include "src/services/keywordsservice.h"
 #include "src/services/movieprovidersmanager.h"
+#include "src/services/movieservice.h"
 #include "src/services/personslistservice.h"
-#include "src/viewmodels/discovermovieresultlistmodel.h"
+#include "src/viewmodels/movieslistmodel.h"
+#include "src/viewmodels/genreslistmodel.h"
 
 class DiscoverMovieService : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(DiscoverMovie* form READ getForm CONSTANT)
-    Q_PROPERTY(DiscoverMovieResultListModel* model READ getModel CONSTANT)
-    Q_PROPERTY(GenresMovieService* genresService READ getGenresService CONSTANT)
+    Q_PROPERTY(MoviesListModel* model READ getModel CONSTANT)
     Q_PROPERTY(MovieProvidersManager* movieProviders READ getMovieProviders CONSTANT)
     Q_PROPERTY(PersonsListService* personsListService READ getPersonsListService CONSTANT)
     Q_PROPERTY(CompaniesService* companiesService READ getCompaniesService CONSTANT)
@@ -28,15 +28,20 @@ class DiscoverMovieService : public QObject
     Q_PROPERTY(bool initialized READ getInitialized WRITE setInitialized NOTIFY initializedChanged)
 
 public:
-    explicit DiscoverMovieService(Api &api, FileCache &cache, System &system, QObject *parent);
+    DiscoverMovieService(Api &api,
+                      FileCache &cache,
+                      Settings &settings,
+                      MovieService &movieService,
+                      GenresListModel *genres,
+                      QObject *parent);
     Q_INVOKABLE void search();
+    Q_INVOKABLE void select(int id);
 
     bool getInitialized() const;
     void setInitialized(bool newInitialized);
 
-    DiscoverMovieResultListModel *getModel() const;
+    MoviesListModel *getModel() const;
     DiscoverMovie *getForm() const;
-    GenresMovieService *getGenresService() const;
     MovieProvidersManager *getMovieProviders() const;
     PersonsListService *getPersonsListService() const;
     CompaniesService *getCompaniesService() const;
@@ -48,13 +53,13 @@ public slots:
 
 private:
     Api &api;
+    MovieService &movieService;
     DiscoverMovie* form;
-    GenresMovieService* genresService;
     MovieProvidersManager* movieProviders;
     PersonsListService* personsListService;
     CompaniesService* companiesService;
     KeywordsService* keywordsService;
-    DiscoverMovieResultListModel* model;
+    MoviesListModel* model;
     bool initialized;
 
 signals:

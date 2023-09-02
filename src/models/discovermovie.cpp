@@ -1,9 +1,9 @@
 #include "discovermovie.h"
 
-DiscoverMovie::DiscoverMovie(QObject *parent) :
+DiscoverMovie::DiscoverMovie(GenresListModel *genres, QObject *parent) :
     QObject(parent),
     page(1),
-    voteCountGte(1),
+    voteCountGte(0),
     region(new Country(this)),
     sortBy("popularity"),
     order("desc"),
@@ -12,14 +12,13 @@ DiscoverMovie::DiscoverMovie(QObject *parent) :
     includeVideo(true),
     includeAdult(true),
     originCountry(new Country(this)),
-    language(new Language(this)),
     originLanguage(new Language(this)),
-    genres(new GenresListModel(this)),
+    genres(genres),
     providers(new MovieProvidersListModel(this)),
     anyRoleList(new PeopleListModel(this)),
     castRoleList(new PeopleListModel(this)),
     crewRoleList(new PeopleListModel(this)),
-    companies(new CompaniesListModel(this)),
+    companies(new FilterByCompaniesListModel(this)),
     keywords(new KeywordsListModel(this))
 {
 }
@@ -27,11 +26,6 @@ DiscoverMovie::DiscoverMovie(QObject *parent) :
 Country *DiscoverMovie::getOriginCountry() const
 {
     return originCountry;
-}
-
-Language *DiscoverMovie::getLanguage() const
-{
-    return language;
 }
 
 Language *DiscoverMovie::getOriginLanguage() const
@@ -197,7 +191,7 @@ PeopleListModel *DiscoverMovie::getCrewRoleList() const
     return crewRoleList;
 }
 
-CompaniesListModel *DiscoverMovie::getCompanies() const
+FilterByCompaniesListModel *DiscoverMovie::getCompanies() const
 {
     return companies;
 }

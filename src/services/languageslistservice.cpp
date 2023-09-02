@@ -13,6 +13,7 @@ LanguagesListService::LanguagesListService(
     initialized(false)
 {
     connect(&api, &Api::configurationLanguagesDone, this, &LanguagesListService::apiRequestDone);
+    initialize();
 }
 
 void LanguagesListService::initialize()
@@ -33,7 +34,7 @@ void LanguagesListService::initialize()
     api.loadConfigurationLanguages();
 }
 
-LanguagesListModel *LanguagesListService::getModel()
+FilterByLanguagesListModel *LanguagesListService::getModel()
 {
     return &model;
 }

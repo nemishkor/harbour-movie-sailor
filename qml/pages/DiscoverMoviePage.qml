@@ -10,11 +10,6 @@ BasePage {
     property string languageEnglishName: ""
     property string languageName: ""
 
-    Component.onCompleted: {
-        app.initializeConfigurationDetails()
-        genresMovieService.initialize()
-    }
-
     Item {
         visible: !genresMovieService.initialized
         anchors.fill: parent
@@ -526,7 +521,8 @@ BasePage {
 
                     PeoplesValueButton {
                         function openPeopleDialog() {
-                            app.initializePersons("");
+                            discoverMovieService.personsListService.form.query = ""
+                            discoverMovieService.personsListService.search()
                             pageStack.animatorPush("../dialogs/PeopleFilterDialog.qml")
                         }
 
@@ -570,32 +566,12 @@ BasePage {
                         }
 
                         label: qsTr("Origin country")
-                        value: discoverMovieService.form.originCountry.name ? discoverMovieService.form.originCountry.name : qsTr("None")
+                        value: discoverMovieService.form.originCountry.name ? discoverMovieService.form.originCountry.name : qsTr("Any")
                         onClicked: openOriginCountriesDialog()
                     }
 
                     ValueButton {
-                        function openLanguageDialog() {
-                            app.initializeLanguages()
-                            var obj = pageStack.animatorPush(
-                                        "../components/LanguageDialog.qml",
-                                        {"languageId": discoverMovieService.form.language.id})
-                            obj.pageCompleted.connect(function(page) {
-                                page.accepted.connect(function() {
-                                    discoverMovieService.form.language.name = page.languageEnglishName
-                                    discoverMovieService.form.language.id = page.languageId
-                                })
-                            })
-                        }
-
-                        label: qsTr("Language")
-                        value: discoverMovieService.form.language.name ? discoverMovieService.form.language.name : qsTr("None")
-                        onClicked: openLanguageDialog()
-                    }
-
-                    ValueButton {
                         function openOriginLanguageDialog() {
-                            app.initializeLanguages()
                             var obj = pageStack.animatorPush(
                                         "../components/LanguageDialog.qml",
                                         {"languageId": discoverMovieService.form.originLanguage.id})
@@ -608,7 +584,7 @@ BasePage {
                         }
 
                         label: qsTr("Origin language")
-                        value: discoverMovieService.form.originLanguage.name ? discoverMovieService.form.originLanguage.name : qsTr("None")
+                        value: discoverMovieService.form.originLanguage.name ? discoverMovieService.form.originLanguage.name : qsTr("Any")
                         onClicked: openOriginLanguageDialog()
                     }
                 }

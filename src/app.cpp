@@ -2,12 +2,17 @@
 
 App::App(QQmlContext *context) :
     QObject(nullptr),
-    api(this),
+    menu(0),
+    account(new Account(this)),
+    settings(new Settings(this)),
+    api(account, *settings, this),
+    genresService(api, cache, *settings, this),
     configurationDetailsManager(api, cache, this),
+    movieService(api, system, this),
     countriesListService(system, api, cache, this),
-    discoverMovieService(api, cache, system, this),
+    discoverMovieService(api, cache, *settings, movieService, genresService.getModel(), this),
     languagesListService(system, api, cache, this),
-    searchPeopleForm(this)
+    accountService(new AccountService(account, api, *settings, genresService.getModel(), movieService, this))
 {
     context->setContextProperty("countriesService", &countriesListService);
     context->setContextProperty("countriesListModel", countriesListService.getModel());
@@ -21,7 +26,7 @@ App::App(QQmlContext *context) :
     context->setContextProperty("discoverMovieService", &discoverMovieService);
     context->setContextProperty("discoverMovieRequestInfo", api.getRequestInfo(Api::DiscoverMovies));
 
-    context->setContextProperty("genresMovieService", discoverMovieService.getGenresService());
+    context->setContextProperty("genresMovieService", &genresService);
     context->setContextProperty("genresMovieModel", discoverMovieService.getForm()->getGenres());
     context->setContextProperty("genresRequestInfo", api.getRequestInfo(Api::Genres));
 
@@ -33,7 +38,6 @@ App::App(QQmlContext *context) :
     context->setContextProperty("peopleListModel", discoverMovieService.getForm()->getAnyRoleList());
     context->setContextProperty("castListModel", discoverMovieService.getForm()->getCastRoleList());
     context->setContextProperty("crewListModel", discoverMovieService.getForm()->getCrewRoleList());
-    context->setContextProperty("searchPeopleForm", &searchPeopleForm);
 
     context->setContextProperty("companiesModel", discoverMovieService.getForm()->getCompanies());
     context->setContextProperty("companiesSearchModel", discoverMovieService.getCompaniesService()->getSearchModel());
@@ -49,20 +53,32 @@ App::App(QQmlContext *context) :
     context->setContextProperty("languagesListModel", languagesListService.getModel());
     context->setContextProperty("languagesRequestInfo", api.getRequestInfo(Api::ConfigurationLanguages));
 
+    context->setContextProperty("requestRefreshTokenRequestInfo", api.getRequestInfo(Api::RequestRefreshToken));
+    context->setContextProperty("createSessionRequestInfo", api.getRequestInfo(Api::CreateSession));
+    context->setContextProperty("accountRequestInfo", api.getRequestInfo(Api::Account));
+
+    context->setContextProperty("movieService", &movieService);
+    context->setContextProperty("favoriteRequestInfo", api.getRequestInfo(Api::Favorite));
+    context->setContextProperty("watchlistRequestInfo", api.getRequestInfo(Api::Watchlist));
+    context->setContextProperty("ratingRequestInfo", api.getRequestInfo(Api::AddRating));
+    context->setContextProperty("removeRatingRequestInfo", api.getRequestInfo(Api::RemoveRating));
+
+    context->setContextProperty("favoriteMoviesRequestInfo", api.getRequestInfo(Api::FavoriteMovies));
+    context->setContextProperty("favoriteTvRequestInfo", api.getRequestInfo(Api::FavoriteTv));
+    context->setContextProperty("ratedMoviesRequestInfo", api.getRequestInfo(Api::RatedMovies));
+    context->setContextProperty("ratedTvRequestInfo", api.getRequestInfo(Api::RatedTv));
+    context->setContextProperty("watchlistMoviesRequestInfo", api.getRequestInfo(Api::WatchlistMovies));
+    context->setContextProperty("watchlistTvRequestInfo", api.getRequestInfo(Api::WatchlistTv));
+
     context->setContextProperty("app", this);
+
     qDebug() << "app build is done";
-}
 
-void App::initializeConfigurationDetails()
-{
-    qDebug() << "initializeConfigurationDetails()";
+    settings->setLanguage(system.getLanguage());
+    connect(&languagesListService, &LanguagesListService::initializedChanged, this, &App::validateContentLanguage);
+
     configurationDetailsManager.initialize();
-}
-
-void App::initializeLanguages()
-{
-    qDebug() << "initializeLanguages()";
-    languagesListService.initialize();
+    genresService.initialize();
 }
 
 void App::initializeCountries()
@@ -71,8 +87,42 @@ void App::initializeCountries()
     countriesListService.initialize();
 }
 
-void App::initializePersons()
+Settings *App::getSettings() const
 {
-    qDebug() << "initializePersons()";
-    discoverMovieService.getPersonsListService()->search(searchPeopleForm);
+    return settings;
+}
+
+int App::getMenu() const
+{
+    return menu;
+}
+
+void App::setMenu(int newMenu)
+{
+    if (menu == newMenu)
+        return;
+    menu = newMenu;
+    emit menuChanged();
+}
+
+AccountService *App::getAccountService() const
+{
+    return accountService;
+}
+
+Account *App::getAccount() const
+{
+    return account;
+}
+
+void App::validateContentLanguage()
+{
+    if (!languagesListService.isInitialized() || system.getLanguage().isEmpty()) {
+        return;
+    }
+
+    if (!languagesListService.getModel()->getItems().contains(FilterByLanguageListItem(system.getLanguage()))) {
+        qDebug() << "Unable to find system language" << system.getLanguage() << "in the list of available languages. Revert to the default";
+        settings->setLanguage("en-US");
+    }
 }

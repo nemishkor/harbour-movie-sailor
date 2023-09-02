@@ -14,6 +14,7 @@ class ConfigurationDetails : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString imagesSecureBaseUrl READ getImagesSecureBaseUrl NOTIFY imagesSecureBaseUrlChanged)
+    Q_PROPERTY(QString backdropSize READ getBackdropSize WRITE setBackdropSize NOTIFY backdropSizeChanged)
     Q_PROPERTY(QString backdropSizeInList READ getBackdropSizeInList WRITE setBackdropSizeInList NOTIFY backdropSizeInListChanged)
     Q_PROPERTY(QString logoSize READ getLogoSize WRITE setLogoSize NOTIFY logoSizeChanged)
     Q_PROPERTY(QString posterSize READ getPosterSize WRITE setPosterSize NOTIFY posterSizeChanged)
@@ -39,10 +40,14 @@ public:
     const QString &getProfileSize() const;
     void setProfileSize(const QString &newProfileSize);
 
+    const QString &getBackdropSize() const;
+    void setBackdropSize(const QString &newBackdropSize);
+
 private:
-    const QString optimalSize; // Optimal for list/grid view on Sony 10 II
+    const QString optimalListSize; // Optimal for list/grid view on Sony 10 II
     const QString optimalPosterSize;
     QString imagesSecureBaseUrl;
+    QString backdropSize;
     QString backdropSizeInList;
     QString logoSize;
     QString posterSize;
@@ -56,6 +61,7 @@ signals:
     void logoSizeChanged();
     void posterSizeChanged();
     void profileSizeChanged();
+    void backdropSizeChanged();
 };
 
 #endif // CONFIGURATIONDETAILS_H

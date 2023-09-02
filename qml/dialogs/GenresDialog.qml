@@ -27,7 +27,8 @@ BaseDialog {
                 height: childrenRect.height
                 interactive: false
                 delegate: TextSwitch {
-                    text: model.name
+                    text: model.name ? model.name : qsTr("<no name>")
+                    description: model.name ? "" : qsTr("Please select another content language in settings")
                     checked: model.checked
                     onClicked: {
                         model.checked = checked

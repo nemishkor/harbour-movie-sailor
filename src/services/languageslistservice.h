@@ -13,7 +13,7 @@
 #include "src/api.h"
 #include "src/cachekey.h"
 #include "src/filecache.h"
-#include "src/viewmodels/languageslistmodel.h"
+#include "src/viewmodels/filterbylanguageslistmodel.h"
 #include "src/system.h"
 
 
@@ -25,14 +25,14 @@ public:
     LanguagesListService(System& system, Api &api, FileCache &cache, QObject *parent);
 
     void initialize();
-    LanguagesListModel *getModel();
+    FilterByLanguagesListModel *getModel();
     bool isInitialized();
 
 private:
     Api &api;
     FileCache &cache;
     CacheKey key;
-    LanguagesListModel model;
+    FilterByLanguagesListModel model;
     bool initialized;
 
 public slots:

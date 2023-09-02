@@ -5,7 +5,7 @@
 
 #include "src/models/country.h"
 #include "src/models/language.h"
-#include "src/viewmodels/companieslistmodel.h"
+#include "src/viewmodels/filterbycompanieslistmodel.h"
 #include "src/viewmodels/genreslistmodel.h"
 #include "src/viewmodels/keywordslistmodel.h"
 #include "src/viewmodels/peoplelistmodel.h"
@@ -16,7 +16,6 @@ class DiscoverMovie : public QObject
     Q_OBJECT
     Q_PROPERTY(uint page READ getPage WRITE setPage NOTIFY pageChanged)
     Q_PROPERTY(Country* originCountry READ getOriginCountry CONSTANT)
-    Q_PROPERTY(Language* language READ getLanguage CONSTANT)
     Q_PROPERTY(Language* originLanguage READ getOriginLanguage CONSTANT)
     Q_PROPERTY(GenresListModel* genres READ getGenres CONSTANT)
     Q_PROPERTY(MovieProvidersListModel* providers READ getProviders CONSTANT)
@@ -35,11 +34,11 @@ class DiscoverMovie : public QObject
     Q_PROPERTY(PeopleListModel* anyRoleList READ getAnyRoleList CONSTANT)
     Q_PROPERTY(PeopleListModel* castRoleList READ getCastRoleList CONSTANT)
     Q_PROPERTY(PeopleListModel* crewRoleList READ getCrewRoleList CONSTANT)
-    Q_PROPERTY(CompaniesListModel* companies READ getCompanies CONSTANT)
+    Q_PROPERTY(FilterByCompaniesListModel* companies READ getCompanies CONSTANT)
     Q_PROPERTY(KeywordsListModel* keywords READ getKeywords CONSTANT)
 
 public:
-    explicit DiscoverMovie(QObject *parent);
+    explicit DiscoverMovie(GenresListModel *genres, QObject *parent);
 
     uint getPage() const;
     void setPage(uint newPage);
@@ -78,7 +77,6 @@ public:
     void setIncludeAdult(bool newIncludeAdult);
 
     Country *getOriginCountry() const;
-    Language *getLanguage() const;
     Language *getOriginLanguage() const;
     GenresListModel *getGenres() const;
     MovieProvidersListModel *getProviders() const;
@@ -86,7 +84,7 @@ public:
     PeopleListModel *getAnyRoleList() const;
     PeopleListModel *getCastRoleList() const;
     PeopleListModel *getCrewRoleList() const;
-    CompaniesListModel *getCompanies() const;
+    FilterByCompaniesListModel *getCompanies() const;
     KeywordsListModel *getKeywords() const;
 
 signals:
@@ -118,14 +116,13 @@ private:
     bool includeVideo;
     bool includeAdult;
     Country *originCountry;
-    Language *language;
     Language *originLanguage;
     GenresListModel *genres;
     MovieProvidersListModel *providers;
     PeopleListModel *anyRoleList;
     PeopleListModel *castRoleList;
     PeopleListModel *crewRoleList;
-    CompaniesListModel *companies;
+    FilterByCompaniesListModel *companies;
     KeywordsListModel *keywords;
 };
 

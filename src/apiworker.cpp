@@ -34,6 +34,25 @@ void ApiWorker::get(const QNetworkRequest &request)
     connect(reply, &QNetworkReply::finished, this, &ApiWorker::finished);
 }
 
+void ApiWorker::deleteResource(const QNetworkRequest &request)
+{
+    qDebug() << "DELETE request to" << request.url().toString();
+
+    if (reply != nullptr && requestInfo.getState() == RequestInfo::Running) {
+        qDebug() << "Abort previous request";
+        reply->abort();
+    }
+
+    requestInfo.setError("");
+    requestInfo.setState(RequestInfo::Running);
+    requestInfo.setProgress(0);
+
+    reply = networkManager->deleteResource(request);
+    connect(reply, &QNetworkReply::downloadProgress, this, &ApiWorker::downloadProgress);
+    connect(reply, static_cast<void(QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &ApiWorker::error);
+    connect(reply, &QNetworkReply::finished, this, &ApiWorker::finished);
+}
+
 RequestInfo *ApiWorker::getRequestInfo()
 {
     return &requestInfo;
@@ -42,6 +61,7 @@ RequestInfo *ApiWorker::getRequestInfo()
 void ApiWorker::post(const QNetworkRequest &request, const QByteArray &data)
 {
     qDebug() << "POST request to" << request.url().toString();
+
     requestInfo.setError("");
     requestInfo.setState(RequestInfo::Running);
     requestInfo.setProgress(0);

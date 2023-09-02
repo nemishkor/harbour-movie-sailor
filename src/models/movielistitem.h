@@ -1,14 +1,14 @@
-#ifndef DISCOVERMOVIESEARCHRESULTITEM_H
-#define DISCOVERMOVIESEARCHRESULTITEM_H
+#ifndef MOVIELISTITEM_H
+#define MOVIELISTITEM_H
 
 #include <QDebug>
 #include <QList>
 #include <QString>
 
-class DiscoverMovieResultItem
+class MovieListItem
 {
 public:
-    DiscoverMovieResultItem(
+    MovieListItem(
             bool adult,
             const QString &backdropPath,
             QStringList genres,
@@ -16,7 +16,7 @@ public:
             const QString &originalTitle,
             const QString &overview,
             const QString &posterPath,
-            const QString &releaseDate,
+            const QString &releaseYear,
             const QString &title,
             float voteAvarage,
             int voteCount);
@@ -28,7 +28,7 @@ public:
     const QString &getOriginalTitle() const;
     const QString &getOverview() const;
     const QString &getPosterPath() const;
-    const QString &getReleaseDate() const;
+    const QString &getReleaseYear() const;
     const QString &getTitle() const;
     float getVoteAvarage() const;
     int getVoteCount() const;
@@ -41,10 +41,10 @@ private:
     QString originalTitle;
     QString overview;
     QString posterPath;
-    QString releaseDate;
+    QString releaseYear;
     QString title;
     float voteAvarage;
     int voteCount;
 };
 
-#endif // DISCOVERMOVIESEARCHRESULTITEM_H
+#endif // MOVIELISTITEM_H

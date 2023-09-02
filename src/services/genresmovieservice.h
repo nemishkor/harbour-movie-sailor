@@ -16,15 +16,16 @@ class GenresMovieService : public QObject
     Q_OBJECT
     Q_PROPERTY(bool initialized READ isInitialized NOTIFY initializedChanged)
 public:
-    explicit GenresMovieService(Api &api, FileCache &cache, System &system, GenresListModel *model, QObject *parent);
+    GenresMovieService(Api &api, FileCache &cache, Settings &settings, QObject *parent);
     Q_INVOKABLE void initialize();
     GenresListModel *getModel();
+    void setInitialized(bool newInitialized);
     bool isInitialized();
 
 private:
     Api &api;
     FileCache &cache;
-    QString language;
+    Settings &settings;
     CacheKey key;
     GenresListModel *model;
     bool initialized;

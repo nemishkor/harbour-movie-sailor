@@ -1,9 +1,10 @@
 #include "movieprovidersmanager.h"
 
-MovieProvidersManager::MovieProvidersManager(Api &api, FileCache &cache, MovieProvidersListModel *model, QObject *parent) :
+MovieProvidersManager::MovieProvidersManager(Api &api, FileCache &cache, Settings &settings, MovieProvidersListModel *model, QObject *parent) :
     QObject(parent),
     api(api),
     cache(cache),
+    settings(settings),
     key("watch-providers", "movie-providers", "1"),
     model(model),
     initialized(false)
@@ -13,12 +14,12 @@ MovieProvidersManager::MovieProvidersManager(Api &api, FileCache &cache, MoviePr
 
 void MovieProvidersManager::initialize(const QString &region)
 {
+    QString newKey = settings.getLanguage() + "|" + region;
     qDebug() << "initialize movie providers for the region" << region;
-    if (key.key != region) {
-        key.key = region;
+    if (key.key != newKey) {
+        key.key = newKey;
         model->clear();
-        initialized = false;
-        emit initializedChanged();
+        setInitialized(false);
     }
 
     if (region.isEmpty()) {
@@ -31,12 +32,19 @@ void MovieProvidersManager::initialize(const QString &region)
 
     if (cache.exists(key)) {
         model->fillFromCache(cache.load(key));
-        initialized = true;
-        emit initializedChanged();
+        setInitialized(true);
         return;
     }
 
     api.loadWatchMovieProviders(region);
+}
+
+void MovieProvidersManager::setInitialized(bool newInitialized)
+{
+    if (initialized == newInitialized)
+        return;
+    initialized = newInitialized;
+    emit initializedChanged();
 }
 
 bool MovieProvidersManager::isInitialized()
@@ -48,6 +56,5 @@ void MovieProvidersManager::apiRequestDone(const QByteArray &data)
 {
     QJsonDocument newJson = model->fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
-    initialized = true;
-    emit initializedChanged();
+    setInitialized(true);
 }

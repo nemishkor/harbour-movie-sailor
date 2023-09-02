@@ -1,7 +1,7 @@
 #include "companiessearchlistmodel.h"
 
-CompaniesSearchListModel::CompaniesSearchListModel(CompaniesListModel &model, QObject *parent) :
-    CompaniesListModel(parent),
+CompaniesSearchListModel::CompaniesSearchListModel(FilterByCompaniesListModel &model, QObject *parent) :
+    FilterByCompaniesListModel(parent),
     model(model)
 {
 

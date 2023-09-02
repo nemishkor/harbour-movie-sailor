@@ -8,7 +8,7 @@
 #include "src/api.h"
 #include "src/cachekey.h"
 #include "src/filecache.h"
-#include "src/viewmodels/companieslistmodel.h"
+#include "src/viewmodels/filterbycompanieslistmodel.h"
 #include "src/viewmodels/companiessearchlistmodel.h"
 
 class CompaniesService : public QObject
@@ -16,7 +16,7 @@ class CompaniesService : public QObject
     Q_OBJECT
     Q_PROPERTY(bool initialized READ isInitialized NOTIFY initializedChanged)
 public:
-    explicit CompaniesService(Api &api, FileCache &cache, CompaniesListModel *model, QObject *parent);
+    explicit CompaniesService(Api &api, FileCache &cache, FilterByCompaniesListModel *model, QObject *parent);
     Q_INVOKABLE void search(const QString &query);
     Q_INVOKABLE void addFromSearch(int id);
     CompaniesSearchListModel *getSearchModel();
@@ -26,7 +26,7 @@ private:
     Api &api;
     FileCache &cache;
     CacheKey key;
-    CompaniesListModel *model;
+    FilterByCompaniesListModel *model;
     CompaniesSearchListModel searchModel;
     bool initialized;
 

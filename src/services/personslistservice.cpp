@@ -2,6 +2,7 @@
 
 PersonsListService::PersonsListService(Api &api,
                                        FileCache &cache,
+                                       Settings &settings,
                                        PeopleListModel *anyRoleList,
                                        PeopleListModel *castRoleList,
                                        PeopleListModel *crewRoleList,
@@ -9,7 +10,9 @@ PersonsListService::PersonsListService(Api &api,
     QObject(parent),
     api(api),
     cache(cache),
+    settings(settings),
     key("search", "persons", "1"),
+    form(new SearchPeopleForm(this)),
     searchPersonListModel(new SearchPersonListModel(this)),
     anyRoleList(anyRoleList),
     castRoleList(castRoleList),
@@ -19,30 +22,28 @@ PersonsListService::PersonsListService(Api &api,
     connect(&api, &Api::searchPersonsDone, this, &PersonsListService::apiRequestDone);
 }
 
-void PersonsListService::search(const SearchPeopleForm &form)
+void PersonsListService::search()
 {
-    QString newKey = form.getQuery() + "|" + (form.getWithAdult() ? "true" : "false") + "|" + form.getLanguage() + "|" + QString::number(form.getPage());
+    QString newKey = form->getQuery() + "|" + (form->getWithAdult() ? "true" : "false") + "|" + settings.getLanguage() + "|" + QString::number(form->getPage());
     qDebug() << "initialize search person list with" << newKey;
 
     if (key.key != newKey) {
         key.key = newKey;
         searchPersonListModel->clear();
-        initialized = false;
-        emit initializedChanged();
+        setInitialized(false);
     }
 
-    if (form.getQuery().isEmpty() || initialized) {
+    if (form->getQuery().isEmpty() || initialized) {
         return;
     }
 
     if (cache.exists(key)) {
         searchPersonListModel->fillFromCache(cache.load(key));
-        initialized = true;
-        emit initializedChanged();
+        setInitialized(true);
         return;
     }
 
-    api.loadSearchPersons(form);
+    api.loadSearchPersons(*form);
 }
 
 SearchPersonListModel *PersonsListService::getSearchPersonListModel()
@@ -50,9 +51,22 @@ SearchPersonListModel *PersonsListService::getSearchPersonListModel()
     return searchPersonListModel;
 }
 
+void PersonsListService::setInitialized(bool newInitialized)
+{
+    if (initialized == newInitialized)
+        return;
+    initialized = newInitialized;
+    emit initializedChanged();
+}
+
 bool PersonsListService::isInitialized()
 {
     return initialized;
+}
+
+SearchPeopleForm *PersonsListService::getForm() const
+{
+    return form;
 }
 
 void PersonsListService::select(int id)
@@ -107,6 +121,5 @@ void PersonsListService::apiRequestDone(const QByteArray &data)
     selectedPeoplePerRole.insert(SearchPersonListItem::CrewRole, crewRoleList->getIds());
     QJsonDocument newJson = searchPersonListModel->fillFromAPI(apiJson, selectedPeoplePerRole);
     cache.save(key, newJson);
-    initialized = true;
-    emit initializedChanged();
+    setInitialized(true);
 }

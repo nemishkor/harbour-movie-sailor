@@ -41,7 +41,7 @@ Item {
             value: false
         }
     }
-
+ListItem{}
     ListView.onAdd: SequentialAnimation {
         PropertyAction {
             target: row

@@ -52,9 +52,9 @@ BaseDialog {
 
                 width: parent.width
                 placeholderText: qsTr("Search")
-                text: searchPeopleForm.query
+                text: discoverMovieService.personsListService.form.query
                 onTextChanged: {
-                    searchPeopleForm.query = text
+                    discoverMovieService.personsListService.form.query = text
                     timer.restart()
                 }
 
@@ -62,7 +62,7 @@ BaseDialog {
                     id: timer
                     repeat: false
                     onTriggered: function() {
-                        app.initializePersons()
+                        discoverMovieService.personsListService.search()
                     }
                 }
             }

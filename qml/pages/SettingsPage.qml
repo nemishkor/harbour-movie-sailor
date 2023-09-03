@@ -10,7 +10,7 @@ BasePage {
         anchors.fill: parent
         contentHeight: column.height
 
-        PushUpMenu{
+        PullDownMenu{
             MenuItem {
                 text: qsTr("About")
                 onClicked: pageStack.animatorPush("./AboutPage.qml")

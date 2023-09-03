@@ -29,21 +29,27 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/country.cpp \
     src/models/countrylistitem.cpp \
     src/models/discovermovie.cpp \
+    src/models/episode.cpp \
     src/models/filterbylanguagelistitem.cpp \
+    src/models/form.cpp \
     src/models/genre.cpp \
     src/models/keyword.cpp \
     src/models/language.cpp \
     src/models/languagelistitem.cpp \
+    src/models/medialistitem.cpp \
     src/models/movie.cpp \
     src/models/moviecollection.cpp \
-    src/models/movielistitem.cpp \
     src/models/movieprovider.cpp \
-    src/models/person.cpp \
+    src/models/networklistitem.cpp \
+    src/models/personlistitem.cpp \
     src/models/requestinfo.cpp \
     src/models/requesttoken.cpp \
+    src/models/searchform.cpp \
     src/models/searchpeopleform.cpp \
     src/models/searchpersonlistitem.cpp \
+    src/models/seasonlistitem.cpp \
     src/models/settings.cpp \
+    src/models/tv.cpp \
     src/services/accountmedialistservice.cpp \
     src/services/accountservice.cpp \
     src/services/companiesservice.cpp \
@@ -56,6 +62,8 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/services/movieprovidersmanager.cpp \
     src/services/movieservice.cpp \
     src/services/personslistservice.cpp \
+    src/services/searchservice.cpp \
+    src/services/tvservice.cpp \
     src/system.cpp \
     src/viewmodels/companieslistmodel.cpp \
     src/viewmodels/companiessearchlistmodel.cpp \
@@ -67,33 +75,50 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/viewmodels/keywordslistmodel.cpp \
     src/viewmodels/keywordssearchlistmodel.cpp \
     src/viewmodels/languageslistmodel.cpp \
+    src/viewmodels/medialistmodel.cpp \
     src/viewmodels/movieproviderslistmodel.cpp \
-    src/viewmodels/movieslistmodel.cpp \
-    src/viewmodels/peoplelistmodel.cpp \
-    src/viewmodels/searchpersonlistmodel.cpp
+    src/viewmodels/networkslistmodel.cpp \
+    src/viewmodels/personlistmodel.cpp \
+    src/viewmodels/searchpeoplelistmodel.cpp \
+    src/viewmodels/searchpersonlistmodel.cpp \
+    src/viewmodels/seasonslistmodel.cpp
 
 DISTFILES += qml/harbour-movie-sailor.qml \
     qml/Menu.qml \
     qml/components/Anatomy.qml \
     qml/components/AndOrListItem.qml \
     qml/components/BackdropBackgroundImage.qml \
+    qml/components/BackgroundItemWithIcon.qml \
     qml/components/CompaniesValueButton.qml \
     qml/components/ConfigurationDialog.qml \
+    qml/components/CreatedByList.qml \
     qml/components/FailedRequestInColumn.qml \
     qml/components/FilterSearchResultItem.qml \
     qml/components/FullPageRequestProgress.qml \
     qml/components/GlassSpacer.qml \
     qml/components/KeyValue.qml \
+    qml/components/LabelBackgroundItem.qml \
     qml/components/LanguageDialog.qml \
+    qml/components/LoginModal.qml \
+    qml/components/MediaBackdropImage.qml \
+    qml/components/MediaGenres.qml \
+    qml/components/MediaLinksModal.qml \
+    qml/components/MediaProductionCompaniesList.qml \
+    qml/components/MediaProductionCountries.qml \
+    qml/components/MediaSpokenLanguagesList.qml \
     qml/components/Modal.qml \
     qml/components/ModalButton.qml \
     qml/components/MoviesListItem.qml \
+    qml/components/OrderBy.qml \
     qml/components/OrderByDialog.qml \
     qml/components/PeopleFilterList.qml \
     qml/components/PersonListItem.qml \
+    qml/components/RatingCircle.qml \
+    qml/components/RatingModal.qml \
     qml/components/RemovableListItem.qml \
     qml/components/Spacer.qml \
     qml/components/Tag.qml \
+    qml/components/TvEpisode.qml \
     qml/components/VoteSlider.qml \
     qml/components/VoteSliderLabel.qml \
     qml/components/VoteSliderPoint.qml \
@@ -108,6 +133,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/dialogs/KeywordsDialog.qml \
     qml/dialogs/PeopleFilterDialog.qml \
     qml/languages.js \
+    qml/pages/AccountMediaListPage.qml \
     qml/pages/AccountPage.qml \
     qml/pages/BasePage.qml \
     qml/pages/DiscoverMoviePage.qml \
@@ -119,8 +145,11 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/pages/MoviePage.qml \
     qml/pages/RatedMoviesPage.qml \
     qml/pages/RatedTvPage.qml \
+    qml/pages/SearchPage.qml \
+    qml/pages/SearchResultsPage.qml \
     qml/pages/SecondPage.qml \
     qml/pages/SettingsPage.qml \
+    qml/pages/TvPage.qml \
     qml/pages/WatchlistMoviesPage.qml \
     qml/pages/WatchlistTvPage.qml \
     rpm/harbour-movie-sailor.changes.in \
@@ -155,21 +184,27 @@ HEADERS += \
     src/models/country.h \
     src/models/countrylistitem.h \
     src/models/discovermovie.h \
+    src/models/episode.h \
     src/models/filterbylanguagelistitem.h \
+    src/models/form.h \
     src/models/genre.h \
     src/models/keyword.h \
     src/models/language.h \
     src/models/languagelistitem.h \
+    src/models/medialistitem.h \
     src/models/movie.h \
     src/models/moviecollection.h \
-    src/models/movielistitem.h \
     src/models/movieprovider.h \
-    src/models/person.h \
+    src/models/networklistitem.h \
+    src/models/personlistitem.h \
     src/models/requestinfo.h \
     src/models/requesttoken.h \
+    src/models/searchform.h \
     src/models/searchpeopleform.h \
     src/models/searchpersonlistitem.h \
+    src/models/seasonlistitem.h \
     src/models/settings.h \
+    src/models/tv.h \
     src/models/workernames.h \
     src/services/accountmedialistservice.h \
     src/services/accountservice.h \
@@ -183,6 +218,8 @@ HEADERS += \
     src/services/movieprovidersmanager.h \
     src/services/movieservice.h \
     src/services/personslistservice.h \
+    src/services/searchservice.h \
+    src/services/tvservice.h \
     src/system.h \
     src/viewmodels/companieslistmodel.h \
     src/viewmodels/companiessearchlistmodel.h \
@@ -194,7 +231,10 @@ HEADERS += \
     src/viewmodels/keywordslistmodel.h \
     src/viewmodels/keywordssearchlistmodel.h \
     src/viewmodels/languageslistmodel.h \
+    src/viewmodels/medialistmodel.h \
     src/viewmodels/movieproviderslistmodel.h \
-    src/viewmodels/movieslistmodel.h \
-    src/viewmodels/peoplelistmodel.h \
-    src/viewmodels/searchpersonlistmodel.h
+    src/viewmodels/networkslistmodel.h \
+    src/viewmodels/personlistmodel.h \
+    src/viewmodels/searchpeoplelistmodel.h \
+    src/viewmodels/searchpersonlistmodel.h \
+    src/viewmodels/seasonslistmodel.h

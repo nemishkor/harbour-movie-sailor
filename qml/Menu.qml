@@ -30,7 +30,7 @@ Rectangle {
 
                 ListElement {
                     icon: "icon-m-search"
-                    page: "pages/DiscoverMoviePage.qml"
+                    page: "pages/SearchPage.qml"
                 }
 
                 ListElement {

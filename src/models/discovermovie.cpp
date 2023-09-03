@@ -15,9 +15,9 @@ DiscoverMovie::DiscoverMovie(GenresListModel *genres, QObject *parent) :
     originLanguage(new Language(this)),
     genres(genres),
     providers(new MovieProvidersListModel(this)),
-    anyRoleList(new PeopleListModel(this)),
-    castRoleList(new PeopleListModel(this)),
-    crewRoleList(new PeopleListModel(this)),
+    anyRoleList(new SearchPeopleListModel(this)),
+    castRoleList(new SearchPeopleListModel(this)),
+    crewRoleList(new SearchPeopleListModel(this)),
     companies(new FilterByCompaniesListModel(this)),
     keywords(new KeywordsListModel(this))
 {
@@ -176,17 +176,17 @@ void DiscoverMovie::setIncludeAdult(bool newIncludeAdult)
     emit includeAdultChanged();
 }
 
-PeopleListModel *DiscoverMovie::getAnyRoleList() const
+SearchPeopleListModel *DiscoverMovie::getAnyRoleList() const
 {
     return anyRoleList;
 }
 
-PeopleListModel *DiscoverMovie::getCastRoleList() const
+SearchPeopleListModel *DiscoverMovie::getCastRoleList() const
 {
     return castRoleList;
 }
 
-PeopleListModel *DiscoverMovie::getCrewRoleList() const
+SearchPeopleListModel *DiscoverMovie::getCrewRoleList() const
 {
     return crewRoleList;
 }

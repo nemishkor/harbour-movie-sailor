@@ -26,14 +26,6 @@ BasePage {
         }
 
         PageHeader { title: qsTr("Login") }
-        Label {
-            text: webView.url
-            wrapMode: "WrapAnywhere"
-            width: parent.width
-        }
-        Label {
-            text: "is approved " + (webView.url === "https://www.themoviedb.org/authenticate/allow" ? "true" : "false")
-        }
     }
 
     WebView {

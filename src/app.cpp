@@ -3,16 +3,19 @@
 App::App(QQmlContext *context) :
     QObject(nullptr),
     menu(0),
+    cache(new FileCache(this)),
     account(new Account(this)),
     settings(new Settings(this)),
     api(account, *settings, this),
-    genresService(api, cache, *settings, this),
-    configurationDetailsManager(api, cache, this),
+    genresService(api, *cache, *settings, this),
+    configurationDetailsManager(api, *cache, this),
     movieService(api, system, this),
-    countriesListService(system, api, cache, this),
-    discoverMovieService(api, cache, *settings, movieService, genresService.getModel(), this),
-    languagesListService(system, api, cache, this),
-    accountService(new AccountService(account, api, *settings, genresService.getModel(), movieService, this))
+    tvService(api, this),
+    countriesListService(system, api, *cache, this),
+    discoverMovieService(api, *cache, *settings, movieService, genresService.getModel(), this),
+    languagesListService(system, api, *cache, this),
+    accountService(new AccountService(account, api, *settings, genresService.getModel(), movieService, tvService, this)),
+    searchService(new SearchService(api, movieService, tvService, genresService.getModel(), this))
 {
     context->setContextProperty("countriesService", &countriesListService);
     context->setContextProperty("countriesListModel", countriesListService.getModel());
@@ -40,7 +43,7 @@ App::App(QQmlContext *context) :
     context->setContextProperty("crewListModel", discoverMovieService.getForm()->getCrewRoleList());
 
     context->setContextProperty("companiesModel", discoverMovieService.getForm()->getCompanies());
-    context->setContextProperty("companiesSearchModel", discoverMovieService.getCompaniesService()->getSearchModel());
+    context->setContextProperty("companiesSearchModel", discoverMovieService.getCompaniesService()->getList());
     context->setContextProperty("companiesRequestInfo", api.getRequestInfo(Api::SearchCompanies));
 
     context->setContextProperty("keywordsService", discoverMovieService.getKeywordsService());
@@ -58,10 +61,11 @@ App::App(QQmlContext *context) :
     context->setContextProperty("accountRequestInfo", api.getRequestInfo(Api::Account));
 
     context->setContextProperty("movieService", &movieService);
-    context->setContextProperty("favoriteRequestInfo", api.getRequestInfo(Api::Favorite));
-    context->setContextProperty("watchlistRequestInfo", api.getRequestInfo(Api::Watchlist));
-    context->setContextProperty("ratingRequestInfo", api.getRequestInfo(Api::AddRating));
-    context->setContextProperty("removeRatingRequestInfo", api.getRequestInfo(Api::RemoveRating));
+    context->setContextProperty("tvService", &tvService);
+    context->setContextProperty("favoriteRequestInfo", api.getRequestInfo(Api::ToggleFavoriteMovie));
+    context->setContextProperty("watchlistRequestInfo", api.getRequestInfo(Api::ToggleWatchlistMovie));
+    context->setContextProperty("ratingRequestInfo", api.getRequestInfo(Api::AddRatingMovie));
+    context->setContextProperty("removeRatingRequestInfo", api.getRequestInfo(Api::RemoveRatingMovie));
 
     context->setContextProperty("favoriteMoviesRequestInfo", api.getRequestInfo(Api::FavoriteMovies));
     context->setContextProperty("favoriteTvRequestInfo", api.getRequestInfo(Api::FavoriteTv));
@@ -113,6 +117,16 @@ AccountService *App::getAccountService() const
 Account *App::getAccount() const
 {
     return account;
+}
+
+SearchService *App::getSearchService() const
+{
+    return searchService;
+}
+
+FileCache *App::getCache() const
+{
+    return cache;
 }
 
 void App::validateContentLanguage()

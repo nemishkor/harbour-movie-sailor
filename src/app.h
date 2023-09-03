@@ -12,6 +12,8 @@
 #include <QLocale>
 #include <QQmlContext>
 
+#include <src/services/searchservice.h>
+
 #include "src/api.h"
 #include "src/filecache.h"
 #include "src/models/account.h"
@@ -27,7 +29,7 @@
 #include "src/services/genresmovieservice.h"
 #include "src/services/languageslistservice.h"
 #include "src/services/movieservice.h"
-#include "src/viewmodels/peoplelistmodel.h"
+#include "src/viewmodels/searchpeoplelistmodel.h"
 #include "src/viewmodels/filterbylanguageslistmodel.h"
 #include "src/viewmodels/configurationlistmodel.h"
 #include "src/system.h"
@@ -40,6 +42,8 @@ class App : public QObject
     Q_PROPERTY(int menu READ getMenu WRITE setMenu NOTIFY menuChanged)
     Q_PROPERTY(AccountService* accountService READ getAccountService CONSTANT)
     Q_PROPERTY(Account* account READ getAccount CONSTANT)
+    Q_PROPERTY(SearchService* searchService READ getSearchService CONSTANT)
+    Q_PROPERTY(FileCache* cache READ getCache CONSTANT)
 
 public:
     App(QQmlContext *context);
@@ -55,24 +59,30 @@ public:
 
     Account *getAccount() const;
 
+    SearchService *getSearchService() const;
+
+    FileCache *getCache() const;
+
 signals:
     void menuChanged();
 
 private:
     int menu;
+    FileCache *cache;
     System system;
     Account *account;
     Settings *settings;
     Api api;
-    FileCache cache;
 
     GenresMovieService genresService;
     ConfigurationDetailsManager configurationDetailsManager;
     MovieService movieService;
+    TvService tvService;
     CountriesListService countriesListService;
     DiscoverMovieService discoverMovieService;
     LanguagesListService languagesListService;
     AccountService *accountService;
+    SearchService *searchService;
 
 private slots:
     void validateContentLanguage();

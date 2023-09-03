@@ -8,27 +8,28 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "src/models/movielistitem.h"
+#include "src/models/medialistitem.h"
 #include "src/models/genre.h"
+#include "src/models/searchform.h"
 
-class MoviesListModel : public QAbstractListModel
+class MediaListModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(int totalPages READ getTotalPages WRITE setTotalPages NOTIFY totalPagesChanged)
 
 public:
-    explicit MoviesListModel(QObject *parent);
+    MediaListModel(QObject *parent);
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
-    void add(const MovieListItem &item);
+    void add(const MediaListItem &item);
     Q_INVOKABLE void clear();
-    void fillFromAPI(const QJsonDocument &json, const QList<Genre> &genres);
+    void fillFromAPI(const QJsonDocument &json, const QList<Genre> &genres, MediaListItem::MediaType defaultMediaType = MediaListItem::MovieType);
 
     int getTotalPages() const;
     void setTotalPages(int newTotalPages);
 
-    const QList<MovieListItem> &getItems() const;
+    const QList<MediaListItem> &getItems() const;
 
     bool getDirty() const;
     void setDirty(bool newDirty);
@@ -36,19 +37,22 @@ public:
 protected:
     enum DiscoveryMovieResultsRoles {
         IdRole = Qt::UserRole + 1,
+        MediaTypeRole,
         AdultRole,
         BackdropPathRole,
         GenresRole,
-        OriginalTitleRole,
+        OriginalNameRole,
         OverviewRole,
-        PosterPathRole,
+        ImagePathRole,
         ReleaseYearRole,
-        TitleRole,
+        NameRole,
         VoteAvarageRole,
-        VoteCountRole
+        VoteCountRole,
+        KnownForDepartmentRole,
+        KnownForRole
     };
     int totalPages;
-    QList<MovieListItem> items;
+    QList<MediaListItem> items;
     QHash<int, QByteArray> roleNames() const override;
     bool dirty;
 

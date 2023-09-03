@@ -1,6 +1,6 @@
-#include "peoplelistmodel.h"
+#include "searchpeoplelistmodel.h"
 
-PeopleListModel::PeopleListModel(QObject *parent) :
+SearchPeopleListModel::SearchPeopleListModel(QObject *parent) :
     QAbstractListModel(parent),
     summary(""),
     andMode(true)
@@ -8,12 +8,12 @@ PeopleListModel::PeopleListModel(QObject *parent) :
 
 }
 
-int PeopleListModel::rowCount(const QModelIndex &) const
+int SearchPeopleListModel::rowCount(const QModelIndex &) const
 {
     return items.size();
 }
 
-QVariant PeopleListModel::data(const QModelIndex &index, int role) const
+QVariant SearchPeopleListModel::data(const QModelIndex &index, int role) const
 {
     if (index.row() < 0 || index.row() >= items.count())
         return QVariant();
@@ -29,7 +29,7 @@ QVariant PeopleListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void PeopleListModel::add(const SearchPersonListItem &item)
+void SearchPeopleListModel::add(const SearchPersonListItem &item)
 {
     qDebug() << "add" << item.getId() << "to the role model";
     if (ids.contains(item.getId())) {
@@ -43,7 +43,7 @@ void PeopleListModel::add(const SearchPersonListItem &item)
     updateSummary();
 }
 
-void PeopleListModel::clear()
+void SearchPeopleListModel::clear()
 {
     beginRemoveRows(QModelIndex(), 0, items.count() - 1);
     ids.clear();
@@ -53,7 +53,7 @@ void PeopleListModel::clear()
     updateSummary();
 }
 
-void PeopleListModel::remove(int id)
+void SearchPeopleListModel::remove(int id)
 {
     qDebug() << "remove the person" << id << "from the list model";
     for (int row = 0; row < items.count(); row++) {
@@ -70,7 +70,7 @@ void PeopleListModel::remove(int id)
     }
 }
 
-QHash<int, QByteArray> PeopleListModel::roleNames() const
+QHash<int, QByteArray> SearchPeopleListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[IdRole] = "id";
@@ -80,12 +80,12 @@ QHash<int, QByteArray> PeopleListModel::roleNames() const
     return roles;
 }
 
-const QList<int> &PeopleListModel::getIds() const
+const QList<int> &SearchPeopleListModel::getIds() const
 {
     return ids;
 }
 
-const QString PeopleListModel::toQueryString()
+const QString SearchPeopleListModel::toQueryString()
 {
     QString separator = andMode ? "," : "|";
     QString str = "";
@@ -99,7 +99,7 @@ const QString PeopleListModel::toQueryString()
     return str;
 }
 
-void PeopleListModel::updateSummary()
+void SearchPeopleListModel::updateSummary()
 {
     QString newSummary = "";
     QString joinOperator = andMode ? " and " : " or ";
@@ -111,12 +111,12 @@ void PeopleListModel::updateSummary()
     setSummary(newSummary);
 }
 
-const QString &PeopleListModel::getSummary() const
+const QString &SearchPeopleListModel::getSummary() const
 {
     return summary;
 }
 
-void PeopleListModel::setAndMode(bool newAndMode)
+void SearchPeopleListModel::setAndMode(bool newAndMode)
 {
     if (andMode == newAndMode)
         return;
@@ -125,7 +125,7 @@ void PeopleListModel::setAndMode(bool newAndMode)
     updateSummary();
 }
 
-void PeopleListModel::setSummary(const QString &newSummary)
+void SearchPeopleListModel::setSummary(const QString &newSummary)
 {
     if (summary == newSummary)
         return;
@@ -133,7 +133,7 @@ void PeopleListModel::setSummary(const QString &newSummary)
     emit summaryChanged();
 }
 
-bool PeopleListModel::getAndMode() const
+bool SearchPeopleListModel::getAndMode() const
 {
     return andMode;
 }

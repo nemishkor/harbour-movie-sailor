@@ -30,6 +30,7 @@ BasePage {
                     })
                 }
 
+                visible: app.account.id === 0
                 label: qsTr("Content language")
                 value: qsTr(Languages.getLanguageName(app.settings.language))
                 onClicked: openLanguageDialog()
@@ -107,6 +108,27 @@ BasePage {
                     } else {
                         app.accountService.logout()
                     }
+                }
+            }
+
+            SectionHeader { text: qsTr("Cache") }
+
+            KeyValue {
+                id: usedMemory
+
+                key: qsTr("Used memory")
+                value: app.cache.usedMemory()
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                x: Theme.horizontalPageMargin
+            }
+
+
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Clear cache")
+                onClicked: {
+                    app.cache.clear()
+                    usedMemory.value = app.cache.usedMemory()
                 }
             }
         }

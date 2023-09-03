@@ -9,9 +9,56 @@
     </message>
 </context>
 <context>
+    <name>AccountMediaListPage</name>
+    <message>
+        <source>Load more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created at</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AccountPage</name>
     <message>
         <source>Account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watchlist TV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite TV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rated movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rated TV episodes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watchlist movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -23,35 +70,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorite movies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Favorite TV</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rated movies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rated TV</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rated TV episodes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Watchlist TV</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Watchlist movies</source>
+        <source>Rated TV series</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -108,6 +127,13 @@
     </message>
 </context>
 <context>
+    <name>CreatedByList</name>
+    <message>
+        <source>Created by</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DiscoverMoviePage</name>
     <message>
         <source></source>
@@ -123,18 +149,6 @@
     </message>
     <message>
         <source>Popularity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Order</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ascending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Descending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -237,6 +251,10 @@
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Year</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DiscoverMovieResultsPage</name>
@@ -274,6 +292,14 @@
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Sort by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created at</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FavoriteTvPage</name>
@@ -287,6 +313,14 @@
     </message>
     <message>
         <source>Load more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created at</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -331,6 +365,13 @@
     </message>
 </context>
 <context>
+    <name>LoginModal</name>
+    <message>
+        <source>Please go to Settings page and login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LoginPage</name>
     <message>
         <source>Login</source>
@@ -338,6 +379,42 @@
     </message>
     <message>
         <source>Oops. Unable to get request token</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MediaLinksModal</name>
+    <message>
+        <source>External links</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Homepage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Homepage of the movie might be unavailable because of the selected content language in Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MediaProductionCompaniesList</name>
+    <message>
+        <source>Production companies</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MediaProductionCountries</name>
+    <message>
+        <source>Production countries</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MediaSpokenLanguagesList</name>
+    <message>
+        <source>Spoken languages</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -412,18 +489,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Production companies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Production countries</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Spoken languages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>id</source>
         <translation type="unfinished"></translation>
     </message>
@@ -431,41 +496,9 @@
         <source>IMDB id</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>External links</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Homepage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Homepage of the movie might be unavailable because of the selected content language in Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please go to Settings page and login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Clear</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>By default, we will remove a rated item from your watchlist if it&apos;s present. This keeps your &quot;watched&quot; and and &quot;want to watch&quot; lists tidy and in sync. You can edit this behaviour &lt;a href=&quot;https://www.themoviedb.org/settings/sharing&quot;&gt;here&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Do not remind again</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>MoviesListItem</name>
-    <message>
-        <source>Adult content</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>vote</source>
         <translation type="unfinished"></translation>
@@ -475,7 +508,30 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>no votes</source>
+        <source>Movie</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Known for:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OrderBy</name>
+    <message>
+        <source>Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Descending</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -604,6 +660,121 @@
     </message>
 </context>
 <context>
+    <name>RatingModal</name>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By default, we will remove a rated item from your watchlist if it&apos;s present. This keeps your &quot;watched&quot; and and &quot;want to watch&quot; lists tidy and in sync. You can edit this behaviour &lt;a href=&quot;https://www.themoviedb.org/settings/sharing&quot;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not remind again</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SearchMenuPage</name>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>SearchMoviePage</name>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>SearchPage</name>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Movies, TV shows and people</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV shows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>People</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Primary release year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Region</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>First air date year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discover movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discover TV shows</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SearchResultsPage</name>
+    <message>
+        <source>Movies, TV shows and people</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV shows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>People</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load more</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SecondPage</name>
     <message>
         <source>Nested Page</source>
@@ -660,6 +831,152 @@
         <source>Country</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Used memory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TvEpisode</name>
+    <message>
+        <source>Season</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Episode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>vote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>votes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>no votes</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TvPage</name>
+    <message>
+        <source>vote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>votes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>no votes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In watchlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to watchlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adult</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Origin language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Popularity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>h</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>episode runtime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>seasons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>season</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>episodes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>episode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>first air date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>last air date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last episode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WatchlistMoviesPage</name>
@@ -688,6 +1005,14 @@
     </message>
     <message>
         <source>TV series watchlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created at</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

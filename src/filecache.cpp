@@ -37,6 +37,55 @@ void FileCache::save(const CacheKey &key, const QJsonDocument &json) const
     write(filePath, data);
 }
 
+QString FileCache::usedMemory()
+{
+    return formatSize(dirSize(path));
+}
+
+void FileCache::clear()
+{
+    QDir dir(path);
+
+    dir.setFilter( QDir::NoDotAndDotDot | QDir::Files );
+    foreach (QString dirItem, dir.entryList())
+        dir.remove( dirItem );
+
+    dir.setFilter( QDir::NoDotAndDotDot | QDir::Dirs );
+    foreach (QString dirItem, dir.entryList()) {
+        if (dirItem == ".QtWebKit" || dirItem == ".mozilla")
+            continue;
+        QDir subDir(dir.absoluteFilePath(dirItem));
+        subDir.removeRecursively();
+    }
+}
+
+qint64 FileCache::dirSize(QString dirPath) {
+    qint64 size = 0;
+    QDir dir(dirPath);
+    //calculate total size of current directories' files
+    QDir::Filters fileFilters = QDir::Files|QDir::System|QDir::Hidden;
+    for(QString filePath : dir.entryList(fileFilters)) {
+        QFileInfo fi(dir, filePath);
+        size+= fi.size();
+    }
+    //add size of child directories recursively
+    QDir::Filters dirFilters = QDir::Dirs|QDir::NoDotAndDotDot|QDir::System|QDir::Hidden;
+    for(QString childDirPath : dir.entryList(dirFilters))
+        size+= dirSize(dirPath + QDir::separator() + childDirPath);
+    return size;
+}
+
+QString FileCache::formatSize(qint64 size) {
+    QStringList units = {"Bytes", "KB", "MB", "GB", "TB", "PB"};
+    int i;
+    double outputSize = size;
+    for(i=0; i<units.size()-1; i++) {
+        if(outputSize<1024) break;
+        outputSize= outputSize/1024;
+    }
+    return QString("%0 %1").arg(outputSize, 0, 'f', 2).arg(units[i]);
+}
+
 const QString FileCache::buildFilePath(const CacheKey &key, const QString &format) const
 {
     QString filePath = path + "/";

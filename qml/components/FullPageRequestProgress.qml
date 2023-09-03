@@ -7,6 +7,7 @@ Item {
     property var requestInfo
 
     anchors.fill: parent
+    visible: requestInfo.state === 1 || requestInfo.state === 3
 
     Item {
         visible: requestInfo.state === 1

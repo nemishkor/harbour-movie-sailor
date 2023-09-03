@@ -18,7 +18,6 @@ BasePage {
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
-        interactive: !ratingModal.visible
 
         Column {
             id: column
@@ -31,25 +30,7 @@ BasePage {
                 description: movieService.movie.title !== movieService.movie.originalTitle ? movieService.movie.originalTitle : ""
             }
 
-            Item {
-                id: backdropImageRect
-                width: parent.width
-                height: backdropImage.height + Theme.paddingMedium
-                visible: movieService.movie.backdropPath !== ""
-                opacity: backdropImage.status == Image.Ready ? 1.0 : 0.0
-
-                Behavior on opacity {
-                    NumberAnimation { duration: 400 }
-                }
-
-                Image {
-                    id: backdropImage
-
-                    source: movieService.movie.backdropPath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.backdropSize + movieService.movie.backdropPath)
-                    width: parent.width
-                    fillMode: Image.PreserveAspectFit
-                }
-            }
+            MediaBackdropImage { source: movieService.movie.backdropPath }
 
             Row {
                 width: parent.width - 2 * Theme.horizontalPageMargin
@@ -65,7 +46,6 @@ BasePage {
 
                     Image {
                         id: poster
-                        clip: true
                         width: parent.width
                         fillMode: Image.PreserveAspectFit
                         source: movieService.movie.posterPath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.posterSize + movieService.movie.posterPath)
@@ -82,40 +62,11 @@ BasePage {
                         width: parent.width
                         spacing: Theme.paddingMedium
 
-                        Rectangle {
+                        RatingCircle {
                             id: voteAvarageCircle
 
-                            width: ratingCircle.width + 2 * Theme.paddingSmall
-                            height: ratingCircle.height + 2 * Theme.paddingSmall
-                            color: Theme.highlightDimmerColor
-                            radius: width
-                            opacity: movieService.movie.voteCount < 10 ? Theme.opacityLow : 1.0
-
-                            ProgressCircle {
-                                id: ratingCircle
-                                anchors.centerIn: parent
-                                progressValue: movieService.movie.voteAvarage / 10
-                                backgroundColor: "#80000000"
-                                progressColor: {
-                                    if(movieService.movie.voteAvarage === 0)
-                                        return "#807B7B7B"
-                                    if(movieService.movie.voteAvarage > 6)
-                                        return "#8051D511"
-                                    if(movieService.movie.voteAvarage > 4)
-                                        return "#80DEB321"
-                                    return "#80EC4713"
-                                }
-
-                                Label {
-                                    id: ratingLabel
-                                    width: parent.width
-                                    anchors.fill: parent
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    text: movieService.movie.voteAvarage.toFixed(1)
-                                    font.pixelSize: Theme.fontSizeSmall
-                                }
-                            }
+                            voteCount: movieService.movie.voteCount
+                            voteAvarage: movieService.movie.voteAvarage
                         }
 
                         Column {
@@ -251,30 +202,8 @@ BasePage {
                         }
                     }
 
-                    Flow {
-                        id: genresView
-
-                        width: parent.width
-                        spacing: Theme.paddingSmall
-
-                        Repeater {
-                            model: movieService.movie.genres
-                            delegate: Rectangle {
-                                height: label.height + 2 * Theme.paddingSmall
-                                width: label.width + 2 * Theme.paddingSmall
-                                radius: 5 * Theme.pixelRatio
-                                color: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
-
-                                Label {
-                                    id: label
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    text: modelData
-                                    x: Theme.paddingSmall
-                                    color: Theme.highlightColor
-                                    font.pixelSize: Theme.fontSizeSmall
-                                }
-                            }
-                        }
+                    MediaGenres {
+                        genres: movieService.movie.genres
                     }
                 }
             }
@@ -397,92 +326,16 @@ BasePage {
                 }
             }
 
-            ListView {
-                visible: count > 0
-                width: parent.width
+            MediaProductionCompaniesList {
                 model: movieService.movie.productionCompanies
-                interactive: false
-                height: contentHeight
-                header: SectionHeader { text: qsTr("Production companies") }
-                delegate: Item {
-                    width: column.width
-                    height: Theme.itemSizeSmall
-
-                    Image {
-                        id: companyLogo
-
-                        property string logoUrl: model.logo === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.logo)
-
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent.left
-                        anchors.leftMargin: Theme.horizontalPageMargin
-                        visible: configurationDetailsService.initialized
-                        source: logoUrl
-                        height: Theme.itemSizeSmall - 2 * Theme.paddingMedium
-                        width: Theme.itemSizeSmall - 2 * Theme.paddingMedium
-                        fillMode: Image.PreserveAspectFit
-                    }
-
-                    Label {
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: companyLogo.right
-                        anchors.leftMargin: Theme.horizontalPageMargin
-                        anchors.right: parent.right
-                        width: parent.width - Theme.itemSizeLarge
-                        x: Theme.horizontalPageMargin + Theme.itemSizeSmall + Theme.paddingMedium
-                        text: model.name
-                        truncationMode: TruncationMode.Fade
-                        fontSizeMode: Text.HorizontalFit
-                        minimumPixelSize: Theme.fontSizeSmallBase
-                        leftPadding: Theme.paddingMedium
-                    }
-                }
             }
 
-            ListView {
-                visible: count > 0
-                width: parent.width
+            MediaProductionCountries {
                 model: movieService.movie.productionCountries
-                interactive: false
-                height: contentHeight
-                header: SectionHeader { text: qsTr("Production countries") }
-                delegate: Item {
-                    width: column.width
-                    height: Theme.itemSizeSmall
-
-                    Label {
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: parent.width - 2 * Theme.horizontalPageMargin
-                        x: Theme.horizontalPageMargin
-                        text: model.name
-                        truncationMode: TruncationMode.Fade
-                        fontSizeMode: Text.HorizontalFit
-                        minimumPixelSize: Theme.fontSizeSmallBase
-                    }
-                }
             }
 
-            ListView {
-                visible: count > 0
-                width: parent.width
+            MediaSpokenLanguagesList {
                 model: movieService.movie.spokenLanguages
-                interactive: false
-                height: contentHeight
-                header: SectionHeader { text: qsTr("Spoken languages") }
-                delegate: Item {
-                    width: column.width
-                    height: Theme.itemSizeSmall
-
-                    Label {
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: parent.width - 2 * Theme.horizontalPageMargin
-                        x: Theme.horizontalPageMargin
-                        text: model.name
-                        truncationMode: TruncationMode.Fade
-                        fontSizeMode: Text.HorizontalFit
-                        minimumPixelSize: Theme.fontSizeSmallBase
-                    }
-                }
             }
 
             Label {
@@ -505,197 +358,27 @@ BasePage {
         }
     }
 
-    Modal {
+    MediaLinksModal {
         id: linksModal
 
-        Column {
-            width: parent.width - 2 * Theme.horizontalPageMargin
-            x: Theme.horizontalPageMargin
-            spacing: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-
-            Label {
-                width: parent.width
-                font.pixelSize: Theme.fontSizeLarge
-                horizontalAlignment: "AlignHCenter"
-                text: qsTr("External links")
-            }
-
-            ModalButton {
-                id: tmdbButton
-
-                delay: 100
-                visible: linksModal.visible
-                text: "TMDB"
-                onClicked: Qt.openUrlExternally("https://www.themoviedb.org/movie/" + movieService.movie.id)
-            }
-
-            ModalButton {
-                delay: 200
-                visible: linksModal.visible
-                text: "IMDB"
-                enabled: movieService.movie.imdbId !== ""
-                onClicked: Qt.openUrlExternally("https://www.imdb.com/title/" + movieService.movie.imdbId)
-            }
-
-            ModalButton {
-                delay: 300
-                visible: linksModal.visible
-                text: qsTr("Homepage")
-                enabled: movieService.movie.homepage !== ""
-                onClicked: Qt.openUrlExternally(movieService.movie.homepage)
-            }
-
-            Label {
-                width: parent.width
-                visible: movieService.movie.homepage === "" && app.settings.language !== "en-US"
-                horizontalAlignment: "AlignHCenter"
-                font.pixelSize: Theme.fontSizeSmall
-                font.italic: true
-                color: Theme.secondaryColor
-                text: qsTr("Homepage of the movie might be unavailable because of the selected content language in Settings")
-                wrapMode: "WordWrap"
-            }
-
-            Spacer {}
-
-            IconButton {
-                anchors.horizontalCenter: parent.horizontalCenter
-                icon.source: "image://theme/icon-l-clear"
-                onClicked: linksModal.show = false
-            }
-        }
+        tmdbId: movieService.movie.id
+        imdbId: movieService.movie.imdbId
+        homepage: movieService.movie.homepage
     }
 
-    Modal {
+    LoginModal {
         id: loginModal
-
-        Column {
-            width: parent.width - 2 * Theme.horizontalPageMargin
-            x: Theme.horizontalPageMargin
-            spacing: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-
-            Label {
-                horizontalAlignment: "AlignHCenter"
-                font.pixelSize: Theme.fontSizeLarge
-                text: qsTr("Please go to Settings page and login")
-            }
-
-            IconButton {
-                anchors.horizontalCenter: parent.horizontalCenter
-                icon.source: "image://theme/icon-l-clear"
-                onClicked: loginModal.show = false
-            }
-        }
     }
 
-    Modal {
+    RatingModal {
         id: ratingModal
 
-        Column {
-            width: parent.width - 2 * Theme.horizontalPageMargin
-            x: Theme.horizontalPageMargin
-            spacing: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-
-            Button {
-                anchors.horizontalCenter: parent.horizontalCenter
-                visible: movieService.movie.rating > 0
-                text: qsTr("Clear")
-                onClicked: {
-                    movieService.removeRating()
-                    ratingModal.show = false
-                }
-            }
-
-            Slider {
-                id: ratingSlider
-
-                width: parent.width
-                anchors.horizontalCenter: parent.horizontalCenter
-                minimumValue: 1
-                maximumValue: 10
-                value: movieService.movie.rating > 0 ? movieService.movie.rating : 5
-                stepSize: 1
-                valueText: value + ".0"
-
-                Icon {
-                    id: dislikeIcon
-
-                    width: Theme.iconSizeSmall
-                    height: width
-                    source: "image://theme/icon-s-like"
-                    anchors {
-                        right: parent.left
-                        rightMargin: -Math.round(Screen.width/8) + Theme.paddingMedium
-                        verticalCenter: parent.verticalCenter
-                    }
-                    transform: Scale {
-                        origin.x: Theme.iconSizeSmall / 2
-                        origin.y: Theme.iconSizeSmall / 2
-                        yScale: -1
-                    }
-                }
-
-                Icon {
-                    id: likeIcon
-
-                    width: Theme.iconSizeSmall
-                    height: width
-                    source: "image://theme/icon-s-like"
-                    anchors {
-                        left: parent.right
-                        leftMargin: -Math.round(Screen.width/8) + Theme.paddingMedium
-                        verticalCenter: parent.verticalCenter
-                    }
-                }
-            }
-
-            Button {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Rate")
-                onClicked: {
-                    movieService.addRating(ratingSlider.value)
-                    ratingModal.show = false
-                }
-            }
-
-            Spacer {}
-
-            IconButton {
-                anchors.horizontalCenter: parent.horizontalCenter
-                icon.source: "image://theme/icon-l-clear"
-                onClicked: ratingModal.show = false
-            }
-
-            Spacer {}
-
-            Label {
-                visible: !app.settings.doNotShowRatingReminder
-                width: parent.width
-                wrapMode: "WordWrap"
-                horizontalAlignment: "AlignHCenter"
-                textFormat: Text.RichText
-                onLinkActivated: Qt.openUrlExternally(link)
-                text: '
-                <html>
-                    <head><style>
-                        a { color: ' + Theme.highlightColor + '; }
-                    </style></head>
-                    <body>
-                        ' + qsTr("By default, we will remove a rated item from your watchlist if it's present. This keeps your \"watched\" and and \"want to watch\" lists tidy and in sync. You can edit this behaviour <a href=\"https://www.themoviedb.org/settings/sharing\">here</a>.") + '
-                    </body>
-                </html>
-            '
-            }
-
-            Button {
-                visible: !app.settings.doNotShowRatingReminder
-                text: qsTr("Do not remind again")
-                onClicked: app.settings.doNotShowRatingReminder = true
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
+        rating: movieService.movie.rating
+        onClear: function() {
+            movieService.removeRating()
+        }
+        onRate: function(value) {
+            movieService.addRating(value)
         }
     }
 }

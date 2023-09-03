@@ -3,9 +3,9 @@
 PersonsListService::PersonsListService(Api &api,
                                        FileCache &cache,
                                        Settings &settings,
-                                       PeopleListModel *anyRoleList,
-                                       PeopleListModel *castRoleList,
-                                       PeopleListModel *crewRoleList,
+                                       SearchPeopleListModel *anyRoleList,
+                                       SearchPeopleListModel *castRoleList,
+                                       SearchPeopleListModel *crewRoleList,
                                        QObject *parent) :
     QObject(parent),
     api(api),

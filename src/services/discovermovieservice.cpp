@@ -14,7 +14,7 @@ DiscoverMovieService::DiscoverMovieService(Api &api,
     personsListService(new PersonsListService(api, cache, settings, form->getAnyRoleList(), form->getCastRoleList(), form->getCrewRoleList(), this)),
     companiesService(new CompaniesService(api, cache, form->getCompanies(), this)),
     keywordsService(new KeywordsService(api, cache, form->getKeywords(), this)),
-    model(new MoviesListModel(this))
+    model(new MediaListModel(this))
 {
     connect(&api, &Api::discoverMoviesDone, this, &DiscoverMovieService::apiRequestDone);
     connect(form, &DiscoverMovie::watchRegionChanged, this, &DiscoverMovieService::initializeMovieProviders);
@@ -28,12 +28,22 @@ void DiscoverMovieService::search()
 
 void DiscoverMovieService::select(int id)
 {
-    QList<MovieListItem>::const_iterator it;
+    QList<MediaListItem>::const_iterator it;
     for (it = model->getItems().constBegin(); it != model->getItems().constEnd(); it++) {
         if (it->getId() == id) {
             movieService.fillWithListItemAndLoad(*it);
             return;
         }
+    }
+}
+
+void DiscoverMovieService::addCompanyFromSearch(int id)
+{
+    Company item = companiesService->getList()->findById(id);
+    qDebug() << "found item" << item.getId();
+    if (item.getId() != -1) {
+        form->getCompanies()->add(item);
+        companiesService->getList()->removeOneById(item.getId());
     }
 }
 
@@ -77,7 +87,7 @@ DiscoverMovie *DiscoverMovieService::getForm() const
     return form;
 }
 
-MoviesListModel *DiscoverMovieService::getModel() const
+MediaListModel *DiscoverMovieService::getModel() const
 {
     return model;
 }

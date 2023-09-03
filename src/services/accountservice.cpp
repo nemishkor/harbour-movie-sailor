@@ -5,20 +5,22 @@ AccountService::AccountService(Account *account,
                                Settings &settings,
                                GenresListModel *genresListModel,
                                MovieService &movieService,
+                               TvService &tvService,
                                QObject *parent) :
     QObject(parent),
     api(api),
     settings(settings),
     genresListModel(genresListModel),
     movieService(movieService),
+    tvService(tvService),
     requestToken(new RequestToken(false, "", QDateTime(), this)),
     account(account),
-    favoriteMovies(new AccountMediaListService(Api::FavoriteMovies, api, genresListModel, movieService, this)),
-    favoriteTv(new AccountMediaListService(Api::FavoriteTv, api, genresListModel, movieService, this)),
-    ratedMovies(new AccountMediaListService(Api::RatedMovies, api, genresListModel, movieService, this)),
-    ratedTv(new AccountMediaListService(Api::RatedTv, api, genresListModel, movieService, this)),
-    watchlistMovies(new AccountMediaListService(Api::WatchlistMovies, api, genresListModel, movieService, this)),
-    watchlistTv(new AccountMediaListService(Api::WatchlistTv, api, genresListModel, movieService, this))
+    favoriteMovies(new AccountMediaListService(Api::FavoriteMovies, MediaListItem::MovieType, api, genresListModel, movieService, tvService, this)),
+    favoriteTv(new AccountMediaListService(Api::FavoriteTv, MediaListItem::TvType, api, genresListModel, movieService, tvService, this)),
+    ratedMovies(new AccountMediaListService(Api::RatedMovies, MediaListItem::MovieType, api, genresListModel, movieService, tvService, this)),
+    ratedTv(new AccountMediaListService(Api::RatedTv, MediaListItem::TvType, api, genresListModel, movieService, tvService, this)),
+    watchlistMovies(new AccountMediaListService(Api::WatchlistMovies, MediaListItem::MovieType, api, genresListModel, movieService, tvService, this)),
+    watchlistTv(new AccountMediaListService(Api::WatchlistTv, MediaListItem::TvType, api, genresListModel, movieService, tvService, this))
 {
     connect(&api, &Api::requestRefreshTokenDone, this, &AccountService::saveRefreshToken);
     connect(&api, &Api::createSessionDone, this, &AccountService::saveSession);
@@ -34,6 +36,14 @@ AccountService::AccountService(Account *account,
     connect(movieService.getMovie(), &Movie::favoriteChanged, this, &AccountService::movieFavoriteChanged);
     connect(movieService.getMovie(), &Movie::ratingChanged, this, &AccountService::movieRatingChanged);
     connect(movieService.getMovie(), &Movie::watchlistChanged, this, &AccountService::movieWatchlistChanged);
+
+    connect(movieService.getMovie(), &Movie::favoriteChanged, this, &AccountService::movieFavoriteChanged);
+    connect(movieService.getMovie(), &Movie::ratingChanged, this, &AccountService::movieRatingChanged);
+    connect(movieService.getMovie(), &Movie::watchlistChanged, this, &AccountService::movieWatchlistChanged);
+
+    connect(tvService.getModel(), &Tv::favoriteChanged, this, &AccountService::tvFavoriteChanged);
+    connect(tvService.getModel(), &Tv::ratingChanged, this, &AccountService::tvRatingChanged);
+    connect(tvService.getModel(), &Tv::watchlistChanged, this, &AccountService::tvWatchlistChanged);
 
     api.loadAccount();
 }
@@ -151,4 +161,19 @@ void AccountService::movieRatingChanged()
 void AccountService::movieWatchlistChanged()
 {
     watchlistMovies->getList()->setDirty(true);
+}
+
+void AccountService::tvFavoriteChanged()
+{
+    favoriteTv->getList()->setDirty(true);
+}
+
+void AccountService::tvRatingChanged()
+{
+    ratedTv->getList()->setDirty(true);
+}
+
+void AccountService::tvWatchlistChanged()
+{
+    watchlistTv->getList()->setDirty(true);
 }

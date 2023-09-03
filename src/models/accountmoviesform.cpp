@@ -3,10 +3,20 @@
 AccountMoviesForm::AccountMoviesForm(QObject *parent) :
     QObject(parent),
     page(1),
-    sortBy("created_at.asc"),
-    dirty(true)
+    sortBy("created_at.asc")
 {
 
+}
+
+void AccountMoviesForm::populateQuery(QUrlQuery &urlQuery) const
+{
+    urlQuery.addQueryItem("sort_by", sortBy);
+    urlQuery.addQueryItem("page", QString::number(page));
+}
+
+QString AccountMoviesForm::toString() const
+{
+    return sortBy + "|" + QString::number(page);
 }
 
 int AccountMoviesForm::getPage() const
@@ -33,15 +43,5 @@ void AccountMoviesForm::setSortBy(const QString &newSortBy)
         return;
     sortBy = newSortBy;
     emit sortByChanged();
-    dirty = true;
-}
-
-bool AccountMoviesForm::getDirty() const
-{
-    return dirty;
-}
-
-void AccountMoviesForm::setDirty(bool newDirty)
-{
-    dirty = newDirty;
+    setDirty(true);
 }

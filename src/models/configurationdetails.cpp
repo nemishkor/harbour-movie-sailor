@@ -4,6 +4,7 @@ ConfigurationDetails::ConfigurationDetails(QObject *parent) :
     QObject(parent),
     optimalListSize("w185"),
     optimalPosterSize("w342"),
+    optimalStillSize("w300"),
     imagesSecureBaseUrl("https://image.tmdb.org/t/p/"),
     logoSize("original"),
     posterSize("original")
@@ -27,6 +28,7 @@ const QJsonDocument ConfigurationDetails::fillFromAPI(const QJsonDocument &json)
     setLogoSize(findInJsonStringArray(images["logo_sizes"].toArray(), optimalListSize, "original"));
     setPosterSize(findInJsonStringArray(images["poster_sizes"].toArray(), optimalPosterSize, "original"));
     setProfileSize(findInJsonStringArray(images["profile_sizes"].toArray(), optimalListSize, "original"));
+    setStillSize(findInJsonStringArray(images["still_sizes"].toArray(), optimalStillSize, "original"));
 
     return json;
 }
@@ -107,6 +109,19 @@ void ConfigurationDetails::setBackdropSize(const QString &newBackdropSize)
         return;
     backdropSize = newBackdropSize;
     emit backdropSizeChanged();
+}
+
+const QString &ConfigurationDetails::getStillSize() const
+{
+    return stillSize;
+}
+
+void ConfigurationDetails::setStillSize(const QString &newStillSize)
+{
+    if (stillSize == newStillSize)
+        return;
+    stillSize = newStillSize;
+    emit stillSizeChanged();
 }
 
 QString ConfigurationDetails::findInJsonStringArray(const QJsonArray &haystack, const QString &needle, const QString &defaultValue)

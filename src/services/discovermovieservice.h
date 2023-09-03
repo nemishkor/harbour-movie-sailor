@@ -13,14 +13,14 @@
 #include "src/services/movieprovidersmanager.h"
 #include "src/services/movieservice.h"
 #include "src/services/personslistservice.h"
-#include "src/viewmodels/movieslistmodel.h"
+#include "src/viewmodels/medialistmodel.h"
 #include "src/viewmodels/genreslistmodel.h"
 
 class DiscoverMovieService : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(DiscoverMovie* form READ getForm CONSTANT)
-    Q_PROPERTY(MoviesListModel* model READ getModel CONSTANT)
+    Q_PROPERTY(MediaListModel* model READ getModel CONSTANT)
     Q_PROPERTY(MovieProvidersManager* movieProviders READ getMovieProviders CONSTANT)
     Q_PROPERTY(PersonsListService* personsListService READ getPersonsListService CONSTANT)
     Q_PROPERTY(CompaniesService* companiesService READ getCompaniesService CONSTANT)
@@ -36,11 +36,12 @@ public:
                       QObject *parent);
     Q_INVOKABLE void search();
     Q_INVOKABLE void select(int id);
+    Q_INVOKABLE void addCompanyFromSearch(int id);
 
     bool getInitialized() const;
     void setInitialized(bool newInitialized);
 
-    MoviesListModel *getModel() const;
+    MediaListModel *getModel() const;
     DiscoverMovie *getForm() const;
     MovieProvidersManager *getMovieProviders() const;
     PersonsListService *getPersonsListService() const;
@@ -59,7 +60,7 @@ private:
     PersonsListService* personsListService;
     CompaniesService* companiesService;
     KeywordsService* keywordsService;
-    MoviesListModel* model;
+    MediaListModel* model;
     bool initialized;
 
 signals:

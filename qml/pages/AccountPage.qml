@@ -18,68 +18,63 @@ BasePage {
 
             PageHeader { title: qsTr("Account"); description: app.account.username }
 
-            Repeater {
-                model: ListModel {
-                    ListElement {
-                        page: "./FavoriteMoviesPage.qml"
-                        text: qsTr("Favorite movies")
-                        icon: "icon-m-favorite-selected"
-                    }
-                    ListElement {
-                        page: "./FavoriteTvPage.qml"
-                        text: qsTr("Favorite TV")
-                        icon: "icon-m-favorite-selected"
-                    }
-                    ListElement {
-                        page: "./RatedMoviesPage.qml"
-                        text: qsTr("Rated movies")
-                        icon: "icon-m-outline-like"
-                    }
-                    ListElement {
-                        page: "./RatedTvPage.qml"
-                        text: qsTr("Rated TV")
-                        icon: "icon-m-outline-like"
-                    }
-                    ListElement {
-                        page: "./RatedTvEpisodesPage.qml"
-                        text: qsTr("Rated TV episodes")
-                        icon: "icon-m-outline-like"
-                    }
-                    ListElement {
-                        page: "./WatchlistMoviesPage.qml"
-                        text: qsTr("Watchlist movies")
-                        icon: "icon-m-media"
-                    }
-                    ListElement {
-                        page: "./WatchlistTvPage.qml"
-                        text: qsTr("Watchlist TV")
-                        icon: "icon-m-media"
-                    }
-                    ListElement {
-                        page: "./ListsPage.qml"
-                        text: qsTr("Lists")
-                        icon: "icon-m-note"
-                    }
-                }
-                delegate: BackgroundItem {
-                    onClicked: pageStack.animatorPush(model.page)
+            BackgroundItemWithIcon {
+                text: qsTr("Favorite movies")
+                iconName: "icon-m-favorite-selected"
+                onClicked: pageStack.animatorPush("./AccountMediaListPage.qml", {
+                               service: app.accountService.favoriteMovies,
+                               title: text, targetPage: "./MoviePage.qml"})
+            }
 
-                    Label {
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: parent.width - 2 * Theme.horizontalPageMargin - Theme.iconSizeMedium
-                        x: Theme.horizontalPageMargin + Theme.iconSizeMedium + Theme.paddingMedium
-                        text: model.text
-                    }
-                    Icon {
-                        source: "image://theme/" + model.icon + "?" +
-                                (parent.highlighted ? Theme.highlightColor : Theme.primaryColor)
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            left: parent.left
-                            leftMargin: Theme.horizontalPageMargin - Theme.paddingSmall
-                        }
-                    }
-                }
+            BackgroundItemWithIcon {
+                text: qsTr("Favorite TV")
+                iconName: "icon-m-favorite-selected"
+                onClicked: pageStack.animatorPush("./AccountMediaListPage.qml", {
+                               service: app.accountService.favoriteTv,
+                               title: text, targetPage: "./TvPage.qml"})
+            }
+
+            BackgroundItemWithIcon {
+                text: qsTr("Rated movies")
+                iconName: "icon-m-outline-like"
+                onClicked: pageStack.animatorPush("./AccountMediaListPage.qml", {
+                               service: app.accountService.ratedMovies,
+                               title: text, targetPage: "./MoviePage.qml"})
+            }
+
+            BackgroundItemWithIcon {
+                text: qsTr("Rated TV series")
+                iconName: "icon-m-outline-like"
+                onClicked: pageStack.animatorPush("./AccountMediaListPage.qml", {
+                               service: app.accountService.ratedTv,
+                               title: text, targetPage: "./TvPage.qml"})
+            }
+
+            BackgroundItemWithIcon {
+                text: qsTr("Rated TV episodes")
+                iconName: "icon-m-outline-like"
+            }
+
+            BackgroundItemWithIcon {
+                text: qsTr("Watchlist movies")
+                iconName: "icon-m-media"
+                onClicked: pageStack.animatorPush("./AccountMediaListPage.qml", {
+                               service: app.accountService.watchlistMovies,
+                               title: text, targetPage: "./MoviePage.qml"})
+            }
+
+            BackgroundItemWithIcon {
+                text: qsTr("Watchlist TV")
+                iconName: "icon-m-media"
+                onClicked: pageStack.animatorPush("./AccountMediaListPage.qml", {
+                               service: app.accountService.watchlistTv,
+                               title: text, targetPage: "./TvPage.qml"})
+            }
+
+            BackgroundItemWithIcon {
+                text: qsTr("Lists")
+                iconName: "icon-m-note"
+                onClicked: pageStack.animatorPush("./ListsPage.qml")
             }
         }
 

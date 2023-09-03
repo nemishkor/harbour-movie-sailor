@@ -12,7 +12,8 @@
 #include "src/models/requesttoken.h"
 #include "src/services/accountmedialistservice.h"
 #include "src/services/movieservice.h"
-#include "src/viewmodels/movieslistmodel.h"
+#include "src/services/tvservice.h"
+#include "src/viewmodels/medialistmodel.h"
 #include "src/viewmodels/genreslistmodel.h"
 
 class AccountService : public QObject
@@ -32,6 +33,7 @@ public:
                    Settings &settings,
                    GenresListModel *genresListModel,
                    MovieService &movieService,
+                   TvService &tvService,
                    QObject *parent);
 
     Q_INVOKABLE void createRequestToken();
@@ -52,6 +54,7 @@ private:
     Settings &settings;
     GenresListModel *genresListModel;
     MovieService &movieService;
+    TvService &tvService;
     RequestToken *requestToken;
     Account *account;
 
@@ -69,6 +72,9 @@ public slots:
     void movieFavoriteChanged();
     void movieRatingChanged();
     void movieWatchlistChanged();
+    void tvFavoriteChanged();
+    void tvRatingChanged();
+    void tvWatchlistChanged();
 
 };
 

@@ -16,34 +16,9 @@ BasePage {
 
     FullPageRequestProgress { requestInfo: root.service.request }
 
-    SilicaListView {
-        id: viewList
-
+    SilicaFlickable {
         anchors.fill: parent
-        model: root.service.list
-        visible: root.service.request.state === 2
-        header: PageHeader { title: root.title }
-        delegate: MoviesListItem {
-            backdropPath: model.backdropPath
-            posterPath: model.posterPath
-            title: model.title
-            originalTitle: model.originalTitle
-            overview: model.overview
-            releaseYear: model.releaseYear
-            adult: model.adult
-            voteAvarage: model.voteAvarage
-            voteCount: model.voteCount
-            genres: model.genres
-            onClicked: {
-                root.service.select(model.id)
-                pageStack.animatorPush("./MoviePage.qml")
-            }
-        }
-
-        ViewPlaceholder {
-            enabled: viewList.count === 0
-            text: qsTr("List is empty")
-        }
+        contentHeight: column.height
 
         PushUpMenu{
             visible: root.service.form.page < root.service.list.totalPages
@@ -53,6 +28,67 @@ BasePage {
                 onClicked: {
                     root.service.form.page = root.service.form.page + 1
                     root.service.search()
+                }
+            }
+        }
+
+        ViewPlaceholder {
+            id: placeholder
+
+            enabled: viewList.count === 0 && root.service.request.state === 2
+            text: qsTr("List is empty")
+        }
+
+        Column {
+            id: column
+
+            width: parent.width
+
+            PageHeader { title: root.title }
+
+            Label {
+                visible: !placeholder.enabled
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                text: qsTr("Sort by") + ": " + qsTr("Created at")
+            }
+
+            OrderBy {
+                visible: !placeholder.enabled
+                orderBy: "asc"
+                onClicked: {
+                    orderBy = orderBy === "asc" ? "desc" : "asc"
+                    root.service.form.sortBy = "created_at." + orderBy
+                    root.service.search()
+                }
+            }
+
+            Spacer {}
+
+            ListView {
+                id: viewList
+
+                model: root.service.list
+                visible: root.service.request.state === 2
+                currentIndex: -1 // otherwise currentItem will steal focus
+                width: parent.width
+                height: childrenRect.height
+                interactive: false
+                delegate: MoviesListItem {
+                    backdropPath: model.backdropPath
+                    imagePath: model.imagePath
+                    name: model.name
+                    originalName: model.originalName
+                    overview: model.overview
+                    releaseYear: model.releaseYear
+                    adult: model.adult
+                    voteAvarage: model.voteAvarage
+                    voteCount: model.voteCount
+                    genres: model.genres
+                    onClicked: {
+                        root.service.select(model.id)
+                        pageStack.animatorPush("./MoviePage.qml")
+                    }
                 }
             }
         }

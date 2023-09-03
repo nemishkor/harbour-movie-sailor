@@ -6,8 +6,8 @@ import "../components/filters"
 BaseDialog {
     id: root
 
-    property var listModel: companiesModel
-    property var searchListModel: companiesSearchModel
+    property var service: discoverMovieService.companiesService
+    property var listModel: discoverMovieService.form.companies
 
     backNavigation: false
     canAccept: true
@@ -21,7 +21,7 @@ BaseDialog {
 
             width: parent.width
             Component.onCompleted: {
-                if (root.listModel.count === 0) {
+                if (viewList.count === 0) {
                     searchField.forceActiveFocus()
                     searchField.selectAll()
                 }
@@ -31,12 +31,14 @@ BaseDialog {
 
             SectionHeader {
                 text: qsTr("Selected companies")
-                visible: root.listModel.count > 0
+                visible: viewList.count > 0
             }
 
             CombineModeComboBox { model: root.listModel }
 
             ListView {
+                id: viewList
+
                 model: root.listModel
                 currentIndex: -1 // otherwise currentItem will steal focus
                 width: parent.width
@@ -46,7 +48,7 @@ BaseDialog {
                     PropertyAction { property: "opacity"; value: 1 }
                 }
                 delegate: AndOrListItem {
-                    isLast: index < (root.listModel.count - 1)
+                    isLast: index < (viewList.count - 1)
                     imageSource: model.logo === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.logo)
                     title: model.name
                     description: model.country === "" ? "" : (qsTr("Origin country") + ": " + model.country)
@@ -58,8 +60,8 @@ BaseDialog {
                 }
             }
 
-            GlassSpacer { visible: root.listModel.count > 0 }
-            Spacer { visible: root.listModel.count > 0 }
+            GlassSpacer { visible: viewList.count > 0 }
+            Spacer { visible: viewList.count > 0 }
 
             SearchField {
                 id: searchField
@@ -75,13 +77,15 @@ BaseDialog {
 
                     repeat: false
                     onTriggered: function() {
-                        discoverMovieService.companiesService.search(searchField.text)
+                        root.service.form.query = searchField.text
+                        root.service.form.page = 1
+                        root.service.search()
                     }
                 }
             }
 
             ListView {
-                model: root.searchListModel
+                model: root.service.list
                 currentIndex: -1 // otherwise currentItem will steal focus
                 width: parent.width
                 height: childrenRect.height
@@ -91,7 +95,7 @@ BaseDialog {
                     text: model.name
                     description: model.country === "" ? "" : (qsTr("Origin country") + ": " + model.country)
                     button.onClicked: {
-                        discoverMovieService.companiesService.addFromSearch(model.id)
+                        discoverMovieService.addCompanyFromSearch(model.id)
                     }
                 }
             }
@@ -100,10 +104,5 @@ BaseDialog {
         VerticalScrollDecorator {}
     }
 
-    Item {
-        visible: !discoverMovieService.companiesService.initialized
-        anchors.fill: parent
-
-        FullPageRequestProgress { requestInfo: companiesRequestInfo }
-    }
+    FullPageRequestProgress { requestInfo: root.service.request }
 }

@@ -19,13 +19,16 @@
 #include "src/models/searchpeopleform.h"
 #include "src/models/discovermovie.h"
 #include "src/models/settings.h"
+#include "src/models/form.h"
+#include "src/models/searchform.h"
+#include "src/models/tv.h"
 
 class Api : public QObject
 {
     Q_OBJECT
 public:
     enum WorkerName {
-        Account,
+        Account = 0,
         ConfigurationCountries,
         ConfigurationDetails,
         ConfigurationLanguages,
@@ -33,18 +36,24 @@ public:
         Genres,
         Keywords,
         LoadMovie,
+        LoadTv,
         MoviePeople,
         WatchMovieProviders,
         SearchCompanies,
         SearchPeople,
         RequestRefreshToken,
         CreateSession,
-        Favorite,
-        Watchlist,
-        AddRating,
-        RemoveRating,
+        ToggleFavoriteMovie,
+        ToggleWatchlistMovie,
+        AddRatingMovie,
+        RemoveRatingTv,
+        ToggleFavoriteTv,
+        ToggleWatchlistTv,
+        AddRatingTv,
+        RemoveRatingMovie,
         FavoriteMovies,
         FavoriteTv,
+        SearchMedia,
         RatedMovies,
         RatedTv,
         WatchlistMovies,
@@ -59,21 +68,34 @@ public:
     void loadConfigurationDetails();
     void loadConfigurationLanguages();
     void loadMovie(int id);
+    void loadTv(int id);
     void loadMovieGenres();
     void loadTVGenres();
     void loadKeywords(const QString query, int page);
     void loadWatchMovieProviders(const QString &region);
     void loadSearchPersons(const SearchPeopleForm &form);
-    void searchCompanies(const QString &query);
     void requestRefreshToken();
     void createSessionId(const QByteArray &data);
     void loadAccount();
-    void toggleFavorite(const class Movie &movie);
-    void toggleWatchlist(const class Movie &movie);
-    void addRating(const class Movie &movie, int rating);
-    void removeRating(const class Movie &movie);
 
-    void loadAccountMediaList(WorkerName workerName, const AccountMoviesForm &form);
+    void toggleFavorite(WorkerName workerName, const QString &type, int id, bool newValue);
+    void toggleFavorite(const class Movie &movie);
+    void toggleFavorite(const Tv &movie);
+
+    void toggleWatchlist(WorkerName workerName, const QString &type, int id, bool newValue);
+    void toggleWatchlist(const class Movie &movie);
+    void toggleWatchlist(const Tv &movie);
+
+    void addRating(WorkerName workerName, const QString &type, int id, int newValue);
+    void addRating(const class Movie &movie, int rating);
+    void addRating(const Tv &movie, int rating);
+
+    void removeRating(WorkerName workerName, const QString &type, int id);
+    void removeRating(const class Movie &movie);
+    void removeRating(const Tv &movie);
+
+    void getResource(WorkerName workerName, const Form &form);
+    void searchMedia(WorkerName workerName, const SearchForm &form);
 
 private:
     class Account *account;
@@ -90,8 +112,8 @@ private:
     QMap<WorkerName, ApiWorker*> workers;
     void setupWorker(WorkerName name, const char *method);
     ApiWorker* getWorker(WorkerName name) const;
-
-    QUrlQuery buildFromForm(const AccountMoviesForm &form);
+    QString getLanguage() const;
+    QString getIncludeAdult() const;
 
 signals:
     void configurationCountriesDone(QByteArray &);
@@ -99,6 +121,7 @@ signals:
     void configurationLanguagesDone(QByteArray &);
     void loadAccountDone(QByteArray &);
     void movieDone(QByteArray &);
+    void loadTvDone(QByteArray &);
     void discoverMoviesDone(QByteArray &);
     void genresDone(QByteArray &);
     void keywordsDone(QByteArray &);
@@ -107,12 +130,20 @@ signals:
     void searchPersonsDone(QByteArray &);
     void requestRefreshTokenDone(QByteArray &);
     void createSessionDone(QByteArray &);
+
     void favoriteDone(QByteArray &);
     void toggleWatchlistDone(QByteArray &);
     void addRatingDone(QByteArray &);
     void removeRatingDone(QByteArray &);
+
+    void toggleFavoriteTvDone(QByteArray &);
+    void toggleWatchlistTvDone(QByteArray &);
+    void addRatingTvDone(QByteArray &);
+    void removeRatingTvDone(QByteArray &);
+
     void favoriteMoviesDone(QByteArray &);
     void favoriteTvDone(QByteArray &);
+    void searchMediaDone(QByteArray &);
     void ratedMoviesDone(QByteArray &);
     void ratedTvDone(QByteArray &);
     void watchlistMoviesDone(QByteArray &);

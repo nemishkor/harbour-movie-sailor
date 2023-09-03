@@ -16,15 +16,24 @@ Api::Api(class Account *account, Settings &settings, QObject *parent) :
     setupWorker(Genres, SIGNAL(genresDone(QByteArray &)));
     setupWorker(Keywords, SIGNAL(keywordsDone(QByteArray &)));
     setupWorker(LoadMovie, SIGNAL(movieDone(QByteArray &)));
+    setupWorker(LoadTv, SIGNAL(loadTvDone(QByteArray &)));
     setupWorker(WatchMovieProviders, SIGNAL(watchMovieProvidersDone(QByteArray &)));
     setupWorker(SearchCompanies, SIGNAL(searchCompaniesDone(QByteArray &)));
     setupWorker(SearchPeople, SIGNAL(searchPersonsDone(QByteArray &)));
     setupWorker(RequestRefreshToken, SIGNAL(requestRefreshTokenDone(QByteArray &)));
     setupWorker(CreateSession, SIGNAL(createSessionDone(QByteArray &)));
-    setupWorker(Favorite, SIGNAL(favoriteDone(QByteArray &)));
-    setupWorker(Watchlist, SIGNAL(toggleWatchlistDone(QByteArray &)));
-    setupWorker(AddRating, SIGNAL(addRatingDone(QByteArray &)));
-    setupWorker(RemoveRating, SIGNAL(removeRatingDone(QByteArray &)));
+
+    setupWorker(ToggleFavoriteMovie, SIGNAL(favoriteDone(QByteArray &)));
+    setupWorker(ToggleWatchlistMovie, SIGNAL(toggleWatchlistDone(QByteArray &)));
+    setupWorker(AddRatingMovie, SIGNAL(addRatingDone(QByteArray &)));
+    setupWorker(RemoveRatingMovie, SIGNAL(removeRatingDone(QByteArray &)));
+
+    setupWorker(ToggleFavoriteTv, SIGNAL(toggleFavoriteTvDone(QByteArray &)));
+    setupWorker(ToggleWatchlistTv, SIGNAL(toggleWatchlistTvDone(QByteArray &)));
+    setupWorker(AddRatingTv, SIGNAL(addRatingTvDone(QByteArray &)));
+    setupWorker(RemoveRatingTv, SIGNAL(removeRatingTvDone(QByteArray &)));
+
+    setupWorker(SearchMedia, SIGNAL(searchMediaDone(QByteArray &)));
 
     setupWorker(FavoriteMovies, SIGNAL(favoriteMoviesDone(QByteArray &)));
     setupWorker(FavoriteTv, SIGNAL(favoriteTvDone(QByteArray &)));
@@ -159,7 +168,7 @@ void Api::loadConfigurationLanguages()
 void Api::loadMovie(int id)
 {
     QUrlQuery query;
-    query.addQueryItem("language", settings.getLanguage());
+    query.addQueryItem("language", getLanguage());
 
     if (!settings.getSessionId().isEmpty()) {
         query.addQueryItem("session_id", settings.getSessionId());
@@ -167,6 +176,19 @@ void Api::loadMovie(int id)
     }
 
     getWorker(LoadMovie)->get(buildRequest("movie/" + QString::number(id), query));
+}
+
+void Api::loadTv(int id)
+{
+    QUrlQuery query;
+    query.addQueryItem("language", getLanguage());
+
+    if (!settings.getSessionId().isEmpty()) {
+        query.addQueryItem("session_id", settings.getSessionId());
+        query.addQueryItem("append_to_response", "account_states");
+    }
+
+    getWorker(LoadTv)->get(buildRequest("tv/" + QString::number(id), query));
 }
 
 void Api::loadMovieGenres()
@@ -219,15 +241,6 @@ void Api::loadSearchPersons(const SearchPeopleForm &form)
     getWorker(SearchPeople)->get(buildRequest("search/person", urlQuery));
 }
 
-void Api::searchCompanies(const QString &query)
-{
-    QUrlQuery urlQuery;
-    urlQuery.addQueryItem("query", query);
-    urlQuery.addQueryItem("page", QString::number(1));
-
-    getWorker(SearchCompanies)->get(buildRequest("search/company", urlQuery));
-}
-
 void Api::requestRefreshToken()
 {
     getWorker(RequestRefreshToken)->get(buildRequest("authentication/token/new"));
@@ -249,7 +262,7 @@ void Api::loadAccount()
     getWorker(Account)->get(buildRequest("account/account_id", urlQuery));
 }
 
-void Api::toggleFavorite(const class Movie &movie)
+void Api::toggleFavorite(WorkerName workerName, const QString &type, int id, bool newValue)
 {
     if (settings.getSessionId().isEmpty() || account->getId() == 0)
         return;
@@ -260,14 +273,24 @@ void Api::toggleFavorite(const class Movie &movie)
     QNetworkRequest request = buildRequest("account/" + QString::number(account->getId()) + "/favorite", urlQuery);
 
     QJsonObject obj;
-    obj.insert("media_type", "movie");
-    obj.insert("media_id", QString::number(movie.getId()));
-    obj.insert("favorite", !movie.getFavorite());
+    obj.insert("media_type", type);
+    obj.insert("media_id", QString::number(id));
+    obj.insert("favorite", newValue);
 
-    getWorker(Favorite)->post(request, QJsonDocument(obj).toJson());
+    getWorker(workerName)->post(request, QJsonDocument(obj).toJson());
 }
 
-void Api::toggleWatchlist(const class Movie &movie)
+void Api::toggleFavorite(const class Movie &movie)
+{
+    toggleFavorite(ToggleFavoriteMovie, "movie", movie.getId(), !movie.getFavorite());
+}
+
+void Api::toggleFavorite(const Tv &tv)
+{
+    toggleFavorite(ToggleFavoriteTv, "tv", tv.getId(), !tv.getFavorite());
+}
+
+void Api::toggleWatchlist(WorkerName workerName, const QString &type, int id, bool newValue)
 {
     if (settings.getSessionId().isEmpty() || account->getId() == 0)
         return;
@@ -278,70 +301,150 @@ void Api::toggleWatchlist(const class Movie &movie)
     QNetworkRequest request = buildRequest("account/" + QString::number(account->getId()) + "/watchlist", urlQuery);
 
     QJsonObject obj;
-    obj.insert("media_type", "movie");
-    obj.insert("media_id", QString::number(movie.getId()));
-    obj.insert("watchlist", !movie.getWatchlist());
+    obj.insert("media_type", type);
+    obj.insert("media_id", QString::number(id));
+    obj.insert("watchlist", newValue);
 
-    getWorker(Watchlist)->post(request, QJsonDocument(obj).toJson());
+    getWorker(workerName)->post(request, QJsonDocument(obj).toJson());
+}
+
+void Api::toggleWatchlist(const class Movie &movie)
+{
+    toggleWatchlist(ToggleWatchlistMovie, "movie", movie.getId(), !movie.getWatchlist());
+}
+
+void Api::toggleWatchlist(const Tv &tv)
+{
+    toggleWatchlist(ToggleWatchlistTv, "tv", tv.getId(), !tv.getWatchlist());
+}
+
+void Api::addRating(WorkerName workerName, const QString &type, int id, int newValue)
+{
+    if (settings.getSessionId().isEmpty() || account->getId() == 0)
+        return;
+
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("session_id", settings.getSessionId());
+
+    QNetworkRequest request = buildRequest(type + "/" + QString::number(id) + "/rating", urlQuery);
+
+    QJsonObject obj;
+    qDebug() << "value rating" << (double)newValue;
+    obj.insert("value", (double)newValue);
+
+    getWorker(workerName)->post(request, QJsonDocument(obj).toJson());
 }
 
 void Api::addRating(const class Movie &movie, int rating)
 {
+    addRating(AddRatingMovie, "movie", movie.getId(), rating);
+}
+
+void Api::addRating(const Tv &tv, int rating)
+{
+    addRating(AddRatingTv, "tv", tv.getId(), rating);
+}
+
+void Api::removeRating(WorkerName workerName, const QString &type, int id)
+{
     if (settings.getSessionId().isEmpty() || account->getId() == 0)
         return;
 
     QUrlQuery urlQuery;
     urlQuery.addQueryItem("session_id", settings.getSessionId());
 
-    QNetworkRequest request = buildRequest("movie/" + QString::number(movie.getId()) + "/rating", urlQuery);
+    QNetworkRequest request = buildRequest(type + "/" + QString::number(id) + "/rating", urlQuery);
 
-    QJsonObject obj;
-    qDebug() << "value rating" << (double)rating;
-    obj.insert("value", (double)rating);
-
-    getWorker(AddRating)->post(request, QJsonDocument(obj).toJson());
+    getWorker(workerName)->deleteResource(request);
 }
 
 void Api::removeRating(const class Movie &movie)
 {
-    if (settings.getSessionId().isEmpty() || account->getId() == 0)
-        return;
-
-    QUrlQuery urlQuery;
-    urlQuery.addQueryItem("session_id", settings.getSessionId());
-
-    QNetworkRequest request = buildRequest("movie/" + QString::number(movie.getId()) + "/rating", urlQuery);
-
-    getWorker(RemoveRating)->deleteResource(request);
+    removeRating(RemoveRatingMovie, "movie", movie.getId());
 }
 
-void Api::loadAccountMediaList(WorkerName workerName, const AccountMoviesForm &form)
+void Api::removeRating(const Tv &tv)
 {
-    QString endpoint = "account/" + QString::number(account->getId());
+    removeRating(RemoveRatingTv, "tv", tv.getId());
+}
+
+void Api::getResource(WorkerName workerName, const Form &form)
+{
+    QString endpoint;
+    QUrlQuery query;
+
     switch (workerName) {
     case Api::FavoriteMovies:
-        endpoint.append("/favorite/movies");
+        endpoint = "account/" + QString::number(account->getId()) + "/favorite/movies";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
         break;
     case Api::FavoriteTv:
-        endpoint.append("/favorite/tv");
+        endpoint = "account/" + QString::number(account->getId()) + "/favorite/tv";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
         break;
     case Api::RatedMovies:
-        endpoint.append("/rated/movies");
+        endpoint = "account/" + QString::number(account->getId()) + "/rated/movies";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
         break;
     case Api::RatedTv:
-        endpoint.append("/rated/tv");
+        endpoint = "account/" + QString::number(account->getId()) + "/rated/tv";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
         break;
     case Api::WatchlistMovies:
-        endpoint.append("/watchlist/movies");
+        endpoint = "account/" + QString::number(account->getId()) + "/watchlist/movies";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
         break;
     case Api::WatchlistTv:
-        endpoint.append("/watchlist/tv");
+        endpoint = "account/" + QString::number(account->getId()) + "/watchlist/tv";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    case Api::SearchCompanies:
+        endpoint = "search/company";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
         break;
     default:
-        qWarning() << "Invalid warker name was passed to the loadAccountMediaList method";
+        qWarning() << "Invalid warker name was passed to the getResource method";
         return;
     }
-    getWorker(workerName)->get(buildRequest(endpoint, buildFromForm(form)));
+
+    form.populateQuery(query);
+
+    getWorker(workerName)->get(buildRequest(endpoint, query));
+}
+
+void Api::searchMedia(WorkerName workerName, const SearchForm &form)
+{
+    QString endpoint;
+    QUrlQuery query;
+
+    switch (form.getType()) {
+    case SearchForm::Any:
+        endpoint = "search/multi";
+        break;
+    case SearchForm::Movie:
+        endpoint = "search/movie";
+        break;
+    case SearchForm::Tv:
+        endpoint = "search/tv";
+        break;
+    case SearchForm::Person:
+        endpoint = "search/person";
+        break;
+    }
+
+    query.addQueryItem("language", getLanguage());
+    query.addQueryItem("include_adult", getIncludeAdult());
+
+    form.populateQuery(query);
+
+    getWorker(workerName)->get(buildRequest(endpoint, query));
 }
 
 QUrl Api::buildUrl(const QString &url, const QUrlQuery &query)
@@ -389,13 +492,18 @@ ApiWorker *Api::getWorker(WorkerName name) const
     return workers[name];
 }
 
-QUrlQuery Api::buildFromForm(const AccountMoviesForm &form)
+QString Api::getLanguage() const
 {
-    QUrlQuery query;
-    query.addQueryItem("language", settings.getLanguage());
-    query.addQueryItem("page", QString::number(form.getPage()));
-    query.addQueryItem("sort_by", form.getSortBy());
-    query.addQueryItem("session_id", settings.getSessionId());
+    if (!account->getLanguage().isEmpty())
+        return account->getLanguage();
+    if (!settings.getLanguage().isEmpty())
+        return settings.getLanguage();
+    return "en-US";
+}
 
-    return query;
+QString Api::getIncludeAdult() const
+{
+    if (account->getId() != 0)
+        return account->getIncludeAdult() ? "true" : "false";
+    return "false";
 }

@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QString>
 
-class AccountMoviesForm : public QObject
+#include "src/models/form.h"
+
+class AccountMoviesForm : public QObject, public Form
 {
     Q_OBJECT
     Q_PROPERTY(int page READ getPage WRITE setPage NOTIFY pageChanged)
@@ -13,19 +15,18 @@ class AccountMoviesForm : public QObject
 public:
     AccountMoviesForm(QObject *parent);
 
+    void populateQuery(QUrlQuery &urlQuery) const override;
+    QString toString() const override;
+
     int getPage() const;
     void setPage(int newPage);
 
     const QString &getSortBy() const;
     void setSortBy(const QString &newSortBy);
 
-    bool getDirty() const;
-    void setDirty(bool newDirty);
-
 private:
     int page;
     QString sortBy;
-    bool dirty;
 
 signals:
     void pageChanged();

@@ -25,9 +25,9 @@ BasePage {
         header: PageHeader { title: root.title }
         delegate: MoviesListItem {
             backdropPath: model.backdropPath
-            posterPath: model.posterPath
-            title: model.title
-            originalTitle: model.originalTitle
+            imagePath: model.imagePath
+            name: model.name
+            originalName: model.originalName
             overview: model.overview
             releaseYear: model.releaseYear
             adult: model.adult
@@ -36,7 +36,7 @@ BasePage {
             genres: model.genres
             onClicked: {
                 root.service.select(model.id)
-                pageStack.animatorPush("./MoviePage.qml")
+                pageStack.animatorPush("./TvPage.qml")
             }
         }
 

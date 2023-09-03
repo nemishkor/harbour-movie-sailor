@@ -9,7 +9,7 @@
 #include "src/cachekey.h"
 #include "src/filecache.h"
 #include "src/models/searchpeopleform.h"
-#include "src/viewmodels/peoplelistmodel.h"
+#include "src/viewmodels/searchpeoplelistmodel.h"
 #include "src/viewmodels/searchpersonlistmodel.h"
 
 class PersonsListService : public QObject
@@ -23,9 +23,9 @@ public:
             Api &api,
             FileCache &cache,
             Settings &settings,
-            PeopleListModel *anyRoleList,
-            PeopleListModel *castRoleList,
-            PeopleListModel *crewRoleList,
+            SearchPeopleListModel *anyRoleList,
+            SearchPeopleListModel *castRoleList,
+            SearchPeopleListModel *crewRoleList,
             QObject *parent);
 
     Q_INVOKABLE void select(int id);
@@ -46,9 +46,9 @@ private:
     CacheKey key;
     SearchPeopleForm *form;
     SearchPersonListModel *searchPersonListModel;
-    PeopleListModel *anyRoleList;
-    PeopleListModel *castRoleList;
-    PeopleListModel *crewRoleList;
+    SearchPeopleListModel *anyRoleList;
+    SearchPeopleListModel *castRoleList;
+    SearchPeopleListModel *crewRoleList;
     bool initialized;
 
     Q_PROPERTY(SearchPeopleForm * form READ getForm CONSTANT)

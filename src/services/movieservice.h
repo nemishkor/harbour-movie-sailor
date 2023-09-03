@@ -9,7 +9,7 @@
 #include "src/api.h"
 #include "src/system.h"
 #include "src/models/movie.h"
-#include "src/models/movielistitem.h"
+#include "src/models/medialistitem.h"
 
 class MovieService : public QObject
 {
@@ -25,7 +25,7 @@ public:
     Q_INVOKABLE void addRating(int rating);
     Q_INVOKABLE void removeRating();
 
-    void fillWithListItemAndLoad(const MovieListItem &result);
+    void fillWithListItemAndLoad(const MediaListItem &result);
 
     Movie *getMovie() const;
 

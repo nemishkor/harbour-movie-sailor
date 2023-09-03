@@ -36,12 +36,14 @@ void MovieService::removeRating()
     api.removeRating(*movie);
 }
 
-void MovieService::fillWithListItemAndLoad(const MovieListItem &result)
+void MovieService::fillWithListItemAndLoad(const MediaListItem &result)
 {
     if (movie->getId() == result.getId())
         return;
+
     movie->setId(result.getId());
     movie->setBackdropPath(result.getBackdropPath());
+    movie->setBudget("");
     movie->setGenres(result.getGenres());
     movie->setHomepage("");
     movie->setImdbId("");

@@ -2,27 +2,30 @@
 
 CompaniesService::CompaniesService(Api &api, FileCache &cache, FilterByCompaniesListModel *model, QObject *parent) :
     QObject(parent),
+    apiWorkerName(Api::WorkerName::SearchCompanies),
     api(api),
+    request(api.getRequestInfo(apiWorkerName)),
     cache(cache),
     key("search", "company", "1"),
     model(model),
-    searchModel(*this->model, this)
+    list(new CompaniesSearchListModel(*this->model, this)),
+    form(new SearchForm(this))
 {
     connect(&api, &Api::searchCompaniesDone, this, &CompaniesService::apiRequestDone);
 }
 
-void CompaniesService::search(const QString &query)
+void CompaniesService::search()
 {
     qDebug() << "search companies";
-    if (key.key != query) {
-        key.key = query;
-        searchModel.clear();
+    if (form->isDirty()) {
+        key.key = form->toString();
+        list->clear();
         initialized = false;
         emit initializedChanged();
     }
 
-    if (query == "") {
-        qDebug() << "search companies query is empty";
+    if (!form->isValid()) {
+        qDebug() << "form is invalid";
         return;
     }
 
@@ -31,30 +34,19 @@ void CompaniesService::search(const QString &query)
     }
 
     if (cache.exists(key)) {
-        qDebug() << "load companies from cache for the query" << query;
-        searchModel.fillFromCache(cache.load(key));
+        list->fillFromCache(cache.load(key));
         initialized = true;
         emit initializedChanged();
         return;
     }
 
     qDebug() << "search companies API call";
-    api.searchCompanies(query);
+    api.getResource(apiWorkerName, *form);
 }
 
-void CompaniesService::addFromSearch(int id)
+CompaniesSearchListModel *CompaniesService::getList()
 {
-    Company item = searchModel.findById(id);
-    qDebug() << "found item" << item.getId();
-    if (item.getId() != -1) {
-        model->add(item);
-        searchModel.removeOneById(item.getId());
-    }
-}
-
-CompaniesSearchListModel *CompaniesService::getSearchModel()
-{
-    return &searchModel;
+    return list;
 }
 
 bool CompaniesService::isInitialized()
@@ -62,11 +54,22 @@ bool CompaniesService::isInitialized()
     return initialized;
 }
 
+SearchForm *CompaniesService::getForm() const
+{
+    return form;
+}
+
+RequestInfo *CompaniesService::getRequest() const
+{
+    return request;
+}
+
 void CompaniesService::apiRequestDone(const QByteArray &data)
 {
     qDebug() << "search companies API request done";
-    QJsonDocument newJson = searchModel.fillFromAPI(QJsonDocument::fromJson(data));
+    QJsonDocument newJson = list->fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     initialized = true;
     emit initializedChanged();
+    form->setDirty(false);
 }

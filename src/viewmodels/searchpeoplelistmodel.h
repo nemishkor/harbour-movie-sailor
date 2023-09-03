@@ -10,7 +10,7 @@
 
 #include "src/models/searchpersonlistitem.h"
 
-class PeopleListModel : public QAbstractListModel
+class SearchPeopleListModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
@@ -23,7 +23,7 @@ public:
         KnownForDepartment,
         ProfilePath
     };
-    explicit PeopleListModel(QObject *parent);
+    explicit SearchPeopleListModel(QObject *parent);
 
     Q_INVOKABLE void remove(int id);
 

@@ -8,7 +8,7 @@
 #include "src/viewmodels/filterbycompanieslistmodel.h"
 #include "src/viewmodels/genreslistmodel.h"
 #include "src/viewmodels/keywordslistmodel.h"
-#include "src/viewmodels/peoplelistmodel.h"
+#include "src/viewmodels/searchpeoplelistmodel.h"
 #include "src/viewmodels/movieproviderslistmodel.h"
 
 class DiscoverMovie : public QObject
@@ -31,14 +31,14 @@ class DiscoverMovie : public QObject
     Q_PROPERTY(uint voteCountGte READ getVoteCountGte WRITE setVoteCountGte NOTIFY voteCountGteChanged)
     Q_PROPERTY(bool includeVideo READ getIncludeVideo WRITE setIncludeVideo NOTIFY includeVideoChanged)
     Q_PROPERTY(bool includeAdult READ getIncludeAdult WRITE setIncludeAdult NOTIFY includeAdultChanged)
-    Q_PROPERTY(PeopleListModel* anyRoleList READ getAnyRoleList CONSTANT)
-    Q_PROPERTY(PeopleListModel* castRoleList READ getCastRoleList CONSTANT)
-    Q_PROPERTY(PeopleListModel* crewRoleList READ getCrewRoleList CONSTANT)
+    Q_PROPERTY(SearchPeopleListModel* anyRoleList READ getAnyRoleList CONSTANT)
+    Q_PROPERTY(SearchPeopleListModel* castRoleList READ getCastRoleList CONSTANT)
+    Q_PROPERTY(SearchPeopleListModel* crewRoleList READ getCrewRoleList CONSTANT)
     Q_PROPERTY(FilterByCompaniesListModel* companies READ getCompanies CONSTANT)
     Q_PROPERTY(KeywordsListModel* keywords READ getKeywords CONSTANT)
 
 public:
-    explicit DiscoverMovie(GenresListModel *genres, QObject *parent);
+    DiscoverMovie(GenresListModel *genres, QObject *parent);
 
     uint getPage() const;
     void setPage(uint newPage);
@@ -81,9 +81,9 @@ public:
     GenresListModel *getGenres() const;
     MovieProvidersListModel *getProviders() const;
     Country *getRegion() const;
-    PeopleListModel *getAnyRoleList() const;
-    PeopleListModel *getCastRoleList() const;
-    PeopleListModel *getCrewRoleList() const;
+    SearchPeopleListModel *getAnyRoleList() const;
+    SearchPeopleListModel *getCastRoleList() const;
+    SearchPeopleListModel *getCrewRoleList() const;
     FilterByCompaniesListModel *getCompanies() const;
     KeywordsListModel *getKeywords() const;
 
@@ -119,9 +119,9 @@ private:
     Language *originLanguage;
     GenresListModel *genres;
     MovieProvidersListModel *providers;
-    PeopleListModel *anyRoleList;
-    PeopleListModel *castRoleList;
-    PeopleListModel *crewRoleList;
+    SearchPeopleListModel *anyRoleList;
+    SearchPeopleListModel *castRoleList;
+    SearchPeopleListModel *crewRoleList;
     FilterByCompaniesListModel *companies;
     KeywordsListModel *keywords;
 };

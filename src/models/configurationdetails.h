@@ -43,17 +43,24 @@ public:
     const QString &getBackdropSize() const;
     void setBackdropSize(const QString &newBackdropSize);
 
+    const QString &getStillSize() const;
+    void setStillSize(const QString &newStillSize);
+
 private:
     const QString optimalListSize; // Optimal for list/grid view on Sony 10 II
     const QString optimalPosterSize;
+    const QString optimalStillSize;
     QString imagesSecureBaseUrl;
     QString backdropSize;
     QString backdropSizeInList;
     QString logoSize;
     QString posterSize;
     QString profileSize;
+    QString stillSize;
 
     QString findInJsonStringArray(const QJsonArray &haystack, const QString &needle, const QString &defaultValue);
+
+    Q_PROPERTY(QString stillSize READ getStillSize WRITE setStillSize NOTIFY stillSizeChanged)
 
 signals:
     void imagesSecureBaseUrlChanged();
@@ -62,6 +69,7 @@ signals:
     void posterSizeChanged();
     void profileSizeChanged();
     void backdropSizeChanged();
+    void stillSizeChanged();
 };
 
 #endif // CONFIGURATIONDETAILS_H

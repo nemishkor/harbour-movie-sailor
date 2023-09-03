@@ -5,14 +5,17 @@
 
 class CompaniesSearchListModel : public FilterByCompaniesListModel
 {
+    Q_OBJECT
+
 public:
-    explicit CompaniesSearchListModel(FilterByCompaniesListModel &model, QObject *parent);
+    CompaniesSearchListModel(FilterByCompaniesListModel &model, QObject *parent);
     Company findById(int id);
     void fillFromCache(const QJsonDocument &json);
     const QJsonDocument fillFromAPI(const QJsonDocument &json);
 
 private:
     FilterByCompaniesListModel &model;
+
 };
 
 #endif // COMPANIESSEARCHLISTMODEL_H

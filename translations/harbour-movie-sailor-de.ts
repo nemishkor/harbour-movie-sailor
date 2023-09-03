@@ -9,6 +9,17 @@
     </message>
 </context>
 <context>
+    <name>AboutPage</name>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unofficial client to TMDB</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AccountMediaListPage</name>
     <message>
         <source>Load more</source>
@@ -276,52 +287,6 @@
     <message>
         <source></source>
         <translation></translation>
-    </message>
-</context>
-<context>
-    <name>FavoriteMoviesPage</name>
-    <message>
-        <source>Favorite movies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List is empty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Load more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sort by</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Created at</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>FavoriteTvPage</name>
-    <message>
-        <source>Favorite TV series</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List is empty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Load more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sort by</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Created at</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -630,36 +595,6 @@
     </message>
 </context>
 <context>
-    <name>RatedMoviesPage</name>
-    <message>
-        <source>Rated movies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List is empty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Load more</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RatedTvPage</name>
-    <message>
-        <source>Rated TV series</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List is empty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Load more</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>RatingModal</name>
     <message>
         <source>Clear</source>
@@ -843,6 +778,10 @@
         <source>Clear cache</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TvEpisode</name>
@@ -975,44 +914,6 @@
     </message>
     <message>
         <source>Next episode</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WatchlistMoviesPage</name>
-    <message>
-        <source>List is empty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Load more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Movies watchlist</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WatchlistTvPage</name>
-    <message>
-        <source>List is empty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Load more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>TV series watchlist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sort by</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Created at</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

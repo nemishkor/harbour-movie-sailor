@@ -10,6 +10,13 @@ BasePage {
         anchors.fill: parent
         contentHeight: column.height
 
+        PushUpMenu{
+            MenuItem {
+                text: qsTr("About")
+                onClicked: pageStack.animatorPush("./AboutPage.qml")
+            }
+        }
+
         Column {
             id: column
 

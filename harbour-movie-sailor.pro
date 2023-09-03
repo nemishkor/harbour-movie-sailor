@@ -133,25 +133,20 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/dialogs/KeywordsDialog.qml \
     qml/dialogs/PeopleFilterDialog.qml \
     qml/languages.js \
+    qml/pages/AboutPage.qml \
     qml/pages/AccountMediaListPage.qml \
     qml/pages/AccountPage.qml \
     qml/pages/BasePage.qml \
     qml/pages/DiscoverMoviePage.qml \
     qml/pages/DiscoverMovieResultsPage.qml \
-    qml/pages/FavoriteMoviesPage.qml \
-    qml/pages/FavoriteTvPage.qml \
     qml/pages/ListsPage.qml \
     qml/pages/LoginPage.qml \
     qml/pages/MoviePage.qml \
-    qml/pages/RatedMoviesPage.qml \
-    qml/pages/RatedTvPage.qml \
     qml/pages/SearchPage.qml \
     qml/pages/SearchResultsPage.qml \
     qml/pages/SecondPage.qml \
     qml/pages/SettingsPage.qml \
     qml/pages/TvPage.qml \
-    qml/pages/WatchlistMoviesPage.qml \
-    qml/pages/WatchlistTvPage.qml \
     rpm/harbour-movie-sailor.changes.in \
     rpm/harbour-movie-sailor.changes.run.in \
     rpm/harbour-movie-sailor.spec \

@@ -77,11 +77,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Your favorites, rated movies and TV shows, watchlist be here</source>
+        <source>Rated TV series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rated TV series</source>
+        <source>Your favorites, rated movies and TV shows, watchlist will be here</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -133,7 +133,7 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>My Cover</source>
+        <source>Movie Sailor</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -384,6 +384,20 @@
     </message>
 </context>
 <context>
+    <name>MovieCastPage</name>
+    <message>
+        <source>Cast</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MovieCrewPage</name>
+    <message>
+        <source>Crew</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MoviePage</name>
     <message>
         <source>vote</source>
@@ -391,10 +405,6 @@
     </message>
     <message>
         <source>votes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>no votes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -414,35 +424,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Release</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Runtime</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>m</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Budget</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Revenue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -459,6 +445,43 @@
     </message>
     <message>
         <source>IMDB id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>runtime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>budget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>revenue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>release</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>no
+votes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full crew list</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

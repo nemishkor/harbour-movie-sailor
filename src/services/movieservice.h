@@ -14,7 +14,7 @@
 class MovieService : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Movie* movie READ getMovie CONSTANT)
+    Q_PROPERTY(Movie* model READ getModel CONSTANT)
     Q_PROPERTY(RequestInfo* request READ getRequest CONSTANT)
 
 public:
@@ -24,17 +24,18 @@ public:
     Q_INVOKABLE void toggleWatchlist();
     Q_INVOKABLE void addRating(int rating);
     Q_INVOKABLE void removeRating();
+    Q_INVOKABLE void load(int id);
 
     void fillWithListItemAndLoad(const MediaListItem &result);
 
-    Movie *getMovie() const;
+    Movie *getModel() const;
 
     RequestInfo *getRequest() const;
 
 private:
     Api &api;
     System &system;
-    Movie *movie;
+    Movie *model;
     RequestInfo *request;
 
 public slots:

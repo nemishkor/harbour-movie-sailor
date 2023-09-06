@@ -81,7 +81,7 @@ BasePage {
         ViewPlaceholder {
             enabled: app.account.id === 0
             text: qsTr("Please go to Settings page and login")
-            hintText: qsTr("Your favorites, rated movies and TV shows, watchlist be here")
+            hintText: qsTr("Your favorites, rated movies and TV shows, watchlist will be here")
         }
     }
 }

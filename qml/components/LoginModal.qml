@@ -14,6 +14,8 @@ Modal {
             horizontalAlignment: "AlignHCenter"
             font.pixelSize: Theme.fontSizeLarge
             text: qsTr("Please go to Settings page and login")
+            width: parent.width
+            wrapMode: "WordWrap"
         }
 
         IconButton {

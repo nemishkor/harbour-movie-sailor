@@ -1,13 +1,13 @@
 #include "settings.h"
 
-Settings::Settings(QObject *parent) :
+Settings::Settings(System &system, QObject *parent) :
     QObject(parent)
 {
     const QString settingsPath =
         QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)
         + "/" + QCoreApplication::applicationName() + ".conf";
     settings = new QSettings(settingsPath, QSettings::NativeFormat);
-    language = settings->value("language", "en-US").toString();
+    language = settings->value("language", system.getLanguage()).toString();
     sessionId = settings->value("sessionId", "").toString();
     doNotShowRatingReminder = settings->value("doNotShowRatingReminder", false).toBool();
 }

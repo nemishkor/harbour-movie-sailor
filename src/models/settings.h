@@ -6,6 +6,8 @@
 #include <QCoreApplication>
 #include <QStandardPaths>
 
+#include "src/system.h"
+
 class Settings : public QObject
 {
     Q_OBJECT
@@ -14,7 +16,7 @@ class Settings : public QObject
     Q_PROPERTY(bool doNotShowRatingReminder READ getDoNotShowRatingReminder WRITE setDoNotShowRatingReminder NOTIFY doNotShowRatingReminderChanged)
 
 public:
-    Settings(QObject *parent);
+    Settings(System &system, QObject *parent);
 
     const QString &getLanguage() const;
     void setLanguage(const QString &newLanguage);

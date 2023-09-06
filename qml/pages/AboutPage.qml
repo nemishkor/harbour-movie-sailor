@@ -29,7 +29,7 @@ BasePage {
             }
 
             Button {
-                parent.horizontalCenter: parent.horizontalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
                 text: "TMDB"
                 onClicked: Qt.openUrlExternally("https://www.themoviedb.org/")
             }

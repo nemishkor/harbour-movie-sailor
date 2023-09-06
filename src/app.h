@@ -40,6 +40,7 @@ class App : public QObject
     Q_OBJECT
     Q_PROPERTY(Settings* settings READ getSettings CONSTANT)
     Q_PROPERTY(int menu READ getMenu WRITE setMenu NOTIFY menuChanged)
+    Q_PROPERTY(MovieService* movieService READ getMovieService CONSTANT)
     Q_PROPERTY(AccountService* accountService READ getAccountService CONSTANT)
     Q_PROPERTY(Account* account READ getAccount CONSTANT)
     Q_PROPERTY(SearchService* searchService READ getSearchService CONSTANT)
@@ -63,6 +64,8 @@ public:
 
     FileCache *getCache() const;
 
+    MovieService *getMovieService() const;
+
 signals:
     void menuChanged();
 
@@ -76,7 +79,7 @@ private:
 
     GenresMovieService genresService;
     ConfigurationDetailsManager configurationDetailsManager;
-    MovieService movieService;
+    MovieService *movieService;
     TvService tvService;
     CountriesListService countriesListService;
     DiscoverMovieService discoverMovieService;

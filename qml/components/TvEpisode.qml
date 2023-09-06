@@ -96,7 +96,6 @@ Item {
                     font.pixelSize: Theme.fontSizeSmall
                     x: poster.width > 0 ? Theme.paddingMedium : 0
                     wrapMode: "WordWrap"
-                    Anatomy{}
                 }
             }
         }

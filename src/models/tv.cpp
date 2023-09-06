@@ -354,15 +354,13 @@ void Tv::setType(const QString &newType)
     emit typeChanged();
 }
 
-double Tv::getVoteAvarage() const
+float Tv::getVoteAvarage() const
 {
     return voteAvarage;
 }
 
-void Tv::setVoteAvarage(double newVoteAvarage)
+void Tv::setVoteAvarage(float newVoteAvarage)
 {
-    if (qFuzzyCompare(voteAvarage, newVoteAvarage))
-        return;
     voteAvarage = newVoteAvarage;
     emit voteAvarageChanged();
 }

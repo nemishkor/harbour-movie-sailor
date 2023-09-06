@@ -224,45 +224,11 @@ BasePage {
                 height: Theme.paddingMedium
             }
 
-            Row {
-                width: parent.width - 2 * Theme.horizontalPageMargin
-                x: Theme.horizontalPageMargin
-
-                Column {
-                    width: parent.width / 2
-
-                    Label {
-                        width: parent.width
-                        color: Theme.highlightColor
-                        horizontalAlignment: "AlignHCenter"
-                        text: root.service.model.episodeRunTimeHours + qsTr("h") + " " + root.service.model.episodeRunTimeMinutes + qsTr("m")
-                    }
-
-                    Label {
-                        width: parent.width
-                        text: qsTr("episode runtime")
-                        horizontalAlignment: "AlignHCenter"
-                        font.pixelSize: Theme.fontSizeSmall
-                    }
-                }
-
-                Column {
-                    width: parent.width / 2
-
-                    Label {
-                        width: parent.width
-                        color: Theme.highlightColor
-                        horizontalAlignment: "AlignHCenter"
-                        text: root.service.model.status
-                    }
-
-                    Label {
-                        width: parent.width
-                        text: qsTr("status")
-                        horizontalAlignment: "AlignHCenter"
-                        font.pixelSize: Theme.fontSizeSmall
-                    }
-                }
+            TwoMediaBlocks {
+                firstLabel: qsTr("episode runtime")
+                firstValue: root.service.model.episodeRunTimeHours + qsTr("h") + " " + root.service.model.episodeRunTimeMinutes + qsTr("m")
+                secondLabel: qsTr("status")
+                secondValue: root.service.model.status
             }
 
             Item {
@@ -270,45 +236,11 @@ BasePage {
                 height: Theme.paddingMedium
             }
 
-            Row {
-                width: parent.width - 2 * Theme.horizontalPageMargin
-                x: Theme.horizontalPageMargin
-
-                Column {
-                    width: parent.width / 2
-
-                    Label {
-                        width: parent.width
-                        color: Theme.highlightColor
-                        horizontalAlignment: "AlignHCenter"
-                        text: root.service.model.numberOfSeasons
-                    }
-
-                    Label {
-                        width: parent.width
-                        text: root.service.model.numberOfSeasons > 1 ? qsTr("seasons") : qsTr("season")
-                        horizontalAlignment: "AlignHCenter"
-                        font.pixelSize: Theme.fontSizeSmall
-                    }
-                }
-
-                Column {
-                    width: parent.width / 2
-
-                    Label {
-                        width: parent.width
-                        color: Theme.highlightColor
-                        horizontalAlignment: "AlignHCenter"
-                        text: root.service.model.numberOfEpisodes
-                    }
-
-                    Label {
-                        width: parent.width
-                        text: root.service.model.numberOfEpisodes > 1 ? qsTr("episodes") : qsTr("episode")
-                        horizontalAlignment: "AlignHCenter"
-                        font.pixelSize: Theme.fontSizeSmall
-                    }
-                }
+            TwoMediaBlocks {
+                firstLabel: root.service.model.numberOfSeasons > 1 ? qsTr("seasons") : qsTr("season")
+                firstValue: root.service.model.numberOfSeasons
+                secondLabel: root.service.model.numberOfEpisodes > 1 ? qsTr("episodes") : qsTr("episode")
+                secondValue: root.service.model.numberOfEpisodes
             }
 
             Item {
@@ -316,45 +248,11 @@ BasePage {
                 height: Theme.paddingMedium
             }
 
-            Row {
-                width: parent.width - 2 * Theme.horizontalPageMargin
-                x: Theme.horizontalPageMargin
-
-                Column {
-                    width: parent.width / 2
-
-                    Label {
-                        width: parent.width
-                        color: Theme.highlightColor
-                        horizontalAlignment: "AlignHCenter"
-                        text: root.service.model.firstAirDate
-                    }
-
-                    Label {
-                        width: parent.width
-                        text: qsTr("first air date")
-                        horizontalAlignment: "AlignHCenter"
-                        font.pixelSize: Theme.fontSizeSmall
-                    }
-                }
-
-                Column {
-                    width: parent.width / 2
-
-                    Label {
-                        width: parent.width
-                        color: Theme.highlightColor
-                        horizontalAlignment: "AlignHCenter"
-                        text: root.service.model.lastAirDate
-                    }
-
-                    Label {
-                        width: parent.width
-                        text: qsTr("last air date")
-                        horizontalAlignment: "AlignHCenter"
-                        font.pixelSize: Theme.fontSizeSmall
-                    }
-                }
+            TwoMediaBlocks {
+                firstLabel: qsTr("first air date")
+                firstValue: root.service.model.firstAirDate
+                secondLabel: qsTr("last air date")
+                secondValue: root.service.model.lastAirDate
             }
 
             Item {

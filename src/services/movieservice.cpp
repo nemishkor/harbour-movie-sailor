@@ -4,7 +4,7 @@ MovieService::MovieService(Api &api, System &system, QObject *parent) :
     QObject(parent),
     api(api),
     system(system),
-    movie(new Movie(this)),
+    model(new Movie(this)),
     request(api.getRequestInfo(Api::LoadMovie))
 {
     connect(&api, &Api::movieDone, this, &MovieService::apiRequestDone);
@@ -16,66 +16,74 @@ MovieService::MovieService(Api &api, System &system, QObject *parent) :
 
 void MovieService::toggleFavorite()
 {
-    api.toggleFavorite(*movie);
+    api.toggleFavorite(*model);
 }
 
 void MovieService::toggleWatchlist()
 {
-    api.toggleWatchlist(*movie);
+    api.toggleWatchlist(*model);
 }
 
 void MovieService::addRating(int rating)
 {
-    movie->setRating(rating);
-    api.addRating(*movie, rating);
+    model->setRating(rating);
+    api.addRating(*model, rating);
 }
 
 void MovieService::removeRating()
 {
-    movie->setRating(0);
-    api.removeRating(*movie);
+    model->setRating(0);
+    api.removeRating(*model);
+}
+
+void MovieService::load(int id)
+{
+    model->setId(id);
+    api.loadMovie(model->getId());
 }
 
 void MovieService::fillWithListItemAndLoad(const MediaListItem &result)
 {
-    if (movie->getId() == result.getId())
+    if (model->getId() == result.getId())
         return;
 
-    movie->setId(result.getId());
-    movie->setBackdropPath(result.getBackdropPath());
-    movie->setBudget("");
-    movie->setGenres(result.getGenres());
-    movie->setHomepage("");
-    movie->setImdbId("");
-    movie->setOriginalLanguage("");
-    movie->setOriginalTitle(result.getOriginalTitle());
-    movie->setOverview(result.getOverview());
-    movie->setPosterPath(result.getPosterPath());
-    movie->setReleaseDate("");
-    movie->setRevenue("");
-    movie->setRuntimeHours(0);
-    movie->setRuntimeMinutes(0);
-    movie->setStatus("");
-    movie->setTagline("");
-    movie->setTitle(result.getTitle());
-    movie->setVoteAvarage(result.getVoteAvarage());
-    movie->setVoteCount(result.getVoteCount());
-    movie->getBelongsToCollection()->setId(0);
-    movie->getBelongsToCollection()->setName("");
-    movie->getBelongsToCollection()->setPosterPath("");
-    movie->getBelongsToCollection()->setBackdropPath("");
-    movie->getProductionCompanies()->clear();
-    movie->getProductionCountries()->clear();
-    movie->getSpokenLanguages()->clear();
-    movie->setFavorite(false);
-    movie->setRating(0);
-    movie->setWatchlist(false);
-    api.loadMovie(movie->getId());
+    model->setId(result.getId());
+    model->setBackdropPath(result.getBackdropPath());
+    model->setBudget("");
+    model->setGenres(result.getGenres());
+    model->setHomepage("");
+    model->setImdbId("");
+    model->setOriginalLanguage("");
+    model->setOriginalTitle(result.getOriginalTitle());
+    model->setOverview(result.getOverview());
+    model->setPosterPath(result.getPosterPath());
+    model->setReleaseDate("");
+    model->setRevenue("");
+    model->setRuntimeHours(0);
+    model->setRuntimeMinutes(0);
+    model->setStatus("");
+    model->setTagline("");
+    model->setTitle(result.getTitle());
+    model->setVoteAvarage(result.getVoteAvarage());
+    model->setVoteCount(result.getVoteCount());
+    model->getBelongsToCollection()->setId(0);
+    model->getBelongsToCollection()->setName("");
+    model->getBelongsToCollection()->setPosterPath("");
+    model->getBelongsToCollection()->setBackdropPath("");
+    model->getProductionCompanies()->clear();
+    model->getProductionCountries()->clear();
+    model->getSpokenLanguages()->clear();
+    model->setFavorite(false);
+    model->setRating(0);
+    model->setWatchlist(false);
+    model->getCredits()->getCast()->clear();
+    model->getCredits()->getCrew()->clear();
+    api.loadMovie(model->getId());
 }
 
-Movie *MovieService::getMovie() const
+Movie *MovieService::getModel() const
 {
-    return movie;
+    return model;
 }
 
 RequestInfo *MovieService::getRequest() const
@@ -87,47 +95,49 @@ void MovieService::apiRequestDone(const QByteArray &data)
 {
     qDebug() << "movie is loaded from API";
     QJsonObject obj = QJsonDocument::fromJson(data).object();
-    movie->setBudget(system.getLocale().toCurrencyString(obj["budget"].toVariant().toLongLong(), "$"));
-    movie->setHomepage(obj["homepage"].toString());
-    movie->setImdbId(obj["imdb_id"].toString());
-    movie->setOriginalLanguage(obj["original_language"].toString());
-    movie->setReleaseDate(obj["release_date"].toString());
-    movie->setRevenue(system.getLocale().toCurrencyString(obj["revenue"].toVariant().toLongLong(), "$"));
+    qlonglong money = obj["budget"].toVariant().toLongLong();
+    model->setBudget(money == 0 ? "?" : system.getLocale().toCurrencyString(money, "$"));
+    model->setHomepage(obj["homepage"].toString());
+    model->setImdbId(obj["imdb_id"].toString());
+    model->setOriginalLanguage(obj["original_language"].toString());
+    model->setReleaseDate(obj["release_date"].toString());
+    money = obj["revenue"].toVariant().toLongLong();
+    model->setRevenue(money == 0 ? "?" : system.getLocale().toCurrencyString(money, "$"));
     int runtime = obj["runtime"].toInt();
-    movie->setRuntimeHours((int) (runtime / 60));
-    movie->setRuntimeMinutes(runtime - movie->getRuntimeHours() * 60);
-    movie->setStatus(obj["status"].toString());
-    movie->setTagline(obj["tagline"].toString());
+    model->setRuntimeHours((int) (runtime / 60));
+    model->setRuntimeMinutes(runtime - model->getRuntimeHours() * 60);
+    model->setStatus(obj["status"].toString());
+    model->setTagline(obj["tagline"].toString());
 
     if (obj["belongs_to_collection"].isObject()) {
         QJsonObject belongsToCollection = obj["belongs_to_collection"].toObject();
-        movie->getBelongsToCollection()->setId(belongsToCollection["id"].toInt());
-        movie->getBelongsToCollection()->setName(belongsToCollection["name"].toString());
-        movie->getBelongsToCollection()->setPosterPath(belongsToCollection["poster_path"].toString());
-        movie->getBelongsToCollection()->setBackdropPath(belongsToCollection["backdrop_path"].toString());
+        model->getBelongsToCollection()->setId(belongsToCollection["id"].toInt());
+        model->getBelongsToCollection()->setName(belongsToCollection["name"].toString());
+        model->getBelongsToCollection()->setPosterPath(belongsToCollection["poster_path"].toString());
+        model->getBelongsToCollection()->setBackdropPath(belongsToCollection["backdrop_path"].toString());
     }
 
     QJsonArray items;
     QJsonArray::const_iterator it;
+    QJsonObject item;
 
     if (obj["production_companies"].isArray()) {
         items = obj["production_companies"].toArray();
-        QJsonArray::const_iterator it;
         for (it = items.constBegin(); it != items.constEnd(); it++) {
-            QJsonObject company = it->toObject();
-            movie->getProductionCompanies()->add(Company(
-                    company["id"].toInt(),
-                    company["logo_path"].toString(),
-                    company["name"].toString(),
-                    company["origin_country"].toString()));
+            item = it->toObject();
+            model->getProductionCompanies()->add(Company(
+                    item["id"].toInt(),
+                    item["logo_path"].toString(),
+                    item["name"].toString(),
+                    item["origin_country"].toString()));
         }
     }
 
     if (obj["production_countries"].isArray()) {
         items = obj["production_countries"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
-            QJsonObject item = it->toObject();
-            movie->getProductionCountries()->add(CountryListItem(
+            item = it->toObject();
+            model->getProductionCountries()->add(CountryListItem(
                     item["iso_3166_1"].toString(),
                     item["name"].toString()));
         }
@@ -136,22 +146,61 @@ void MovieService::apiRequestDone(const QByteArray &data)
     if (obj["spoken_languages"].isArray()) {
         items = obj["spoken_languages"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
-            QJsonObject item = it->toObject();
+            item = it->toObject();
             QString name = item["name"].toString();
             QString englishName = item["english_name"].toString();
             if (englishName != name)
                 name.append(" (" + englishName + ")");
-            movie->getSpokenLanguages()->add(LanguageListItem(item["iso_639_1"].toString(), name));
+            model->getSpokenLanguages()->add(LanguageListItem(item["iso_639_1"].toString(), name));
         }
     }
 
     if (obj.contains("account_states")) {
-        QJsonObject accountStates = obj["account_states"].toObject();
-        movie->setFavorite(accountStates["favorite"].toBool());
-        if (accountStates["rated"].isObject()) {
-            movie->setRating((int)accountStates["rated"].toObject()["value"].toDouble());
+        item = obj["account_states"].toObject();
+        model->setFavorite(item["favorite"].toBool());
+        if (item["rated"].isObject()) {
+            model->setRating((int)item["rated"].toObject()["value"].toVariant().toFloat());
         }
-        movie->setWatchlist(accountStates["watchlist"].toBool());
+        model->setWatchlist(item["watchlist"].toBool());
+    }
+
+    if (obj.contains("credits")) {
+        QJsonObject credits = obj["credits"].toObject();
+        items = credits["cast"].toArray();
+        for (it = items.constBegin(); it != items.constEnd(); it++) {
+            item = it->toObject();
+            model->getCredits()->getCast()->add(Cast(
+                    item["id"].toInt(),
+                    item["name"].toString(),
+                    item["original_name"].toString(),
+                    item["profile_path"].toString(),
+                    item["castId"].toInt(),
+                    item["character"].toString(),
+                    item["credit_id"].toString()));
+        }
+
+        QList<CrewListItem> crewList;
+
+        items = credits["crew"].toArray();
+        for (it = items.constBegin(); it != items.constEnd(); it++) {
+            item = it->toObject();
+            crewList.append(CrewListItem(
+                                item["id"].toInt(),
+                                item["name"].toString(),
+                                item["original_name"].toString(),
+                                item["profile_path"].toString(),
+                                item["department"].toString(),
+                                item["job"].toString()));
+        }
+
+        std::sort(crewList.begin(), crewList.end(), [](const CrewListItem &a, const CrewListItem &b)
+        {
+            return (a.getDepartment() + a.getName()) < (b.getDepartment() + b.getName());
+        });
+
+        for (int i = 0; i < crewList.count(); i++) {
+            model->getCredits()->getCrew()->add(crewList.at(i));
+        }
     }
 }
 
@@ -159,7 +208,7 @@ void MovieService::favoriteDone(const QByteArray &data)
 {
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     if (obj["success"].toBool()) {
-        movie->setFavorite(!movie->getFavorite());
+        model->setFavorite(!model->getFavorite());
     }
 }
 
@@ -167,7 +216,7 @@ void MovieService::toggleWatchlistDone(const QByteArray &data)
 {
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     if (obj["success"].toBool()) {
-        movie->setWatchlist(!movie->getWatchlist());
+        model->setWatchlist(!model->getWatchlist());
     }
 }
 

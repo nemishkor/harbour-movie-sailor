@@ -21,13 +21,18 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/app.cpp \
     src/cachekey.cpp \
     src/filecache.cpp \
+    src/listmodels/castslist.cpp \
+    src/listmodels/crewlist.cpp \
     src/models/account.cpp \
     src/models/accountmoviesform.cpp \
+    src/models/cast.cpp \
     src/models/company.cpp \
     src/models/configurationdetails.cpp \
     src/models/configurationlistitem.cpp \
     src/models/country.cpp \
     src/models/countrylistitem.cpp \
+    src/models/credits.cpp \
+    src/models/crewlistitem.cpp \
     src/models/discovermovie.cpp \
     src/models/episode.cpp \
     src/models/filterbylanguagelistitem.cpp \
@@ -119,6 +124,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/Spacer.qml \
     qml/components/Tag.qml \
     qml/components/TvEpisode.qml \
+    qml/components/TwoMediaBlocks.qml \
     qml/components/VoteSlider.qml \
     qml/components/VoteSliderLabel.qml \
     qml/components/VoteSliderPoint.qml \
@@ -141,6 +147,8 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/pages/DiscoverMovieResultsPage.qml \
     qml/pages/ListsPage.qml \
     qml/pages/LoginPage.qml \
+    qml/pages/MovieCastPage.qml \
+    qml/pages/MovieCrewPage.qml \
     qml/pages/MoviePage.qml \
     qml/pages/SearchPage.qml \
     qml/pages/SearchResultsPage.qml \
@@ -171,13 +179,18 @@ HEADERS += \
     src/app.h \
     src/cachekey.h \
     src/filecache.h \
+    src/listmodels/castslist.h \
+    src/listmodels/crewlist.h \
     src/models/account.h \
     src/models/accountmoviesform.h \
+    src/models/cast.h \
     src/models/company.h \
     src/models/configurationdetails.h \
     src/models/configurationlistitem.h \
     src/models/country.h \
     src/models/countrylistitem.h \
+    src/models/credits.h \
+    src/models/crewlistitem.h \
     src/models/discovermovie.h \
     src/models/episode.h \
     src/models/filterbylanguagelistitem.h \

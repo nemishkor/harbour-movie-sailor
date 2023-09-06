@@ -51,7 +51,7 @@ class Tv : public QObject
     Q_PROPERTY(QString status READ getStatus WRITE setStatus NOTIFY statusChanged)
     Q_PROPERTY(QString tagline READ getTagline WRITE setTagline NOTIFY taglineChanged)
     Q_PROPERTY(QString type READ getType WRITE setType NOTIFY typeChanged)
-    Q_PROPERTY(double voteAvarage READ getVoteAvarage WRITE setVoteAvarage NOTIFY voteAvarageChanged)
+    Q_PROPERTY(float voteAvarage READ getVoteAvarage WRITE setVoteAvarage NOTIFY voteAvarageChanged)
     Q_PROPERTY(int voteCount READ getVoteCount WRITE setVoteCount NOTIFY voteCountChanged)
     Q_PROPERTY(bool favorite READ getFavorite WRITE setFavorite NOTIFY favoriteChanged)
     Q_PROPERTY(bool watchlist READ getWatchlist WRITE setWatchlist NOTIFY watchlistChanged)
@@ -145,8 +145,8 @@ public:
     const QString &getType() const;
     void setType(const QString &newType);
 
-    double getVoteAvarage() const;
-    void setVoteAvarage(double newVoteAvarage);
+    float getVoteAvarage() const;
+    void setVoteAvarage(float newVoteAvarage);
 
     int getVoteCount() const;
     void setVoteCount(int newVoteCount);
@@ -222,7 +222,7 @@ private:
     QString status;
     QString tagline;
     QString type;
-    double voteAvarage;
+    float voteAvarage;
     int voteCount;
     bool favorite;
     bool watchlist;

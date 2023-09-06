@@ -7,7 +7,8 @@ Movie::Movie(QObject *parent) :
     productionCountries(new CountriesListModel(this)),
     spokenLanguages(new LanguagesListModel(this)),
     favorite(false),
-    watchlist(false)
+    watchlist(false),
+    credits(new Credits(this))
 {
 
 }
@@ -316,4 +317,9 @@ void Movie::setRating(int newRating)
         return;
     rating = newRating;
     emit ratingChanged();
+}
+
+Credits *Movie::getCredits() const
+{
+    return credits;
 }

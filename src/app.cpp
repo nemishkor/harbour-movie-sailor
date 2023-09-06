@@ -5,17 +5,17 @@ App::App(QQmlContext *context) :
     menu(0),
     cache(new FileCache(this)),
     account(new Account(this)),
-    settings(new Settings(this)),
+    settings(new Settings(system, this)),
     api(account, *settings, this),
     genresService(api, *cache, *settings, this),
     configurationDetailsManager(api, *cache, this),
-    movieService(api, system, this),
+    movieService(new MovieService(api, system, this)),
     tvService(api, this),
     countriesListService(system, api, *cache, this),
-    discoverMovieService(api, *cache, *settings, movieService, genresService.getModel(), this),
+    discoverMovieService(api, *cache, *settings, *movieService, genresService.getModel(), this),
     languagesListService(system, api, *cache, this),
-    accountService(new AccountService(account, api, *settings, genresService.getModel(), movieService, tvService, this)),
-    searchService(new SearchService(api, movieService, tvService, genresService.getModel(), this))
+    accountService(new AccountService(account, api, *settings, genresService.getModel(), *movieService, tvService, this)),
+    searchService(new SearchService(api, *movieService, tvService, genresService.getModel(), this))
 {
     context->setContextProperty("countriesService", &countriesListService);
     context->setContextProperty("countriesListModel", countriesListService.getModel());
@@ -60,7 +60,6 @@ App::App(QQmlContext *context) :
     context->setContextProperty("createSessionRequestInfo", api.getRequestInfo(Api::CreateSession));
     context->setContextProperty("accountRequestInfo", api.getRequestInfo(Api::Account));
 
-    context->setContextProperty("movieService", &movieService);
     context->setContextProperty("tvService", &tvService);
     context->setContextProperty("favoriteRequestInfo", api.getRequestInfo(Api::ToggleFavoriteMovie));
     context->setContextProperty("watchlistRequestInfo", api.getRequestInfo(Api::ToggleWatchlistMovie));
@@ -78,7 +77,6 @@ App::App(QQmlContext *context) :
 
     qDebug() << "app build is done";
 
-    settings->setLanguage(system.getLanguage());
     connect(&languagesListService, &LanguagesListService::initializedChanged, this, &App::validateContentLanguage);
 
     configurationDetailsManager.initialize();
@@ -127,6 +125,11 @@ SearchService *App::getSearchService() const
 FileCache *App::getCache() const
 {
     return cache;
+}
+
+MovieService *App::getMovieService() const
+{
+    return movieService;
 }
 
 void App::validateContentLanguage()

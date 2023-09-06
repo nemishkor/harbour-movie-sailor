@@ -33,13 +33,13 @@ AccountService::AccountService(Account *account,
     connect(&api, &Api::watchlistMoviesDone, watchlistMovies, &AccountMediaListService::fillModelFromApi);
     connect(&api, &Api::watchlistTvDone, watchlistTv, &AccountMediaListService::fillModelFromApi);
 
-    connect(movieService.getMovie(), &Movie::favoriteChanged, this, &AccountService::movieFavoriteChanged);
-    connect(movieService.getMovie(), &Movie::ratingChanged, this, &AccountService::movieRatingChanged);
-    connect(movieService.getMovie(), &Movie::watchlistChanged, this, &AccountService::movieWatchlistChanged);
+    connect(movieService.getModel(), &Movie::favoriteChanged, this, &AccountService::movieFavoriteChanged);
+    connect(movieService.getModel(), &Movie::ratingChanged, this, &AccountService::movieRatingChanged);
+    connect(movieService.getModel(), &Movie::watchlistChanged, this, &AccountService::movieWatchlistChanged);
 
-    connect(movieService.getMovie(), &Movie::favoriteChanged, this, &AccountService::movieFavoriteChanged);
-    connect(movieService.getMovie(), &Movie::ratingChanged, this, &AccountService::movieRatingChanged);
-    connect(movieService.getMovie(), &Movie::watchlistChanged, this, &AccountService::movieWatchlistChanged);
+    connect(movieService.getModel(), &Movie::favoriteChanged, this, &AccountService::movieFavoriteChanged);
+    connect(movieService.getModel(), &Movie::ratingChanged, this, &AccountService::movieRatingChanged);
+    connect(movieService.getModel(), &Movie::watchlistChanged, this, &AccountService::movieWatchlistChanged);
 
     connect(tvService.getModel(), &Tv::favoriteChanged, this, &AccountService::tvFavoriteChanged);
     connect(tvService.getModel(), &Tv::ratingChanged, this, &AccountService::tvRatingChanged);

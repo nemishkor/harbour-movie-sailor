@@ -169,11 +169,14 @@ void Api::loadMovie(int id)
 {
     QUrlQuery query;
     query.addQueryItem("language", getLanguage());
+    QString appendToResponse = "credits";
 
     if (!settings.getSessionId().isEmpty()) {
         query.addQueryItem("session_id", settings.getSessionId());
-        query.addQueryItem("append_to_response", "account_states");
+        appendToResponse.append(",account_states");
     }
+
+    query.addQueryItem("append_to_response", appendToResponse);
 
     getWorker(LoadMovie)->get(buildRequest("movie/" + QString::number(id), query));
 }

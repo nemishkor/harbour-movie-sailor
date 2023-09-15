@@ -31,7 +31,7 @@ QVariant SearchPeopleListModel::data(const QModelIndex &index, int role) const
 
 void SearchPeopleListModel::add(const SearchPersonListItem &item)
 {
-    qDebug() << "add" << item.getId() << "to the role model";
+    qDebug() << "SearchPeopleListModel: add" << item.getId() << "to the role model";
     if (ids.contains(item.getId())) {
         return;
     }
@@ -55,10 +55,10 @@ void SearchPeopleListModel::clear()
 
 void SearchPeopleListModel::remove(int id)
 {
-    qDebug() << "remove the person" << id << "from the list model";
+    qDebug() << "SearchPeopleListModel: remove the person" << id << "from the list model";
     for (int row = 0; row < items.count(); row++) {
         if (id == items.at(row).getId()) {
-            qDebug() << "found the person to remove";
+            qDebug() << "SearchPeopleListModel: found the person to remove";
             beginRemoveRows(QModelIndex(), row, row);
             ids.removeAt(row);
             items.removeAt(row);

@@ -29,6 +29,7 @@ QVariant CompaniesListModel::data(const QModelIndex &index, int role) const
 
 void CompaniesListModel::add(const Company &item)
 {
+    qDebug() << "CompaniesListModel: add";
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     items.insert(item.getId(), item);
     endInsertRows();

@@ -3,6 +3,7 @@
 #include <sailfishapp.h>
 
 #include "src/app.h"
+#include "src/logger.h"
 #include "src/models/requestinfo.h"
 
 int main(int argc, char *argv[])
@@ -13,11 +14,16 @@ int main(int argc, char *argv[])
 
     guiApp->setOrganizationName("nemishkor");
 
+    Logger::get().init();
+    Logger::logSystemInfo();
+
+    qInfo() << "applicationName" << guiApp->applicationName();
+    qInfo() << "organizationName" << guiApp->organizationName();
+
     App app(view.data()->rootContext());
-    qDebug() << "applicationName" << guiApp->applicationName();
-    qDebug() << "organizationName" << guiApp->organizationName();
 
     view->setSource(SailfishApp::pathTo("qml/harbour-movie-sailor.qml"));
     view->show();
+
     return guiApp->exec();
 }

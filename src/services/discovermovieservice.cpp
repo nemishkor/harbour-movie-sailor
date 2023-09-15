@@ -22,12 +22,14 @@ DiscoverMovieService::DiscoverMovieService(Api &api,
 
 void DiscoverMovieService::search()
 {
+    qDebug() << "DiscoverMovieService: search";
     setInitialized(false);
     api.discoverMovies(*form);
 }
 
 void DiscoverMovieService::select(int id)
 {
+    qDebug() << "DiscoverMovieService: select";
     QList<MediaListItem>::const_iterator it;
     for (it = model->getItems().constBegin(); it != model->getItems().constEnd(); it++) {
         if (it->getId() == id) {
@@ -35,12 +37,14 @@ void DiscoverMovieService::select(int id)
             return;
         }
     }
+    qWarning() << "DiscoverMovieService: could not find the movie" << id;
 }
 
 void DiscoverMovieService::addCompanyFromSearch(int id)
 {
+    qDebug() << "DiscoverMovieService: add company from search";
     Company item = companiesService->getList()->findById(id);
-    qDebug() << "found item" << item.getId();
+    qDebug() << "DiscoverMovieService: found company" << item.getId();
     if (item.getId() != -1) {
         form->getCompanies()->add(item);
         companiesService->getList()->removeOneById(item.getId());
@@ -49,16 +53,17 @@ void DiscoverMovieService::addCompanyFromSearch(int id)
 
 void DiscoverMovieService::apiRequestDone(const QByteArray &data)
 {
-    qDebug() << "discover movie api request done. Filling the model...";
+    qDebug() << "DiscoverMovieService: search - got data";
     model->fillFromAPI(QJsonDocument::fromJson(data), form->getGenres()->getItems());
     setInitialized(true);
+    qDebug() << "DiscoverMovieService: search - done";
 }
 
 void DiscoverMovieService::initializeMovieProviders()
 {
+    qDebug() << "DiscoverMovieService: initialize movie providers";
     if (form->getWatchRegion().isEmpty())
         return;
-    qDebug() << "initializeMovieProviders(" << form->getWatchRegion() << ")";
     movieProviders->initialize(form->getWatchRegion());
 }
 

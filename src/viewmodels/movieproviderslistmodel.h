@@ -2,6 +2,7 @@
 #define MOVIEPROVIDERSLISTMODEL_H
 
 #include <QAbstractListModel>
+#include <QDebug>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonValue>

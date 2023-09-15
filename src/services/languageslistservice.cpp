@@ -18,19 +18,21 @@ LanguagesListService::LanguagesListService(
 
 void LanguagesListService::initialize()
 {
+    qDebug() << "LanguagesListService: initialize";
     if (initialized) {
-        qDebug() << "model is initialized already";
+        qDebug() << "LanguagesListService: model is initialized already";
         return;
     }
 
     if (cache.exists(key)) {
-        qDebug() << "initialize model using cache";
+        qDebug() << "LanguagesListService: initialize using cache";
         model.fillFromCache(cache.load(key));
         initialized = true;
         emit initializedChanged();
         return;
     }
 
+    qDebug() << "LanguagesListService: initialize using API - start";
     api.loadConfigurationLanguages();
 }
 
@@ -46,9 +48,10 @@ bool LanguagesListService::isInitialized()
 
 void LanguagesListService::apiRequestDone(const QByteArray &data)
 {
-    qDebug() << "initialize model using API";
+    qDebug() << "LanguagesListService: initialize using API - got data";
     QJsonDocument newJson = model.fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     initialized = true;
     emit initializedChanged();
+    qDebug() << "LanguagesListService: initialize using API - done";
 }

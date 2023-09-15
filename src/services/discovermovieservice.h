@@ -6,6 +6,7 @@
 
 #include "src/api.h"
 #include "src/filecache.h"
+#include "src/settings.h"
 #include "src/system.h"
 #include "src/models/discovermovie.h"
 #include "src/services/companiesservice.h"

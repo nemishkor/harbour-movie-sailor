@@ -25,7 +25,7 @@ PersonsListService::PersonsListService(Api &api,
 void PersonsListService::search()
 {
     QString newKey = form->getQuery() + "|" + (form->getWithAdult() ? "true" : "false") + "|" + settings.getLanguage() + "|" + QString::number(form->getPage());
-    qDebug() << "initialize search person list with" << newKey;
+    qDebug() << "PersonsListService: search" << newKey;
 
     if (key.key != newKey) {
         key.key = newKey;
@@ -38,11 +38,13 @@ void PersonsListService::search()
     }
 
     if (cache.exists(key)) {
+        qDebug() << "PersonsListService: search using cache";
         searchPersonListModel->fillFromCache(cache.load(key));
         setInitialized(true);
         return;
     }
 
+    qDebug() << "PersonsListService: search using API - start";
     api.loadSearchPersons(*form);
 }
 
@@ -71,7 +73,7 @@ SearchPeopleForm *PersonsListService::getForm() const
 
 void PersonsListService::select(int id)
 {
-    qDebug() << "select the person" << id;
+    qDebug() << "PersonsListService: select" << id;
     const QList<SearchPersonListItem> &persons = searchPersonListModel->getItems();
     for (QList<SearchPersonListItem>::const_iterator it = persons.constBegin(); it != persons.constEnd(); it++) {
         if (id == it->getId()) {
@@ -102,7 +104,7 @@ void PersonsListService::select(int id)
 
 void PersonsListService::remove(int id)
 {
-    qDebug() << "remove the person" << id;
+    qDebug() << "PersonsListService: remove" << id;
     if (anyRoleList->getIds().contains(id))
         anyRoleList->remove(id);
     else if (castRoleList->getIds().contains(id))
@@ -114,6 +116,7 @@ void PersonsListService::remove(int id)
 
 void PersonsListService::apiRequestDone(const QByteArray &data)
 {
+    qDebug() << "PersonsListService: search using API - got data";
     QJsonDocument apiJson = QJsonDocument::fromJson(data);
     QMap<SearchPersonListItem::PersonRole, QList<int>> selectedPeoplePerRole;
     selectedPeoplePerRole.insert(SearchPersonListItem::AnyRole, anyRoleList->getIds());
@@ -122,4 +125,5 @@ void PersonsListService::apiRequestDone(const QByteArray &data)
     QJsonDocument newJson = searchPersonListModel->fillFromAPI(apiJson, selectedPeoplePerRole);
     cache.save(key, newJson);
     setInitialized(true);
+    qDebug() << "PersonsListService: search using API - done";
 }

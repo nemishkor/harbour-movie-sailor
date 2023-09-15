@@ -1,5 +1,5 @@
-#ifndef PERSON_H
-#define PERSON_H
+#ifndef PERSONLISTITEM_H
+#define PERSONLISTITEM_H
 
 #include <QString>
 
@@ -31,4 +31,4 @@ private:
 
 };
 
-#endif // PERSON_H
+#endif // PERSONLISTITEM_H

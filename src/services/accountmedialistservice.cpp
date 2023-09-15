@@ -24,6 +24,7 @@ AccountMediaListService::AccountMediaListService(
 
 void AccountMediaListService::search()
 {
+    qDebug() << "AccountMediaListService: search";
     if (!list->getDirty() && !form->isDirty())
         return;
     list->clear();
@@ -71,7 +72,9 @@ RequestInfo *AccountMediaListService::getRequest() const
 
 void AccountMediaListService::fillModelFromApi(QByteArray &data)
 {
+    qDebug() << "AccountMediaListService: search - got data";
     list->fillFromAPI(QJsonDocument::fromJson(data), genresListModel->getItems(), mediaType);
     list->setDirty(false);
     form->setDirty(false);
+    qDebug() << "AccountMediaListService: search - done";
 }

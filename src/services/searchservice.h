@@ -9,6 +9,7 @@
 #include "src/models/requestinfo.h"
 #include "src/services/movieservice.h"
 #include "src/services/tvservice.h"
+#include "src/services/personservice.h"
 #include "src/viewmodels/genreslistmodel.h"
 #include "src/viewmodels/medialistmodel.h"
 
@@ -23,6 +24,7 @@ public:
     SearchService(Api &api,
                   MovieService &movieService,
                   TvService &tvService,
+                  PersonService &personService,
                   GenresListModel *genresListModel,
                   QObject *parent);
 
@@ -37,6 +39,7 @@ private:
     Api &api;
     MovieService &movieService;
     TvService &tvService;
+    PersonService &personService;
     GenresListModel *genresListModel;
     SearchForm *form;
     RequestInfo *request;

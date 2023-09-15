@@ -19,29 +19,33 @@ TvService::TvService(Api &api, QObject *parent) :
 
 void TvService::toggleFavorite()
 {
+    qDebug() << "TvService: toggle favorite";
     api.toggleFavorite(*model);
 }
 
 void TvService::toggleWatchlist()
 {
+    qDebug() << "TvService: toggle watchlist";
     api.toggleWatchlist(*model);
 }
 
 void TvService::addRating(int rating)
 {
-    qDebug() << "set rating" << rating << "for the TV show" << model->getId();
+    qDebug() << "TvService: add rating" << rating << "for the TV show" << model->getId();
     model->setRating(rating);
     api.addRating(*model, rating);
 }
 
 void TvService::removeRating()
 {
+    qDebug() << "TvService: remove rating";
     model->setRating(0);
     api.removeRating(*model);
 }
 
 void TvService::fillWithListItemAndLoad(const MediaListItem &result)
 {
+    qDebug() << "TvService: fill" << result.getId();
     if (model->getId() == result.getId())
         return;
 
@@ -82,6 +86,7 @@ void TvService::fillWithListItemAndLoad(const MediaListItem &result)
     model->setRating(0);
     model->setWatchlist(false);
 
+    qDebug() << "TvService: load from API - start";
     api.loadTv(model->getId());
 }
 
@@ -117,6 +122,7 @@ RequestInfo *TvService::getRequestRemoveRating() const
 
 void TvService::apiRequestDone(QByteArray &data)
 {
+    qDebug() << "TvService: load from API - got data";
     QJsonObject obj = QJsonDocument::fromJson(data).object();
 
     QJsonArray items;
@@ -159,6 +165,7 @@ void TvService::apiRequestDone(QByteArray &data)
     model->setLanguages(languages);
     model->setLastAirDate(obj["last_air_date"].toString());
 
+    qDebug() << "TvService: load from API - set episodes";
     QJsonObject episode = obj["last_episode_to_air"].toObject();
 
     if (!episode.isEmpty()) {
@@ -195,6 +202,7 @@ void TvService::apiRequestDone(QByteArray &data)
         model->getNextEpisodeOnAir()->setVoteCount(episode["vote_count"].toInt());
     }
 
+    qDebug() << "TvService: load from API - set networks";
     if (obj["networks"].isArray()) {
         items = obj["networks"].toArray();
         QJsonArray::const_iterator it;
@@ -222,6 +230,7 @@ void TvService::apiRequestDone(QByteArray &data)
     model->setOriginLanguage(obj["original_language"].toString());
     model->setPopularity(obj["popularity"].toDouble());
 
+    qDebug() << "TvService: load from API - set production companies";
     if (obj["production_companies"].isArray()) {
         items = obj["production_companies"].toArray();
         QJsonArray::const_iterator it;
@@ -235,6 +244,7 @@ void TvService::apiRequestDone(QByteArray &data)
         }
     }
 
+    qDebug() << "TvService: load from API - set production countries";
     if (obj["production_countries"].isArray()) {
         items = obj["production_countries"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
@@ -245,6 +255,7 @@ void TvService::apiRequestDone(QByteArray &data)
         }
     }
 
+    qDebug() << "TvService: load from API - set spoken languages";
     if (obj["spoken_languages"].isArray()) {
         items = obj["spoken_languages"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
@@ -257,6 +268,7 @@ void TvService::apiRequestDone(QByteArray &data)
         }
     }
 
+    qDebug() << "TvService: load from API - set seasons";
     if (obj["seasons"].isArray()) {
         items = obj["seasons"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
@@ -277,6 +289,7 @@ void TvService::apiRequestDone(QByteArray &data)
     model->setTagline(obj["tagline"].toString());
     model->setType(obj["type"].toString());
 
+    qDebug() << "TvService: load from API - set account states";
     if (obj.contains("account_states")) {
         QJsonObject accountStates = obj["account_states"].toObject();
         model->setFavorite(accountStates["favorite"].toBool());
@@ -285,10 +298,13 @@ void TvService::apiRequestDone(QByteArray &data)
         }
         model->setWatchlist(accountStates["watchlist"].toBool());
     }
+
+    qDebug() << "TvService: load from API - done";
 }
 
 void TvService::favoriteDone(const QByteArray &data)
 {
+    qDebug() << "TvService: favorite done";
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     if (obj["success"].toBool()) {
         model->setFavorite(!model->getFavorite());
@@ -297,6 +313,7 @@ void TvService::favoriteDone(const QByteArray &data)
 
 void TvService::toggleWatchlistDone(const QByteArray &data)
 {
+    qDebug() << "TvService: toggle watchlist done";
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     if (obj["success"].toBool()) {
         model->setWatchlist(!model->getWatchlist());
@@ -305,10 +322,12 @@ void TvService::toggleWatchlistDone(const QByteArray &data)
 
 void TvService::addRatingDone(const QByteArray &data)
 {
+    qDebug() << "TvService: add rating done";
     qDebug() << data;
 }
 
 void TvService::removeRatingDone(const QByteArray &data)
 {
+    qDebug() << "TvService: remove rating done";
     qDebug() << data;
 }

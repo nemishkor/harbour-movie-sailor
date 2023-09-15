@@ -17,16 +17,12 @@ ApiWorker::~ApiWorker()
 
 void ApiWorker::get(const QNetworkRequest &request)
 {
-    qDebug() << "GET request to" << request.url().toString();
-
     if (reply != nullptr && requestInfo.getState() == RequestInfo::Running) {
-        qDebug() << "Abort previous request";
+        qDebug() << "ApiWorker: abort previous request";
         reply->abort();
     }
 
-    requestInfo.setError("");
-    requestInfo.setState(RequestInfo::Running);
-    requestInfo.setProgress(0);
+    requestInfo.start();
 
     reply = networkManager->get(request);
     connect(reply, &QNetworkReply::downloadProgress, this, &ApiWorker::downloadProgress);
@@ -36,16 +32,12 @@ void ApiWorker::get(const QNetworkRequest &request)
 
 void ApiWorker::deleteResource(const QNetworkRequest &request)
 {
-    qDebug() << "DELETE request to" << request.url().toString();
-
     if (reply != nullptr && requestInfo.getState() == RequestInfo::Running) {
-        qDebug() << "Abort previous request";
+        qDebug() << "ApiWorker: Abort previous request";
         reply->abort();
     }
 
-    requestInfo.setError("");
-    requestInfo.setState(RequestInfo::Running);
-    requestInfo.setProgress(0);
+    requestInfo.start();
 
     reply = networkManager->deleteResource(request);
     connect(reply, &QNetworkReply::downloadProgress, this, &ApiWorker::downloadProgress);
@@ -60,11 +52,12 @@ RequestInfo *ApiWorker::getRequestInfo()
 
 void ApiWorker::post(const QNetworkRequest &request, const QByteArray &data)
 {
-    qDebug() << "POST request to" << request.url().toString();
+    if (reply != nullptr && requestInfo.getState() == RequestInfo::Running) {
+        qDebug() << "ApiWorker: Abort previous request";
+        reply->abort();
+    }
 
-    requestInfo.setError("");
-    requestInfo.setState(RequestInfo::Running);
-    requestInfo.setProgress(0);
+    requestInfo.start();
 
     reply = networkManager->post(request, data);
     connect(reply, &QNetworkReply::downloadProgress, this, &ApiWorker::downloadProgress);
@@ -109,7 +102,6 @@ void ApiWorker::finished()
 
     requestInfo.setState(RequestInfo::Success);
     QByteArray data(reply->readAll());
-    qDebug() << "Got response data from API" << data;
     reply->deleteLater();
     emit done(data);
 }

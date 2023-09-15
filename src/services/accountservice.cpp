@@ -128,6 +128,7 @@ void AccountService::saveRefreshToken(QByteArray &data)
 
 void AccountService::saveSession(QByteArray &data)
 {
+    qInfo() << "AccountService: session is saved";
     requestToken->setRawBody(QByteArray());
     requestToken->setSuccess(false);
     requestToken->setRequestToken(QString());

@@ -88,6 +88,8 @@ const QJsonDocument ConfigurationListModel::fillFromAPI(const QJsonDocument &jso
         return (a.getIsPrimary() ? "" : a.getLabel()) < (b.getIsPrimary() ? "" : b.getLabel());
     });
 
+    qDebug() << "ConfigurationListModel: sorted";
+
     add(ConfigurationListItem("", "All countries", true));
 
     for (int i = 0; i < items.count(); i++) {

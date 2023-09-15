@@ -10,6 +10,7 @@ class RequestInfo : public QObject
     Q_PROPERTY(int state READ getState NOTIFY stateChanged)
     Q_PROPERTY(QString error READ getError NOTIFY errorChanged)
     Q_PROPERTY(int progress READ getProgress NOTIFY progressChanged)
+
 public:
     enum State {
         StandBy = 0,
@@ -17,13 +18,19 @@ public:
         Success = 2,
         Failed = 3
     };
-    explicit RequestInfo(QObject *parent = nullptr);
+
+    RequestInfo(QObject *parent);
+
+    void start();
+
     State &getState();
     void setState(State newState);
     QString &getError();
     void setError(const QString &newError);
     int getProgress();
     void setProgress(int progress);
+
+
 
 private:
     State state = State::StandBy;

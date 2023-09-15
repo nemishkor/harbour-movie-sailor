@@ -5,6 +5,13 @@ RequestInfo::RequestInfo(QObject *parent) : QObject(parent)
 
 }
 
+void RequestInfo::start()
+{
+    setError("");
+    setState(RequestInfo::Running);
+    setProgress(0);
+}
+
 RequestInfo::State &RequestInfo::getState()
 {
     return state;

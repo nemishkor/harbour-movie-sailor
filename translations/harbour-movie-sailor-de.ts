@@ -618,6 +618,29 @@ votes</source>
     </message>
 </context>
 <context>
+    <name>PersonPage</name>
+    <message>
+        <source>Known for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Birthdate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deathday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Place of birth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Biography</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RatingModal</name>
     <message>
         <source>Clear</source>

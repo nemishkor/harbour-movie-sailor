@@ -8,6 +8,7 @@
 #include "src/api.h"
 #include "src/cachekey.h"
 #include "src/filecache.h"
+#include "src/settings.h"
 #include "src/viewmodels/movieproviderslistmodel.h"
 
 class MovieProvidersManager : public QObject

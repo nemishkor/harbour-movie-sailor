@@ -23,14 +23,14 @@ void CompaniesSearchListModel::fillFromCache(const QJsonDocument &json)
     QJsonArray items = json.array();
 
     for (QJsonArray::const_iterator it = items.constBegin(); it != items.constEnd(); it++) {
-        qDebug() << "add company to the view list model from cache";
+        qDebug() << "CompaniesSearchListModel: add company to the view list model from cache";
         QJsonObject obj = (*it).toObject();
         Company item(obj);
         if (!model.getIds().contains(item.getId())) {
             add(item);
         }
     }
-    qDebug() << "all companies are loaded to list model";
+    qDebug() << "CompaniesSearchListModel: all companies are loaded to list model";
 }
 
 const QJsonDocument CompaniesSearchListModel::fillFromAPI(const QJsonDocument &json)

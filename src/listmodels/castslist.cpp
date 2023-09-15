@@ -23,12 +23,8 @@ QVariant CastsList::data(const QModelIndex &index, int role) const
         return item.getOriginalName();
     if(role == ProfilePathRole)
         return item.getProfilePath();
-    if(role == CastIdRole)
-        return item.getCastId();
     if(role == CharacterRole)
         return item.getCharacter();
-    if(role == CreditIdRole)
-        return item.getCreditId();
     return QVariant();
 }
 
@@ -53,8 +49,6 @@ QHash<int, QByteArray> CastsList::roleNames() const
     roles[NameRole] = "name";
     roles[OriginalNameRole] = "originalName";
     roles[ProfilePathRole] = "profilePath";
-    roles[CastIdRole] = "castId";
     roles[CharacterRole] = "character";
-    roles[CreditIdRole] = "creditId";
     return roles;
 }

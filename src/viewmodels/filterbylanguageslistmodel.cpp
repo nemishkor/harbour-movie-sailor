@@ -77,6 +77,8 @@ const QJsonDocument FilterByLanguagesListModel::fillFromAPI(const QJsonDocument 
         return ((a.getIsPrimary() || a.getId() == "xx") ? "" : a.getEnglishName()) < ((b.getIsPrimary() || b.getId() == "xx") ? "" : b.getEnglishName());
     });
 
+    qDebug() << "FilterByLanguagesListModel: sorted";
+
     for (int i = 0; i < items.count(); i++) {
         const FilterByLanguageListItem &language = items.at(i);
         qDebug() << "add language" << language.getId() << " " << language.getEnglishName() << " " << language.getName();

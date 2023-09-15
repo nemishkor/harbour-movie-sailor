@@ -15,7 +15,7 @@ MovieProvidersManager::MovieProvidersManager(Api &api, FileCache &cache, Setting
 void MovieProvidersManager::initialize(const QString &region)
 {
     QString newKey = settings.getLanguage() + "|" + region;
-    qDebug() << "initialize movie providers for the region" << region;
+    qDebug() << "MovieProvidersManager: initialize" << newKey;
     if (key.key != newKey) {
         key.key = newKey;
         model->clear();
@@ -31,11 +31,13 @@ void MovieProvidersManager::initialize(const QString &region)
     }
 
     if (cache.exists(key)) {
+        qDebug() << "MovieProvidersManager: initialize using cache";
         model->fillFromCache(cache.load(key));
         setInitialized(true);
         return;
     }
 
+    qDebug() << "MovieProvidersManager: initialize using API - start";
     api.loadWatchMovieProviders(region);
 }
 
@@ -54,7 +56,9 @@ bool MovieProvidersManager::isInitialized()
 
 void MovieProvidersManager::apiRequestDone(const QByteArray &data)
 {
+    qDebug() << "MovieProvidersManager: initialize using API - got data";
     QJsonDocument newJson = model->fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     setInitialized(true);
+    qDebug() << "MovieProvidersManager: initialize using API - done";
 }

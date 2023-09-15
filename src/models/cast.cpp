@@ -4,16 +4,12 @@ Cast::Cast(int id,
            const QString &name,
            const QString &originalName,
            const QString &profilePath,
-           int castId,
-           const QString &character,
-           const QString &creditId) :
+           const QString &character) :
     id(id),
     name(name),
     originalName(originalName),
     profilePath(profilePath),
-    castId(castId),
-    character(character),
-    creditId(creditId)
+    character(character)
 {
 
 }
@@ -37,17 +33,7 @@ const QString &Cast::getProfilePath() const
     return profilePath;
 }
 
-int Cast::getCastId() const
-{
-    return castId;
-}
-
 const QString &Cast::getCharacter() const
 {
     return character;
-}
-
-const QString &Cast::getCreditId() const
-{
-    return creditId;
 }

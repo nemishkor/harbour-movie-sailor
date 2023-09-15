@@ -2,6 +2,7 @@
 #define CONFIGURATIONLISTMODEL_H
 
 #include <QAbstractListModel>
+#include <QDebug>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>

@@ -2,6 +2,7 @@
 #define KEYWORDSLISTMODEL_H
 
 #include <QAbstractListModel>
+#include <QDebug>
 #include <QMutableListIterator>
 #include "src/models/keyword.h"
 

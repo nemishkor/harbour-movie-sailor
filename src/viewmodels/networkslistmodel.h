@@ -2,6 +2,7 @@
 #define NETWORKSLISTMODEL_H
 
 #include <QAbstractListModel>
+#include <QDebug>
 
 #include "src/models/networklistitem.h"
 

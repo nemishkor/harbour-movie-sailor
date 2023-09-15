@@ -13,17 +13,20 @@ ConfigurationDetailsManager::ConfigurationDetailsManager(Api &api, FileCache &ca
 
 void ConfigurationDetailsManager::initialize()
 {
+    qInfo() << "ConfigurationDetailsManager: initialize";
     if (initialized) {
         return;
     }
 
     if (cache.exists(key)) {
+        qDebug() << "ConfigurationDetailsManager: initialize using cache";
         model.fillFromCache(cache.load(key));
         initialized = true;
         emit initializedChanged();
         return;
     }
 
+    qDebug() << "ConfigurationDetailsManager: initialize using API - start";
     api.loadConfigurationDetails();
 }
 
@@ -39,9 +42,11 @@ bool ConfigurationDetailsManager::isInitialized()
 
 void ConfigurationDetailsManager::apiRequestDone(const QByteArray &data)
 {
+    qDebug() << "ConfigurationDetailsManager: initialize using API - got data";
     QJsonDocument newJson = model.fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     initialized = true;
     emit initializedChanged();
+    qDebug() << "ConfigurationDetailsManager: initialize using API - done";
 }
 

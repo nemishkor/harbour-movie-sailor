@@ -68,20 +68,20 @@ void MediaListModel::clear()
 
 void MediaListModel::fillFromAPI(const QJsonDocument &json, const QList<Genre> &allGenres, MediaListItem::MediaType defaultMediaType)
 {
-    qDebug() << "fill media list from API";
+    qDebug() << "MediaListModel: fill media list from API";
 
     switch (defaultMediaType) {
     case MediaListItem::Unknown:
-        qDebug() << "default media type is unknown";
+        qDebug() << "MediaListModel: default media type is unknown";
         break;
     case MediaListItem::MovieType:
-        qDebug() << "default media type is movie";
+        qDebug() << "MediaListModel: default media type is movie";
         break;
     case MediaListItem::TvType:
-        qDebug() << "default media type is TV";
+        qDebug() << "MediaListModel: default media type is TV";
         break;
     case MediaListItem::PersonType:
-        qDebug() << "default media type is person";
+        qDebug() << "MediaListModel: default media type is person";
         break;
 
     }
@@ -160,6 +160,7 @@ void MediaListModel::fillFromAPI(const QJsonDocument &json, const QList<Genre> &
             jsonObj["known_for_department"].toString(),
             knownFor));
     }
+    qDebug() << "MediaListModel: fill media list from API - done";
 }
 
 int MediaListModel::getTotalPages() const

@@ -28,6 +28,7 @@ QVariant NetworksListModel::data(const QModelIndex &index, int role) const
 
 void NetworksListModel::add(const NetworkListItem &item)
 {
+    qDebug() << "NetworksListModel: add";
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     items << item;
     endInsertRows();

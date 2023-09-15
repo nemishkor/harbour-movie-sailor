@@ -8,17 +8,18 @@
 #include <QMetaMethod>
 #include <QNetworkRequest>
 #include <QString>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QUrlQuery>
 
 #include "apiworker.h"
+#include "src/settings.h"
 #include "src/system.h"
 #include "src/models/account.h"
 #include "src/models/accountmoviesform.h"
 #include "src/models/movie.h"
 #include "src/models/searchpeopleform.h"
 #include "src/models/discovermovie.h"
-#include "src/models/settings.h"
 #include "src/models/form.h"
 #include "src/models/searchform.h"
 #include "src/models/tv.h"
@@ -54,6 +55,7 @@ public:
         FavoriteMovies,
         FavoriteTv,
         SearchMedia,
+        LoadPerson,
         RatedMovies,
         RatedTv,
         WatchlistMovies,
@@ -98,6 +100,7 @@ public:
     void searchMedia(WorkerName workerName, const SearchForm &form);
 
 private:
+    const QRegularExpression accountIdEnpointRegexp;
     class Account *account;
     Settings &settings;
     QNetworkAccessManager networkManager;
@@ -115,6 +118,22 @@ private:
     QString getLanguage() const;
     QString getIncludeAdult() const;
 
+    void getResource(WorkerName workerName, const QString &endpoint);
+    void getResource(WorkerName workerName, const QString &endpoint, const QUrlQuery &query);
+
+    void postResource(WorkerName workerName, const QString &endpoint, const QByteArray &data);
+    void postResource(WorkerName workerName, const QString &endpoint, const QUrlQuery &query, const QJsonObject &data);
+    void postResource(WorkerName workerName, const QString &endpoint, const QUrlQuery &query, const QByteArray &data);
+
+    void deleteResource(WorkerName workerName, const QString &endpoint, const QUrlQuery &query);
+
+    void log(WorkerName workerName, const QString &method, const QString &endpoint);
+    void log(WorkerName workerName, const QString &method, const QString &endpoint, const QUrlQuery &query);
+
+    QString filterEndpoint(const QString &endpoint) const;
+
+    const QStringList sensitiveQueryParams;
+
 signals:
     void configurationCountriesDone(QByteArray &);
     void configurationDetailsDone(QByteArray &);
@@ -122,6 +141,7 @@ signals:
     void loadAccountDone(QByteArray &);
     void movieDone(QByteArray &);
     void loadTvDone(QByteArray &);
+    void loadPersonDone(QByteArray &);
     void discoverMoviesDone(QByteArray &);
     void genresDone(QByteArray &);
     void keywordsDone(QByteArray &);

@@ -16,7 +16,7 @@ CompaniesService::CompaniesService(Api &api, FileCache &cache, FilterByCompanies
 
 void CompaniesService::search()
 {
-    qDebug() << "search companies";
+    qDebug() << "CompaniesService: search";
     if (form->isDirty()) {
         key.key = form->toString();
         list->clear();
@@ -25,7 +25,7 @@ void CompaniesService::search()
     }
 
     if (!form->isValid()) {
-        qDebug() << "form is invalid";
+        qDebug() << "CompaniesService: form is invalid";
         return;
     }
 
@@ -37,10 +37,11 @@ void CompaniesService::search()
         list->fillFromCache(cache.load(key));
         initialized = true;
         emit initializedChanged();
+        qDebug() << "CompaniesService: search using cache";
         return;
     }
 
-    qDebug() << "search companies API call";
+    qDebug() << "CompaniesService: search using API - start";
     api.getResource(apiWorkerName, *form);
 }
 
@@ -66,10 +67,11 @@ RequestInfo *CompaniesService::getRequest() const
 
 void CompaniesService::apiRequestDone(const QByteArray &data)
 {
-    qDebug() << "search companies API request done";
+    qDebug() << "CompaniesService: search using API - got data";
     QJsonDocument newJson = list->fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     initialized = true;
     emit initializedChanged();
     form->setDirty(false);
+    qDebug() << "CompaniesService: search using API - done";
 }

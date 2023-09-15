@@ -8,6 +8,7 @@
 #include "src/api.h"
 #include "src/cachekey.h"
 #include "src/filecache.h"
+#include "src/settings.h"
 #include "src/models/searchpeopleform.h"
 #include "src/viewmodels/searchpeoplelistmodel.h"
 #include "src/viewmodels/searchpersonlistmodel.h"

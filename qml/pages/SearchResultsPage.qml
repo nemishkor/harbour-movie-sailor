@@ -60,7 +60,12 @@ BasePage {
                     pageStack.animatorPush("./TvPage.qml")
                     return;
                 }
-                console.log("Do not go");
+                if (model.mediaType === 3) {
+                    console.log("Go to Person page");
+                    pageStack.animatorPush("./PersonPage.qml")
+                    return;
+                }
+                console.warn("Unknown media type");
             }
         }
 

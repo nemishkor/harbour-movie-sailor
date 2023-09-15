@@ -48,6 +48,7 @@ Qt::ItemFlags MovieProvidersListModel::flags(const QModelIndex &index) const
 
 void MovieProvidersListModel::add(const MovieProvider &item)
 {
+    qDebug() << "MovieProvidersListModel: add";
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     items.append(item);
     endInsertRows();
@@ -95,6 +96,8 @@ const QJsonDocument MovieProvidersListModel::fillFromAPI(const QJsonDocument &js
     {
         return QString(a.getPriority()).append(a.getName()) < QString(b.getPriority()).append(b.getName());
     });
+
+    qDebug() << "MovieProvidersListModel: sorted";
 
     for (int i = 0; i < items.count(); i++) {
         const MovieProvider &item = items.at(i);

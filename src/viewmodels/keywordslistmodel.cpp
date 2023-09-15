@@ -27,6 +27,7 @@ QVariant KeywordsListModel::data(const QModelIndex &index, int role) const
 
 void KeywordsListModel::add(const Keyword &item)
 {
+    qDebug() << "KeywordsListModel: sorted";
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     items.append(item);
     endInsertRows();

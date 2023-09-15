@@ -1,7 +1,7 @@
 Name:       harbour-movie-sailor
 
 Summary:    Movie Sailor
-Version:    0.1
+Version:    0.2
 Release:    1
 License:    LICENSE
 URL:        http://example.org/
@@ -15,7 +15,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  pkgconfig(qt5embedwidget)
 
 %description
-Short description of my Sailfish OS Application
+Unofficial TMDB client
 
 
 %prep

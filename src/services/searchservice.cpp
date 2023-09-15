@@ -3,6 +3,7 @@
 SearchService::SearchService(Api &api,
                              MovieService &movieService,
                              TvService &tvService,
+                             PersonService &personService,
                              GenresListModel *genresListModel,
                              QObject *parent) :
     QObject(parent),
@@ -10,6 +11,7 @@ SearchService::SearchService(Api &api,
     api(api),
     movieService(movieService),
     tvService(tvService),
+    personService(personService),
     genresListModel(genresListModel),
     form(new SearchForm(this)),
     request(api.getRequestInfo(apiWorkerName)),
@@ -20,6 +22,7 @@ SearchService::SearchService(Api &api,
 
 void SearchService::search()
 {
+    qDebug() << "SearchService: search";
     if (list->getDirty() || form->isDirty()) {
         list->clear();
         form->setPage(1);
@@ -29,12 +32,12 @@ void SearchService::search()
     form->setDirty(false);
 
     qDebug() << "type" << form->getType();
-
     api.searchMedia(apiWorkerName, *form);
 }
 
 void SearchService::select(int id)
 {
+    qDebug() << "SearchService: select" << id;
     QList<MediaListItem>::const_iterator it;
     for (it = list->getItems().constBegin(); it != list->getItems().constEnd(); it++) {
         if (it->getId() == id) {
@@ -50,6 +53,7 @@ void SearchService::select(int id)
                 tvService.fillWithListItemAndLoad(*it);
                 break;
             case MediaListItem::PersonType:
+                personService.fillAndLoad(*it);
                 break;
             }
             return;
@@ -74,6 +78,7 @@ MediaListModel *SearchService::getList() const
 
 void SearchService::fillFromApi(QByteArray &data)
 {
+    qDebug() << "SearchService: search - got data";
     MediaListItem::MediaType mediaType = MediaListItem::MediaType::MovieType;
     switch (form->getType()) {
     case SearchForm::Any:
@@ -89,5 +94,6 @@ void SearchService::fillFromApi(QByteArray &data)
         break;
     }
     list->fillFromAPI(QJsonDocument::fromJson(data), genresListModel->getItems(), mediaType);
+    qDebug() << "SearchService: search - done";
 }
 

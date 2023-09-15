@@ -24,6 +24,7 @@ QVariant CountriesListModel::data(const QModelIndex &index, int role) const
 
 void CountriesListModel::add(const CountryListItem &item)
 {
+    qDebug() << "CountriesListModel: add";
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     items << item;
     endInsertRows();

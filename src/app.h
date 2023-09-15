@@ -16,12 +16,12 @@
 
 #include "src/api.h"
 #include "src/filecache.h"
+#include "src/settings.h"
 #include "src/models/account.h"
 #include "src/models/discovermovie.h"
 #include "src/models/configurationdetails.h"
 #include "src/models/country.h"
 #include "src/models/searchpeopleform.h"
-#include "src/models/settings.h"
 #include "src/services/accountservice.h"
 #include "src/services/countrieslistservice.h"
 #include "src/services/configurationdetailsmanager.h"
@@ -29,6 +29,7 @@
 #include "src/services/genresmovieservice.h"
 #include "src/services/languageslistservice.h"
 #include "src/services/movieservice.h"
+#include "src/services/personservice.h"
 #include "src/viewmodels/searchpeoplelistmodel.h"
 #include "src/viewmodels/filterbylanguageslistmodel.h"
 #include "src/viewmodels/configurationlistmodel.h"
@@ -45,6 +46,7 @@ class App : public QObject
     Q_PROPERTY(Account* account READ getAccount CONSTANT)
     Q_PROPERTY(SearchService* searchService READ getSearchService CONSTANT)
     Q_PROPERTY(FileCache* cache READ getCache CONSTANT)
+    Q_PROPERTY(PersonService* personService READ getPersonService CONSTANT)
 
 public:
     App(QQmlContext *context);
@@ -66,6 +68,8 @@ public:
 
     MovieService *getMovieService() const;
 
+    PersonService *getPersonService() const;
+
 signals:
     void menuChanged();
 
@@ -76,11 +80,11 @@ private:
     Account *account;
     Settings *settings;
     Api api;
-
     GenresMovieService genresService;
     ConfigurationDetailsManager configurationDetailsManager;
     MovieService *movieService;
     TvService tvService;
+    PersonService *personService;
     CountriesListService countriesListService;
     DiscoverMovieService discoverMovieService;
     LanguagesListService languagesListService;

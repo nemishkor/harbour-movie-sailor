@@ -11,11 +11,12 @@ App::App(QQmlContext *context) :
     configurationDetailsManager(api, *cache, this),
     movieService(new MovieService(api, system, this)),
     tvService(api, this),
+    personService(new PersonService(api, this)),
     countriesListService(system, api, *cache, this),
     discoverMovieService(api, *cache, *settings, *movieService, genresService.getModel(), this),
     languagesListService(system, api, *cache, this),
     accountService(new AccountService(account, api, *settings, genresService.getModel(), *movieService, tvService, this)),
-    searchService(new SearchService(api, *movieService, tvService, genresService.getModel(), this))
+    searchService(new SearchService(api, *movieService, tvService, *personService, genresService.getModel(), this))
 {
     context->setContextProperty("countriesService", &countriesListService);
     context->setContextProperty("countriesListModel", countriesListService.getModel());
@@ -75,7 +76,7 @@ App::App(QQmlContext *context) :
 
     context->setContextProperty("app", this);
 
-    qDebug() << "app build is done";
+    qInfo() << "app build is done";
 
     connect(&languagesListService, &LanguagesListService::initializedChanged, this, &App::validateContentLanguage);
 
@@ -130,6 +131,11 @@ FileCache *App::getCache() const
 MovieService *App::getMovieService() const
 {
     return movieService;
+}
+
+PersonService *App::getPersonService() const
+{
+    return personService;
 }
 
 void App::validateContentLanguage()

@@ -2,6 +2,7 @@
 #define COUNTRIESLISTMODEL_H
 
 #include <QAbstractListModel>
+#include <QDebug>
 
 #include "src/models/countrylistitem.h"
 

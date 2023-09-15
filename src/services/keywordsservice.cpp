@@ -15,7 +15,7 @@ KeywordsService::KeywordsService(Api &api, FileCache &cache, KeywordsListModel *
 void KeywordsService::search(const QString &query, int page)
 {
     QString newKey = query + "|" + QString::number(page);
-    qDebug() << "search keywords" << newKey;
+    qDebug() << "KeywordsService: initialize" << newKey;
 
     if (key.key != newKey) {
         key.key = newKey;
@@ -28,26 +28,31 @@ void KeywordsService::search(const QString &query, int page)
     }
 
     if (cache.exists(key)) {
-        qDebug() << "load search keywords from cache";
+        qDebug() << "KeywordsService: initialize using cache";
         searchModel.fillFromCache(cache.load(key));
         setInitialized(true);
         return;
     }
 
+    qDebug() << "KeywordsService: initialize using API - start";
     api.loadKeywords(query, page);
 }
 
 void KeywordsService::select(int id)
 {
+    qDebug() << "KeywordsService: select" << id;
     const Keyword &keyword = searchModel.getItems()[searchModel.getItems().indexOf(Keyword(id, ""))];
     if (model->getItems().indexOf(keyword) == -1) {
         model->add(keyword);
         searchModel.selectChanged(keyword);
+        return;
     }
+    qWarning() << "KeywordsService: could not select";
 }
 
 void KeywordsService::unselect(int id)
 {
+    qDebug() << "KeywordsService: unselect" << id;
     model->remove(Keyword(id, ""));
     searchModel.selectChanged(Keyword(id, ""));
 }
@@ -72,9 +77,10 @@ void KeywordsService::setInitialized(bool newInitialized)
 
 void KeywordsService::apiRequestDone(const QByteArray &data)
 {
-    qDebug() << "keywords api request is done";
+    qDebug() << "KeywordsService: initialize using API - got data";
     QJsonDocument newJson = searchModel.fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     initialized = true;
     emit initializedChanged();
+    qDebug() << "KeywordsService: initialize using API - done";
 }

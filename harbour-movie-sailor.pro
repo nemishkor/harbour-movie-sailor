@@ -23,6 +23,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/filecache.cpp \
     src/listmodels/castslist.cpp \
     src/listmodels/crewlist.cpp \
+    src/logger.cpp \
     src/models/account.cpp \
     src/models/accountmoviesform.cpp \
     src/models/cast.cpp \
@@ -41,11 +42,13 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/keyword.cpp \
     src/models/language.cpp \
     src/models/languagelistitem.cpp \
+    src/models/loadpersonform.cpp \
     src/models/medialistitem.cpp \
     src/models/movie.cpp \
     src/models/moviecollection.cpp \
     src/models/movieprovider.cpp \
     src/models/networklistitem.cpp \
+    src/models/person.cpp \
     src/models/personlistitem.cpp \
     src/models/requestinfo.cpp \
     src/models/requesttoken.cpp \
@@ -53,7 +56,6 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/searchpeopleform.cpp \
     src/models/searchpersonlistitem.cpp \
     src/models/seasonlistitem.cpp \
-    src/models/settings.cpp \
     src/models/tv.cpp \
     src/services/accountmedialistservice.cpp \
     src/services/accountservice.cpp \
@@ -66,9 +68,11 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/services/languageslistservice.cpp \
     src/services/movieprovidersmanager.cpp \
     src/services/movieservice.cpp \
+    src/services/personservice.cpp \
     src/services/personslistservice.cpp \
     src/services/searchservice.cpp \
     src/services/tvservice.cpp \
+    src/settings.cpp \
     src/system.cpp \
     src/viewmodels/companieslistmodel.cpp \
     src/viewmodels/companiessearchlistmodel.cpp \
@@ -150,6 +154,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/pages/MovieCastPage.qml \
     qml/pages/MovieCrewPage.qml \
     qml/pages/MoviePage.qml \
+    qml/pages/PersonPage.qml \
     qml/pages/SearchPage.qml \
     qml/pages/SearchResultsPage.qml \
     qml/pages/SecondPage.qml \
@@ -181,6 +186,7 @@ HEADERS += \
     src/filecache.h \
     src/listmodels/castslist.h \
     src/listmodels/crewlist.h \
+    src/logger.h \
     src/models/account.h \
     src/models/accountmoviesform.h \
     src/models/cast.h \
@@ -199,11 +205,13 @@ HEADERS += \
     src/models/keyword.h \
     src/models/language.h \
     src/models/languagelistitem.h \
+    src/models/loadpersonform.h \
     src/models/medialistitem.h \
     src/models/movie.h \
     src/models/moviecollection.h \
     src/models/movieprovider.h \
     src/models/networklistitem.h \
+    src/models/person.h \
     src/models/personlistitem.h \
     src/models/requestinfo.h \
     src/models/requesttoken.h \
@@ -211,7 +219,6 @@ HEADERS += \
     src/models/searchpeopleform.h \
     src/models/searchpersonlistitem.h \
     src/models/seasonlistitem.h \
-    src/models/settings.h \
     src/models/tv.h \
     src/models/workernames.h \
     src/services/accountmedialistservice.h \
@@ -225,9 +232,11 @@ HEADERS += \
     src/services/languageslistservice.h \
     src/services/movieprovidersmanager.h \
     src/services/movieservice.h \
+    src/services/personservice.h \
     src/services/personslistservice.h \
     src/services/searchservice.h \
     src/services/tvservice.h \
+    src/settings.h \
     src/system.h \
     src/viewmodels/companieslistmodel.h \
     src/viewmodels/companiessearchlistmodel.h \

@@ -6,9 +6,9 @@
 #include <QDateTime>
 
 #include "src/api.h"
+#include "src/settings.h"
 #include "src/models/account.h"
 #include "src/models/accountmoviesform.h"
-#include "src/models/settings.h"
 #include "src/models/requesttoken.h"
 #include "src/services/accountmedialistservice.h"
 #include "src/services/movieservice.h"

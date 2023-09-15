@@ -44,6 +44,7 @@ void MovieService::load(int id)
 
 void MovieService::fillWithListItemAndLoad(const MediaListItem &result)
 {
+    qDebug() << "MovieService: fill" << result.getId();
     if (model->getId() == result.getId())
         return;
 
@@ -78,6 +79,7 @@ void MovieService::fillWithListItemAndLoad(const MediaListItem &result)
     model->setWatchlist(false);
     model->getCredits()->getCast()->clear();
     model->getCredits()->getCrew()->clear();
+    qDebug() << "MovieService: load" << result.getId();
     api.loadMovie(model->getId());
 }
 
@@ -93,7 +95,8 @@ RequestInfo *MovieService::getRequest() const
 
 void MovieService::apiRequestDone(const QByteArray &data)
 {
-    qDebug() << "movie is loaded from API";
+    qDebug() << "MovieService: movie is loaded";
+
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     qlonglong money = obj["budget"].toVariant().toLongLong();
     model->setBudget(money == 0 ? "?" : system.getLocale().toCurrencyString(money, "$"));
@@ -121,6 +124,7 @@ void MovieService::apiRequestDone(const QByteArray &data)
     QJsonArray::const_iterator it;
     QJsonObject item;
 
+    qDebug() << "MovieService: set production companies";
     if (obj["production_companies"].isArray()) {
         items = obj["production_companies"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
@@ -133,6 +137,7 @@ void MovieService::apiRequestDone(const QByteArray &data)
         }
     }
 
+    qDebug() << "MovieService: set production countries";
     if (obj["production_countries"].isArray()) {
         items = obj["production_countries"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
@@ -143,6 +148,7 @@ void MovieService::apiRequestDone(const QByteArray &data)
         }
     }
 
+    qDebug() << "MovieService: set spoken languages";
     if (obj["spoken_languages"].isArray()) {
         items = obj["spoken_languages"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
@@ -155,6 +161,7 @@ void MovieService::apiRequestDone(const QByteArray &data)
         }
     }
 
+    qDebug() << "MovieService: set account states";
     if (obj.contains("account_states")) {
         item = obj["account_states"].toObject();
         model->setFavorite(item["favorite"].toBool());
@@ -164,6 +171,7 @@ void MovieService::apiRequestDone(const QByteArray &data)
         model->setWatchlist(item["watchlist"].toBool());
     }
 
+    qDebug() << "MovieService: set credits";
     if (obj.contains("credits")) {
         QJsonObject credits = obj["credits"].toObject();
         items = credits["cast"].toArray();
@@ -174,9 +182,7 @@ void MovieService::apiRequestDone(const QByteArray &data)
                     item["name"].toString(),
                     item["original_name"].toString(),
                     item["profile_path"].toString(),
-                    item["castId"].toInt(),
-                    item["character"].toString(),
-                    item["credit_id"].toString()));
+                    item["character"].toString()));
         }
 
         QList<CrewListItem> crewList;
@@ -202,10 +208,12 @@ void MovieService::apiRequestDone(const QByteArray &data)
             model->getCredits()->getCrew()->add(crewList.at(i));
         }
     }
+    qDebug() << "MovieService: load from API - done";
 }
 
 void MovieService::favoriteDone(const QByteArray &data)
 {
+    qDebug() << "MovieService: favorite done";
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     if (obj["success"].toBool()) {
         model->setFavorite(!model->getFavorite());
@@ -214,6 +222,7 @@ void MovieService::favoriteDone(const QByteArray &data)
 
 void MovieService::toggleWatchlistDone(const QByteArray &data)
 {
+    qDebug() << "MovieService: toggle watchlist done";
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     if (obj["success"].toBool()) {
         model->setWatchlist(!model->getWatchlist());

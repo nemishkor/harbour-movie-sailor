@@ -8,7 +8,9 @@ Settings::Settings(System &system, QObject *parent) :
         + "/" + QCoreApplication::applicationName() + ".conf";
     settings = new QSettings(settingsPath, QSettings::NativeFormat);
     language = settings->value("language", system.getLanguage()).toString();
+    qInfo() << "Settings: language" << language;
     sessionId = settings->value("sessionId", "").toString();
+    qInfo() << "Settings: sessionId is empty:" << (sessionId.isEmpty() ? "yes" : "no");
     doNotShowRatingReminder = settings->value("doNotShowRatingReminder", false).toBool();
 }
 
@@ -19,6 +21,7 @@ const QString &Settings::getLanguage() const
 
 void Settings::setLanguage(const QString &newLanguage)
 {
+    qInfo() << "Settings: set language" << newLanguage;
     if (language == newLanguage)
         return;
     language = newLanguage;
@@ -33,6 +36,7 @@ const QString &Settings::getSessionId() const
 
 void Settings::setSessionId(const QString &newSessionId)
 {
+    qInfo() << "Settings: set new sessionId";
     if (sessionId == newSessionId)
         return;
     sessionId = newSessionId;

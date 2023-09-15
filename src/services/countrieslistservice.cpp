@@ -18,19 +18,21 @@ CountriesListService::CountriesListService(
 
 void CountriesListService::initialize()
 {
+    qDebug() << "CountriesListService: initialize";
     if (initialized) {
-        qDebug() << "model is initialized already";
+        qDebug() << "CountriesListService: model is initialized already";
         return;
     }
 
     if (cache.exists(key)) {
-        qDebug() << "initialize model using cache";
+        qDebug() << "CountriesListService: initialize using cache";
         model.fillFromCache(cache.load(key));
         initialized = true;
         emit initializedChanged();
         return;
     }
 
+    qDebug() << "CountriesListService: initialize using API - start";
     api.loadConfigurationCounries();
 }
 
@@ -46,9 +48,10 @@ bool CountriesListService::isInitialized()
 
 void CountriesListService::apiRequestDone(const QByteArray &data)
 {
-    qDebug() << "initialize model using API";
+    qDebug() << "CountriesListService: initialize using API - got data";
     QJsonDocument newJson = model.fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     initialized = true;
     emit initializedChanged();
+    qDebug() << "CountriesListService: initialize using API - done";
 }

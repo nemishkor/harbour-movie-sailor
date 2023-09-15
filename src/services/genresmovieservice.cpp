@@ -15,7 +15,7 @@ GenresMovieService::GenresMovieService(Api &api, FileCache &cache, Settings &set
 
 void GenresMovieService::initialize()
 {
-    qDebug() << "initialize genres with language" << settings.getLanguage();
+    qDebug() << "GenresMovieService: initialize with language" << settings.getLanguage();
 
     if (key.key != settings.getLanguage()) {
         key.key = settings.getLanguage();
@@ -28,12 +28,13 @@ void GenresMovieService::initialize()
     }
 
     if (cache.exists(key)) {
-        qDebug() << "load movie genres from cache";
+        qDebug() << "GenresMovieService: initialize using cache";
         model->fillFromCache(cache.load(key));
         setInitialized(true);
         return;
     }
 
+    qDebug() << "GenresMovieService: initialize using API - start";
     api.loadMovieGenres();
 }
 
@@ -57,8 +58,9 @@ bool GenresMovieService::isInitialized()
 
 void GenresMovieService::apiRequestDone(const QByteArray &data)
 {
-    qDebug() << "genres api request is done";
+    qDebug() << "GenresMovieService: initialize using API - got data";
     QJsonDocument newJson = model->fillFromAPI(QJsonDocument::fromJson(data));
     cache.save(key, newJson);
     setInitialized(true);
+    qDebug() << "GenresMovieService: initialize using API - done";
 }

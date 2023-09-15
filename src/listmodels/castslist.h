@@ -23,9 +23,7 @@ protected:
         NameRole,
         OriginalNameRole,
         ProfilePathRole,
-        CastIdRole,
         CharacterRole,
-        CreditIdRole,
         OrderRole
     };
     QList<Cast> items;

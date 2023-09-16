@@ -14,12 +14,12 @@ ListView {
         Image {
             id: companyLogo
 
-            property string logoUrl: model.logo === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.logo)
+            property string logoUrl: model.logo === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + model.logo)
 
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: Theme.horizontalPageMargin
-            visible: configurationDetailsService.initialized
+            visible: app.config.initialized
             source: logoUrl
             height: Theme.itemSizeSmall - 2 * Theme.paddingMedium
             width: Theme.itemSizeSmall - 2 * Theme.paddingMedium

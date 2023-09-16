@@ -8,7 +8,7 @@ App::App(QQmlContext *context) :
     settings(new Settings(system, this)),
     api(account, *settings, this),
     genresService(api, *cache, *settings, this),
-    configurationDetailsManager(api, *cache, this),
+    configurationDetailsManager(new ConfigurationDetailsManager(api, *cache, this)),
     movieService(new MovieService(api, system, this)),
     tvService(api, this),
     personService(new PersonService(api, this)),
@@ -21,10 +21,6 @@ App::App(QQmlContext *context) :
     context->setContextProperty("countriesService", &countriesListService);
     context->setContextProperty("countriesListModel", countriesListService.getModel());
     context->setContextProperty("countriesRequestInfo", api.getRequestInfo(Api::ConfigurationCountries));
-
-    context->setContextProperty("configurationDetailsService", &configurationDetailsManager);
-    context->setContextProperty("configurationDetailsModel", configurationDetailsManager.getModel());
-    context->setContextProperty("configurationDetailsRequestInfo", api.getRequestInfo(Api::ConfigurationDetails));
 
     // Begin discovery movie
     context->setContextProperty("discoverMovieService", &discoverMovieService);
@@ -80,7 +76,7 @@ App::App(QQmlContext *context) :
 
     connect(&languagesListService, &LanguagesListService::initializedChanged, this, &App::validateContentLanguage);
 
-    configurationDetailsManager.initialize();
+    configurationDetailsManager->initialize();
     genresService.initialize();
 }
 
@@ -136,6 +132,11 @@ MovieService *App::getMovieService() const
 PersonService *App::getPersonService() const
 {
     return personService;
+}
+
+ConfigurationDetailsManager *App::getConfigurationDetailsManager() const
+{
+    return configurationDetailsManager;
 }
 
 void App::validateContentLanguage()

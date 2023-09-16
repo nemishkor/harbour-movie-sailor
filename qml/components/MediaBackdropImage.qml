@@ -20,7 +20,7 @@ Item {
 
         source: root.source === ""
                 ? ""
-                : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.backdropSize + root.source)
+                : (app.config.model.imagesSecureBaseUrl + app.config.model.backdropSize + root.source)
         width: parent.width
         fillMode: Image.PreserveAspectFit
     }

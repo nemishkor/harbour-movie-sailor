@@ -7,7 +7,7 @@ PersonService::PersonService(Api &api, QObject *parent) :
     model(new Person(this)),
     request(api.getRequestInfo(apiWorkerName))
 {
-
+    connect(&api, &Api::loadPersonDone, this, &PersonService::apiRequestDone);
 }
 
 void PersonService::fillAndLoad(const PersonListItem &result)
@@ -24,9 +24,6 @@ void PersonService::fillAndLoad(const PersonListItem &result)
     model->setName(result.getName());
     model->setPlaceOfBirth("");
     model->setProfilePath(result.getProfilePath());
-    model->setFreebaseId("");
-    model->setFreebaseMid("");
-    model->setTvrageId(0);
     model->setWikidataId("");
     model->setFacebookId("");
     model->setInstagramId("");
@@ -52,9 +49,6 @@ void PersonService::fillAndLoad(const MediaListItem &result)
     model->setName(result.getTitle());
     model->setPlaceOfBirth("");
     model->setProfilePath(result.getPosterPath());
-    model->setFreebaseId("");
-    model->setFreebaseMid("");
-    model->setTvrageId(0);
     model->setWikidataId("");
     model->setFacebookId("");
     model->setInstagramId("");
@@ -63,7 +57,7 @@ void PersonService::fillAndLoad(const MediaListItem &result)
     model->setYoutubeId("");
     model->setImages(QStringList());
     qDebug() << "PersonService: load from API";
-    api.getResource(apiWorkerName, form);
+    api.loadPerson(model->getId(), form);
 }
 
 Person *PersonService::getModel() const
@@ -100,9 +94,6 @@ void PersonService::apiRequestDone(QByteArray &data)
 
     if (obj.contains("external_ids") && obj["external_ids"].isObject()) {
         QJsonObject externalIds = obj["external_ids"].toObject();
-        model->setFreebaseId(externalIds["freebase_id"].toString());
-        model->setFreebaseMid(externalIds["freebase_mid"].toString());
-        model->setTvrageId(externalIds["tvrage_id"].toInt());
         model->setWikidataId(externalIds["wikidata_id"].toString());
         model->setFacebookId(externalIds["facebook_id"].toString());
         model->setInstagramId(externalIds["instagram_id"].toString());

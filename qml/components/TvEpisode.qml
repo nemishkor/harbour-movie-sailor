@@ -40,7 +40,7 @@ Item {
     //                height: Math.min(Theme.itemSizeLarge, sourceSize.height)
                     source: episode.stillPath === ""
                             ? ""
-                            : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.stillSize + episode.stillPath)
+                            : (app.config.model.imagesSecureBaseUrl + app.config.model.stillSize + episode.stillPath)
 
                     onSourceChanged: {
                         console.log("new source " + source)

@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
     guiApp->setOrganizationName("nemishkor");
 
-    Logger::get().init();
+//    Logger::get().init();
     Logger::logSystemInfo();
 
     qInfo() << "applicationName" << guiApp->applicationName();

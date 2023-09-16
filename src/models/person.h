@@ -17,9 +17,6 @@ class Person : public QObject
     Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString placeOfBirth READ getPlaceOfBirth WRITE setPlaceOfBirth NOTIFY placeOfBirthChanged)
     Q_PROPERTY(QString profilePath READ getProfilePath WRITE setProfilePath NOTIFY profilePathChanged)
-    Q_PROPERTY(QString freebaseMid READ getFreebaseMid WRITE setFreebaseMid NOTIFY freebaseMidChanged)
-    Q_PROPERTY(QString freebaseId READ getFreebaseId WRITE setFreebaseId NOTIFY freebaseIdChanged)
-    Q_PROPERTY(int tvrageId READ getTvrageId WRITE setTvrageId NOTIFY tvrageIdChanged)
     Q_PROPERTY(QString wikidataId READ getWikidataId WRITE setWikidataId NOTIFY wikidataIdChanged)
     Q_PROPERTY(QString facebookId READ getFacebookId WRITE setFacebookId NOTIFY facebookIdChanged)
     Q_PROPERTY(QString instagramId READ getInstagramId WRITE setInstagramId NOTIFY instagramIdChanged)
@@ -64,12 +61,6 @@ public:
     const QString &getProfilePath() const;
     void setProfilePath(const QString &newProfilePath);
 
-    const QString &getFreebaseMid() const;
-    void setFreebaseMid(const QString &newFreebaseMid);
-
-    const QString &getFreebaseId() const;
-    void setFreebaseId(const QString &newFreebaseId);
-
     const QString &getWikidataId() const;
     void setWikidataId(const QString &newWikidataId);
 
@@ -91,52 +82,25 @@ public:
     const QStringList &getImages() const;
     void setImages(const QStringList &newImages);
 
-    int getTvrageId() const;
-    void setTvrageId(int newTvrageId);
-
 signals:
-
     void alsoKnownAsChanged();
-
     void biographyChanged();
-
     void birthdayChanged();
-
     void homepageChanged();
-
     void idChanged();
-
     void imdbIdChanged();
-
     void knownForDepartmentChanged();
-
     void nameChanged();
-
     void placeOfBirthChanged();
-
     void profilePathChanged();
-
-    void freebaseMidChanged();
-
-    void freebaseIdChanged();
-
     void wikidataIdChanged();
-
     void facebookIdChanged();
-
     void instagramIdChanged();
-
     void tiktokIdChanged();
-
     void twitterIdChanged();
-
     void youtubeIdChanged();
-
     void imagesChanged();
-
     void deathdayChanged();
-
-    void tvrageIdChanged();
 
 private:
     QStringList alsoKnownAs;
@@ -150,9 +114,6 @@ private:
     QString name;
     QString placeOfBirth;
     QString profilePath;
-    QString freebaseMid;
-    QString freebaseId;
-    int tvrageId;
     QString wikidataId;
     QString facebookId;
     QString instagramId;

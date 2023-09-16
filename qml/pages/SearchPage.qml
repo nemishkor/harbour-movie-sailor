@@ -28,6 +28,10 @@ BasePage {
                     MenuItem { text: qsTr("TV shows"); onClicked: root.service.form.type = 2 }
                     MenuItem { text: qsTr("People"); onClicked: root.service.form.type = 3 }
                 }
+                onCurrentIndexChanged: {
+                    searchField.selectAll()
+                    searchField.forceActiveFocus()
+                }
             }
 
             SearchField {
@@ -40,6 +44,8 @@ BasePage {
                 width: parent.width
                 placeholderText: qsTr("Search")
                 onTextChanged: root.service.form.query = searchField.text
+                EnterKey.enabled: searchField.length > 0
+                EnterKey.onClicked: pageStack.animatorPush("./SearchResultsPage.qml")
             }
 
             Row {

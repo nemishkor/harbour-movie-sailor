@@ -121,14 +121,14 @@ BaseDialog {
             }
 
             Image {
-                visible: configurationDetailsService.initialized
+                visible: app.config.initialized
                 source: {
                     if (root.focusedPersonModel === undefined)
                         return ""
                     if (root.focusedPersonModel.profilePath === "")
                         return ""
-                    return configurationDetailsModel.imagesSecureBaseUrl +
-                           configurationDetailsModel.profileSize +
+                    return app.config.model.imagesSecureBaseUrl +
+                           app.config.model.profileSize +
                            root.focusedPersonModel.profilePath
                 }
                 height: Theme.itemSizeHuge

@@ -8,8 +8,11 @@ BasePage {
     id: root
 
     property var service: app.personService
+    property var model: service.model
+    property string profilePreview: root.model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + root.model.profilePath)
+    property string profileOriginal: root.model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + root.model.profilePath)
 
-    backNavigation: !linksModal.show
+    backNavigation: !fullscreenImageModal.active
 
     ShareAction {
         id: shareAction
@@ -17,11 +20,24 @@ BasePage {
         mimeType: "text/x-url"
     }
 
+    FullscreenImageModal {
+        id: fullscreenImageModal
+
+        previewUrl: root.profilePreview
+        fullscreenUrl: root.profileOriginal
+        previewWidth: image.width
+        previewHeight: image.height
+        previewX: Theme.horizontalPageMargin
+        previewY: Theme.paddingMedium + pageTitle.height - flickable.contentY
+    }
+
     FullPageRequestProgress { requestInfo: tvService.request }
 
     SilicaFlickable {
+        id: flickable
+
         anchors.fill: parent
-        contentHeight: column.height
+        contentHeight: column.height + Theme.paddingMedium
 
         Column {
             id: column
@@ -29,12 +45,7 @@ BasePage {
             width: parent.width
             spacing: Theme.paddingMedium
 
-            PageHeader {
-                title: root.service.model.name
-                description: root.service.model.name !== root.service.model.originName
-                             ? root.service.model.originName
-                             : ""
-            }
+            PageHeader { id: pageTitle; title: root.model.name }
 
             Row {
                 y: Theme.paddingMedium
@@ -42,25 +53,33 @@ BasePage {
                 x: Theme.horizontalPageMargin
                 spacing: Theme.paddingMedium
 
-                Image {
+                Item {
                     id: image
 
-                    visible: configurationDetailsService.initialized
-                    source: root.service.model.profilePath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + root.service.model.profilePath)
-                    height: Math.min(Math.min(sourceSize.height * Theme.pixelRatio, 278 * Theme.pixelRatio), parent.width / 3)
-                    width: Math.min(Math.min(sourceSize.width * Theme.pixelRatio, 185 * Theme.pixelRatio), parent.width / 3)
-                    fillMode: Image.PreserveAspectCrop
-                    layer.enabled: true
-                    layer.effect: OpacityMask {
-                        maskSource: mask
+                    width: Math.min(185 * Theme.pixelRatio, parent.width / 3)
+                    height: width / 185 * 278
+
+                    Image {
+                        visible: app.config.initialized
+                        source: root.model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + root.model.profilePath)
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectCrop
+                        layer.enabled: true
+                        layer.effect: OpacityMask {
+                            maskSource: mask
+                        }
+                        Rectangle {
+                            id: mask
+
+                            anchors.fill: parent
+                            visible: false
+                            radius: 10 * Theme.pixelRatio
+                        }
                     }
 
-                    Rectangle {
-                        id: mask
-
+                    MouseArea {
                         anchors.fill: parent
-                        visible: false
-                        radius: 10 * Theme.pixelRatio
+                        onClicked: fullscreenImageModal.show()
                     }
                 }
 
@@ -69,29 +88,101 @@ BasePage {
 
                     width: parent.width - image.width - Theme.paddingMedium
 
-                    KeyValue { key: qsTr("Known for"); value: root.service.model.knownForDepartment }
-                    KeyValue { key: qsTr("Birthdate"); value: root.service.model.birthdate }
-                    KeyValue {
-                        key: qsTr("Deathday")
-                        value: root.service.model.deathday
-                        visible: root.service.model.deathday !== ""
-                    }
-                    KeyValue {
-                        key: qsTr("Place of birth")
-                        value: root.service.model.placeOfBirth
-                        visible: root.service.model.placeOfBirth !== ""
+                    Flow {
+                        width: parent.width
+                        spacing: Theme.paddingSmall
+
+                        IconButton {
+                            icon.source: "qrc:/images/icons/images/icons/imdb.svg"
+                            icon.sourceSize: Qt.size( Theme.iconSizeSmallPlus, Theme.iconSizeSmallPlus )
+                            visible: root.model.imdbId
+                            onClicked: Qt.openUrlExternally("https://www.imdb.com/name/" + root.model.imdbId)
+                        }
+                        IconButton {
+                            icon.source: "qrc:/images/icons/images/icons/wikipedia.svg"
+                            icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
+                            visible: root.model.wikidataId
+                            onClicked: Qt.openUrlExternally("https://www.wikidata.org/wiki/" + root.model.wikidataId)
+                        }
+                        IconButton {
+                            icon.source: "qrc:/images/icons/images/icons/instagram.svg"
+                            icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
+                            visible: root.model.instagramId
+                            onClicked: Qt.openUrlExternally("https://instagram.com/" + root.model.instagramId)
+                        }
+                        IconButton {
+                            icon.source: "qrc:/images/icons/images/icons/tik-tok.svg"
+                            icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
+                            visible: root.model.tiktokId
+                            onClicked: Qt.openUrlExternally("https://www.tiktok.com/@" + root.model.tiktokId)
+                        }
+                        IconButton {
+                            icon.source: "qrc:/images/icons/images/icons/twitter-alt.svg"
+                            icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
+                            visible: root.model.twitterId
+                            onClicked: Qt.openUrlExternally("https://twitter.com/" + root.model.twitterId)
+                        }
+                        IconButton {
+                            icon.source: "qrc:/images/icons/images/icons/youtube.svg"
+                            icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
+                            visible: root.model.youtubeId
+                            onClicked: Qt.openUrlExternally("https://www.youtube.com/@" + root.model.youtubeId)
+                        }
+                        IconButton {
+                            icon.source: "qrc:/images/icons/images/icons/facebook.svg"
+                            icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
+                            visible: root.model.facebookId
+                            onClicked: Qt.openUrlExternally("https://www.facebook.com/" + root.model.facebookId)
+                        }
                     }
                 }
             }
 
-            SectionHeader { text: qsTr("Biography") }
+            KeyValue { key: qsTr("Known for"); value: root.model.knownForDepartment }
+            KeyValue { key: qsTr("Birthdate"); value: root.model.birthday }
+            KeyValue {
+                key: qsTr("Deathday")
+                value: root.model.deathday
+                visible: root.model.deathday !== ""
+            }
+            KeyValue {
+                key: qsTr("Place of birth")
+                value: root.model.placeOfBirth
+                visible: root.model.placeOfBirth !== ""
+            }
+
+            SectionHeader { text: qsTr("Also known as") }
+
+            Badges {
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                x: Theme.horizontalPageMargin
+                items: root.model.alsoKnownAs
+            }
+
+            SectionHeader { text: qsTr("Biography"); visible: root.model.biography }
 
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                text: root.service.model.overview
+                text: root.model.biography
                 wrapMode: "WordWrap"
             }
+
+            Label {
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                x: Theme.horizontalPageMargin
+                text: qsTr("id") + ": " + root.model.id
+                font.pixelSize: Theme.fontSizeTiny
+                color: Theme.secondaryColor
+            }
+
+            Repeater {
+                model: 40
+                Label {
+                    text: "adf"
+                }
+            }
+
         }
     }
 }

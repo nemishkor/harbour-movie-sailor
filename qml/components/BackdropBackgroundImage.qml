@@ -18,7 +18,7 @@ Item {
     Image {
         id: image
 
-        source: root.path === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.backdropSize + root.path)
+        source: root.path === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.backdropSize + root.path)
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
     }

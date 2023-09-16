@@ -71,6 +71,7 @@ public:
     void loadConfigurationLanguages();
     void loadMovie(int id);
     void loadTv(int id);
+    void loadPerson(int id, const Form &form);
     void loadMovieGenres();
     void loadTVGenres();
     void loadKeywords(const QString query, int page);

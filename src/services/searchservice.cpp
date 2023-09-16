@@ -41,7 +41,7 @@ void SearchService::select(int id)
     QList<MediaListItem>::const_iterator it;
     for (it = list->getItems().constBegin(); it != list->getItems().constEnd(); it++) {
         if (it->getId() == id) {
-            qDebug() << "Found media needs to be selected";
+            qDebug() << "SearchService: media is found";
             switch (it->getMediaType()) {
             case MediaListItem::Unknown:
                 qWarning() << "Unknown media type of the media entity" << it->getId();

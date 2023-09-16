@@ -636,7 +636,15 @@ votes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Also known as</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Biography</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>id</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

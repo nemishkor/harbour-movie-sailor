@@ -49,7 +49,7 @@ BaseDialog {
                 }
                 delegate: AndOrListItem {
                     isLast: index < (viewList.count - 1)
-                    imageSource: model.logo === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.logo)
+                    imageSource: model.logo === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + model.logo)
                     title: model.name
                     description: model.country === "" ? "" : (qsTr("Origin country") + ": " + model.country)
                     button.onClicked: {
@@ -91,7 +91,7 @@ BaseDialog {
                 height: childrenRect.height
                 interactive: false
                 delegate: FilterSearchResultItem {
-                    imageSource: model.logo === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.logo)
+                    imageSource: model.logo === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + model.logo)
                     text: model.name
                     description: model.country === "" ? "" : (qsTr("Origin country") + ": " + model.country)
                     button.onClicked: {

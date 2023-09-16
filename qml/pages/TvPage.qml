@@ -7,8 +7,10 @@ BasePage {
     id: root
 
     property var service: tvService
+    property string posterPreviewUrl: root.service.model.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + root.service.model.posterPath)
+    property string posterFullscreenUrl: root.service.model.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + root.service.model.posterPath)
 
-    backNavigation: !linksModal.show && !loginModal.show && !ratingModal.show
+    backNavigation: !linksModal.show && !loginModal.show && !ratingModal.show && !fullscreenImageModal.active
 
     ShareAction {
         id: shareAction
@@ -19,6 +21,8 @@ BasePage {
     FullPageRequestProgress { requestInfo: tvService.request }
 
     SilicaFlickable {
+        id: flickable
+
         anchors.fill: parent
         contentHeight: column.height
 
@@ -29,13 +33,15 @@ BasePage {
             spacing: Theme.paddingMedium
 
             PageHeader {
+                id: pageTitle
+
                 title: root.service.model.name
                 description: root.service.model.name !== root.service.model.originName
                              ? root.service.model.originName
                              : ""
             }
 
-            MediaBackdropImage { source: root.service.model.backdropPath }
+            MediaBackdropImage { id: backdrop; source: root.service.model.backdropPath }
 
             Row {
                 width: parent.width - 2 * Theme.horizontalPageMargin
@@ -55,13 +61,18 @@ BasePage {
                         fillMode: Image.PreserveAspectFit
                         source: root.service.model.posterPath === ""
                                 ? ""
-                                : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.posterSize + root.service.model.posterPath)
+                                : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + root.service.model.posterPath)
 
                         BusyIndicator {
                             visible: parent.status === Image.Loading
                             running: true
                             size: BusyIndicatorSize.Small
                             anchors.centerIn: parent
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: fullscreenImageModal.show()
                         }
                     }
 
@@ -213,8 +224,8 @@ BasePage {
                         }
                     }
 
-                    MediaGenres {
-                        genres: root.service.model.genres
+                    Badges {
+                        items: root.service.model.genres
                     }
                 }
             }
@@ -381,5 +392,16 @@ BasePage {
         onRate: function(value){
             root.service.addRating(value)
         }
+    }
+
+    FullscreenImageModal {
+        id: fullscreenImageModal
+
+        previewUrl: root.posterPreviewUrl
+        fullscreenUrl: root.posterFullscreenUrl
+        previewWidth: poster.width
+        previewHeight: poster.height
+        previewX: Theme.horizontalPageMargin
+        previewY: Theme.paddingMedium + pageTitle.height + backdrop.height + (backdrop.visible ? Theme.paddingMedium : 0) - flickable.contentY
     }
 }

@@ -104,7 +104,7 @@ BasePage {
                     }
 
                     Item {
-                        visible: configurationDetailsRequestInfo.state === 1 || movieProvidersRequestInfo.state === 1
+                        visible: app.config.request.state === 1 || movieProvidersRequestInfo.state === 1
                         width: parent.width
                         height: Theme.itemSizeMedium
 
@@ -117,8 +117,8 @@ BasePage {
                     }
 
                     FailedRequestInColumn {
-                        state: configurationDetailsRequestInfo.state
-                        error: configurationDetailsRequestInfo.error
+                        state: app.config.request.state
+                        error: app.config.request.error
                     }
 
                     FailedRequestInColumn {
@@ -145,7 +145,7 @@ BasePage {
                         property real itemsPerRow: Math.floor(parent.width / size)
                         property real rowsCount: Math.ceil(movieProvidersListModel.count / itemsPerRow)
 
-                        visible: watchRegionControl.hasRegion && configurationDetailsService.initialized && movieProvidersService.initialized
+                        visible: watchRegionControl.hasRegion && app.config.initialized && movieProvidersService.initialized
                         height: Math.min(3, providersGrid.rowsCount) * providersGrid._cellHeight + (providersGrid.rowsCount > 3 ? Theme.itemSizeMedium : 0)
                         width: providersGrid._width
                         x: Theme.horizontalPageMargin
@@ -166,7 +166,7 @@ BasePage {
 
                                 Image {
                                     id: providerLogo
-                                    source: configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.logoSize + model.logo
+                                    source: app.config.model.imagesSecureBaseUrl + app.config.model.logoSize + model.logo
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     anchors.top: parent.top
                                     fillMode: Image.PreserveAspectFit

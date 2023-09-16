@@ -46,7 +46,7 @@ ListItem {
                 clip: true
                 width: parent.width
                 fillMode: Image.PreserveAspectFit
-                source: root.imagePath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.posterSize + root.imagePath)
+                source: root.imagePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + root.imagePath)
 
                 Rectangle {
                     visible: root.highlighted

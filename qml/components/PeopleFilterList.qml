@@ -58,7 +58,7 @@ Column {
         }
         delegate: AndOrListItem {
             isLast: index < (root.listModel.count - 1)
-            imageSource: model.profilePath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.profilePath)
+            imageSource: model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + model.profilePath)
             title: model.name
             description: model.knownForDepartment
             button.onClicked: {

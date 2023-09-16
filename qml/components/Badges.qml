@@ -4,7 +4,9 @@ import Sailfish.Silica 1.0
 Flow {
     id: root
 
-    property alias genres: repeater.model
+    property alias items: repeater.model
+    property string color: Theme.rgba(Theme.secondaryHighlightColor, Theme.highlightBackgroundOpacity)
+    property string textColor: Theme.highlightColor
 
     width: parent.width
     spacing: Theme.paddingSmall
@@ -12,19 +14,19 @@ Flow {
     Repeater {
         id: repeater
 
-        model: root.genres
+        model: root.items
         delegate: Rectangle {
             height: label.height + 2 * Theme.paddingSmall
             width: label.width + 2 * Theme.paddingSmall
             radius: 5 * Theme.pixelRatio
-            color: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
+            color: root.color
 
             Label {
                 id: label
                 anchors.verticalCenter: parent.verticalCenter
                 text: modelData
                 x: Theme.paddingSmall
-                color: Theme.highlightColor
+                color: root.textColor
                 font.pixelSize: Theme.fontSizeSmall
             }
         }

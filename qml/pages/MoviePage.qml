@@ -8,8 +8,10 @@ BasePage {
     id: root
 
     property var service: app.movieService
+    property string posterPreviewUrl: root.service.model.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + root.service.model.posterPath)
+    property string posterFullscreenUrl: root.service.model.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + root.service.model.posterPath)
 
-    backNavigation: !linksModal.show && !loginModal.show && !ratingModal.show
+    backNavigation: !linksModal.show && !loginModal.show && !ratingModal.show && !fullscreenImageModal.active
 
     ShareAction {
         id: shareAction
@@ -20,6 +22,8 @@ BasePage {
     FullPageRequestProgress { requestInfo: root.service.request }
 
     SilicaFlickable {
+        id: flickable
+
         anchors.fill: parent
         contentHeight: column.height
 
@@ -30,11 +34,13 @@ BasePage {
             spacing: Theme.paddingMedium
 
             PageHeader {
+                id: pageTitle
+
                 title: root.service.model.title
                 description: root.service.model.title !== root.service.model.originalTitle ? root.service.model.originalTitle : ""
             }
 
-            MediaBackdropImage { source: root.service.model.backdropPath }
+            MediaBackdropImage { id: backdrop; source: root.service.model.backdropPath }
 
             Row {
                 width: parent.width - 2 * Theme.horizontalPageMargin
@@ -52,13 +58,18 @@ BasePage {
                         id: poster
                         width: parent.width
                         fillMode: Image.PreserveAspectFit
-                        source: root.service.model.posterPath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.posterSize + root.service.model.posterPath)
+                        source: root.posterPreviewUrl
 
                         BusyIndicator {
                             visible: parent.status === Image.Loading
                             running: true
                             size: BusyIndicatorSize.Small
                             anchors.centerIn: parent
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: fullscreenImageModal.show()
                         }
                     }
 
@@ -206,8 +217,8 @@ BasePage {
                         }
                     }
 
-                    MediaGenres {
-                        genres: root.service.model.genres
+                    Badges {
+                        items: root.service.model.genres
                     }
                 }
             }
@@ -299,8 +310,8 @@ BasePage {
                                 width: 185 * Theme.pixelRatio
 
                                 Image {
-                                    visible: configurationDetailsService.initialized
-                                    source: model.profilePath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.profilePath)
+                                    visible: app.config.initialized
+                                    source: model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + model.profilePath)
                                     height: 278 * Theme.pixelRatio
                                     width: 185 * Theme.pixelRatio
                                     fillMode: Image.PreserveAspectCrop
@@ -376,7 +387,7 @@ BasePage {
                         clip: true
                         width: Math.max(parent.width / 3, sourceSize.width)
                         fillMode: Image.PreserveAspectFit
-                        source: root.service.model.belongsToCollection.posterPath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.posterSize + root.service.model.belongsToCollection.posterPath)
+                        source: root.service.model.belongsToCollection.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + root.service.model.belongsToCollection.posterPath)
 
                         BusyIndicator {
                             visible: parent.status === Image.Loading
@@ -466,5 +477,16 @@ BasePage {
         onRate: function(value) {
             root.service.addRating(value)
         }
+    }
+
+    FullscreenImageModal {
+        id: fullscreenImageModal
+
+        previewUrl: root.posterPreviewUrl
+        fullscreenUrl: root.posterFullscreenUrl
+        previewWidth: poster.width
+        previewHeight: poster.height
+        previewX: Theme.horizontalPageMargin
+        previewY: Theme.paddingMedium + pageTitle.height + backdrop.height + (backdrop.visible ? Theme.paddingMedium : 0) - flickable.contentY
     }
 }

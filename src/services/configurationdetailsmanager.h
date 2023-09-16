@@ -13,18 +13,23 @@ class ConfigurationDetailsManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool initialized READ isInitialized NOTIFY initializedChanged)
+    Q_PROPERTY(RequestInfo* request READ getRequest CONSTANT)
+    Q_PROPERTY(ConfigurationDetails* model READ getModel CONSTANT)
+
 public:
-    explicit ConfigurationDetailsManager(Api &api, FileCache &cache, QObject *parent);
+    ConfigurationDetailsManager(Api &api, FileCache &cache, QObject *parent);
 
     void initialize();
     ConfigurationDetails *getModel();
     bool isInitialized();
+    RequestInfo *getRequest() const;
 
 private:
     Api &api;
+    RequestInfo *request;
     FileCache &cache;
     CacheKey key;
-    ConfigurationDetails model;
+    ConfigurationDetails *model;
     bool initialized;
 
 public slots:

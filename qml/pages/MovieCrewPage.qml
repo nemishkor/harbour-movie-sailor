@@ -33,8 +33,8 @@ BasePage {
                 Image {
                     id: image
 
-                    visible: configurationDetailsService.initialized
-                    source: model.profilePath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.profilePath)
+                    visible: app.config.initialized
+                    source: model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + model.profilePath)
                     height: Math.min(sourceSize.height, 278)
                     width: Math.min(sourceSize.width, 185)
                     fillMode: Image.PreserveAspectCrop

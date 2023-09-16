@@ -135,32 +135,6 @@ void Person::setProfilePath(const QString &newProfilePath)
     emit profilePathChanged();
 }
 
-const QString &Person::getFreebaseMid() const
-{
-    return freebaseMid;
-}
-
-void Person::setFreebaseMid(const QString &newFreebaseMid)
-{
-    if (freebaseMid == newFreebaseMid)
-        return;
-    freebaseMid = newFreebaseMid;
-    emit freebaseMidChanged();
-}
-
-const QString &Person::getFreebaseId() const
-{
-    return freebaseId;
-}
-
-void Person::setFreebaseId(const QString &newFreebaseId)
-{
-    if (freebaseId == newFreebaseId)
-        return;
-    freebaseId = newFreebaseId;
-    emit freebaseIdChanged();
-}
-
 const QString &Person::getWikidataId() const
 {
     return wikidataId;
@@ -250,19 +224,6 @@ void Person::setImages(const QStringList &newImages)
         return;
     images = newImages;
     emit imagesChanged();
-}
-
-int Person::getTvrageId() const
-{
-    return tvrageId;
-}
-
-void Person::setTvrageId(int newTvrageId)
-{
-    if (tvrageId == newTvrageId)
-        return;
-    tvrageId = newTvrageId;
-    emit tvrageIdChanged();
 }
 
 const QString &Person::getDeathday() const

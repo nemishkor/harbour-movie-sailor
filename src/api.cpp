@@ -55,7 +55,7 @@ void Api::discoverMovies(const DiscoverMovie &form)
 {
     QUrlQuery query;
 
-    query.addQueryItem("language", settings.getLanguage());
+    query.addQueryItem("language", getLanguage());
 
     query.addQueryItem("page", QString::number(form.getPage()));
     query.addQueryItem("sort_by", form.getSortBy() + "." + form.getOrder());
@@ -153,7 +153,7 @@ void Api::discoverMovies(const DiscoverMovie &form)
 void Api::loadConfigurationCounries()
 {
     QUrlQuery query;
-    query.addQueryItem("language", settings.getLanguage());
+    query.addQueryItem("language", getLanguage());
 
     getResource(ConfigurationCountries, "configuration/countries", query);
 }
@@ -197,10 +197,18 @@ void Api::loadTv(int id)
     getResource(LoadTv, "tv/" + QString::number(id), query);
 }
 
+void Api::loadPerson(int id, const Form &form)
+{
+    QUrlQuery query;
+    query.addQueryItem("language", getLanguage());
+    form.populateQuery(query);
+    getResource(LoadPerson, "person/" + QString::number(id), query);
+}
+
 void Api::loadMovieGenres()
 {
     QUrlQuery query;
-    query.addQueryItem("language", settings.getLanguage());
+    query.addQueryItem("language", getLanguage());
 
     getResource(Genres, "genre/movie/list", query);
 }
@@ -208,7 +216,7 @@ void Api::loadMovieGenres()
 void Api::loadTVGenres()
 {
     QUrlQuery query;
-    query.addQueryItem("language", settings.getLanguage());
+    query.addQueryItem("language", getLanguage());
 
     getResource(Genres, "genre/tv/list", query);
 }
@@ -225,7 +233,7 @@ void Api::loadKeywords(const QString query, int page)
 void Api::loadWatchMovieProviders(const QString &region)
 {
     QUrlQuery query;
-    query.addQueryItem("language", settings.getLanguage());
+    query.addQueryItem("language", getLanguage());
 
     if (!region.isEmpty()) {
         query.addQueryItem("watch_region", region);
@@ -238,7 +246,7 @@ void Api::loadSearchPersons(const SearchPeopleForm &form)
 {
     QUrlQuery urlQuery;
 
-    urlQuery.addQueryItem("language", settings.getLanguage());
+    urlQuery.addQueryItem("language", getLanguage());
 
     urlQuery.addQueryItem("query", form.getQuery());
     urlQuery.addQueryItem("include_adult", form.getWithAdult() ? "true" : "false");
@@ -415,7 +423,7 @@ void Api::getResource(WorkerName workerName, const Form &form)
         query.addQueryItem("session_id", settings.getSessionId());
         break;
     default:
-        qWarning() << "Invalid warker name was passed to the getResource method";
+        qWarning() << "API: Invalid worker name was passed to the getResource method";
         return;
     }
 

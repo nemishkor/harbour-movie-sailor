@@ -39,8 +39,9 @@
 class App : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Settings* settings READ getSettings CONSTANT)
     Q_PROPERTY(int menu READ getMenu WRITE setMenu NOTIFY menuChanged)
+    Q_PROPERTY(Settings* settings READ getSettings CONSTANT)
+    Q_PROPERTY(ConfigurationDetailsManager* config READ getConfigurationDetailsManager CONSTANT)
     Q_PROPERTY(MovieService* movieService READ getMovieService CONSTANT)
     Q_PROPERTY(AccountService* accountService READ getAccountService CONSTANT)
     Q_PROPERTY(Account* account READ getAccount CONSTANT)
@@ -70,6 +71,8 @@ public:
 
     PersonService *getPersonService() const;
 
+    ConfigurationDetailsManager *getConfigurationDetailsManager() const;
+
 signals:
     void menuChanged();
 
@@ -81,7 +84,7 @@ private:
     Settings *settings;
     Api api;
     GenresMovieService genresService;
-    ConfigurationDetailsManager configurationDetailsManager;
+    ConfigurationDetailsManager *configurationDetailsManager;
     MovieService *movieService;
     TvService tvService;
     PersonService *personService;

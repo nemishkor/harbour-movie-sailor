@@ -25,10 +25,10 @@ ListView {
             Image {
                 id: image
 
-                property string logoUrl: model.profilePath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + model.profilePath)
+                property string logoUrl: model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + model.profilePath)
 
                 anchors.fill: parent
-                visible: configurationDetailsService.initialized
+                visible: app.config.initialized
                 source: logoUrl
                 fillMode: Image.PreserveAspectCrop
                 layer.enabled: true

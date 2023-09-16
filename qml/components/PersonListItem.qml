@@ -20,8 +20,8 @@ BackgroundItem {
             anchors.fill: parent
 
             Image {
-                visible: configurationDetailsService.initialized
-                source: root.personModel.profilePath === "" ? "" : (configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.profileSize + root.personModel.profilePath)
+                visible: app.config.initialized
+                source: root.personModel.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + root.personModel.profilePath)
                 height: parent.height
                 width: height
                 fillMode: Image.PreserveAspectCrop

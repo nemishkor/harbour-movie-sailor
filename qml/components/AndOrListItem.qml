@@ -86,7 +86,7 @@ ListItem{}
             x: Theme.paddingMedium
 
             Image {
-                visible: configurationDetailsService.initialized
+                visible: app.config.initialized
                 source: row.imageSource
                 height: Theme.itemSizeLarge
                 width: Theme.itemSizeLarge

@@ -98,19 +98,20 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/AndOrListItem.qml \
     qml/components/BackdropBackgroundImage.qml \
     qml/components/BackgroundItemWithIcon.qml \
+    qml/components/Badges.qml \
     qml/components/CompaniesValueButton.qml \
     qml/components/ConfigurationDialog.qml \
     qml/components/CreatedByList.qml \
     qml/components/FailedRequestInColumn.qml \
     qml/components/FilterSearchResultItem.qml \
     qml/components/FullPageRequestProgress.qml \
+    qml/components/FullscreenImageModal.qml \
     qml/components/GlassSpacer.qml \
     qml/components/KeyValue.qml \
     qml/components/LabelBackgroundItem.qml \
     qml/components/LanguageDialog.qml \
     qml/components/LoginModal.qml \
     qml/components/MediaBackdropImage.qml \
-    qml/components/MediaGenres.qml \
     qml/components/MediaLinksModal.qml \
     qml/components/MediaProductionCompaniesList.qml \
     qml/components/MediaProductionCountries.qml \
@@ -255,3 +256,6 @@ HEADERS += \
     src/viewmodels/searchpeoplelistmodel.h \
     src/viewmodels/searchpersonlistmodel.h \
     src/viewmodels/seasonslistmodel.h
+
+RESOURCES += \
+    qml.qrc

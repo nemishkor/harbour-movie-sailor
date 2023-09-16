@@ -33,6 +33,14 @@ BasePage {
                 text: "TMDB"
                 onClicked: Qt.openUrlExternally("https://www.themoviedb.org/")
             }
+
+            Label {
+                text: "Social icons created by Freepik - Flaticon"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: Qt.openUrlExternally("https://www.flaticon.com")
+                }
+            }
         }
     }
 }

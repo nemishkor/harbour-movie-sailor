@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/images/icons">
+        <file>images/icons/youtube.svg</file>
+        <file>images/icons/wikipedia.svg</file>
+        <file>images/icons/twitter-alt.svg</file>
+        <file>images/icons/tik-tok.svg</file>
+        <file>images/icons/instagram.svg</file>
+        <file>images/icons/imdb.svg</file>
+        <file>images/icons/facebook.svg</file>
+    </qresource>
+</RCC>

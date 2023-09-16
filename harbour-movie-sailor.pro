@@ -107,6 +107,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/FullPageRequestProgress.qml \
     qml/components/FullscreenImageModal.qml \
     qml/components/GlassSpacer.qml \
+    qml/components/ImagesModal.qml \
     qml/components/KeyValue.qml \
     qml/components/LabelBackgroundItem.qml \
     qml/components/LanguageDialog.qml \

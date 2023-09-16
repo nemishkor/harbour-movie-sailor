@@ -12,7 +12,7 @@ BasePage {
     property string profilePreview: root.model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + root.model.profilePath)
     property string profileOriginal: root.model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + root.model.profilePath)
 
-    backNavigation: !fullscreenImageModal.active
+    backNavigation: !fullscreenImageModal.active && !imagesModal.show
 
     ShareAction {
         id: shareAction
@@ -31,6 +31,13 @@ BasePage {
         previewY: Theme.paddingMedium + pageTitle.height - flickable.contentY
     }
 
+    ImagesModal {
+        id: imagesModal
+
+        model: root.model.images
+        z: 1
+    }
+
     FullPageRequestProgress { requestInfo: tvService.request }
 
     SilicaFlickable {
@@ -38,6 +45,7 @@ BasePage {
 
         anchors.fill: parent
         contentHeight: column.height + Theme.paddingMedium
+        interactive: !fullscreenImageModal.active && !imagesModal.show
 
         Column {
             id: column
@@ -168,6 +176,55 @@ BasePage {
                 wrapMode: "WordWrap"
             }
 
+            SectionHeader { text: qsTr("Images") }
+
+            SilicaGridView {
+                id: imagesGridView
+
+                property real extraHorizontalSpace: 2 * Theme.paddingMedium
+                property real size: Theme.itemSizeExtraLarge
+                property real itemsPerRow: Math.floor(parent.width / size)
+                property real rowsCount: Math.ceil(imagesGridView.count / itemsPerRow)
+
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                x: Theme.horizontalPageMargin
+                height: rowsCount * Theme.itemSizeExtraLarge
+                model: root.model.images
+                cellWidth: Theme.itemSizeExtraLarge
+                cellHeight: Theme.itemSizeExtraLarge
+                delegate: Item {
+                    id: provider
+
+                    width: imagesGridView.cellWidth
+                    height: imagesGridView.cellHeight
+
+                    Image {
+                        id: personImage
+
+                        width: parent.width - 2 * Theme.paddingMedium
+                        height: parent.height - 2 * Theme.paddingMedium
+                        source: app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + modelData
+                        anchors.centerIn: parent
+                        fillMode: Image.PreserveAspectCrop
+
+                        BusyIndicator {
+                            visible: personImage.status == Image.Loading
+                            running: true
+                            size: BusyIndicatorSize.Small
+                            anchors.centerIn: parent
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                imagesModal.index = index
+                                imagesModal.show = true
+                            }
+                        }
+                    }
+                }
+            }
+
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
@@ -175,14 +232,6 @@ BasePage {
                 font.pixelSize: Theme.fontSizeTiny
                 color: Theme.secondaryColor
             }
-
-            Repeater {
-                model: 40
-                Label {
-                    text: "adf"
-                }
-            }
-
         }
     }
 }

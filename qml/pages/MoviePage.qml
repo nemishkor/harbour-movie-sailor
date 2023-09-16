@@ -26,6 +26,7 @@ BasePage {
 
         anchors.fill: parent
         contentHeight: column.height
+        interactive: !fullscreenImageModal.active
 
         Column {
             id: column

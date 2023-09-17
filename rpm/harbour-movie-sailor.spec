@@ -1,10 +1,10 @@
 Name:       harbour-movie-sailor
 
 Summary:    Movie Sailor
-Version:    0.2
+Version:    0.3
 Release:    1
 License:    LICENSE
-URL:        http://example.org/
+URL:        https://openrepos.net/content/nemishkor/movie-sailor
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2

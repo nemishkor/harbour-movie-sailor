@@ -18,7 +18,9 @@ class PersonService : public QObject
     Q_PROPERTY(RequestInfo* request READ getRequest CONSTANT)
 
 public:
-    PersonService(Api &api, QObject *parent);
+    PersonService(Api &api,
+                  GenresListModel *genresListModel,
+                  QObject *parent);
 
     Q_INVOKABLE void load(Person *person, int id);
 
@@ -29,6 +31,7 @@ signals:
 private:
     const Api::WorkerName apiWorkerName;
     Api &api;
+    GenresListModel *genresListModel;
     Person *model;
     RequestInfo *request;
     LoadPersonForm form;

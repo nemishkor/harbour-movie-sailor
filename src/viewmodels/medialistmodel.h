@@ -23,6 +23,7 @@ public:
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     void add(const MediaListItem &item);
+    void add(const QJsonObject &jsonObj, const QList<Genre> &allGenres, MediaListItem::MediaType defaultMediaType);
     Q_INVOKABLE void clear();
     void fillFromAPI(const QJsonDocument &json, const QList<Genre> &genres, MediaListItem::MediaType defaultMediaType = MediaListItem::MovieType);
 

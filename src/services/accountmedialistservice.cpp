@@ -42,7 +42,7 @@ void AccountMediaListService::select(int id)
                 qWarning() << "Unknown media type of the media entity" << it->getId();
                 break;
             case MediaListItem::MovieType:
-                movieService.fillWithListItemAndLoad(*it);
+                qWarning() << "Movie media type can not be selected. Use MediaService directly";
                 break;
             case MediaListItem::TvType:
                 tvService.fillWithListItemAndLoad(*it);

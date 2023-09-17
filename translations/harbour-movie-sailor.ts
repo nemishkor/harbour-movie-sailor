@@ -444,10 +444,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>IMDB id</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>runtime</source>
         <translation type="unfinished"></translation>
     </message>
@@ -651,6 +647,14 @@ votes</source>
         <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cast credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Crew credits</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RatingModal</name>
@@ -764,17 +768,6 @@ votes</source>
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SecondPage</name>
-    <message>
-        <source>Nested Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Item</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

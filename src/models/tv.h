@@ -58,7 +58,7 @@ class Tv : public QObject
     Q_PROPERTY(int rating READ getRating WRITE setRating NOTIFY ratingChanged)
 
 public:
-    Tv(QObject *parent);
+    Tv(QObject *parent = nullptr);
 
     bool getAdult() const;
     void setAdult(bool newAdult);

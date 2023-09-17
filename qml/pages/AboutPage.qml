@@ -21,8 +21,6 @@ BasePage {
             Label {
                 text: qsTr("Unofficial client to TMDB")
                 textFormat: Text.PlainText
-                color: Theme.highlightColor
-                font.pixelSize: Theme.fontSizeLarge
                 wrapMode: Text.WordWrap
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
@@ -34,8 +32,22 @@ BasePage {
                 onClicked: Qt.openUrlExternally("https://www.themoviedb.org/")
             }
 
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "OpenRepos"
+                onClicked: Qt.openUrlExternally("https://openrepos.net/content/nemishkor/movie-sailor")
+            }
+
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "Contact (SFOS forum)"
+                onClicked: Qt.openUrlExternally("https://forum.sailfishos.org/u/nemishkor/summary")
+            }
+
             Label {
                 text: "Social icons created by Freepik - Flaticon"
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                x: Theme.horizontalPageMargin
                 MouseArea {
                     anchors.fill: parent
                     onClicked: Qt.openUrlExternally("https://www.flaticon.com")

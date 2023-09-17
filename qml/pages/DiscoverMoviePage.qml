@@ -432,7 +432,7 @@ BasePage {
                             id: includeAdult
                             width: parent.width / 2
                             text: qsTr("Include adult")
-                            checked: true
+                            checked: false
                             onCheckedChanged: {
                                 discoverMovieService.form.includeAdult = checked
                             }

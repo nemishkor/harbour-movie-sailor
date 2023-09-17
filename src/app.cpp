@@ -11,7 +11,7 @@ App::App(QQmlContext *context) :
     configurationDetailsManager(new ConfigurationDetailsManager(api, *cache, this)),
     movieService(new MovieService(api, system, this)),
     tvService(api, this),
-    personService(new PersonService(api, this)),
+    personService(new PersonService(api, genresService.getModel(), this)),
     countriesListService(system, api, *cache, this),
     discoverMovieService(api, *cache, *settings, *movieService, genresService.getModel(), this),
     languagesListService(system, api, *cache, this),

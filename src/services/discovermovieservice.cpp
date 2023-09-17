@@ -27,19 +27,6 @@ void DiscoverMovieService::search()
     api.discoverMovies(*form);
 }
 
-void DiscoverMovieService::select(int id)
-{
-    qDebug() << "DiscoverMovieService: select";
-    QList<MediaListItem>::const_iterator it;
-    for (it = model->getItems().constBegin(); it != model->getItems().constEnd(); it++) {
-        if (it->getId() == id) {
-            movieService.fillWithListItemAndLoad(*it);
-            return;
-        }
-    }
-    qWarning() << "DiscoverMovieService: could not find the movie" << id;
-}
-
 void DiscoverMovieService::addCompanyFromSearch(int id)
 {
     qDebug() << "DiscoverMovieService: add company from search";

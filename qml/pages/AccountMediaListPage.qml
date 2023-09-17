@@ -87,8 +87,24 @@ BasePage {
                     voteCount: model.voteCount
                     genres: model.genres
                     onClicked: {
-                        root.service.select(model.id)
-                        pageStack.animatorPush(root.targetPage)
+                        var params = {}
+                        if (root.targetPage === "./MoviePage.qml") {
+                            params = {
+                                movieId: model.id,
+                                backdropPath: model.backdropPath,
+                                genres: model.genres,
+                                originalTitle: model.originalName,
+                                overview: model.overview,
+                                posterPath: model.imagePath,
+                                title: model.name,
+                                voteAvarage: model.voteAvarage,
+                                voteCount: model.voteCount
+                            }
+                        } else {
+                            root.service.select(model.id)
+                        }
+
+                        pageStack.animatorPush(root.targetPage, params)
                     }
                 }
             }

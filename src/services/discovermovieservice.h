@@ -36,7 +36,6 @@ public:
                       GenresListModel *genres,
                       QObject *parent);
     Q_INVOKABLE void search();
-    Q_INVOKABLE void select(int id);
     Q_INVOKABLE void addCompanyFromSearch(int id);
 
     bool getInitialized() const;

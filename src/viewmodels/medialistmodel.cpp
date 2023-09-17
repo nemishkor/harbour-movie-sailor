@@ -58,6 +58,75 @@ void MediaListModel::add(const MediaListItem &item)
     emit countChanged();
 }
 
+void MediaListModel::add(const QJsonObject &jsonObj, const QList<Genre> &allGenres, MediaListItem::MediaType defaultMediaType)
+{
+    QStringList genreNames;
+    QJsonArray genreIds = jsonObj["genre_ids"].toArray();
+    for (QJsonArray::const_iterator genresIt = genreIds.constBegin(); genresIt != genreIds.constEnd(); genresIt++) {
+        int pos = allGenres.indexOf(Genre(genresIt->toInt(), ""));
+        if (pos != -1) {
+            Genre genre = allGenres.at(pos);
+            genreNames.append(genre.getName());
+        }
+    }
+
+    MediaListItem::MediaType mediaType = defaultMediaType;
+    QString name = jsonObj["title"].toString();
+    QString originalName = jsonObj["original_title"].toString();
+    QString imagePath = jsonObj["poster_path"].toString();
+    QStringList knownFor;
+
+    if (jsonObj.contains("media_type")) {
+        QString apiMediaType = jsonObj["media_type"].toString();
+        if (apiMediaType == "movie")
+            mediaType = MediaListItem::MovieType;
+        else if (apiMediaType == "tv") {
+            mediaType = MediaListItem::TvType;
+        } else if (apiMediaType == "person") {
+            mediaType = MediaListItem::PersonType;
+        }
+    }
+
+    switch (mediaType) {
+    case MediaListItem::Unknown:
+        break;
+    case MediaListItem::MovieType:
+        break;
+    case MediaListItem::TvType:
+        name = jsonObj["name"].toString();
+        originalName = jsonObj["original_name"].toString();
+        break;
+    case MediaListItem::PersonType:
+        name = jsonObj["name"].toString();
+        originalName = jsonObj["original_name"].toString();
+        imagePath = jsonObj["profile_path"].toString();
+        QJsonArray rawKnownFor = jsonObj["known_for"].toArray();
+        for (QJsonArray::const_iterator knownForIt = rawKnownFor.constBegin(); knownForIt != rawKnownFor.constEnd(); knownForIt++) {
+            QString knownForName = knownForIt->toObject()["title"].toString();
+            if (knownForName.isEmpty())
+                knownForName = knownForIt->toObject()["name"].toString();
+            knownFor.append(knownForName);
+        }
+        break;
+    }
+
+    add(MediaListItem(
+        mediaType,
+        jsonObj["adult"].toBool(),
+        jsonObj["backdrop_path"].toString(),
+        genreNames,
+        jsonObj["id"].toInt(),
+        originalName,
+        jsonObj["overview"].toString(),
+        imagePath,
+        jsonObj["release_date"].toString().mid(0, 4),
+        name,
+        jsonObj["vote_average"].toDouble(),
+        jsonObj["vote_count"].toInt(),
+        jsonObj["known_for_department"].toString(),
+        knownFor));
+}
+
 void MediaListModel::clear()
 {
     beginRemoveRows(QModelIndex(), 0, items.count() - 1);
@@ -83,7 +152,6 @@ void MediaListModel::fillFromAPI(const QJsonDocument &json, const QList<Genre> &
     case MediaListItem::PersonType:
         qDebug() << "MediaListModel: default media type is person";
         break;
-
     }
 
     QJsonObject object = json.object();
@@ -94,71 +162,7 @@ void MediaListModel::fillFromAPI(const QJsonDocument &json, const QList<Genre> &
 
     for (QJsonArray::const_iterator it = jsonItems.constBegin(); it != jsonItems.constEnd(); it++) {
         QJsonObject jsonObj = (*it).toObject();
-        QStringList genreNames;
-        QJsonArray genreIds = jsonObj["genre_ids"].toArray();
-        for (QJsonArray::const_iterator genresIt = genreIds.constBegin(); genresIt != genreIds.constEnd(); genresIt++) {
-            int pos = allGenres.indexOf(Genre(genresIt->toInt(), ""));
-            if (pos != -1) {
-                Genre genre = allGenres.at(pos);
-                genreNames.append(genre.getName());
-            }
-        }
-
-        MediaListItem::MediaType mediaType = defaultMediaType;
-        QString name = jsonObj["title"].toString();
-        QString originalName = jsonObj["original_title"].toString();
-        QString imagePath = jsonObj["poster_path"].toString();
-        QStringList knownFor;
-
-        if (jsonObj.contains("media_type")) {
-            QString apiMediaType = jsonObj["media_type"].toString();
-            if (apiMediaType == "movie")
-                mediaType = MediaListItem::MovieType;
-            else if (apiMediaType == "tv") {
-                mediaType = MediaListItem::TvType;
-            } else if (apiMediaType == "person") {
-                mediaType = MediaListItem::PersonType;
-            }
-        }
-
-        switch (mediaType) {
-        case MediaListItem::Unknown:
-            break;
-        case MediaListItem::MovieType:
-            break;
-        case MediaListItem::TvType:
-            name = jsonObj["name"].toString();
-            originalName = jsonObj["original_name"].toString();
-            break;
-        case MediaListItem::PersonType:
-            name = jsonObj["name"].toString();
-            originalName = jsonObj["original_name"].toString();
-            imagePath = jsonObj["profile_path"].toString();
-            QJsonArray rawKnownFor = jsonObj["known_for"].toArray();
-            for (QJsonArray::const_iterator knownForIt = rawKnownFor.constBegin(); knownForIt != rawKnownFor.constEnd(); knownForIt++) {
-                QString knownForName = knownForIt->toObject()["title"].toString();
-                if (knownForName.isEmpty())
-                    knownForName = knownForIt->toObject()["name"].toString();
-                knownFor.append(knownForName);
-            }
-            break;
-        }
-
-        add(MediaListItem(
-            mediaType,
-            jsonObj["adult"].toBool(),
-            jsonObj["backdrop_path"].toString(),
-            genreNames,
-            jsonObj["id"].toInt(),
-            originalName,
-            jsonObj["overview"].toString(),
-            imagePath,
-            jsonObj["release_date"].toString().mid(0, 4),
-            name,
-            jsonObj["vote_average"].toDouble(),
-            jsonObj["vote_count"].toInt(),
-            jsonObj["known_for_department"].toString(),
-            knownFor));
+        add((*it).toObject(), allGenres, defaultMediaType);
     }
     qDebug() << "MediaListModel: fill media list from API - done";
 }

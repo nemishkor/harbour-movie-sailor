@@ -42,6 +42,13 @@ void MovieService::load(int id)
     api.loadMovie(model->getId());
 }
 
+void MovieService::load(Movie *movie, int id)
+{
+    qDebug() << "MovieService: load from API";
+    model = movie;
+    api.loadMovie(id);
+}
+
 void MovieService::fillWithListItemAndLoad(const MediaListItem &result)
 {
     qDebug() << "MovieService: fill" << result.getId();

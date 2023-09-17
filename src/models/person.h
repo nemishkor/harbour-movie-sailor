@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "src/viewmodels/medialistmodel.h"
+
 class Person : public QObject
 {
     Q_OBJECT
@@ -23,6 +25,8 @@ class Person : public QObject
     Q_PROPERTY(QString twitterId READ getTwitterId WRITE setTwitterId NOTIFY twitterIdChanged)
     Q_PROPERTY(QString youtubeId READ getYoutubeId WRITE setYoutubeId NOTIFY youtubeIdChanged)
     Q_PROPERTY(QStringList images READ getImages WRITE setImages NOTIFY imagesChanged)
+    Q_PROPERTY(MediaListModel* cast READ getCast CONSTANT)
+    Q_PROPERTY(MediaListModel* crew READ getCrew CONSTANT)
 
 public:
     Person(QObject *parent = nullptr);
@@ -80,6 +84,10 @@ public:
     const QStringList &getImages() const;
     void setImages(const QStringList &newImages);
 
+    MediaListModel *getCast() const;
+
+    MediaListModel *getCrew() const;
+
 signals:
     void alsoKnownAsChanged();
     void biographyChanged();
@@ -117,6 +125,8 @@ private:
     QString twitterId;
     QString youtubeId;
     QStringList images;
+    MediaListModel *cast;
+    MediaListModel *crew;
 
 };
 

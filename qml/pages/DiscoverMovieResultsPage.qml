@@ -39,8 +39,18 @@ BasePage {
             voteCount: model.voteCount
             genres: model.genres
             onClicked: {
-                discoverMovieService.select(model.id)
-                pageStack.animatorPush("./MoviePage.qml")
+                var params = {
+                    movieId: model.id,
+                    backdropPath: model.backdropPath,
+                    genres: model.genres,
+                    originalTitle: model.originalName,
+                    overview: model.overview,
+                    posterPath: model.imagePath,
+                    title: model.name,
+                    voteAvarage: model.voteAvarage,
+                    voteCount: model.voteCount
+                }
+                pageStack.animatorPush("./MoviePage.qml", params)
             }
         }
 

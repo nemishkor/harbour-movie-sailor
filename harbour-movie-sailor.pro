@@ -156,10 +156,10 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/pages/MovieCastPage.qml \
     qml/pages/MovieCrewPage.qml \
     qml/pages/MoviePage.qml \
+    qml/pages/PersonCreditsPage.qml \
     qml/pages/PersonPage.qml \
     qml/pages/SearchPage.qml \
     qml/pages/SearchResultsPage.qml \
-    qml/pages/SecondPage.qml \
     qml/pages/SettingsPage.qml \
     qml/pages/TvPage.qml \
     rpm/harbour-movie-sailor.changes.in \

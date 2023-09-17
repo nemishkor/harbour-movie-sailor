@@ -1,9 +1,12 @@
 #include "personservice.h"
 
-PersonService::PersonService(Api &api, QObject *parent) :
+PersonService::PersonService(Api &api,
+                             GenresListModel *genresListModel,
+                             QObject *parent) :
     QObject(parent),
     apiWorkerName(Api::LoadPerson),
     api(api),
+    genresListModel(genresListModel),
     model(new Person(this)),
     request(api.getRequestInfo(apiWorkerName))
 {
@@ -62,5 +65,20 @@ void PersonService::apiRequestDone(QByteArray &data)
         images.append(it->toObject()["file_path"].toString());
     }
     model->setImages(images);
+
+    if (obj.contains("combined_credits")) {
+        QJsonObject credits = obj["combined_credits"].toObject();
+        items = credits["cast"].toArray();
+        model->getCast()->setTotalPages(1);
+        for (it = items.constBegin(); it != items.constEnd(); it++) {
+            model->getCast()->add((*it).toObject(), genresListModel->getItems(), MediaListItem::MediaType::MovieType);
+        }
+        items = credits["crew"].toArray();
+        model->getCrew()->setTotalPages(1);
+        for (it = items.constBegin(); it != items.constEnd(); it++) {
+            model->getCrew()->add((*it).toObject(), genresListModel->getItems(), MediaListItem::MediaType::MovieType);
+        }
+    }
+
     qDebug() << "PersonService: load from API - done";
 }

@@ -9,7 +9,7 @@ BasePage {
     id: root
 
     property var service: app.personService
-    property var id
+    property var personId
 
     backNavigation: !fullscreenImageModal.active && !imagesModal.show
 
@@ -19,7 +19,7 @@ BasePage {
         property string profilePreview: person.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + person.profilePath)
         property string profileOriginal: person.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + person.profilePath)
 
-        Component.onCompleted: app.personService.load(person, root.id)
+        Component.onCompleted: app.personService.load(person, root.personId)
     }
 
     ShareAction {
@@ -103,6 +103,7 @@ BasePage {
                     id: info
 
                     width: parent.width - image.width - Theme.paddingMedium
+                    spacing: Theme.paddingMedium
 
                     Flow {
                         width: parent.width
@@ -150,6 +151,27 @@ BasePage {
                             visible: person.facebookId
                             onClicked: Qt.openUrlExternally("https://www.facebook.com/" + person.facebookId)
                         }
+                    }
+
+                    Button {
+                        width: parent.width
+                        text: qsTr("Cast credits") + ": " + person.cast.count
+                        enabled: person.cast.count > 0
+                        onClicked: pageStack.animatorPush("./PersonCreditsPage.qml",
+                                                          {title: qsTr("Cast credits"),
+                                                          personName: person.name,
+                                                          model: person.cast})
+                    }
+
+                    Button {
+                        width: parent.width
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: qsTr("Crew credits") + ": " + person.crew.count
+                        enabled: person.crew.count > 0
+                        onClicked: pageStack.animatorPush("./PersonCreditsPage.qml",
+                                                          {title: qsTr("Crew credits"),
+                                                          personName: person.name,
+                                                          model: person.crew})
                     }
                 }
             }
@@ -236,7 +258,7 @@ BasePage {
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                text: qsTr("id") + ": " + root.id
+                text: qsTr("id") + ": " + root.personId
                 font.pixelSize: Theme.fontSizeTiny
                 color: Theme.secondaryColor
             }

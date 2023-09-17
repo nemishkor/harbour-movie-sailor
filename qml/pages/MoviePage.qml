@@ -3,13 +3,39 @@ import Sailfish.Silica 1.0
 import Sailfish.Share 1.0
 import QtGraphicalEffects 1.0
 import "../components"
+import nemishkor.MovieSailor 1.0
 
 BasePage {
     id: root
 
+    property int movieId
+    property string backdropPath
+    property var genres
+    property string originalTitle
+    property string overview
+    property string posterPath
+    property string title
+    property double voteAvarage
+    property int voteCount
     property var service: app.movieService
-    property string posterPreviewUrl: root.service.model.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + root.service.model.posterPath)
-    property string posterFullscreenUrl: root.service.model.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + root.service.model.posterPath)
+
+    Movie {
+        id: movie
+
+        backdropPath: root.backdropPath
+        genres: root.genres
+        originalTitle: root.originalTitle
+        overview: root.overview
+        posterPath: root.posterPath
+        title: root.title
+        voteAvarage: root.voteAvarage
+        voteCount: root.voteCount
+
+        property string posterPreviewUrl: movie.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + movie.posterPath)
+        property string posterFullscreenUrl: movie.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + movie.posterPath)
+
+        Component.onCompleted: app.movieService.load(movie, root.movieId)
+    }
 
     backNavigation: !linksModal.show && !loginModal.show && !ratingModal.show && !fullscreenImageModal.active
 
@@ -19,7 +45,7 @@ BasePage {
         mimeType: "text/x-url"
     }
 
-    FullPageRequestProgress { requestInfo: root.service.request }
+    FullPageRequestProgress { id: requestInfo; requestInfo: root.service.request }
 
     SilicaFlickable {
         id: flickable
@@ -37,11 +63,11 @@ BasePage {
             PageHeader {
                 id: pageTitle
 
-                title: root.service.model.title
-                description: root.service.model.title !== root.service.model.originalTitle ? root.service.model.originalTitle : ""
+                title: movie.title
+                description: movie.title !== movie.originalTitle ? movie.originalTitle : ""
             }
 
-            MediaBackdropImage { id: backdrop; source: root.service.model.backdropPath }
+            MediaBackdropImage { id: backdrop; source: movie.backdropPath }
 
             Row {
                 width: parent.width - 2 * Theme.horizontalPageMargin
@@ -59,7 +85,7 @@ BasePage {
                         id: poster
                         width: parent.width
                         fillMode: Image.PreserveAspectFit
-                        source: root.posterPreviewUrl
+                        source: movie.posterPreviewUrl
 
                         BusyIndicator {
                             visible: parent.status === Image.Loading
@@ -81,19 +107,19 @@ BasePage {
                         RatingCircle {
                             id: voteAvarageCircle
 
-                            voteCount: root.service.model.voteCount
-                            voteAvarage: root.service.model.voteAvarage
+                            voteCount: movie.voteCount
+                            voteAvarage: movie.voteAvarage
                         }
 
                         Column {
                             anchors.verticalCenter: parent.verticalCenter
 
                             Label {
-                                text: root.service.model.voteCount > 0 ? root.service.model.voteCount : ""
+                                text: movie.voteCount > 0 ? movie.voteCount : ""
                             }
 
                             Label {
-                                text: root.service.model.voteCount > 0 ? (root.service.model.voteCount === 1 ? qsTr("vote") : qsTr("votes")) : qsTr("no\nvotes")
+                                text: movie.voteCount > 0 ? (movie.voteCount === 1 ? qsTr("vote") : qsTr("votes")) : qsTr("no\nvotes")
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.secondaryColor
                             }
@@ -128,8 +154,8 @@ BasePage {
                                 shareAction.resources = [
                                     {
                                         "type": "text/x-url",
-                                        "linkTitle": root.service.model.title,
-                                        "status": "https://www.themoviedb.org/movie/" + root.service.model.id,
+                                        "linkTitle": movie.title,
+                                        "status": "https://www.themoviedb.org/movie/" + movie.id,
                                     }
                                 ]
                                 shareAction.trigger()
@@ -140,7 +166,7 @@ BasePage {
                             width: parent.width / 3
                             enabled: favoriteRequestInfo.state !== 1
                             icon.source: "image://theme/" +
-                                         (root.service.model.favorite ? "icon-m-favorite-selected" : "icon-m-favorite") +
+                                         (movie.favorite ? "icon-m-favorite-selected" : "icon-m-favorite") +
                                          "?" +
                                          (pressed ? Theme.highlightColor : Theme.primaryColor)
                             onClicked: {
@@ -165,11 +191,11 @@ BasePage {
                     Button {
                         width: parent.width
                         icon.source: "image://theme/" +
-                                     (root.service.model.rating > 0 ? "icon-m-like" : "icon-m-outline-like") +
+                                     (movie.rating > 0 ? "icon-m-like" : "icon-m-outline-like") +
                                      "?" + (pressed ? Theme.highlightColor : Theme.primaryColor)
                         enabled: ratingRequestInfo.state !== 1 || removeRatingRequestInfo.state !== 1
-                        text: root.service.model.rating > 0 ? (qsTr("Rated" + " " + root.service.model.rating + ".0")) : qsTr("Rate")
-                        backgroundColor: root.service.model.rating > 0
+                        text: movie.rating > 0 ? (qsTr("Rated" + " " + movie.rating + ".0")) : qsTr("Rate")
+                        backgroundColor: movie.rating > 0
                                          ? Theme.rgba(Theme.highlightColor, Theme.opacityFaint)
                                          : Theme.rgba(Theme.primaryColor, Theme.opacityFaint)
                         onClicked: {
@@ -196,8 +222,8 @@ BasePage {
                         enabled: watchlistRequestInfo.state !== 1
                         text: watchlistRequestInfo.state === 1
                             ? qsTr("...")
-                            : (root.service.model.watchlist ? qsTr("In watchlist") : qsTr("Add to watchlist"))
-                        backgroundColor: root.service.model.watchlist
+                            : (movie.watchlist ? qsTr("In watchlist") : qsTr("Add to watchlist"))
+                        backgroundColor: movie.watchlist
                                          ? Theme.rgba(Theme.highlightColor, Theme.opacityFaint)
                                          : Theme.rgba(Theme.primaryColor, Theme.opacityFaint)
                         onClicked: {
@@ -219,7 +245,7 @@ BasePage {
                     }
 
                     Badges {
-                        items: root.service.model.genres
+                        items: movie.genres
                     }
                 }
             }
@@ -231,9 +257,9 @@ BasePage {
 
             TwoMediaBlocks {
                 firstLabel: qsTr("runtime")
-                firstValue: root.service.model.runtimeHours + qsTr("h") + " " + root.service.model.runtimeMinutes + qsTr("m")
+                firstValue: movie.runtimeHours + qsTr("h") + " " + movie.runtimeMinutes + qsTr("m")
                 secondLabel: qsTr("status")
-                secondValue: root.service.model.status
+                secondValue: movie.status
             }
 
             Item {
@@ -246,9 +272,9 @@ BasePage {
                 id: moneyBlock
 
                 firstLabel: qsTr("budget")
-                firstValue: root.service.model.budget
+                firstValue: movie.budget
                 secondLabel: qsTr("revenue")
-                secondValue: root.service.model.revenue
+                secondValue: movie.revenue
             }
 
             Item {
@@ -258,9 +284,9 @@ BasePage {
 
             TwoMediaBlocks {
                 firstLabel: qsTr("release")
-                firstValue: root.service.model.releaseDate
+                firstValue: movie.releaseDate
                 secondLabel: qsTr("language")
-                secondValue: root.service.model.originalLanguage
+                secondValue: movie.originalLanguage
             }
 
             Item {
@@ -269,10 +295,10 @@ BasePage {
             }
 
             Label {
-                visible: root.service.model.tagline !== ""
+                visible: movie.tagline !== ""
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                text: root.service.model.tagline
+                text: movie.tagline
                 font.pixelSize: Theme.fontSizeLarge
                 color: Theme.secondaryColor
                 wrapMode: "WordWrap"
@@ -282,7 +308,7 @@ BasePage {
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                text: root.service.model.overview
+                text: movie.overview
                 wrapMode: "WordWrap"
             }
 
@@ -306,7 +332,7 @@ BasePage {
                             id: castView
 
                             width: parent.width
-                            model: root.service.model.credits.cast
+                            model: movie.credits.cast
                             delegate: Column {
                                 width: 185 * Theme.pixelRatio
 
@@ -369,10 +395,10 @@ BasePage {
             Item {
                 width: parent.width
                 height: Math.max(Theme.itemSizeHuge, collectionContainer.height) + 2 * Theme.paddingMedium
-                visible: root.service.model.belongsToCollection.id !== 0
+                visible: movie.belongsToCollection.id !== 0
 
                 BackdropBackgroundImage {
-                    path: root.service.model.belongsToCollection.backdropPath
+                    path: movie.belongsToCollection.backdropPath
                 }
 
                 Item {
@@ -388,7 +414,7 @@ BasePage {
                         clip: true
                         width: Math.max(parent.width / 3, sourceSize.width)
                         fillMode: Image.PreserveAspectFit
-                        source: root.service.model.belongsToCollection.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + root.service.model.belongsToCollection.posterPath)
+                        source: movie.belongsToCollection.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + movie.belongsToCollection.posterPath)
 
                         BusyIndicator {
                             visible: parent.status === Image.Loading
@@ -407,7 +433,7 @@ BasePage {
                         anchors.verticalCenter: parent.verticalCenter
 
                         Label {
-                            text: qsTr("Part of the") + " " + root.service.model.belongsToCollection.name
+                            text: qsTr("Part of the") + " " + movie.belongsToCollection.name
                             color: Theme.highlightColor
                             font.pixelSize: Theme.fontSizeLarge
                             wrapMode: "WordWrap"
@@ -422,29 +448,21 @@ BasePage {
             }
 
             MediaProductionCompaniesList {
-                model: root.service.model.productionCompanies
+                model: movie.productionCompanies
             }
 
             MediaProductionCountries {
-                model: root.service.model.productionCountries
+                model: movie.productionCountries
             }
 
             MediaSpokenLanguagesList {
-                model: root.service.model.spokenLanguages
+                model: movie.spokenLanguages
             }
 
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                text: qsTr("id") + ": " + root.service.model.id
-                font.pixelSize: Theme.fontSizeTiny
-                color: Theme.secondaryColor
-            }
-
-            Label {
-                width: parent.width - 2 * Theme.horizontalPageMargin
-                x: Theme.horizontalPageMargin
-                text: qsTr("IMDB id") + ": " + root.service.model.imdbId
+                text: qsTr("id") + ": " + root.movieId
                 font.pixelSize: Theme.fontSizeTiny
                 color: Theme.secondaryColor
             }
@@ -459,9 +477,9 @@ BasePage {
     MediaLinksModal {
         id: linksModal
 
-        tmdbId: root.service.model.id
-        imdbId: root.service.model.imdbId
-        homepage: root.service.model.homepage
+        tmdbId: movie.id
+        imdbId: movie.imdbId
+        homepage: movie.homepage
     }
 
     LoginModal {
@@ -471,7 +489,7 @@ BasePage {
     RatingModal {
         id: ratingModal
 
-        rating: root.service.model.rating
+        rating: movie.rating
         onClear: function() {
             root.service.removeRating()
         }
@@ -483,8 +501,8 @@ BasePage {
     FullscreenImageModal {
         id: fullscreenImageModal
 
-        previewUrl: root.posterPreviewUrl
-        fullscreenUrl: root.posterFullscreenUrl
+        previewUrl: movie.posterPreviewUrl
+        fullscreenUrl: movie.posterFullscreenUrl
         previewWidth: poster.width
         previewHeight: poster.height
         previewX: Theme.horizontalPageMargin

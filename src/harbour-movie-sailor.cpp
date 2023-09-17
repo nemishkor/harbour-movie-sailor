@@ -20,6 +20,8 @@ int main(int argc, char *argv[])
     qInfo() << "applicationName" << guiApp->applicationName();
     qInfo() << "organizationName" << guiApp->organizationName();
 
+    qmlRegisterType<Movie>("nemishkor.MovieSailor", 1, 0, "Movie");
+    qmlRegisterType<Tv>("nemishkor.MovieSailor", 1, 0, "Tv");
     qmlRegisterType<Person>("nemishkor.MovieSailor", 1, 0, "Person");
 
     App app(view.data()->rootContext());

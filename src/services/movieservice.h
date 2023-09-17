@@ -25,6 +25,7 @@ public:
     Q_INVOKABLE void addRating(int rating);
     Q_INVOKABLE void removeRating();
     Q_INVOKABLE void load(int id);
+    Q_INVOKABLE void load(Movie *movie, int id);
 
     void fillWithListItemAndLoad(const MediaListItem &result);
 

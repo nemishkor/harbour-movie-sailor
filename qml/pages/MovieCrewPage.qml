@@ -23,7 +23,7 @@ BasePage {
         }
         delegate: BackgroundItem {
             height: Math.max(image.height, info.height) + 2 * Theme.paddingMedium
-            onClicked: pageStack.animatorPush("./PersonPage.qml", { id: model.id })
+            onClicked: pageStack.animatorPush("./PersonPage.qml", { personId: model.id })
 
             Row {
                 y: Theme.paddingMedium

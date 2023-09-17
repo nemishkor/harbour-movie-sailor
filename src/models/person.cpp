@@ -1,6 +1,9 @@
 #include "person.h"
 
-Person::Person(QObject *parent) : QObject(parent)
+Person::Person(QObject *parent) :
+    QObject(parent),
+    cast(new MediaListModel(this)),
+    crew(new MediaListModel(this))
 {
 
 }
@@ -232,6 +235,16 @@ void Person::setImages(const QStringList &newImages)
         return;
     images = newImages;
     emit imagesChanged();
+}
+
+MediaListModel *Person::getCast() const
+{
+    return cast;
+}
+
+MediaListModel *Person::getCrew() const
+{
+    return crew;
 }
 
 const QString &Person::getDeathday() const

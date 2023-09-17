@@ -11,7 +11,7 @@ ListView {
         width: column.width
         height: Theme.itemSizeSmall
 
-        Image {
+        Rectangle {
             id: companyLogo
 
             property string logoUrl: model.logo === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + model.logo)
@@ -19,25 +19,31 @@ ListView {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: Theme.horizontalPageMargin
-            visible: app.config.initialized
-            source: logoUrl
-            height: Theme.itemSizeSmall - 2 * Theme.paddingMedium
-            width: Theme.itemSizeSmall - 2 * Theme.paddingMedium
-            fillMode: Image.PreserveAspectFit
+            height: Theme.itemSizeSmall - 2 * Theme.paddingSmall
+            width: Theme.itemSizeSmall - 2 * Theme.paddingSmall
+            color: companyLogo.logoUrl ? Qt.rgba(255,255,255,0.7) : "transparent"
+            radius: 5 * Theme.pixelRatio
+
+            Image {
+                visible: app.config.initialized
+                anchors.centerIn: parent
+                source: companyLogo.logoUrl
+                fillMode: Image.PreserveAspectFit
+                height: parent.width - 2 * Theme.paddingSmall
+                width: parent.width - 2 * Theme.paddingSmall
+            }
         }
 
         Label {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: companyLogo.right
-            anchors.leftMargin: Theme.horizontalPageMargin
+            anchors.leftMargin: Theme.paddingMedium
             anchors.right: parent.right
-            width: parent.width - Theme.itemSizeLarge
-            x: Theme.horizontalPageMargin + Theme.itemSizeSmall + Theme.paddingMedium
+            anchors.rightMargin: Theme.horizontalPageMargin
             text: model.name
             truncationMode: TruncationMode.Fade
             fontSizeMode: Text.HorizontalFit
             minimumPixelSize: Theme.fontSizeSmallBase
-            leftPadding: Theme.paddingMedium
         }
     }
 }

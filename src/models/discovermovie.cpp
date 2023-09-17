@@ -10,7 +10,7 @@ DiscoverMovie::DiscoverMovie(GenresListModel *genres, QObject *parent) :
     voteAverageGte(0.0),
     voteAverageLte(10.0),
     includeVideo(true),
-    includeAdult(true),
+    includeAdult(false),
     originCountry(new Country(this)),
     originLanguage(new Language(this)),
     genres(genres),

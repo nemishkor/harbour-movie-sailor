@@ -37,7 +37,8 @@ Item {
     Label {
         visible: requestInfo.state === 3
         text: requestInfo.error === "" ? "Oops. Unknown error" : requestInfo.error
-        color: Theme.errorColor
+        color: Theme.secondaryColor
+        font.pixelSize: Theme.fontSizeHuge
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         horizontalAlignment: Text.AlignHCenter

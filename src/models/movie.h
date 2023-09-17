@@ -43,7 +43,7 @@ class Movie : public QObject
     Q_PROPERTY(Credits* credits READ getCredits CONSTANT)
 
 public:
-    Movie(QObject *parent);
+    Movie(QObject *parent = nullptr);
 
     int getId() const;
     void setId(int newId);

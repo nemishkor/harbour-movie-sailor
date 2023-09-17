@@ -53,7 +53,6 @@ void SearchService::select(int id)
                 tvService.fillWithListItemAndLoad(*it);
                 break;
             case MediaListItem::PersonType:
-                personService.fillAndLoad(*it);
                 break;
             }
             return;

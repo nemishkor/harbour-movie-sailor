@@ -14,7 +14,7 @@ QVariant CastsList::data(const QModelIndex &index, int role) const
 {
     if (index.row() < 0 || index.row() >= items.count())
         return QVariant();
-    const Cast &item = items[index.row()];
+    const CastListItem &item = items[index.row()];
     if(role == IdRole)
         return item.getId();
     if(role == NameRole)
@@ -28,7 +28,7 @@ QVariant CastsList::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void CastsList::add(const Cast &item)
+void CastsList::add(const CastListItem &item)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     items.insert(item.getId(), item);
@@ -40,6 +40,11 @@ void CastsList::clear()
     beginRemoveRows(QModelIndex(), 0, items.count() - 1);
     items.clear();
     endRemoveRows();
+}
+
+const QList<CastListItem> &CastsList::getItems() const
+{
+    return items;
 }
 
 QHash<int, QByteArray> CastsList::roleNames() const

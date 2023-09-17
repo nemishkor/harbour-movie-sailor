@@ -1,6 +1,6 @@
-#include "cast.h"
+#include "castlistitem.h"
 
-Cast::Cast(int id,
+CastListItem::CastListItem(int id,
            const QString &name,
            const QString &originalName,
            const QString &profilePath,
@@ -14,26 +14,26 @@ Cast::Cast(int id,
 
 }
 
-int Cast::getId() const
+int CastListItem::getId() const
 {
     return id;
 }
-const QString &Cast::getName() const
+const QString &CastListItem::getName() const
 {
     return name;
 }
 
-const QString &Cast::getOriginalName() const
+const QString &CastListItem::getOriginalName() const
 {
     return originalName;
 }
 
-const QString &Cast::getProfilePath() const
+const QString &CastListItem::getProfilePath() const
 {
     return profilePath;
 }
 
-const QString &Cast::getCharacter() const
+const QString &CastListItem::getCharacter() const
 {
     return character;
 }

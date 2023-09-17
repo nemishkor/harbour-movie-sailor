@@ -49,20 +49,21 @@ BasePage {
             knownFor: model.knownFor
             onClicked: {
                 console.log("Select media: " + model.id);
-                root.service.select(model.id)
                 if (model.mediaType === 1) {
+                    root.service.select(model.id)
                     console.log("Go to Movie page");
                     pageStack.animatorPush("./MoviePage.qml")
                     return;
                 }
                 if (model.mediaType === 2) {
+                    root.service.select(model.id)
                     console.log("Go to TV page");
                     pageStack.animatorPush("./TvPage.qml")
                     return;
                 }
                 if (model.mediaType === 3) {
                     console.log("Go to Person page");
-                    pageStack.animatorPush("./PersonPage.qml")
+                    pageStack.animatorPush("./PersonPage.qml", { id: model.id })
                     return;
                 }
                 console.warn("Unknown media type");

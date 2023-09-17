@@ -3,16 +3,24 @@ import Sailfish.Silica 1.0
 import Sailfish.Share 1.0
 import QtGraphicalEffects 1.0
 import "../components"
+import nemishkor.MovieSailor 1.0
 
 BasePage {
     id: root
 
     property var service: app.personService
-    property var model: service.model
-    property string profilePreview: root.model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + root.model.profilePath)
-    property string profileOriginal: root.model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + root.model.profilePath)
+    property var id
 
     backNavigation: !fullscreenImageModal.active && !imagesModal.show
+
+    Person {
+        id: person
+
+        property string profilePreview: person.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + person.profilePath)
+        property string profileOriginal: person.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + person.profilePath)
+
+        Component.onCompleted: app.personService.load(person, root.id)
+    }
 
     ShareAction {
         id: shareAction
@@ -23,8 +31,8 @@ BasePage {
     FullscreenImageModal {
         id: fullscreenImageModal
 
-        previewUrl: root.profilePreview
-        fullscreenUrl: root.profileOriginal
+        previewUrl: person.profilePreview
+        fullscreenUrl: person.profileOriginal
         previewWidth: image.width
         previewHeight: image.height
         previewX: Theme.horizontalPageMargin
@@ -34,7 +42,7 @@ BasePage {
     ImagesModal {
         id: imagesModal
 
-        model: root.model.images
+        model: person.images
         z: 1
     }
 
@@ -53,7 +61,7 @@ BasePage {
             width: parent.width
             spacing: Theme.paddingMedium
 
-            PageHeader { id: pageTitle; title: root.model.name }
+            PageHeader { id: pageTitle; title: person.name }
 
             Row {
                 y: Theme.paddingMedium
@@ -69,7 +77,7 @@ BasePage {
 
                     Image {
                         visible: app.config.initialized
-                        source: root.model.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + root.model.profilePath)
+                        source: person.profilePath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.profileSize + person.profilePath)
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectCrop
                         layer.enabled: true
@@ -103,60 +111,60 @@ BasePage {
                         IconButton {
                             icon.source: "qrc:/images/icons/images/icons/imdb.svg"
                             icon.sourceSize: Qt.size( Theme.iconSizeSmallPlus, Theme.iconSizeSmallPlus )
-                            visible: root.model.imdbId
-                            onClicked: Qt.openUrlExternally("https://www.imdb.com/name/" + root.model.imdbId)
+                            visible: person.imdbId
+                            onClicked: Qt.openUrlExternally("https://www.imdb.com/name/" + person.imdbId)
                         }
                         IconButton {
                             icon.source: "qrc:/images/icons/images/icons/wikipedia.svg"
                             icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
-                            visible: root.model.wikidataId
-                            onClicked: Qt.openUrlExternally("https://www.wikidata.org/wiki/" + root.model.wikidataId)
+                            visible: person.wikidataId
+                            onClicked: Qt.openUrlExternally("https://www.wikidata.org/wiki/" + person.wikidataId)
                         }
                         IconButton {
                             icon.source: "qrc:/images/icons/images/icons/instagram.svg"
                             icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
-                            visible: root.model.instagramId
-                            onClicked: Qt.openUrlExternally("https://instagram.com/" + root.model.instagramId)
+                            visible: person.instagramId
+                            onClicked: Qt.openUrlExternally("https://instagram.com/" + person.instagramId)
                         }
                         IconButton {
                             icon.source: "qrc:/images/icons/images/icons/tik-tok.svg"
                             icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
-                            visible: root.model.tiktokId
-                            onClicked: Qt.openUrlExternally("https://www.tiktok.com/@" + root.model.tiktokId)
+                            visible: person.tiktokId
+                            onClicked: Qt.openUrlExternally("https://www.tiktok.com/@" + person.tiktokId)
                         }
                         IconButton {
                             icon.source: "qrc:/images/icons/images/icons/twitter-alt.svg"
                             icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
-                            visible: root.model.twitterId
-                            onClicked: Qt.openUrlExternally("https://twitter.com/" + root.model.twitterId)
+                            visible: person.twitterId
+                            onClicked: Qt.openUrlExternally("https://twitter.com/" + person.twitterId)
                         }
                         IconButton {
                             icon.source: "qrc:/images/icons/images/icons/youtube.svg"
                             icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
-                            visible: root.model.youtubeId
-                            onClicked: Qt.openUrlExternally("https://www.youtube.com/@" + root.model.youtubeId)
+                            visible: person.youtubeId
+                            onClicked: Qt.openUrlExternally("https://www.youtube.com/@" + person.youtubeId)
                         }
                         IconButton {
                             icon.source: "qrc:/images/icons/images/icons/facebook.svg"
                             icon.sourceSize: Qt.size( Theme.iconSizeSmall, Theme.iconSizeSmall )
-                            visible: root.model.facebookId
-                            onClicked: Qt.openUrlExternally("https://www.facebook.com/" + root.model.facebookId)
+                            visible: person.facebookId
+                            onClicked: Qt.openUrlExternally("https://www.facebook.com/" + person.facebookId)
                         }
                     }
                 }
             }
 
-            KeyValue { key: qsTr("Known for"); value: root.model.knownForDepartment }
-            KeyValue { key: qsTr("Birthdate"); value: root.model.birthday }
+            KeyValue { key: qsTr("Known for"); value: person.knownForDepartment }
+            KeyValue { key: qsTr("Birthdate"); value: person.birthday }
             KeyValue {
                 key: qsTr("Deathday")
-                value: root.model.deathday
-                visible: root.model.deathday !== ""
+                value: person.deathday
+                visible: person.deathday !== ""
             }
             KeyValue {
                 key: qsTr("Place of birth")
-                value: root.model.placeOfBirth
-                visible: root.model.placeOfBirth !== ""
+                value: person.placeOfBirth
+                visible: person.placeOfBirth !== ""
             }
 
             SectionHeader { text: qsTr("Also known as") }
@@ -164,15 +172,15 @@ BasePage {
             Badges {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                items: root.model.alsoKnownAs
+                items: person.alsoKnownAs
             }
 
-            SectionHeader { text: qsTr("Biography"); visible: root.model.biography }
+            SectionHeader { text: qsTr("Biography"); visible: person.biography }
 
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                text: root.model.biography
+                text: person.biography
                 wrapMode: "WordWrap"
             }
 
@@ -189,7 +197,7 @@ BasePage {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
                 height: rowsCount * Theme.itemSizeExtraLarge
-                model: root.model.images
+                model: person.images
                 cellWidth: Theme.itemSizeExtraLarge
                 cellHeight: Theme.itemSizeExtraLarge
                 delegate: Item {
@@ -228,7 +236,7 @@ BasePage {
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                text: qsTr("id") + ": " + root.model.id
+                text: qsTr("id") + ": " + root.id
                 font.pixelSize: Theme.fontSizeTiny
                 color: Theme.secondaryColor
             }

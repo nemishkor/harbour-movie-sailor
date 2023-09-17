@@ -3,14 +3,17 @@ import Sailfish.Silica 1.0
 import QtGraphicalEffects 1.0
 
 ListView {
+    id: root
+
     visible: count > 0
     width: parent.width
     interactive: false
     height: contentHeight
     header: SectionHeader { text: qsTr("Created by") }
-    delegate: Item {
+    delegate: BackgroundItem {
         width: column.width
         height: Theme.itemSizeSmall + 2 * Theme.paddingSmall
+        onClicked: pageStack.animatorPush("../pages/PersonPage.qml", { id: model.id })
 
         Rectangle {
             id: imageContainer

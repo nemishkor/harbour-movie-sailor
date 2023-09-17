@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 
-#include "src/models/cast.h"
+#include "src/models/castlistitem.h"
 
 class CastsList : public QAbstractListModel
 {
@@ -14,8 +14,10 @@ public:
 
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
-    void add(const Cast &item);
+    void add(const CastListItem &item);
     void clear();
+
+    const QList<CastListItem> &getItems() const;
 
 protected:
     enum CastRoles {
@@ -26,7 +28,7 @@ protected:
         CharacterRole,
         OrderRole
     };
-    QList<Cast> items;
+    QList<CastListItem> items;
     QHash<int, QByteArray> roleNames() const override;
 };
 

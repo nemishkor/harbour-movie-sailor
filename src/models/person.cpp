@@ -5,6 +5,27 @@ Person::Person(QObject *parent) : QObject(parent)
 
 }
 
+void Person::reset()
+{
+    setAlsoKnownAs(QStringList());
+    setBiography("");
+    setBirthday("");
+    setDeathday("");
+    setHomepage("");
+    setImdbId("");
+    setKnownForDepartment("");
+    setName("");
+    setPlaceOfBirth("");
+    setProfilePath("");
+    setWikidataId("");
+    setFacebookId("");
+    setInstagramId("");
+    setTiktokId("");
+    setTwitterId("");
+    setYoutubeId("");
+    setImages(QStringList());
+}
+
 const QStringList &Person::getAlsoKnownAs() const
 {
     return alsoKnownAs;
@@ -55,19 +76,6 @@ void Person::setHomepage(const QString &newHomepage)
         return;
     homepage = newHomepage;
     emit homepageChanged();
-}
-
-int Person::getId() const
-{
-    return id;
-}
-
-void Person::setId(int newId)
-{
-    if (id == newId)
-        return;
-    id = newId;
-    emit idChanged();
 }
 
 const QString &Person::getImdbId() const

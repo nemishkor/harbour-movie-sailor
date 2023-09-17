@@ -11,7 +11,6 @@ class Person : public QObject
     Q_PROPERTY(QString birthday READ getBirthday WRITE setBirthday NOTIFY birthdayChanged)
     Q_PROPERTY(QString deathday READ getDeathday WRITE setDeathday NOTIFY deathdayChanged)
     Q_PROPERTY(QString homepage READ getHomepage WRITE setHomepage NOTIFY homepageChanged)
-    Q_PROPERTY(int id READ getId WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QString imdbId READ getImdbId WRITE setImdbId NOTIFY imdbIdChanged)
     Q_PROPERTY(QString knownForDepartment READ getKnownForDepartment WRITE setKnownForDepartment NOTIFY knownForDepartmentChanged)
     Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
@@ -26,7 +25,9 @@ class Person : public QObject
     Q_PROPERTY(QStringList images READ getImages WRITE setImages NOTIFY imagesChanged)
 
 public:
-    Person(QObject *parent);
+    Person(QObject *parent = nullptr);
+
+    void reset();
 
     const QStringList &getAlsoKnownAs() const;
     void setAlsoKnownAs(const QStringList &newAlsoKnownAs);
@@ -42,9 +43,6 @@ public:
 
     const QString &getHomepage() const;
     void setHomepage(const QString &newHomepage);
-
-    int getId() const;
-    void setId(int newId);
 
     const QString &getImdbId() const;
     void setImdbId(const QString &newImdbId);
@@ -87,7 +85,6 @@ signals:
     void biographyChanged();
     void birthdayChanged();
     void homepageChanged();
-    void idChanged();
     void imdbIdChanged();
     void knownForDepartmentChanged();
     void nameChanged();
@@ -108,7 +105,6 @@ private:
     QString deathday;
     QString birthday;
     QString homepage;
-    int id;
     QString imdbId;
     QString knownForDepartment;
     QString name;

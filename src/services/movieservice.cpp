@@ -177,7 +177,7 @@ void MovieService::apiRequestDone(const QByteArray &data)
         items = credits["cast"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
             item = it->toObject();
-            model->getCredits()->getCast()->add(Cast(
+            model->getCredits()->getCast()->add(CastListItem(
                     item["id"].toInt(),
                     item["name"].toString(),
                     item["original_name"].toString(),

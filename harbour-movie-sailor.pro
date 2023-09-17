@@ -26,7 +26,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/logger.cpp \
     src/models/account.cpp \
     src/models/accountmoviesform.cpp \
-    src/models/cast.cpp \
+    src/models/castlistitem.cpp \
     src/models/company.cpp \
     src/models/configurationdetails.cpp \
     src/models/configurationlistitem.cpp \
@@ -191,7 +191,7 @@ HEADERS += \
     src/logger.h \
     src/models/account.h \
     src/models/accountmoviesform.h \
-    src/models/cast.h \
+    src/models/castlistitem.h \
     src/models/company.h \
     src/models/configurationdetails.h \
     src/models/configurationlistitem.h \

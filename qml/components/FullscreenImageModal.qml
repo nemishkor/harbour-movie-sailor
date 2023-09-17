@@ -13,7 +13,7 @@ Item {
     property string previewWidth
     property string previewHeight
 
-    property bool active
+    property bool active: false
 
     function show() {
         root.active = true
@@ -120,7 +120,7 @@ Item {
             id: originalImageLoader
 
             visible: false
-            source: (root.state = "visible") ? root.fullscreenUrl : ""
+            source: (root.state === "visible") ? root.fullscreenUrl : ""
             onStatusChanged: {
                 if (status === Image.Ready) {
                     image.source = originalImageLoader.source

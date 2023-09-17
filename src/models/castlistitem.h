@@ -1,25 +1,21 @@
-#ifndef CAST_H
-#define CAST_H
+#ifndef CASTLISTITEM_H
+#define CASTLISTITEM_H
 
 #include <QString>
 
-class Cast
+class CastListItem
 {
 public:
-    Cast(int id,
+    CastListItem(int id,
          const QString &name,
          const QString &originalName,
          const QString &profilePath,
          const QString &character);
 
     int getId() const;
-
     const QString &getName() const;
-
     const QString &getOriginalName() const;
-
     const QString &getProfilePath() const;
-
     const QString &getCharacter() const;
 
 private:
@@ -30,4 +26,4 @@ private:
     QString character;
 };
 
-#endif // CAST_H
+#endif // CASTLISTITEM_H

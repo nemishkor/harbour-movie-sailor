@@ -20,6 +20,8 @@ int main(int argc, char *argv[])
     qInfo() << "applicationName" << guiApp->applicationName();
     qInfo() << "organizationName" << guiApp->organizationName();
 
+    qmlRegisterType<Person>("nemishkor.MovieSailor", 1, 0, "Person");
+
     App app(view.data()->rootContext());
 
     view->setSource(SailfishApp::pathTo("qml/harbour-movie-sailor.qml"));

@@ -10,59 +10,11 @@ PersonService::PersonService(Api &api, QObject *parent) :
     connect(&api, &Api::loadPersonDone, this, &PersonService::apiRequestDone);
 }
 
-void PersonService::fillAndLoad(const PersonListItem &result)
+void PersonService::load(Person *person, int id)
 {
-    qDebug() << "PersonService: fill" << result.getId();
-    model->setAlsoKnownAs(QStringList());
-    model->setBiography("");
-    model->setBirthday("");
-    model->setDeathday("");
-    model->setHomepage("");
-    model->setId(result.getId());
-    model->setImdbId("");
-    model->setKnownForDepartment("");
-    model->setName(result.getName());
-    model->setPlaceOfBirth("");
-    model->setProfilePath(result.getProfilePath());
-    model->setWikidataId("");
-    model->setFacebookId("");
-    model->setInstagramId("");
-    model->setTiktokId("");
-    model->setTwitterId("");
-    model->setYoutubeId("");
-    model->setImages(QStringList());
     qDebug() << "PersonService: load from API";
-    api.getResource(apiWorkerName, form);
-}
-
-void PersonService::fillAndLoad(const MediaListItem &result)
-{
-    qDebug() << "PersonService: fill" << result.getId();
-    model->setAlsoKnownAs(QStringList());
-    model->setBiography("");
-    model->setBirthday("");
-    model->setDeathday("");
-    model->setHomepage("");
-    model->setId(result.getId());
-    model->setImdbId("");
-    model->setKnownForDepartment(result.getKnownForDepartment());
-    model->setName(result.getTitle());
-    model->setPlaceOfBirth("");
-    model->setProfilePath(result.getPosterPath());
-    model->setWikidataId("");
-    model->setFacebookId("");
-    model->setInstagramId("");
-    model->setTiktokId("");
-    model->setTwitterId("");
-    model->setYoutubeId("");
-    model->setImages(QStringList());
-    qDebug() << "PersonService: load from API";
-    api.loadPerson(model->getId(), form);
-}
-
-Person *PersonService::getModel() const
-{
-    return model;
+    model = person;
+    api.loadPerson(id, form);
 }
 
 RequestInfo *PersonService::getRequest() const
@@ -90,7 +42,9 @@ void PersonService::apiRequestDone(QByteArray &data)
     model->setHomepage(obj["homepage"].toString());
     model->setImdbId(obj["imdb_id"].toString());
     model->setKnownForDepartment(obj["known_for_department"].toString());
+    model->setName(obj["name"].toString());
     model->setPlaceOfBirth(obj["place_of_birth"].toString());
+    model->setProfilePath(obj["profile_path"].toString());
 
     if (obj.contains("external_ids") && obj["external_ids"].isObject()) {
         QJsonObject externalIds = obj["external_ids"].toObject();

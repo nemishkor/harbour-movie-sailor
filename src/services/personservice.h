@@ -4,6 +4,8 @@
 #include <QObject>
 
 #include "src/api.h"
+#include "src/models/crewlistitem.h"
+#include "src/models/crewlistitem.h"
 #include "src/models/loadpersonform.h"
 #include "src/models/person.h"
 #include "src/models/personlistitem.h"
@@ -13,16 +15,13 @@
 class PersonService : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Person* model READ getModel CONSTANT)
     Q_PROPERTY(RequestInfo* request READ getRequest CONSTANT)
 
 public:
     PersonService(Api &api, QObject *parent);
 
-    void fillAndLoad(const PersonListItem &result);
-    void fillAndLoad(const MediaListItem &result);
+    Q_INVOKABLE void load(Person *person, int id);
 
-    Person *getModel() const;
     RequestInfo *getRequest() const;
 
 signals:

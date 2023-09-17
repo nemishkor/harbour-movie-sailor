@@ -16,6 +16,7 @@ BasePage {
         model: root.service.model.credits.cast
         delegate: BackgroundItem {
             height: Math.max(image.height, info.height) + 2 * Theme.paddingMedium
+            onClicked: pageStack.animatorPush("./PersonPage.qml", { id: model.id })
 
             Row {
                 y: Theme.paddingMedium

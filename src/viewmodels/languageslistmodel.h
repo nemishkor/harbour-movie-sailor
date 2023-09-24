@@ -3,7 +3,11 @@
 
 #include <QAbstractListModel>
 #include <QList>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 
+#include "src/system.h"
 #include "src/models/language.h"
 
 class LanguagesListModel : public QAbstractListModel
@@ -19,15 +23,19 @@ public:
         PrimaryRole
     };
 
-    explicit LanguagesListModel(QObject *parent = nullptr);
+    explicit LanguagesListModel(System &system, QObject *parent);
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     void add(const Language &language);
+
+    void fillFromCache(const QJsonDocument &json);
+    const QJsonDocument fillFromAPI(const QJsonDocument &json);
 
 protected:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
+    System &system;
     QList<Language> items;
 
 signals:

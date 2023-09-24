@@ -4,7 +4,7 @@
 
 #include <sailfishapp.h>
 
-#include "app.h"
+#include "src/app.h"
 #include "src/models/requestinfo.h"
 
 int main(int argc, char *argv[])
@@ -15,16 +15,9 @@ int main(int argc, char *argv[])
 
     guiApp->setOrganizationName("nemishkor");
 
-    App app;
+    App app(view.data()->rootContext());
     qDebug() << "applicationName" << guiApp->applicationName();
     qDebug() << "organizationName" << guiApp->organizationName();
-
-    QQmlContext *context = view.data()->rootContext();
-    context->setContextProperty("languagesListModel", app.getLanguagesListModel());
-    context->setContextProperty("languagesRequestInfo", app.getApi().getConfigurationLanguagesWorker().getRequestInfo());
-    context->setContextProperty("countriesListModel", app.getCountriesListModel());
-    context->setContextProperty("countriesRequestInfo", app.getApi().getConfigurationLanguagesWorker().getRequestInfo());
-    context->setContextProperty("app", &app);
 
     view->setSource(SailfishApp::pathTo("qml/harbour-movie-sailor.qml"));
     view->show();

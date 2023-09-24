@@ -1,10 +1,6 @@
 #include "language.h"
 
-Language::Language(const QString &id, const QString &englishName, const QString &name, bool isPrimary) :
-    id(id),
-    englishName(englishName),
-    name(name),
-    isPrimary(isPrimary)
+Language::Language()
 {
 
 }
@@ -15,6 +11,15 @@ Language::Language(const Language &language) :
     name(QString(language.name)),
     isPrimary(language.isPrimary)
 {
+//    qDebug() << "copy Language" << id;
+}
+
+Language::Language(Language &language, bool isPrimary) :
+    id(QString(language.id)),
+    englishName(QString(language.englishName)),
+    name(QString(language.name)),
+    isPrimary(isPrimary)
+{
 
 }
 
@@ -23,15 +28,6 @@ Language::Language(const QJsonObject &json) :
     englishName(json["english_name"].toString()),
     name(json["name"].toString()),
     isPrimary(json["primary"].toBool())
-{
-
-}
-
-Language::Language(const QJsonObject &json, bool isPrimary) :
-    id(json["iso_639_1"].toString()),
-    englishName(json["english_name"].toString()),
-    name(json["name"].toString()),
-    isPrimary(isPrimary)
 {
 
 }
@@ -73,4 +69,24 @@ const QJsonObject Language::toJson() const
     json.insert("primary", QJsonValue(isPrimary));
 
     return json;
+}
+
+void Language::setName(const QString &newName)
+{
+    name = newName;
+}
+
+void Language::setIsPrimary(bool newIsPrimary)
+{
+    isPrimary = newIsPrimary;
+}
+
+void Language::setEnglishName(const QString &newEnglishName)
+{
+    englishName = newEnglishName;
+}
+
+void Language::setId(const QString &newId)
+{
+    id = newId;
 }

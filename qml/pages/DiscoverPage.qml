@@ -24,49 +24,44 @@ BasePage {
             Row {
                 width: parent.width
 
-                ComboBox {
+                TextSwitch {
                     id: includeAdult
                     width: parent.width / 2
-                    label: qsTr("Include adult")
-                    menu: ContextMenu {
-                        MenuItem { text: "Yes"; onClicked: page.include_adult = true }
-                        MenuItem { text: "No"; onClicked: page.include_adult = false }
-                    }
+                    text: qsTr("Include adult")
+                    checked: true
                 }
 
-                ComboBox {
+                TextSwitch {
                     id: includeVideo
                     width: parent.width / 2
-                    label: qsTr("Include video")
-                    menu: ContextMenu {
-                        MenuItem { text: qsTr("Yes"); onClicked: page.include_video = true }
-                        MenuItem { text: qsTr("No"); onClicked: page.include_video = false }
-                    }
+                    text: qsTr("Include video")
+                    checked: true
                 }
             }
 
             ValueButton {
-                label: qsTr("Language")
-                value: page.languageEnglishName === "" ? "Any" : page.languageEnglishName
-                onClicked: pageStack.animatorPush(locationDialogPage)
-            }
+                id: languageControl
 
-            Component {
-                id: locationDialogPage
+                property string languageId: ""
 
-                LanguageDialog {
-                    id: languageDialog
-
-                    acceptDestination: page
-                    acceptDestinationAction: PageStackAction.Pop
-                    onAcceptPendingChanged: {
-                        if (acceptPending) {
-                            page.languageId = languageDialog.languageId
-                            page.languageEnglishName = languageDialog.languageEnglishName
-                            page.languageName = languageDialog.languageName
-                        }
+                function openLanguagesDialog() {
+                    app.initializeLanguages()
+                    var params = {
+                        "languageId": languageControl.languageId
                     }
+                    var obj = pageStack.animatorPush("../components/LanguageDialog.qml", params)
+
+                    obj.pageCompleted.connect(function(page) {
+                        page.accepted.connect(function() {
+                            value = page.languageEnglishName
+                            languageId = page.languageId
+                        })
+                    })
                 }
+
+                label: qsTr("Language")
+                value: qsTr("Any")
+                onClicked: openLanguagesDialog()
             }
 
             ValueButton {
@@ -173,37 +168,188 @@ BasePage {
             }
 
             SectionHeader {
-                text: regionControl.hasRegion ? (qsTr("Release dates in ") + page.regionLabel) : qsTr("Release dates")
+                text: qsTr("Where to watch")
+            }
+
+            ValueButton {
+                id: watchRegionControl
+
+                property string regionId: ""
+                property bool hasRegion: regionId !== ""
+
+                onRegionIdChanged: {
+                    app.initializeConfigurationDetails()
+                    app.initializeMovieProviders(regionId)
+                }
+
+                function openCountriesDialog() {
+                    app.initializeCountries(false)
+                    var params = {
+                        "entityId": regionId,
+                        "service": countriesService,
+                        "model": countriesListModel,
+                        "requestInfo": countriesRequestInfo,
+                        "title": qsTr("Select a country")
+                    };
+                    var obj = pageStack.animatorPush("../components/ConfigurationDialog.qml", params)
+
+                    obj.pageCompleted.connect(function(page) {
+                        page.accepted.connect(function() {
+                            watchRegionControl.regionId = page.entityId
+                            value = page.entityLabel
+                        })
+                    })
+                }
+
+                label: qsTr("Country")
+                value: qsTr("")
+                description: qsTr("Choose a country to select providers")
+                onClicked: openCountriesDialog()
+            }
+
+            Item {
+                visible: configurationDetailsRequestInfo.state === 1 || movieProvidersRequestInfo.state === 1
+                width: parent.width
+                height: Theme.itemSizeMedium
+
+                BusyIndicator {
+                    id: busyIndicator
+                    running: true
+                    size: BusyIndicatorSize.Medium
+                    anchors.centerIn: parent
+                }
+            }
+
+            FailedRequestInColumn {
+                state: configurationDetailsRequestInfo.state
+                error: configurationDetailsRequestInfo.error
+            }
+
+            FailedRequestInColumn {
+                state: movieProvidersRequestInfo.state
+                error: movieProvidersRequestInfo.error
+            }
+
+            GridView {
+
+            }
+
+            SilicaGridView {
+                id: providersGrid
+
+                property real extraHorizontalSpace: 2 * Theme.paddingMedium
+                property real size: Theme.itemSizeExtraLarge + extraHorizontalSpace
+                property real _cellHeight: size + Theme.iconSizeSmall + Theme.paddingMedium
+                property real _width: parent.width - 2 * Theme.horizontalPageMargin
+                property real itemsPerRow: Math.floor(parent.width / size)
+
+                width: _width
+                x: Theme.horizontalPageMargin
+                height: Math.ceil(movieProvidersListModel.count / itemsPerRow) * _cellHeight
+                visible: watchRegionControl.hasRegion && configurationDetailsService.initialized && movieProvidersService.initialized
+                model: movieProvidersListModel
+                cellWidth: _width / itemsPerRow
+                cellHeight: _cellHeight
+                delegate: Item {
+                    id: provider
+
+                    width: providersGrid.cellWidth
+                    height: providersGrid.cellHeight
+
+                    Image {
+                        id: providerLogo
+                        source: configurationDetailsModel.imagesSecureBaseUrl + configurationDetailsModel.imagesLogoSize + model.logo
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: parent.top
+                        fillMode: Image.PreserveAspectFit
+                        width: providersGrid.size - providersGrid.extraHorizontalSpace
+                        height: width
+
+                        BusyIndicator {
+                            visible: providerLogo.status == Image.Loading
+                            running: true
+                            size: BusyIndicatorSize.Small
+                            anchors.centerIn: parent
+                        }
+
+                        Rectangle {
+                            visible: true
+                            anchors.fill: parent
+                            color: Theme.highlightColor
+                            opacity: model.checked ? 0.9 : 0.0
+
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: 200
+                                }
+                            }
+                        }
+
+                        Icon {
+                            anchors.centerIn: parent
+                            source: "image://theme/icon-l-acknowledge"
+                            opacity: model.checked ? 1.0 : 0.0
+
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: 200
+                                }
+                            }
+                        }
+                    }
+
+                    Label {
+                        anchors {
+                            top: providerLogo.bottom
+                            bottomMargin: Theme.paddingMedium
+                            horizontalCenter: parent.horizontalCenter
+                        }
+                        width: parent.width - providersGrid.extraHorizontalSpace
+                        text: model.name
+                        font.pixelSize: Theme.fontSizeSmall
+                        horizontalAlignment: Text.AlignHCenter
+                        color: Theme.highlightColor
+                        truncationMode: TruncationMode.Fade
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: model.checked = !model.checked
+                    }
+                }
+            }
+
+            SectionHeader {
+                text: regionControl.hasRegion ? (qsTr("Release dates in ") + regionControl.value) : qsTr("Release dates")
             }
 
             ValueButton {
                 id: regionControl
 
                 property string regionId: ""
-                property string regionLabel: qsTr("All countries")
                 property bool hasRegion: regionId !== ""
 
                 function openCountriesDialog() {
-                    app.initializeCountries()
+                    app.initializeCountries(true)
                     var params = {
                         "entityId": regionId,
-                        "entityLabel": regionLabel,
+                        "service": countriesService,
                         "model": countriesListModel,
                         "requestInfo": countriesRequestInfo,
-                        "title": qsTr("Select region")
+                        "title": qsTr("Select a country")
                     };
                     var obj = pageStack.animatorPush("../components/ConfigurationDialog.qml", params)
 
                     obj.pageCompleted.connect(function(page) {
                         page.accepted.connect(function() {
                             regionId = page.entityId
-                            regionLabel = page.entityLabel
+                            value = page.entityLabel
                         })
                     })
                 }
 
                 label: qsTr("Country")
-                value: regionLabel
+                value: qsTr("All countries")
                 onClicked: openCountriesDialog()
             }
 

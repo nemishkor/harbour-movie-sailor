@@ -16,13 +16,17 @@ Item {
     property real rightValue: 10.0
 
     property real leftPointX: horizontalMargin - dragOffset + leftValue / maximumValue * allAvailableWidth
+    property real leftLabelX: leftPointX
     property real rightPointX: horizontalMargin - dragOffset + rightValue / maximumValue * allAvailableWidth
+    property real rightLabelX: rightPointX
 
     property real minDragX: horizontalMargin - dragOffset
     property real maxDragX: minDragX + allAvailableWidth
 
+    property real labelsAndSliderMargin: 0.25 * Theme.itemSizeExtraSmall
+
     width: parent.width
-    height: Theme.itemSizeMedium
+    height: Theme.itemSizeMedium + labelsAndSliderMargin
 
     Behavior on leftPointX {
         SmoothedAnimation {
@@ -38,47 +42,31 @@ Item {
         }
     }
 
-    Label {
-        id: leftLabel
-        text: leftValue.toFixed(1)
-        anchors {
-            top: parent.top
-            left: parent.left
-            leftMargin: Theme.horizontalPageMargin + Theme.iconSizeSmall + Theme.paddingMedium
-        }
-        color: mouseArea.dragLeft ? Theme.highlightColor : Theme.primaryColor
-    }
+    Item {
+        id: icons
+        height: Theme.iconSizeSmall
+        width: parent.width - 2 * Theme.horizontalPageMargin
+        x: Theme.horizontalPageMargin
 
-    Label {
-        text: rightValue.toFixed(1)
-        anchors {
-            top: parent.top
-            right: parent.right
-            rightMargin: Theme.horizontalPageMargin + Theme.iconSizeSmall + Theme.paddingMedium
+        Icon {
+            source: "image://theme/icon-s-like?" + (mouseArea.dragRight ? Theme.highlightColor : Theme.primaryColor)
+            anchors {
+                top: parent.top
+                right: parent.right
+            }
         }
-        color: mouseArea.dragRight ? Theme.highlightColor : Theme.primaryColor
-    }
 
-    Icon {
-        source: "image://theme/icon-s-like?" + (mouseArea.dragRight ? Theme.highlightColor : Theme.primaryColor)
-        anchors {
-            verticalCenter: leftLabel.verticalCenter
-            right: parent.right
-            rightMargin: Theme.horizontalPageMargin
-        }
-    }
-
-    Icon {
-        source: "image://theme/icon-s-like?" + (mouseArea.dragRight ? Theme.highlightColor : Theme.primaryColor)
-        anchors {
-            verticalCenter: leftLabel.verticalCenter
-            left: parent.left
-            leftMargin: Theme.horizontalPageMargin
-        }
-        transform: Scale {
-            origin.x: Theme.iconSizeSmall / 2
-            origin.y: Theme.iconSizeSmall / 2
-            yScale: -1
+        Icon {
+            source: "image://theme/icon-s-like?" + (mouseArea.dragLeft ? Theme.highlightColor : Theme.primaryColor)
+            anchors {
+                top: parent.top
+                left: parent.left
+            }
+            transform: Scale {
+                origin.x: Theme.iconSizeSmall / 2
+                origin.y: Theme.iconSizeSmall / 2
+                yScale: -1
+            }
         }
     }
 
@@ -86,8 +74,8 @@ Item {
         id: background
 
         anchors {
-            top: leftLabel.bottom
-            topMargin: Theme.paddingMedium
+            top: icons.bottom
+            topMargin: labelsAndSliderMargin
         }
 
         x: slider.horizontalMargin - Theme.paddingMedium
@@ -195,6 +183,14 @@ Item {
         anchors.verticalCenter: background.verticalCenter
     }
 
+    VoteSliderLabel {
+        position: slider.leftLabelX
+        value: leftValue
+        size: slider.pointWidth
+        highlighted: mouseArea.dragLeft
+        anchors.top: leftPoint.top
+    }
+
     VoteSliderPoint {
         id: rightPoint
 
@@ -203,5 +199,14 @@ Item {
         highlighted: mouseArea.dragRight
         anchors.verticalCenter: background.verticalCenter
     }
+
+    VoteSliderLabel {
+        position: slider.rightLabelX
+        value: rightValue
+        size: slider.pointWidth
+        highlighted: mouseArea.dragRight
+        anchors.top: rightPoint.top
+    }
+
 
 }

@@ -10,43 +10,41 @@
 #include <QList>
 #include <QDebug>
 #include <QLocale>
+#include <QQmlContext>
 
-#include "api.h"
-#include "cache.h"
-#include "viewmodels/languageslistmodel.h"
-#include "viewmodels/configurationlistmodel.h"
+#include "src/api.h"
+#include "src/filecache.h"
+#include "src/models/configurationdetails.h"
+#include "src/services/countrieslistservice.h"
+#include "src/services/configurationdetailsmanager.h"
+#include "src/services/languageslistservice.h"
+#include "src/services/movieprovidersmanager.h"
+#include "src/viewmodels/languageslistmodel.h"
+#include "src/viewmodels/configurationlistmodel.h"
+#include "src/system.h"
 
 
 class App : public QObject
 {
     Q_OBJECT
 public:
-    explicit App(QObject *parent = nullptr);
-    ~App();
+    explicit App(QQmlContext *context, QObject *parent = nullptr);
 
+    Q_INVOKABLE void initializeConfigurationDetails();
+    Q_INVOKABLE void initializeMovieProviders(const QString &region);
     Q_INVOKABLE void initializeLanguages();
     Q_INVOKABLE void initializeCountries();
 
-    Api &getApi();
-    LanguagesListModel *getLanguagesListModel() const;
-    ConfigurationListModel *getCountriesListModel() const;
-
-
 private:
+    System system;
     Api api;
-    QString systemLanguage;
-    QString systemCountry;
-    LanguagesListModel *languagesListModel;
-    ConfigurationListModel *countriesListModel;
-    Cache languagesCache;
-    Cache countriesCache;
+    FileCache cache;
 
-    void fillLanguages(const QByteArray &data);
-    void fillCountries(const QByteArray &data);
+    ConfigurationDetailsManager configurationDetailsManager;
+    MovieProvidersManager movieProvidersManager;
+    LanguagesListService languagesListService;
+    CountriesListService countriesListService;
 
-public slots:
-    void languagesLoaded(QByteArray &data);
-    void countriesLoaded(QByteArray &data);
 
 };
 

@@ -1,6 +1,8 @@
 #ifndef API_H
 #define API_H
 
+#include <QByteArray>
+#include <QDebug>
 #include <QObject>
 #include <QNetworkRequest>
 #include <QString>
@@ -14,22 +16,33 @@ class Api : public QObject
     Q_OBJECT
 public:
     explicit Api(QObject *parent = nullptr);
-    ~Api();
 
+    void loadConfigurationDetails();
     void loadConfigurationLanguages();
     void loadConfigurationCounries();
+    void loadWatchMovieProviders(const QString &region);
 
+    ApiWorker &getConfigurationDetailsWorker();
     ApiWorker &getConfigurationLanguagesWorker();
     ApiWorker &getConfigurationCountriesWorker();
+    ApiWorker &getWatchMovieProvidersWorker();
 
 private:
     QNetworkAccessManager networkManager;
-    QNetworkRequest buildRequest(const QString &path);
+    QNetworkRequest buildRequest(const QUrl &url);
     QString baseUrl;
     QString token;
 
+    ApiWorker configurationDetailsWorker;
     ApiWorker configurationLanguagesWorker;
     ApiWorker configurationCountriesWorker;
+    ApiWorker watchMovieProvidersWorker;
+
+signals:
+    void configurationDetailsDone(const QByteArray &data);
+    void configurationLanguagesDone(const QByteArray &data);
+    void configurationCountriesDone(const QByteArray &data);
+    void watchMovieProvidersDone(const QByteArray &data);
 
 };
 

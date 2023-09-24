@@ -2,8 +2,14 @@
 #define CONFIGURATIONLISTMODEL_H
 
 #include <QAbstractListModel>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QMutableListIterator>
 
-#include "src/models/configuration.h"
+#include "src/models/configurationlistitem.h"
+#include "src/system.h"
 
 class ConfigurationListModel : public QAbstractListModel
 {
@@ -16,16 +22,22 @@ public:
         SectionRole,
         PrimaryRole
     };
-    explicit ConfigurationListModel(QObject *parent = nullptr);
+    explicit ConfigurationListModel(System &system, QObject *parent);
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
-    void add(const Configuration &item);
+    void add(const ConfigurationListItem &item);
+    void prepend(const ConfigurationListItem &item);
+    void removeOneById(const QString &id);
+
+    void fillFromCache(const QJsonDocument &json);
+    const QJsonDocument fillFromAPI(const QJsonDocument &json);
 
 protected:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    QList<Configuration> items;
+    System &system;
+    QList<ConfigurationListItem> items;
 
 signals:
     void countChanged();

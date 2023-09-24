@@ -6,6 +6,7 @@ Dialog {
 
     property string entityId: "null"
     property string entityLabel
+    property var service
     property var requestInfo
     property var model
     property string title
@@ -55,7 +56,7 @@ Dialog {
     }
 
     SilicaListView {
-        visible: dialog.requestInfo.state === 0 || dialog.requestInfo.state === 2
+        visible: dialog.service.initialized
         model: dialog.model
         anchors.fill: parent
         currentIndex: -1 // otherwise currentItem will steal focus

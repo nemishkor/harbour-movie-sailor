@@ -15,7 +15,6 @@ Dialog {
     property string languageName
 
     canAccept: languageId !== ""
-    Component.onCompleted: app.initializeLanguages()
 
     Item {
         visible: languagesRequestInfo.state === 1
@@ -55,7 +54,7 @@ Dialog {
     }
 
     SilicaListView {
-        visible: languagesRequestInfo.state === 0 || languagesRequestInfo.state === 2
+        visible: languagesService.initialized
         model: languagesListModel
         anchors.fill: parent
         currentIndex: -1 // otherwise currentItem will steal focus
@@ -76,27 +75,38 @@ Dialog {
         }
 
         delegate: BackgroundItem {
-            highlighted: model.id === languageDialog.languageId
+            highlighted: down || model.id === languageDialog.languageId
             onClicked: {
                 languageDialog.languageId = model.id
                 languageDialog.languageEnglishName = model.englishName
                 languageDialog.languageName = model.name
             }
 
-            Label {
-                width: parent.width - 2 * Theme.horizontalPageMargin
-                x: Theme.horizontalPageMargin
+            Column {
                 anchors.verticalCenter: parent.verticalCenter
-                font.bold: model.isPrimary
-                color: highlighted ? Theme.highlightColor : Theme.primaryColor
-                text: {
-                    var text = model.englishName
-                    if(model.name !== "" && model.name !== model.englishName)
-                        text += " (" + model.name + ")"
-                    return text
+
+                Label {
+                    id: englishNameLabel
+                    width: parent.width - 2 * Theme.horizontalPageMargin
+                    x: Theme.horizontalPageMargin
+                    font.bold: model.isPrimary
+                    color: highlighted ? Theme.highlightColor : Theme.primaryColor
+                    text: model.englishName
+                    truncationMode: TruncationMode.Fade
+                    wrapMode: "WordWrap"
                 }
-                truncationMode: TruncationMode.Fade
-                wrapMode: "WordWrap"
+
+                Label {
+                    id: nameLabel
+                    visible: model.name !== "" && model.name !== model.englishName
+                    width: parent.width - 2 * Theme.horizontalPageMargin
+                    x: Theme.horizontalPageMargin
+                    color: highlighted ? Theme.highlightColor : Theme.primaryColor
+                    font.pixelSize: Theme.fontSizeExtraSmall
+                    text: model.name
+                    truncationMode: TruncationMode.Fade
+                    wrapMode: "WordWrap"
+                }
             }
         }
 

@@ -4,25 +4,30 @@
 #include <QString>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QDebug>
 
 
 class Language
 {
 public:
-    Language(const QString &id, const QString &englishName, const QString &name, bool isPrimary);
+    Language();
     Language(const QJsonObject &json);
-    Language(const QJsonObject &json, bool isPrimary);
     Language(const Language &language);
+    Language(Language &language, bool isPrimary);
 
     const QString &getId() const;
+    void setId(const QString &newId);
 
     const QString &getEnglishName() const;
+    void setEnglishName(const QString &newEnglishName);
 
     const QString &getName() const;
+    void setName(const QString &newName);
 
     const QString getSection() const;
 
     bool getIsPrimary() const;
+    void setIsPrimary(bool newIsPrimary);
 
     const QJsonObject toJson() const;
 

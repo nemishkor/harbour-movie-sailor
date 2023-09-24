@@ -23,14 +23,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Yes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
@@ -48,10 +40,6 @@
     </message>
     <message>
         <source>Dates range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select region</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -96,6 +84,26 @@
     </message>
     <message>
         <source>All countries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Any</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Where to watch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Choose a country to select providers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a country</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

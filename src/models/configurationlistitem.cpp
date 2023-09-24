@@ -1,6 +1,6 @@
-#include "configuration.h"
+#include "configurationlistitem.h"
 
-Configuration::Configuration(const QString &id, const QString &label, bool isPrimary) :
+ConfigurationListItem::ConfigurationListItem(const QString &id, const QString &label, bool isPrimary) :
     id(id),
     label(label),
     isPrimary(isPrimary)
@@ -8,7 +8,7 @@ Configuration::Configuration(const QString &id, const QString &label, bool isPri
 
 }
 
-Configuration::Configuration(const QJsonObject &json) :
+ConfigurationListItem::ConfigurationListItem(const QJsonObject &json) :
     id(json["id"].toString()),
     label(json["label"].toString()),
     isPrimary(json["primary"].toBool())
@@ -16,7 +16,7 @@ Configuration::Configuration(const QJsonObject &json) :
 
 }
 
-Configuration::Configuration(const QJsonObject &json, bool isPrimary) :
+ConfigurationListItem::ConfigurationListItem(const QJsonObject &json, bool isPrimary) :
     id(json["id"].toString()),
     label(json["label"].toString()),
     isPrimary(isPrimary)
@@ -24,7 +24,7 @@ Configuration::Configuration(const QJsonObject &json, bool isPrimary) :
 
 }
 
-Configuration::Configuration(const Configuration &configuration) :
+ConfigurationListItem::ConfigurationListItem(const ConfigurationListItem &configuration) :
     id(QString(configuration.id)),
     label(QString(configuration.label)),
     isPrimary(configuration.isPrimary)
@@ -32,17 +32,17 @@ Configuration::Configuration(const Configuration &configuration) :
 
 }
 
-const QString &Configuration::getId() const
+const QString &ConfigurationListItem::getId() const
 {
     return id;
 }
 
-const QString &Configuration::getLabel() const
+const QString &ConfigurationListItem::getLabel() const
 {
     return label;
 }
 
-const QString Configuration::getSection() const
+const QString ConfigurationListItem::getSection() const
 {
     if (isPrimary || label.length() == 0) {
         return "";
@@ -50,12 +50,12 @@ const QString Configuration::getSection() const
     return label.at(0);
 }
 
-bool Configuration::getIsPrimary() const
+bool ConfigurationListItem::getIsPrimary() const
 {
     return isPrimary;
 }
 
-const QJsonObject Configuration::toJson() const
+const QJsonObject ConfigurationListItem::toJson() const
 {
     QJsonObject json;
     json.insert("id", QJsonValue(id));

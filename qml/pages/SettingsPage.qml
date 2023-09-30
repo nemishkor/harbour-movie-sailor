@@ -54,7 +54,7 @@ BasePage {
 
             Label {
                 visible: accountRequestInfo.state === 3
-                text: accountRequestInfo.error === "" ? "Unable to load account. Unknown error" : ("Unable to load account. " + requestInfo.error)
+                text: accountRequestInfo.error === "" ? "Unable to load account. Unknown error" : ("Unable to load account. " + accountRequestInfo.error)
                 color: Theme.errorColor
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.Wrap
@@ -107,15 +107,19 @@ BasePage {
 
             Button {
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: app.account.id === 0 ? qsTr("Login") : qsTr("Logout")
+                visible: app.settings.sessionId === ""
+                text: qsTr("Login")
                 onClicked: {
-                    if (app.account.id === 0) {
-                        app.accountService.createRequestToken()
-                        pageStack.animatorPush("./LoginPage.qml")
-                    } else {
-                        app.accountService.logout()
-                    }
+                    app.accountService.createRequestToken()
+                    pageStack.animatorPush("./LoginPage.qml")
                 }
+            }
+
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: app.settings.sessionId !== "" && app.account.id !== 0
+                text: qsTr("Logout")
+                onClicked: app.accountService.logout()
             }
 
             SectionHeader { text: qsTr("Cache") }

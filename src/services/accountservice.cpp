@@ -8,6 +8,8 @@ AccountService::AccountService(Account *account,
                                TvService &tvService,
                                QObject *parent) :
     QObject(parent),
+    apiWorkerName(Api::Account),
+    request(api.getRequestInfo(apiWorkerName)),
     api(api),
     settings(settings),
     genresListModel(genresListModel),
@@ -45,7 +47,10 @@ AccountService::AccountService(Account *account,
     connect(tvService.getModel(), &Tv::ratingChanged, this, &AccountService::tvRatingChanged);
     connect(tvService.getModel(), &Tv::watchlistChanged, this, &AccountService::tvWatchlistChanged);
 
-    api.loadAccount();
+    if (!settings.getSessionId().isEmpty()) {
+        qDebug() << "AccountService: sessionId exists. Load account's data";
+        api.getResource(apiWorkerName);
+    }
 }
 
 void AccountService::createRequestToken()
@@ -113,12 +118,17 @@ AccountMediaListService *AccountService::getWatchlistTv() const
     return watchlistTv;
 }
 
+RequestInfo *AccountService::getRequest() const
+{
+    return request;
+}
+
 void AccountService::saveRefreshToken(QByteArray &data)
 {
     QJsonObject obj = QJsonDocument::fromJson(data).object();
 
     QDateTime expiresAt = QDateTime::fromString(obj["expires_at"].toString(), Qt::ISODate);
-    qDebug() << "expiresAt is valid:" << (expiresAt.isValid() ? "true" : "false");
+    qDebug() << "AccountService: expiresAt is valid:" << (expiresAt.isValid() ? "true" : "false");
 
     requestToken->setRawBody(data);
     requestToken->setSuccess(obj["success"].toBool());
@@ -135,11 +145,12 @@ void AccountService::saveSession(QByteArray &data)
     requestToken->setExpireAt(QDateTime());
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     settings.setSessionId(obj["session_id"].toString());
-    api.loadAccount();
+    api.getResource(apiWorkerName);
 }
 
 void AccountService::saveAccount(QByteArray &data)
 {
+    qDebug() << "AccountService: save account";
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     account->setId(obj["id"].toInt());
     account->setLanguage(obj["iso_639_1"].toString());

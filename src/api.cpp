@@ -8,7 +8,12 @@ Api::Api(class Account *account, Settings &settings, QObject *parent) :
     sensitiveQueryParams({"session_id", "api_key"})
 {
     baseUrl = "https://api.themoviedb.org/3/";
-    token = "";
+    #if defined(TMDB_API_TOKEN)
+        token = QString(TMDB_API_TOKEN);
+    #else
+        qCritical() << "TMDB API token is not defined";
+    #endif
+
 
     setupWorker(Account, SIGNAL(loadAccountDone(QByteArray &)));
     setupWorker(ConfigurationCountries, SIGNAL(configurationCountriesDone(QByteArray &)));
@@ -265,17 +270,6 @@ void Api::createSessionId(const QByteArray &data)
     postResource(CreateSession, "authentication/session/new", data);
 }
 
-void Api::loadAccount()
-{
-    if (settings.getSessionId().isEmpty())
-        return;
-
-    QUrlQuery urlQuery;
-    urlQuery.addQueryItem("session_id", settings.getSessionId());
-
-    getResource(Account, "account/account_id", urlQuery);
-}
-
 void Api::toggleFavorite(WorkerName workerName, const QString &type, int id, bool newValue)
 {
     if (settings.getSessionId().isEmpty() || account->getId() == 0)
@@ -381,49 +375,31 @@ void Api::removeRating(const Tv &tv)
     removeRating(RemoveRatingTv, "tv", tv.getId());
 }
 
+void Api::getResource(WorkerName workerName)
+{
+    QString endpoint;
+    QUrlQuery query;
+    bool ok = true;
+
+    getEndpointAndQuery(workerName, endpoint, query, &ok);
+
+    if (!ok) {
+        return;
+    }
+
+    getResource(workerName, endpoint, query);
+}
+
 void Api::getResource(WorkerName workerName, const Form &form)
 {
     QString endpoint;
     QUrlQuery query;
+    bool ok = true;
 
-    switch (workerName) {
-    case Api::FavoriteMovies:
-        endpoint = "account/" + QString::number(account->getId()) + "/favorite/movies";
-        query.addQueryItem("language", getLanguage());
-        query.addQueryItem("session_id", settings.getSessionId());
-        break;
-    case Api::FavoriteTv:
-        endpoint = "account/" + QString::number(account->getId()) + "/favorite/tv";
-        query.addQueryItem("language", getLanguage());
-        query.addQueryItem("session_id", settings.getSessionId());
-        break;
-    case Api::RatedMovies:
-        endpoint = "account/" + QString::number(account->getId()) + "/rated/movies";
-        query.addQueryItem("language", getLanguage());
-        query.addQueryItem("session_id", settings.getSessionId());
-        break;
-    case Api::RatedTv:
-        endpoint = "account/" + QString::number(account->getId()) + "/rated/tv";
-        query.addQueryItem("language", getLanguage());
-        query.addQueryItem("session_id", settings.getSessionId());
-        break;
-    case Api::WatchlistMovies:
-        endpoint = "account/" + QString::number(account->getId()) + "/watchlist/movies";
-        query.addQueryItem("language", getLanguage());
-        query.addQueryItem("session_id", settings.getSessionId());
-        break;
-    case Api::WatchlistTv:
-        endpoint = "account/" + QString::number(account->getId()) + "/watchlist/tv";
-        query.addQueryItem("language", getLanguage());
-        query.addQueryItem("session_id", settings.getSessionId());
-        break;
-    case Api::SearchCompanies:
-        endpoint = "search/company";
-        query.addQueryItem("language", getLanguage());
-        query.addQueryItem("session_id", settings.getSessionId());
-        break;
-    default:
-        qWarning() << "API: Invalid worker name was passed to the getResource method";
+    getEndpointAndQuery(workerName, endpoint, query, &ok);
+
+    if (!ok) {
+        qWarning() << "request is not Ok to send";
         return;
     }
 
@@ -520,6 +496,59 @@ QString Api::getIncludeAdult() const
     return "false";
 }
 
+void Api::getEndpointAndQuery(WorkerName workerName, QString &endpoint, QUrlQuery &query, bool *ok)
+{
+    switch (workerName) {
+    case Api::Account:
+        if (settings.getSessionId().isEmpty()) {
+            *ok = false;
+            return;
+        }
+        endpoint = "account/account_id";
+        query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    case Api::FavoriteMovies:
+        endpoint = "account/" + QString::number(account->getId()) + "/favorite/movies";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    case Api::FavoriteTv:
+        endpoint = "account/" + QString::number(account->getId()) + "/favorite/tv";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    case Api::RatedMovies:
+        endpoint = "account/" + QString::number(account->getId()) + "/rated/movies";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    case Api::RatedTv:
+        endpoint = "account/" + QString::number(account->getId()) + "/rated/tv";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    case Api::WatchlistMovies:
+        endpoint = "account/" + QString::number(account->getId()) + "/watchlist/movies";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    case Api::WatchlistTv:
+        endpoint = "account/" + QString::number(account->getId()) + "/watchlist/tv";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    case Api::SearchCompanies:
+        endpoint = "search/company";
+        query.addQueryItem("language", getLanguage());
+        query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    default:
+        qWarning() << "API: Invalid worker name was passed to the getResource method";
+        *ok = false;
+        return;
+    }
+}
+
 void Api::getResource(WorkerName workerName, const QString &endpoint)
 {
     log(workerName, "GET", endpoint);
@@ -582,9 +611,12 @@ QString Api::filterEndpoint(const QString &endpoint) const
     QString filteredEndpoint = endpoint;
 
     if (accountIdmatch.hasMatch()) {
-        int accountIdStart = accountIdmatch.capturedStart(1);
-        int accountIdEnd = accountIdmatch.capturedEnd(1);
-        filteredEndpoint.replace(accountIdStart, accountIdEnd - accountIdStart, "******");
+        QString accountId = accountIdmatch.captured(1);
+        if (accountId != "account_id") {
+            int accountIdStart = accountIdmatch.capturedStart(1);
+            int accountIdEnd = accountIdmatch.capturedEnd(1);
+            filteredEndpoint.replace(accountIdStart, accountIdEnd - accountIdStart, "******");
+        }
     }
 
     return filteredEndpoint;

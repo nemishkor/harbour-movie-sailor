@@ -79,7 +79,6 @@ public:
     void loadSearchPersons(const SearchPeopleForm &form);
     void requestRefreshToken();
     void createSessionId(const QByteArray &data);
-    void loadAccount();
 
     void toggleFavorite(WorkerName workerName, const QString &type, int id, bool newValue);
     void toggleFavorite(const class Movie &movie);
@@ -97,6 +96,7 @@ public:
     void removeRating(const class Movie &movie);
     void removeRating(const Tv &movie);
 
+    void getResource(WorkerName workerName);
     void getResource(WorkerName workerName, const Form &form);
     void searchMedia(WorkerName workerName, const SearchForm &form);
 
@@ -118,6 +118,8 @@ private:
     ApiWorker* getWorker(WorkerName name) const;
     QString getLanguage() const;
     QString getIncludeAdult() const;
+
+    void getEndpointAndQuery(WorkerName workerName, QString &endpoint, QUrlQuery &query, bool *ok);
 
     void getResource(WorkerName workerName, const QString &endpoint);
     void getResource(WorkerName workerName, const QString &endpoint, const QUrlQuery &query);

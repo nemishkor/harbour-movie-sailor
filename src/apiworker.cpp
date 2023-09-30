@@ -72,6 +72,7 @@ void ApiWorker::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 
 void ApiWorker::error(QNetworkReply::NetworkError code)
 {
+    qWarning() << "ApiWorker: failed request";
     if (code == QNetworkReply::OperationCanceledError) {
         requestInfo.setState(RequestInfo::StandBy);
         return;
@@ -87,7 +88,10 @@ void ApiWorker::error(QNetworkReply::NetworkError code)
         requestInfo.setError("The connection was broken due to disconnection from the network. Please, check your internet connection");
     } else if (code == QNetworkReply::BackgroundRequestNotAllowedError) {
         requestInfo.setError("The background request is not currently allowed due to platform policy");
+    } else if (code == QNetworkReply::AuthenticationRequiredError) {
+        requestInfo.setError("Opps. Authentication failed. Missing API token or the token is invalid");
     } else {
+        qWarning() << "ApiWorker: failed request with unknown error code" << code;
         requestInfo.setError("Opps. Something went wrong. Failed request to the server");
     }
 
@@ -97,9 +101,11 @@ void ApiWorker::error(QNetworkReply::NetworkError code)
 void ApiWorker::finished()
 {
     if (reply->error() != QNetworkReply::NoError) {
+        qWarning() << "ApiWorker: finished request with error";
         return;
     }
 
+    qWarning() << "ApiWorker: finished request without error";
     requestInfo.setState(RequestInfo::Success);
     QByteArray data(reply->readAll());
     reply->deleteLater();

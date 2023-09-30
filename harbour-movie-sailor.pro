@@ -12,6 +12,8 @@
 # The name of your application
 TARGET = harbour-movie-sailor
 
+DEFINES += TMDB_API_TOKEN=\\\"$$(TMDB_API_TOKEN)\\\"
+
 CONFIG += sailfishapp
 PKGCONFIG += qt5embedwidget
 

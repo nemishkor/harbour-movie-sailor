@@ -19,6 +19,7 @@
 class AccountService : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(RequestInfo* request READ getRequest CONSTANT)
     Q_PROPERTY(RequestToken* requestToken READ getRequestToken CONSTANT)
     Q_PROPERTY(AccountMediaListService* favoriteMovies READ getFavoriteMovies CONSTANT)
     Q_PROPERTY(AccountMediaListService* favoriteTv READ getFavoriteTv CONSTANT)
@@ -40,6 +41,7 @@ public:
     Q_INVOKABLE void createSessionId();
     Q_INVOKABLE void logout();
 
+    RequestInfo *getRequest() const;
     RequestToken *getRequestToken() const;
 
     AccountMediaListService *getFavoriteMovies() const;
@@ -50,6 +52,8 @@ public:
     AccountMediaListService *getWatchlistTv() const;
 
 private:
+    Api::WorkerName apiWorkerName;
+    RequestInfo *request;
     Api &api;
     Settings &settings;
     GenresListModel *genresListModel;

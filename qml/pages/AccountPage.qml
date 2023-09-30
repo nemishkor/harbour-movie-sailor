@@ -5,6 +5,10 @@ import "../components"
 BasePage {
     id: root
 
+    FullPageRequestProgress {
+        requestInfo: app.settings.sessionId !== "" && app.accountService.request
+    }
+
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
@@ -12,7 +16,7 @@ BasePage {
         Column {
             id: column
 
-            visible: app.account.id !== 0
+            visible: app.settings.sessionId !== "" && app.account.id !== 0
             width: parent.width
             spacing: Theme.paddingMedium
 
@@ -79,7 +83,7 @@ BasePage {
         }
 
         ViewPlaceholder {
-            enabled: app.account.id === 0
+            enabled: app.settings.sessionId === ""
             text: qsTr("Please go to Settings page and login")
             hintText: qsTr("Your favorites, rated movies and TV shows, watchlist will be here")
         }

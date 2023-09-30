@@ -170,6 +170,7 @@ void MovieService::apiRequestDone(const QByteArray &data)
 
     qDebug() << "MovieService: set account states";
     if (obj.contains("account_states")) {
+        qDebug() << "account_states exists";
         item = obj["account_states"].toObject();
         model->setFavorite(item["favorite"].toBool());
         if (item["rated"].isObject()) {

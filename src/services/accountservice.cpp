@@ -84,6 +84,7 @@ void AccountService::logout()
     account->setName(QString());
     account->setIncludeAdult(true);
     account->setUsername(QString());
+    account->setGavatar(QString());
 }
 
 RequestToken *AccountService::getRequestToken() const
@@ -162,6 +163,13 @@ void AccountService::saveAccount(QByteArray &data)
     account->setName(obj["name"].toString());
     account->setIncludeAdult(obj["include_adult"].toBool());
     account->setUsername(obj["username"].toString());
+    if (obj.contains("avatar")) {
+        QJsonObject avatar = obj["avatar"].toObject();
+        if (avatar.contains("gravatar")) {
+            QJsonObject gavatar = avatar["gravatar"].toObject();
+            account->setGavatar(gavatar["hash"].toString());
+        }
+    }
 }
 
 void AccountService::movieFavoriteChanged()

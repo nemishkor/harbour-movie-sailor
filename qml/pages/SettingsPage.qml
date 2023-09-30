@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 import Sailfish.Silica 1.0
 import "../languages.js" as Languages
 import "../components"
@@ -60,6 +61,25 @@ BasePage {
                 wrapMode: Text.Wrap
                 x: Theme.horizontalPageMargin
                 width: parent.width - 2 * Theme.horizontalPageMargin
+            }
+
+            Image {
+                visible: app.account.gavatar !== ""
+                source: "https://www.gravatar.com/avatar/" + app.account.gavatar + "?s=" + Theme.itemSizeMedium
+                width: Theme.itemSizeMedium
+                height: Theme.itemSizeMedium
+                anchors.horizontalCenter: parent.horizontalCenter
+                layer.enabled: true
+                layer.effect: OpacityMask {
+                    maskSource: gavatarMask
+                }
+                Rectangle {
+                    id: gavatarMask
+
+                    anchors.fill: parent
+                    visible: false
+                    radius: 10 * Theme.pixelRatio
+                }
             }
 
             KeyValue {

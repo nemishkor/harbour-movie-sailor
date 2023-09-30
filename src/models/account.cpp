@@ -84,3 +84,16 @@ void Account::setUsername(const QString &newUsername)
     username = newUsername;
     emit usernameChanged();
 }
+
+const QString &Account::getGavatar() const
+{
+    return gavatar;
+}
+
+void Account::setGavatar(const QString &newGavatar)
+{
+    if (gavatar == newGavatar)
+        return;
+    gavatar = newGavatar;
+    emit gavatarChanged();
+}

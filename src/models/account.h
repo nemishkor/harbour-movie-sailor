@@ -12,6 +12,7 @@ class Account : public QObject
     Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(bool includeAdult READ getIncludeAdult WRITE setIncludeAdult NOTIFY includeAdultChanged)
     Q_PROPERTY(QString username READ getUsername WRITE setUsername NOTIFY usernameChanged)
+    Q_PROPERTY(QString gavatar READ getGavatar WRITE setGavatar NOTIFY gavatarChanged)
 
 public:
     Account(QObject *parent);
@@ -34,18 +35,17 @@ public:
     const QString &getUsername() const;
     void setUsername(const QString &newUsername);
 
+    const QString &getGavatar() const;
+    void setGavatar(const QString &newGavatar);
+
 signals:
     void idChanged();
-
     void languageChanged();
-
     void countryChanged();
-
     void nameChanged();
-
     void includeAdultChanged();
-
     void usernameChanged();
+    void gavatarChanged();
 
 private:
     int id;
@@ -54,6 +54,7 @@ private:
     QString name;
     bool includeAdult;
     QString username;
+    QString gavatar;
 
 };
 

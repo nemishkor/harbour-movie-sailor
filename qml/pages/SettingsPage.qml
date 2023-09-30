@@ -119,7 +119,7 @@ BasePage {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: app.settings.sessionId !== "" && app.account.id !== 0
                 text: qsTr("Logout")
-                onClicked: app.accountService.logout()
+                onClicked: { app.accountService.logout() }
             }
 
             SectionHeader { text: qsTr("Cache") }

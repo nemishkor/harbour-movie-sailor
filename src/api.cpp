@@ -14,6 +14,7 @@ Api::Api(class Account *account, Settings &settings, QObject *parent) :
         qCritical() << "TMDB API token is not defined";
     #endif
 
+    qDebug() << "Api: is token exists" << (token.isEmpty() ? "no" : "yes");
 
     setupWorker(Account, SIGNAL(loadAccountDone(QByteArray &)));
     setupWorker(ConfigurationCountries, SIGNAL(configurationCountriesDone(QByteArray &)));
@@ -384,6 +385,7 @@ void Api::getResource(WorkerName workerName)
     getEndpointAndQuery(workerName, endpoint, query, &ok);
 
     if (!ok) {
+        qWarning() << "request is not Ok to send";
         return;
     }
 

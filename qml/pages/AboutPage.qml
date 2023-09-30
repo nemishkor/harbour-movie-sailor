@@ -44,6 +44,12 @@ BasePage {
                 onClicked: Qt.openUrlExternally("https://forum.sailfishos.org/u/nemishkor/summary")
             }
 
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "Source code (GitHub)"
+                onClicked: Qt.openUrlExternally("https://github.com/nemishkor/harbour-movie-sailor")
+            }
+
             Label {
                 text: "Social icons created by Freepik - Flaticon"
                 width: parent.width - 2 * Theme.horizontalPageMargin

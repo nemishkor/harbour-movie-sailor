@@ -55,9 +55,12 @@ AccountService::AccountService(Account *account,
 
 void AccountService::createRequestToken()
 {
+    qDebug() << "AccountService: createRequestToken";
     if (requestToken->isValid()) {
+        qDebug() << "AccountService: request token is valid";
         return;
     }
+    qDebug() << "AccountService: request token is not valid. Request for refresh token";
     api.requestRefreshToken();
 }
 
@@ -134,6 +137,7 @@ void AccountService::saveRefreshToken(QByteArray &data)
     requestToken->setSuccess(obj["success"].toBool());
     requestToken->setRequestToken(obj["request_token"].toString());
     requestToken->setExpireAt(expiresAt);
+    qDebug() << "AccountService: refresh token is saved";
 }
 
 void AccountService::saveSession(QByteArray &data)

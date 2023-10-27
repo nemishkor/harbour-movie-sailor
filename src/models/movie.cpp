@@ -2,12 +2,17 @@
 
 Movie::Movie(QObject *parent) :
     QObject(parent),
+    runtimeHours(0),
+    runtimeMinutes(0),
+    voteAvarage(0.0),
+    voteCount(0),
     belongsToCollection(new MovieCollection(this)),
     productionCompanies(new CompaniesListModel(this)),
     productionCountries(new CountriesListModel(this)),
     spokenLanguages(new LanguagesListModel(this)),
     favorite(false),
     watchlist(false),
+    rating(0),
     credits(new Credits(this))
 {
 

@@ -18,6 +18,13 @@ TvService::TvService(Api &api, HistoryService &historyService, QObject *parent) 
     connect(&api, &Api::removeRatingTvDone, this, &TvService::removeRatingDone);
 }
 
+void TvService::load(Tv *tv, int id)
+{
+    qDebug() << "TvService: load from API";
+    model = tv;
+    api.loadTv(id);
+}
+
 void TvService::toggleFavorite()
 {
     qDebug() << "TvService: toggle favorite";
@@ -42,53 +49,6 @@ void TvService::removeRating()
     qDebug() << "TvService: remove rating";
     model->setRating(0);
     api.removeRating(*model);
-}
-
-void TvService::fillWithListItemAndLoad(const MediaListItem &result)
-{
-    qDebug() << "TvService: fill" << result.getId();
-    if (model->getId() == result.getId())
-        return;
-
-    model->setAdult(result.getAdult());
-    model->setBackdropPath(result.getBackdropPath());
-    model->getCreatedBy()->clear();
-    model->setEpisodeRunTimeHours(0);
-    model->setEpisodeRunTimeMinutes(0);
-    model->setFirstAirDate("");
-    model->setGenres(result.getGenres());
-    model->setHomepage("");
-    model->setId(result.getId());
-    model->setInProduction(false);
-    model->setLanguages(QList<QString>());
-    model->setLastAirDate("");
-    model->getLastEpisodeOnAir()->clear();
-    model->setName(result.getTitle());
-    model->getNextEpisodeOnAir()->clear();
-    model->getNetworks()->clear();
-    model->setNumberOfEpisodes(0);
-    model->setNumberOfSeasons(0);
-    model->setOriginCountry(QList<QString>());
-    model->setOriginLanguage("");
-    model->setOriginName(result.getOriginalTitle());
-    model->setOverview(result.getOverview());
-    model->setPopularity(0.0);
-    model->setPosterPath(result.getPosterPath());
-    model->getProductionCompanies()->clear();
-    model->getProductionCountries()->clear();
-    model->getSeasons()->clear();
-    model->getSpokenLanguages()->clear();
-    model->setStatus("");
-    model->setTagline("");
-    model->setType("");
-    model->setVoteAvarage(result.getVoteAvarage());
-    model->setVoteCount(result.getVoteCount());
-    model->setFavorite(false);
-    model->setRating(0);
-    model->setWatchlist(false);
-
-    qDebug() << "TvService: load from API - start";
-    api.loadTv(model->getId());
 }
 
 Tv *TvService::getModel() const
@@ -126,9 +86,20 @@ void TvService::apiRequestDone(QByteArray &data)
     qDebug() << "TvService: load from API - got data";
     QJsonObject obj = QJsonDocument::fromJson(data).object();
 
+    model->setAdult(obj["adult"].toBool());
+    model->setBackdropPath(obj["backdrop_path"].toString());
+
+    QStringList genreNames;
+    QJsonArray genreIds = obj["genres"].toArray();
+    for (QJsonArray::const_iterator genresIt = genreIds.constBegin(); genresIt != genreIds.constEnd(); genresIt++) {
+        genreNames.append((*genresIt).toObject()["name"].toString());
+    }
+    model->setGenres(genreNames);
+
     QJsonArray items;
     QJsonArray::const_iterator it;
 
+    model->getCreatedBy()->clear();
     if (obj["created_by"].isArray()) {
         items = obj["created_by"].toArray();
         QJsonArray::const_iterator it;
@@ -143,7 +114,7 @@ void TvService::apiRequestDone(QByteArray &data)
         }
     }
 
-    QJsonArray episodeRunTimeJson = obj["created_by"].toArray();
+    QJsonArray episodeRunTimeJson = obj["episode_run_time"].toArray();
 
     for (QJsonArray::const_iterator it = episodeRunTimeJson.constBegin(); it != episodeRunTimeJson.constEnd(); it++) {
         int runtime = it->toInt();
@@ -169,6 +140,7 @@ void TvService::apiRequestDone(QByteArray &data)
     qDebug() << "TvService: load from API - set episodes";
     QJsonObject episode = obj["last_episode_to_air"].toObject();
 
+    model->getLastEpisodeOnAir()->setId(0);
     if (!episode.isEmpty()) {
         model->getLastEpisodeOnAir()->setAirDate(episode["air_date"].toString());
         model->getLastEpisodeOnAir()->setEpisodeNumber(episode["episode_number"].toInt());
@@ -185,8 +157,11 @@ void TvService::apiRequestDone(QByteArray &data)
         model->getLastEpisodeOnAir()->setVoteCount(episode["vote_count"].toInt());
     }
 
+    model->setName(obj["name"].toString());
+
     episode = obj["next_episode_to_air"].toObject();
 
+    model->getNextEpisodeOnAir()->setId(0);
     if (!episode.isEmpty()) {
         model->getNextEpisodeOnAir()->setAirDate(episode["air_date"].toString());
         model->getNextEpisodeOnAir()->setEpisodeNumber(episode["episode_number"].toInt());
@@ -229,9 +204,13 @@ void TvService::apiRequestDone(QByteArray &data)
 
     model->setOriginCountry(originCountries);
     model->setOriginLanguage(obj["original_language"].toString());
+    model->setOriginName(obj["original_name"].toString());
+    model->setOverview(obj["overview"].toString());
     model->setPopularity(obj["popularity"].toDouble());
+    model->setPosterPath(obj["poster_path"].toString());
 
     qDebug() << "TvService: load from API - set production companies";
+    model->getProductionCompanies()->clear();
     if (obj["production_companies"].isArray()) {
         items = obj["production_companies"].toArray();
         QJsonArray::const_iterator it;
@@ -246,6 +225,7 @@ void TvService::apiRequestDone(QByteArray &data)
     }
 
     qDebug() << "TvService: load from API - set production countries";
+    model->getProductionCountries()->clear();
     if (obj["production_countries"].isArray()) {
         items = obj["production_countries"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
@@ -256,20 +236,8 @@ void TvService::apiRequestDone(QByteArray &data)
         }
     }
 
-    qDebug() << "TvService: load from API - set spoken languages";
-    if (obj["spoken_languages"].isArray()) {
-        items = obj["spoken_languages"].toArray();
-        for (it = items.constBegin(); it != items.constEnd(); it++) {
-            QJsonObject item = it->toObject();
-            QString name = item["name"].toString();
-            QString englishName = item["english_name"].toString();
-            if (englishName != name)
-                name.append(" (" + englishName + ")");
-            model->getSpokenLanguages()->add(LanguageListItem(item["iso_639_1"].toString(), name));
-        }
-    }
-
     qDebug() << "TvService: load from API - set seasons";
+    model->getSeasons()->clear();
     if (obj["seasons"].isArray()) {
         items = obj["seasons"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
@@ -286,9 +254,25 @@ void TvService::apiRequestDone(QByteArray &data)
         }
     }
 
+    qDebug() << "TvService: load from API - set spoken languages";
+    model->getSpokenLanguages()->clear();
+    if (obj["spoken_languages"].isArray()) {
+        items = obj["spoken_languages"].toArray();
+        for (it = items.constBegin(); it != items.constEnd(); it++) {
+            QJsonObject item = it->toObject();
+            QString name = item["name"].toString();
+            QString englishName = item["english_name"].toString();
+            if (englishName != name)
+                name.append(" (" + englishName + ")");
+            model->getSpokenLanguages()->add(LanguageListItem(item["iso_639_1"].toString(), name));
+        }
+    }
+
     model->setStatus(obj["status"].toString());
     model->setTagline(obj["tagline"].toString());
     model->setType(obj["type"].toString());
+    model->setVoteAvarage(obj["vote_average"].toDouble());
+    model->setVoteCount(obj["vote_count"].toInt());
 
     qDebug() << "TvService: load from API - set account states";
     if (obj.contains("account_states")) {
@@ -300,7 +284,7 @@ void TvService::apiRequestDone(QByteArray &data)
         model->setWatchlist(accountStates["watchlist"].toBool());
     }
 
-    historyService.add(MediaListItem::TvType, model->getId(), data);
+    historyService.add(MediaListItem::TvType, obj["id"].toInt(), data);
 
     qDebug() << "TvService: load from API - done";
 }

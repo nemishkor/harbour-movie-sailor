@@ -23,12 +23,11 @@ class TvService : public QObject
 public:
     TvService(Api &api, HistoryService &historyService, QObject *parent);
 
+    Q_INVOKABLE void load(Tv *tv, int id);
     Q_INVOKABLE void toggleFavorite();
     Q_INVOKABLE void toggleWatchlist();
     Q_INVOKABLE void addRating(int rating);
     Q_INVOKABLE void removeRating();
-
-    void fillWithListItemAndLoad(const MediaListItem &result);
 
     Tv *getModel() const;
     RequestInfo *getRequest() const;

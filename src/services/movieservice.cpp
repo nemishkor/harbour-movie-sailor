@@ -67,6 +67,14 @@ void MovieService::apiRequestDone(const QByteArray &data)
     QJsonObject obj = QJsonDocument::fromJson(data).object();
     qlonglong money = obj["budget"].toVariant().toLongLong();
     model->setBudget(money == 0 ? "?" : system.getLocale().toCurrencyString(money, "$"));
+
+    QStringList genreNames;
+    QJsonArray genreIds = obj["genres"].toArray();
+    for (QJsonArray::const_iterator genresIt = genreIds.constBegin(); genresIt != genreIds.constEnd(); genresIt++) {
+        genreNames.append((*genresIt).toObject()["name"].toString());
+    }
+    model->setGenres(genreNames);
+
     model->setHomepage(obj["homepage"].toString());
     model->setImdbId(obj["imdb_id"].toString());
     model->setOriginalLanguage(obj["original_language"].toString());
@@ -78,6 +86,8 @@ void MovieService::apiRequestDone(const QByteArray &data)
     model->setRuntimeMinutes(runtime - model->getRuntimeHours() * 60);
     model->setStatus(obj["status"].toString());
     model->setTagline(obj["tagline"].toString());
+    model->setVoteAvarage(obj["vote_average"].toDouble());
+    model->setVoteCount(obj["vote_count"].toInt());
 
     if (obj["belongs_to_collection"].isObject()) {
         QJsonObject belongsToCollection = obj["belongs_to_collection"].toObject();

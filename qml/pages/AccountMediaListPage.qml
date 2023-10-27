@@ -101,7 +101,9 @@ BasePage {
                                 voteCount: model.voteCount
                             }
                         } else {
-                            root.service.select(model.id)
+                            params = {
+                                tvId: model.id
+                            }
                         }
 
                         pageStack.animatorPush(root.targetPage, params)

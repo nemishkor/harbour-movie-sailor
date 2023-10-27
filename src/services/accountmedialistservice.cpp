@@ -32,29 +32,6 @@ void AccountMediaListService::search()
     api.getResource(workerName, *form);
 }
 
-void AccountMediaListService::select(int id)
-{
-    QList<MediaListItem>::const_iterator it;
-    for (it = list->getItems().constBegin(); it != list->getItems().constEnd(); it++) {
-        if (it->getId() == id) {
-            switch (mediaType) {
-            case MediaListItem::Unknown:
-                qWarning() << "Unknown media type of the media entity" << it->getId();
-                break;
-            case MediaListItem::MovieType:
-                qWarning() << "Movie media type can not be selected. Use MovieService directly";
-                break;
-            case MediaListItem::TvType:
-                tvService.fillWithListItemAndLoad(*it);
-                break;
-            case MediaListItem::PersonType:
-                break;
-            }
-            return;
-        }
-    }
-}
-
 AccountMoviesForm *AccountMediaListService::getForm() const
 {
     return form;

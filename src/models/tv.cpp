@@ -3,13 +3,21 @@
 Tv::Tv(QObject *parent) :
     QObject(parent),
     createdBy(new PersonListModel(this)),
+    episodeRunTimeHours(0),
+    episodeRunTimeMinutes(0),
+    id(0),
     lastEpisodeOnAir(new Episode(this)),
     nextEpisodeOnAir(new Episode(this)),
     networks(new NetworksListModel(this)),
+    numberOfEpisodes(0),
+    numberOfSeasons(0),
     productionCompanies(new CompaniesListModel(this)),
     productionCountries(new CountriesListModel(this)),
     seasons(new SeasonsListModel(this)),
-    spokenLanguages(new LanguagesListModel(this))
+    spokenLanguages(new LanguagesListModel(this)),
+    voteAvarage(0.0),
+    voteCount(0),
+    rating(0)
 {
 
 }

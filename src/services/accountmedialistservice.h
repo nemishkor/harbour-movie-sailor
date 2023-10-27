@@ -29,7 +29,6 @@ public:
                             QObject *parent);
 
     Q_INVOKABLE void search();
-    Q_INVOKABLE void select(int id);
     AccountMoviesForm *getForm() const;
     MediaListModel *getList() const;
     RequestInfo *getRequest() const;

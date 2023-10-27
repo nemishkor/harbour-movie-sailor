@@ -48,9 +48,7 @@ BasePage {
             knownForDepartment: model.knownForDepartment
             knownFor: model.knownFor
             onClicked: {
-                console.log("Select media: " + model.id);
                 if (model.mediaType === 1) {
-                    console.log("Go to Movie page");
                     var params = {
                         movieId: model.id,
                         backdropPath: model.backdropPath,
@@ -66,13 +64,10 @@ BasePage {
                     return;
                 }
                 if (model.mediaType === 2) {
-                    root.service.select(model.id)
-                    console.log("Go to TV page");
-                    pageStack.animatorPush("./TvPage.qml")
+                    pageStack.animatorPush("./TvPage.qml", { tvId: model.id })
                     return;
                 }
                 if (model.mediaType === 3) {
-                    console.log("Go to Person page");
                     pageStack.animatorPush("./PersonPage.qml", { personId: model.id })
                     return;
                 }

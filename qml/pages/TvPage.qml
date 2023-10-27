@@ -2,13 +2,33 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Sailfish.Share 1.0
 import "../components"
+import nemishkor.MovieSailor 1.0
 
 BasePage {
     id: root
 
+    property int tvId
+    property string backdropPath
+    property string originalName
+    property string overview
+    property string posterPath
+    property string name
     property var service: tvService
-    property string posterPreviewUrl: root.service.model.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + root.service.model.posterPath)
-    property string posterFullscreenUrl: root.service.model.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + root.service.model.posterPath)
+
+    Tv {
+        id: tv
+
+        backdropPath: root.backdropPath
+        originName: root.originalName
+        overview: root.overview
+        posterPath: root.posterPath
+        name: root.name
+
+        property string posterPreviewUrl: tv.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + tv.posterPath)
+        property string posterFullscreenUrl: tv.posterPath === "" ? "" : (app.config.model.imagesSecureBaseUrl + "original" + tv.posterPath)
+
+        Component.onCompleted: tvService.load(tv, root.tvId)
+    }
 
     backNavigation: !linksModal.show && !loginModal.show && !ratingModal.show && !fullscreenImageModal.active
 
@@ -35,13 +55,13 @@ BasePage {
             PageHeader {
                 id: pageTitle
 
-                title: root.service.model.name
-                description: root.service.model.name !== root.service.model.originName
-                             ? root.service.model.originName
+                title: tv.name
+                description: tv.name !== tv.originName
+                             ? tv.originName
                              : ""
             }
 
-            MediaBackdropImage { id: backdrop; source: root.service.model.backdropPath }
+            MediaBackdropImage { id: backdrop; source: tv.backdropPath }
 
             Row {
                 width: parent.width - 2 * Theme.horizontalPageMargin
@@ -59,9 +79,9 @@ BasePage {
                         id: poster
                         width: parent.width
                         fillMode: Image.PreserveAspectFit
-                        source: root.service.model.posterPath === ""
+                        source: tv.posterPath === ""
                                 ? ""
-                                : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + root.service.model.posterPath)
+                                : (app.config.model.imagesSecureBaseUrl + app.config.model.posterSize + tv.posterPath)
 
                         BusyIndicator {
                             visible: parent.status === Image.Loading
@@ -83,20 +103,20 @@ BasePage {
                         RatingCircle {
                             id: voteAvarageCircle
 
-                            voteCount: root.service.model.voteCount
-                            voteAvarage: root.service.model.voteAvarage
+                            voteCount: tv.voteCount
+                            voteAvarage: tv.voteAvarage
                         }
 
                         Column {
                             anchors.verticalCenter: parent.verticalCenter
 
                             Label {
-                                text: root.service.model.voteCount > 0 ? root.service.model.voteCount : ""
+                                text: tv.voteCount > 0 ? tv.voteCount : ""
                             }
 
                             Label {
-                                text: root.service.model.voteCount > 0
-                                      ? (root.service.model.voteCount === 1 ? qsTr("vote") : qsTr("votes"))
+                                text: tv.voteCount > 0
+                                      ? (tv.voteCount === 1 ? qsTr("vote") : qsTr("votes"))
                                       : qsTr("no votes")
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.secondaryColor
@@ -132,8 +152,8 @@ BasePage {
                                 shareAction.resources = [
                                     {
                                         "type": "text/x-url",
-                                        "linkTitle": root.service.model.name,
-                                        "status": "https://www.themoviedb.org/movie/" + root.service.model.id,
+                                        "linkTitle": tv.name,
+                                        "status": "https://www.themoviedb.org/movie/" + tv.id,
                                     }
                                 ]
                                 shareAction.trigger()
@@ -144,7 +164,7 @@ BasePage {
                             width: parent.width / 3
                             enabled: root.service.requestFavorite.state !== 1
                             icon.source: "image://theme/" +
-                                         (root.service.model.favorite ? "icon-m-favorite-selected" : "icon-m-favorite") +
+                                         (tv.favorite ? "icon-m-favorite-selected" : "icon-m-favorite") +
                                          "?" +
                                          (pressed ? Theme.highlightColor : Theme.primaryColor)
                             onClicked: {
@@ -169,13 +189,13 @@ BasePage {
                     Button {
                         width: parent.width
                         icon.source: "image://theme/" +
-                                     (root.service.model.rating > 0 ? "icon-m-like" : "icon-m-outline-like") +
+                                     (tv.rating > 0 ? "icon-m-like" : "icon-m-outline-like") +
                                      "?" + (pressed ? Theme.highlightColor : Theme.primaryColor)
                         enabled: root.service.requestAddRating.state !== 1 || root.service.requestRemoveRating.state !== 1
-                        text: root.service.model.rating > 0
-                              ? (qsTr("Rated" + " " + root.service.model.rating + ".0"))
+                        text: tv.rating > 0
+                              ? (qsTr("Rated" + " " + tv.rating + ".0"))
                               : qsTr("Rate")
-                        backgroundColor: root.service.model.rating > 0
+                        backgroundColor: tv.rating > 0
                                          ? Theme.rgba(Theme.highlightColor, Theme.opacityFaint)
                                          : Theme.rgba(Theme.primaryColor, Theme.opacityFaint)
                         onClicked: {
@@ -202,8 +222,8 @@ BasePage {
                         enabled: root.service.requestWatchlist.state !== 1
                         text: root.service.requestWatchlist.state === 1
                             ? qsTr("...")
-                            : (root.service.model.watchlist ? qsTr("In watchlist") : qsTr("Add to watchlist"))
-                        backgroundColor: root.service.model.watchlist
+                            : (tv.watchlist ? qsTr("In watchlist") : qsTr("Add to watchlist"))
+                        backgroundColor: tv.watchlist
                                          ? Theme.rgba(Theme.highlightColor, Theme.opacityFaint)
                                          : Theme.rgba(Theme.primaryColor, Theme.opacityFaint)
                         onClicked: {
@@ -225,7 +245,7 @@ BasePage {
                     }
 
                     Badges {
-                        items: root.service.model.genres
+                        items: tv.genres
                     }
                 }
             }
@@ -237,9 +257,9 @@ BasePage {
 
             TwoMediaBlocks {
                 firstLabel: qsTr("episode runtime")
-                firstValue: root.service.model.episodeRunTimeHours + qsTr("h") + " " + root.service.model.episodeRunTimeMinutes + qsTr("m")
+                firstValue: tv.episodeRunTimeHours + qsTr("h") + " " + tv.episodeRunTimeMinutes + qsTr("m")
                 secondLabel: qsTr("status")
-                secondValue: root.service.model.status
+                secondValue: tv.status
             }
 
             Item {
@@ -248,10 +268,10 @@ BasePage {
             }
 
             TwoMediaBlocks {
-                firstLabel: root.service.model.numberOfSeasons > 1 ? qsTr("seasons") : qsTr("season")
-                firstValue: root.service.model.numberOfSeasons
-                secondLabel: root.service.model.numberOfEpisodes > 1 ? qsTr("episodes") : qsTr("episode")
-                secondValue: root.service.model.numberOfEpisodes
+                firstLabel: tv.numberOfSeasons > 1 ? qsTr("seasons") : qsTr("season")
+                firstValue: tv.numberOfSeasons
+                secondLabel: tv.numberOfEpisodes > 1 ? qsTr("episodes") : qsTr("episode")
+                secondValue: tv.numberOfEpisodes
             }
 
             Item {
@@ -261,9 +281,9 @@ BasePage {
 
             TwoMediaBlocks {
                 firstLabel: qsTr("first air date")
-                firstValue: root.service.model.firstAirDate
+                firstValue: tv.firstAirDate
                 secondLabel: qsTr("last air date")
-                secondValue: root.service.model.lastAirDate
+                secondValue: tv.lastAirDate
             }
 
             Item {
@@ -275,42 +295,42 @@ BasePage {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
                 key: qsTr("Type")
-                value: root.service.model.type
+                value: tv.type
             }
 
             KeyValue {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
                 key: qsTr("Adult")
-                value: root.service.model.adult ? qsTr("Yes") : qsTr("no")
+                value: tv.adult ? qsTr("Yes") : qsTr("no")
             }
 
             KeyValue {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
                 key: qsTr("In production")
-                value: root.service.model.inProduction ? qsTr("Yes") : qsTr("no")
+                value: tv.inProduction ? qsTr("Yes") : qsTr("no")
             }
 
             KeyValue {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
                 key: qsTr("Origin language")
-                value: root.service.model.originLanguage
+                value: tv.originLanguage
             }
 
             KeyValue {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
                 key: qsTr("Popularity")
-                value: root.service.model.popularity
+                value: tv.popularity
             }
 
             Label {
-                visible: root.service.model.tagline !== ""
+                visible: tv.tagline !== ""
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                text: root.service.model.tagline
+                text: tv.tagline
                 font.pixelSize: Theme.fontSizeLarge
                 color: Theme.secondaryColor
                 wrapMode: "WordWrap"
@@ -320,48 +340,48 @@ BasePage {
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                text: root.service.model.overview
+                text: tv.overview
                 wrapMode: "WordWrap"
             }
 
             CreatedByList {
-                model: root.service.model.createdBy
+                model: tv.createdBy
             }
 
             SectionHeader {
                 text: qsTr("Last episode")
-                visible: root.service.model.lastEpisodeOnAir.id !== 0
+                visible: tv.lastEpisodeOnAir.id !== 0
             }
 
             TvEpisode {
-                episode: root.service.model.lastEpisodeOnAir
+                episode: tv.lastEpisodeOnAir
             }
 
             SectionHeader {
                 text: qsTr("Next episode")
-                visible: root.service.model.nextEpisodeOnAir.id !== 0
+                visible: tv.nextEpisodeOnAir.id !== 0
             }
 
             TvEpisode {
-                episode: root.service.model.nextEpisodeOnAir
+                episode: tv.nextEpisodeOnAir
             }
 
             MediaProductionCompaniesList {
-                model: root.service.model.productionCompanies
+                model: tv.productionCompanies
             }
 
             MediaProductionCountries {
-                model: root.service.model.productionCountries
+                model: tv.productionCountries
             }
 
             MediaSpokenLanguagesList {
-                model: root.service.model.spokenLanguages
+                model: tv.spokenLanguages
             }
 
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
-                text: qsTr("id") + ": " + root.service.model.id
+                text: qsTr("id") + ": " + tv.id
                 font.pixelSize: Theme.fontSizeTiny
                 color: Theme.secondaryColor
             }
@@ -373,9 +393,9 @@ BasePage {
     MediaLinksModal {
         id: linksModal
 
-        tmdbId: root.service.model.id
+        tmdbId: tv.id
         imdbId: ""
-        homepage: root.service.model.homepage
+        homepage: tv.homepage
     }
 
     LoginModal {
@@ -385,7 +405,7 @@ BasePage {
     RatingModal {
         id: ratingModal
 
-        rating: root.service.model.rating
+        rating: tv.rating
         onClear: function(){
             root.service.removeRating()
         }
@@ -397,8 +417,8 @@ BasePage {
     FullscreenImageModal {
         id: fullscreenImageModal
 
-        previewUrl: root.posterPreviewUrl
-        fullscreenUrl: root.posterFullscreenUrl
+        previewUrl: tv.posterPreviewUrl
+        fullscreenUrl: tv.posterFullscreenUrl
         previewWidth: poster.width
         previewHeight: poster.height
         previewX: Theme.horizontalPageMargin

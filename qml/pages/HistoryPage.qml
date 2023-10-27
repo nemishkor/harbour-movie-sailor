@@ -36,31 +36,27 @@ BasePage {
             knownFor: model.knownFor
             historyDateTime: model.historyDateTime
             onClicked: {
-                console.log("Select media: " + model.id);
                 if (model.mediaType === 1) {
-                    console.log("Go to Movie page");
-                    var params = {
-                        movieId: model.id,
-                        backdropPath: model.backdropPath,
-                        genres: model.genres,
-                        originalTitle: model.originalName,
-                        overview: model.overview,
-                        posterPath: model.imagePath,
-                        title: model.name,
-                        voteAvarage: model.voteAvarage,
-                        voteCount: model.voteCount
-                    }
-                    pageStack.animatorPush("./MoviePage.qml", params)
+                    pageStack.animatorPush(
+                                "./MoviePage.qml",
+                                {
+                                    movieId: model.id,
+                                    backdropPath: model.backdropPath,
+                                    genres: model.genres,
+                                    originalTitle: model.originalName,
+                                    overview: model.overview,
+                                    posterPath: model.imagePath,
+                                    title: model.name,
+                                    voteAvarage: model.voteAvarage,
+                                    voteCount: model.voteCount
+                                })
                     return;
                 }
                 if (model.mediaType === 2) {
-                    tvService.select(model.id)
-                    console.log("Go to TV page");
-                    pageStack.animatorPush("./TvPage.qml")
+                    pageStack.animatorPush("./TvPage.qml", { tvId: model.id })
                     return;
                 }
                 if (model.mediaType === 3) {
-                    console.log("Go to Person page");
                     pageStack.animatorPush("./PersonPage.qml", { personId: model.id })
                     return;
                 }

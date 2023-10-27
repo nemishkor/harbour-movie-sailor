@@ -26,6 +26,7 @@
 #include "src/services/countrieslistservice.h"
 #include "src/services/configurationdetailsmanager.h"
 #include "src/services/discovermovieservice.h"
+#include "src/services/historyservice.h"
 #include "src/services/genresmovieservice.h"
 #include "src/services/languageslistservice.h"
 #include "src/services/movieservice.h"
@@ -48,6 +49,7 @@ class App : public QObject
     Q_PROPERTY(SearchService* searchService READ getSearchService CONSTANT)
     Q_PROPERTY(FileCache* cache READ getCache CONSTANT)
     Q_PROPERTY(PersonService* personService READ getPersonService CONSTANT)
+    Q_PROPERTY(HistoryService* historyService READ getHistoryService CONSTANT)
 
 public:
     App(QQmlContext *context);
@@ -60,18 +62,13 @@ public:
     void setMenu(int newMenu);
 
     AccountService *getAccountService() const;
-
     Account *getAccount() const;
-
     SearchService *getSearchService() const;
-
     FileCache *getCache() const;
-
     MovieService *getMovieService() const;
-
     PersonService *getPersonService() const;
-
     ConfigurationDetailsManager *getConfigurationDetailsManager() const;
+    HistoryService *getHistoryService() const;
 
 signals:
     void menuChanged();
@@ -85,6 +82,7 @@ private:
     Api api;
     GenresMovieService genresService;
     ConfigurationDetailsManager *configurationDetailsManager;
+    HistoryService *historyService;
     MovieService *movieService;
     TvService tvService;
     PersonService *personService;

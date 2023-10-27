@@ -1,9 +1,10 @@
 #include "movieservice.h"
 
-MovieService::MovieService(Api &api, System &system, QObject *parent) :
+MovieService::MovieService(Api &api, System &system, HistoryService &historyService, QObject *parent) :
     QObject(parent),
     api(api),
     system(system),
+    historyService(historyService),
     model(new Movie(this)),
     request(api.getRequestInfo(Api::LoadMovie))
 {
@@ -49,47 +50,6 @@ void MovieService::load(Movie *movie, int id)
     api.loadMovie(id);
 }
 
-void MovieService::fillWithListItemAndLoad(const MediaListItem &result)
-{
-    qDebug() << "MovieService: fill" << result.getId();
-    if (model->getId() == result.getId())
-        return;
-
-    model->setId(result.getId());
-    model->setBackdropPath(result.getBackdropPath());
-    model->setBudget("");
-    model->setGenres(result.getGenres());
-    model->setHomepage("");
-    model->setImdbId("");
-    model->setOriginalLanguage("");
-    model->setOriginalTitle(result.getOriginalTitle());
-    model->setOverview(result.getOverview());
-    model->setPosterPath(result.getPosterPath());
-    model->setReleaseDate("");
-    model->setRevenue("");
-    model->setRuntimeHours(0);
-    model->setRuntimeMinutes(0);
-    model->setStatus("");
-    model->setTagline("");
-    model->setTitle(result.getTitle());
-    model->setVoteAvarage(result.getVoteAvarage());
-    model->setVoteCount(result.getVoteCount());
-    model->getBelongsToCollection()->setId(0);
-    model->getBelongsToCollection()->setName("");
-    model->getBelongsToCollection()->setPosterPath("");
-    model->getBelongsToCollection()->setBackdropPath("");
-    model->getProductionCompanies()->clear();
-    model->getProductionCountries()->clear();
-    model->getSpokenLanguages()->clear();
-    model->setFavorite(false);
-    model->setRating(0);
-    model->setWatchlist(false);
-    model->getCredits()->getCast()->clear();
-    model->getCredits()->getCrew()->clear();
-    qDebug() << "MovieService: load" << result.getId();
-    api.loadMovie(model->getId());
-}
-
 Movie *MovieService::getModel() const
 {
     return model;
@@ -131,8 +91,8 @@ void MovieService::apiRequestDone(const QByteArray &data)
     QJsonArray::const_iterator it;
     QJsonObject item;
 
-    qDebug() << "MovieService: set production companies";
     if (obj["production_companies"].isArray()) {
+        qDebug() << "MovieService: set production companies";
         items = obj["production_companies"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
             item = it->toObject();
@@ -144,8 +104,8 @@ void MovieService::apiRequestDone(const QByteArray &data)
         }
     }
 
-    qDebug() << "MovieService: set production countries";
     if (obj["production_countries"].isArray()) {
+        qDebug() << "MovieService: set production countries";
         items = obj["production_countries"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
             item = it->toObject();
@@ -155,8 +115,8 @@ void MovieService::apiRequestDone(const QByteArray &data)
         }
     }
 
-    qDebug() << "MovieService: set spoken languages";
     if (obj["spoken_languages"].isArray()) {
+        qDebug() << "MovieService: set spoken languages";
         items = obj["spoken_languages"].toArray();
         for (it = items.constBegin(); it != items.constEnd(); it++) {
             item = it->toObject();
@@ -168,9 +128,8 @@ void MovieService::apiRequestDone(const QByteArray &data)
         }
     }
 
-    qDebug() << "MovieService: set account states";
     if (obj.contains("account_states")) {
-        qDebug() << "account_states exists";
+        qDebug() << "MovieService: set account states";
         item = obj["account_states"].toObject();
         model->setFavorite(item["favorite"].toBool());
         if (item["rated"].isObject()) {
@@ -216,6 +175,9 @@ void MovieService::apiRequestDone(const QByteArray &data)
             model->getCredits()->getCrew()->add(crewList.at(i));
         }
     }
+
+    historyService.add(MediaListItem::MovieType, obj["id"].toInt(), data);
+
     qDebug() << "MovieService: load from API - done";
 }
 

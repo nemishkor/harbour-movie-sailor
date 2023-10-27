@@ -28,7 +28,7 @@ public:
     void clear();
     void fillFromCache(const QJsonDocument &json);
     const QJsonDocument fillFromAPI(const QJsonDocument &json);
-    const QList<Genre> &getItems() const;
+    QList<Genre> &getItems();
 
     const QString &getSummary() const;
     void setSummary(const QString &newSummary);

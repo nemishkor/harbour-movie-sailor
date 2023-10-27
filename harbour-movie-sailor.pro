@@ -14,6 +14,8 @@ TARGET = harbour-movie-sailor
 
 DEFINES += TMDB_API_TOKEN=\\\"$$(TMDB_API_TOKEN)\\\"
 
+QT += sql
+
 CONFIG += sailfishapp
 PKGCONFIG += qt5embedwidget
 
@@ -25,6 +27,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/filecache.cpp \
     src/listmodels/castslist.cpp \
     src/listmodels/crewlist.cpp \
+    src/listmodels/historylist.cpp \
     src/logger.cpp \
     src/models/account.cpp \
     src/models/accountmoviesform.cpp \
@@ -66,6 +69,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/services/countrieslistservice.cpp \
     src/services/discovermovieservice.cpp \
     src/services/genresmovieservice.cpp \
+    src/services/historyservice.cpp \
     src/services/keywordsservice.cpp \
     src/services/languageslistservice.cpp \
     src/services/movieprovidersmanager.cpp \
@@ -153,6 +157,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/pages/BasePage.qml \
     qml/pages/DiscoverMoviePage.qml \
     qml/pages/DiscoverMovieResultsPage.qml \
+    qml/pages/HistoryPage.qml \
     qml/pages/ListsPage.qml \
     qml/pages/LoginPage.qml \
     qml/pages/MovieCastPage.qml \
@@ -190,6 +195,7 @@ HEADERS += \
     src/filecache.h \
     src/listmodels/castslist.h \
     src/listmodels/crewlist.h \
+    src/listmodels/historylist.h \
     src/logger.h \
     src/models/account.h \
     src/models/accountmoviesform.h \
@@ -232,6 +238,7 @@ HEADERS += \
     src/services/countrieslistservice.h \
     src/services/discovermovieservice.h \
     src/services/genresmovieservice.h \
+    src/services/historyservice.h \
     src/services/keywordsservice.h \
     src/services/languageslistservice.h \
     src/services/movieprovidersmanager.h \

@@ -2,11 +2,13 @@
 #define MOVIESLISTMODEL_H
 
 #include <QAbstractListModel>
+#include <QDateTime>
 #include <QDebug>
 #include <QList>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QLocale>
 
 #include "src/models/medialistitem.h"
 #include "src/models/genre.h"
@@ -23,9 +25,10 @@ public:
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     void add(const MediaListItem &item);
-    void add(const QJsonObject &jsonObj, const QList<Genre> &allGenres, MediaListItem::MediaType defaultMediaType);
+    void add(QList<Genre> &allGenres, const QJsonObject &jsonObj, MediaListItem::MediaType defaultMediaType);
+    void add(QList<Genre> &allGenres, const QJsonObject &jsonObj, MediaListItem::MediaType defaultMediaType, QDateTime historyDateTime);
     Q_INVOKABLE void clear();
-    void fillFromAPI(const QJsonDocument &json, const QList<Genre> &genres, MediaListItem::MediaType defaultMediaType = MediaListItem::MovieType);
+    void fillFromAPI(QList<Genre> &allGenres, const QJsonDocument &json, MediaListItem::MediaType defaultMediaType = MediaListItem::MovieType);
 
     int getTotalPages() const;
     void setTotalPages(int newTotalPages);
@@ -50,12 +53,15 @@ protected:
         VoteAvarageRole,
         VoteCountRole,
         KnownForDepartmentRole,
-        KnownForRole
+        KnownForRole,
+        HistoryDateTimeRole,
     };
     int totalPages;
     QList<MediaListItem> items;
     QHash<int, QByteArray> roleNames() const override;
     bool dirty;
+    QString historyDateTimeFormat;
+    MediaListItem createListItem(QList<Genre> &allGenres, const QJsonObject &jsonObj, MediaListItem::MediaType defaultMediaType);
 
 signals:
     void countChanged();

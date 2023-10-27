@@ -80,6 +80,13 @@ BasePage {
                 iconName: "icon-m-note"
                 onClicked: pageStack.animatorPush("./ListsPage.qml")
             }
+
+            BackgroundItemWithIcon {
+                text: qsTr("History")
+                visible: app.settings.viewedMediaHistoryEnabled
+                iconName: "icon-m-history"
+                onClicked: pageStack.animatorPush("./HistoryPage.qml")
+            }
         }
 
         ViewPlaceholder {

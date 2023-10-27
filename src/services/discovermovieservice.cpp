@@ -9,6 +9,7 @@ DiscoverMovieService::DiscoverMovieService(Api &api,
     QObject(parent),
     api(api),
     movieService(movieService),
+    genres(*genres),
     form(new DiscoverMovie(genres, this)),
     movieProviders(new MovieProvidersManager(api, cache, settings, form->getProviders(), this)),
     personsListService(new PersonsListService(api, cache, settings, form->getAnyRoleList(), form->getCastRoleList(), form->getCrewRoleList(), this)),
@@ -41,7 +42,7 @@ void DiscoverMovieService::addCompanyFromSearch(int id)
 void DiscoverMovieService::apiRequestDone(const QByteArray &data)
 {
     qDebug() << "DiscoverMovieService: search - got data";
-    model->fillFromAPI(QJsonDocument::fromJson(data), form->getGenres()->getItems());
+    model->fillFromAPI(genres.getItems(), QJsonDocument::fromJson(data));
     setInitialized(true);
     qDebug() << "DiscoverMovieService: search - done";
 }

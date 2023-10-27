@@ -97,6 +97,16 @@ const QStringList &MediaListItem::getKnownFor() const
     return knownFor;
 }
 
+const QString &MediaListItem::getHistoryDateTime() const
+{
+    return historyDateTime;
+}
+
+void MediaListItem::setHistoryDateTime(const QString &newHistoryDateTime)
+{
+    historyDateTime = newHistoryDateTime;
+}
+
 MediaListItem::MediaType MediaListItem::getMediaType() const
 {
     return mediaType;

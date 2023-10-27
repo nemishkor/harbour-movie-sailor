@@ -90,6 +90,8 @@ void ApiWorker::error(QNetworkReply::NetworkError code)
         requestInfo.setError("The background request is not currently allowed due to platform policy");
     } else if (code == QNetworkReply::AuthenticationRequiredError) {
         requestInfo.setError("Opps. Authentication failed. Missing API token or the token is invalid");
+    } else if (code == QNetworkReply::ContentNotFoundError) {
+        requestInfo.setError("Opps. Content not found");
     } else {
         qWarning() << "ApiWorker: failed request with unknown error code" << code;
         requestInfo.setError("Opps. Something went wrong. Failed request to the server");
@@ -105,7 +107,7 @@ void ApiWorker::finished()
         return;
     }
 
-    qWarning() << "ApiWorker: finished request without error";
+    qDebug() << "ApiWorker: finished request without error";
     requestInfo.setState(RequestInfo::Success);
     QByteArray data(reply->readAll());
     reply->deleteLater();

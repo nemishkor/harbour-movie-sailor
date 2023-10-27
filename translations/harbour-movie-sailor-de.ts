@@ -84,6 +84,10 @@
         <source>Your favorites, rated movies and TV shows, watchlist will be here</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AndOrListItem</name>
@@ -301,6 +305,27 @@
     </message>
     <message>
         <source>Please select another content language in settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>HistoryPage</name>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>History is empty
+Open page with some movie, TV series or person
+It will be saved here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -831,6 +856,26 @@ votes</source>
     </message>
     <message>
         <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable viewed media history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Local history that contains viewed movie, TV series and person pages. It does not sync with your TMDB account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Viewed media history expiration</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

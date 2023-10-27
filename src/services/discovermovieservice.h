@@ -55,6 +55,7 @@ public slots:
 private:
     Api &api;
     MovieService &movieService;
+    GenresListModel &genres;
     DiscoverMovie* form;
     MovieProvidersManager* movieProviders;
     PersonsListService* personsListService;

@@ -19,6 +19,7 @@ ListItem {
     property var genres
     property string knownForDepartment
     property var knownFor
+    property string historyDateTime
 
     contentHeight: Math.max(container.height + 2 * Theme.paddingMedium, Theme.itemSizeLarge)
 
@@ -112,6 +113,14 @@ ListItem {
                 color: Theme.highlightColor
                 wrapMode: "WordWrap"
                 width: parent.width
+
+                Label {
+                    visible: !!text
+                    text: root.historyDateTime
+                    anchors.right: parent.right
+                    color: Theme.highlightColor
+                    wrapMode: "WordWrap"
+                }
             }
 
             Label {

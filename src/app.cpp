@@ -9,9 +9,10 @@ App::App(QQmlContext *context) :
     api(account, *settings, this),
     genresService(api, *cache, *settings, this),
     configurationDetailsManager(new ConfigurationDetailsManager(api, *cache, this)),
-    movieService(new MovieService(api, system, this)),
-    tvService(api, this),
-    personService(new PersonService(api, genresService.getModel(), this)),
+    historyService(new HistoryService(genresService.getModel()->getItems(), *settings, this)),
+    movieService(new MovieService(api, system, *historyService, this)),
+    tvService(api, *historyService, this),
+    personService(new PersonService(api, genresService.getModel(), *historyService, this)),
     countriesListService(system, api, *cache, this),
     discoverMovieService(api, *cache, *settings, *movieService, genresService.getModel(), this),
     languagesListService(system, api, *cache, this),
@@ -137,6 +138,11 @@ PersonService *App::getPersonService() const
 ConfigurationDetailsManager *App::getConfigurationDetailsManager() const
 {
     return configurationDetailsManager;
+}
+
+HistoryService *App::getHistoryService() const
+{
+    return historyService;
 }
 
 void App::validateContentLanguage()

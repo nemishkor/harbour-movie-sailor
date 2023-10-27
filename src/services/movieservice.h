@@ -10,6 +10,7 @@
 #include "src/system.h"
 #include "src/models/movie.h"
 #include "src/models/medialistitem.h"
+#include "src/services/historyservice.h"
 
 class MovieService : public QObject
 {
@@ -18,7 +19,7 @@ class MovieService : public QObject
     Q_PROPERTY(RequestInfo* request READ getRequest CONSTANT)
 
 public:
-    MovieService(Api &api, System &system, QObject *parent);
+    MovieService(Api &api, System &system, HistoryService &historyService, QObject *parent);
 
     Q_INVOKABLE void toggleFavorite();
     Q_INVOKABLE void toggleWatchlist();
@@ -27,8 +28,6 @@ public:
     Q_INVOKABLE void load(int id);
     Q_INVOKABLE void load(Movie *movie, int id);
 
-    void fillWithListItemAndLoad(const MediaListItem &result);
-
     Movie *getModel() const;
 
     RequestInfo *getRequest() const;
@@ -36,6 +35,7 @@ public:
 private:
     Api &api;
     System &system;
+    HistoryService &historyService;
     Movie *model;
     RequestInfo *request;
 

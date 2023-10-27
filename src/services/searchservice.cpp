@@ -47,7 +47,7 @@ void SearchService::select(int id)
                 qWarning() << "Unknown media type of the media entity" << it->getId();
                 break;
             case MediaListItem::MovieType:
-                qWarning() << "Movie media type can not be selected. Use MediaService directly";
+                qWarning() << "Movie media type can not be selected. Use MovieService directly";
                 break;
             case MediaListItem::TvType:
                 tvService.fillWithListItemAndLoad(*it);
@@ -92,7 +92,7 @@ void SearchService::fillFromApi(QByteArray &data)
         mediaType = MediaListItem::MediaType::PersonType;
         break;
     }
-    list->fillFromAPI(QJsonDocument::fromJson(data), genresListModel->getItems(), mediaType);
+    list->fillFromAPI(genresListModel->getItems(), QJsonDocument::fromJson(data), mediaType);
     qDebug() << "SearchService: search - done";
 }
 

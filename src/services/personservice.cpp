@@ -2,10 +2,12 @@
 
 PersonService::PersonService(Api &api,
                              GenresListModel *genresListModel,
+                             HistoryService &historyService,
                              QObject *parent) :
     QObject(parent),
     apiWorkerName(Api::LoadPerson),
     api(api),
+    historyService(historyService),
     genresListModel(genresListModel),
     model(new Person(this)),
     request(api.getRequestInfo(apiWorkerName))
@@ -71,14 +73,16 @@ void PersonService::apiRequestDone(QByteArray &data)
         items = credits["cast"].toArray();
         model->getCast()->setTotalPages(1);
         for (it = items.constBegin(); it != items.constEnd(); it++) {
-            model->getCast()->add((*it).toObject(), genresListModel->getItems(), MediaListItem::MediaType::MovieType);
+            model->getCast()->add(genresListModel->getItems(), (*it).toObject(), MediaListItem::MediaType::PersonType);
         }
         items = credits["crew"].toArray();
         model->getCrew()->setTotalPages(1);
         for (it = items.constBegin(); it != items.constEnd(); it++) {
-            model->getCrew()->add((*it).toObject(), genresListModel->getItems(), MediaListItem::MediaType::MovieType);
+            model->getCrew()->add(genresListModel->getItems(), (*it).toObject(), MediaListItem::MediaType::PersonType);
         }
     }
+
+    historyService.add(MediaListItem::PersonType, obj["id"].toInt(), data);
 
     qDebug() << "PersonService: load from API - done";
 }

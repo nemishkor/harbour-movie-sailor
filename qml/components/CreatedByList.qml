@@ -13,7 +13,7 @@ ListView {
     delegate: BackgroundItem {
         width: column.width
         height: Theme.itemSizeSmall + 2 * Theme.paddingSmall
-        onClicked: pageStack.animatorPush("../pages/PersonPage.qml", { id: model.id })
+        onClicked: pageStack.animatorPush("../pages/PersonPage.qml", { personId: model.id })
 
         Rectangle {
             id: imageContainer

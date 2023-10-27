@@ -5,7 +5,7 @@ MediaListModel::MediaListModel(QObject *parent) :
     totalPages(-1),
     dirty(true)
 {
-
+    historyDateTimeFormat = QLocale::system().dateTimeFormat(QLocale::ShortFormat);
 }
 
 int MediaListModel::rowCount(const QModelIndex &) const
@@ -46,6 +46,8 @@ QVariant MediaListModel::data(const QModelIndex &index, int role) const
         return item.getKnownForDepartment();
     if(role == KnownForRole)
         return item.getKnownFor();
+    if(role == HistoryDateTimeRole)
+        return item.getHistoryDateTime();
 
     return QVariant();
 }
@@ -58,7 +60,99 @@ void MediaListModel::add(const MediaListItem &item)
     emit countChanged();
 }
 
-void MediaListModel::add(const QJsonObject &jsonObj, const QList<Genre> &allGenres, MediaListItem::MediaType defaultMediaType)
+void MediaListModel::add(QList<Genre> &allGenres, const QJsonObject &jsonObj, MediaListItem::MediaType defaultMediaType)
+{
+    add(createListItem(allGenres, jsonObj, defaultMediaType));
+}
+
+void MediaListModel::add(QList<Genre> &allGenres, const QJsonObject &jsonObj, MediaListItem::MediaType defaultMediaType, QDateTime historyDateTime)
+{
+    MediaListItem item = createListItem(allGenres, jsonObj, defaultMediaType);
+    QDateTime createdDate = historyDateTime.toLocalTime();
+    item.setHistoryDateTime(historyDateTime.toLocalTime().toString(historyDateTimeFormat));
+    add(item);
+}
+
+void MediaListModel::clear()
+{
+    beginRemoveRows(QModelIndex(), 0, items.count() - 1);
+    items.clear();
+    endRemoveRows();
+    emit countChanged();
+}
+
+void MediaListModel::fillFromAPI(QList<Genre> &allGenres, const QJsonDocument &json, MediaListItem::MediaType defaultMediaType)
+{
+    qDebug() << "MediaListModel: fill media list from API";
+
+    switch (defaultMediaType) {
+    case MediaListItem::Unknown:
+        qDebug() << "MediaListModel: default media type is unknown";
+        break;
+    case MediaListItem::MovieType:
+        qDebug() << "MediaListModel: default media type is movie";
+        break;
+    case MediaListItem::TvType:
+        qDebug() << "MediaListModel: default media type is TV";
+        break;
+    case MediaListItem::PersonType:
+        qDebug() << "MediaListModel: default media type is person";
+        break;
+    }
+
+    QJsonObject object = json.object();
+
+    setTotalPages(object["total_pages"].toInt());
+
+    QJsonArray jsonItems = object["results"].toArray();
+
+    for (QJsonArray::const_iterator it = jsonItems.constBegin(); it != jsonItems.constEnd(); it++) {
+        QJsonObject jsonObj = (*it).toObject();
+        add(allGenres, (*it).toObject(), defaultMediaType);
+    }
+    qDebug() << "MediaListModel: fill media list from API - done";
+}
+
+int MediaListModel::getTotalPages() const
+{
+    return totalPages;
+}
+
+void MediaListModel::setTotalPages(int newTotalPages)
+{
+    if (totalPages == newTotalPages)
+        return;
+    totalPages = newTotalPages;
+    emit totalPagesChanged();
+}
+
+const QList<MediaListItem> &MediaListModel::getItems() const
+{
+    return items;
+}
+
+QHash<int, QByteArray> MediaListModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[MediaTypeRole] = "mediaType";
+    roles[IdRole] = "id";
+    roles[AdultRole] = "adult";
+    roles[BackdropPathRole] = "backdropPath";
+    roles[GenresRole] = "genres";
+    roles[OriginalNameRole] = "originalName";
+    roles[OverviewRole] = "overview";
+    roles[ImagePathRole] = "imagePath";
+    roles[ReleaseYearRole] = "releaseYear";
+    roles[NameRole] = "name";
+    roles[VoteAvarageRole] = "voteAvarage";
+    roles[VoteCountRole] = "voteCount";
+    roles[KnownForDepartmentRole] = "knownForDepartment";
+    roles[KnownForRole] = "knownFor";
+    roles[HistoryDateTimeRole] = "historyDateTime";
+    return roles;
+}
+
+MediaListItem MediaListModel::createListItem(QList<Genre> &allGenres, const QJsonObject &jsonObj, MediaListItem::MediaType defaultMediaType)
 {
     QStringList genreNames;
     QJsonArray genreIds = jsonObj["genre_ids"].toArray();
@@ -110,99 +204,21 @@ void MediaListModel::add(const QJsonObject &jsonObj, const QList<Genre> &allGenr
         break;
     }
 
-    add(MediaListItem(
-        mediaType,
-        jsonObj["adult"].toBool(),
-        jsonObj["backdrop_path"].toString(),
-        genreNames,
-        jsonObj["id"].toInt(),
-        originalName,
-        jsonObj["overview"].toString(),
-        imagePath,
-        jsonObj["release_date"].toString().mid(0, 4),
-        name,
-        jsonObj["vote_average"].toDouble(),
-        jsonObj["vote_count"].toInt(),
-        jsonObj["known_for_department"].toString(),
-        knownFor));
-}
-
-void MediaListModel::clear()
-{
-    beginRemoveRows(QModelIndex(), 0, items.count() - 1);
-    items.clear();
-    endRemoveRows();
-    emit countChanged();
-}
-
-void MediaListModel::fillFromAPI(const QJsonDocument &json, const QList<Genre> &allGenres, MediaListItem::MediaType defaultMediaType)
-{
-    qDebug() << "MediaListModel: fill media list from API";
-
-    switch (defaultMediaType) {
-    case MediaListItem::Unknown:
-        qDebug() << "MediaListModel: default media type is unknown";
-        break;
-    case MediaListItem::MovieType:
-        qDebug() << "MediaListModel: default media type is movie";
-        break;
-    case MediaListItem::TvType:
-        qDebug() << "MediaListModel: default media type is TV";
-        break;
-    case MediaListItem::PersonType:
-        qDebug() << "MediaListModel: default media type is person";
-        break;
-    }
-
-    QJsonObject object = json.object();
-
-    setTotalPages(object["total_pages"].toInt());
-
-    QJsonArray jsonItems = object["results"].toArray();
-
-    for (QJsonArray::const_iterator it = jsonItems.constBegin(); it != jsonItems.constEnd(); it++) {
-        QJsonObject jsonObj = (*it).toObject();
-        add((*it).toObject(), allGenres, defaultMediaType);
-    }
-    qDebug() << "MediaListModel: fill media list from API - done";
-}
-
-int MediaListModel::getTotalPages() const
-{
-    return totalPages;
-}
-
-void MediaListModel::setTotalPages(int newTotalPages)
-{
-    if (totalPages == newTotalPages)
-        return;
-    totalPages = newTotalPages;
-    emit totalPagesChanged();
-}
-
-const QList<MediaListItem> &MediaListModel::getItems() const
-{
-    return items;
-}
-
-QHash<int, QByteArray> MediaListModel::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-    roles[MediaTypeRole] = "mediaType";
-    roles[IdRole] = "id";
-    roles[AdultRole] = "adult";
-    roles[BackdropPathRole] = "backdropPath";
-    roles[GenresRole] = "genres";
-    roles[OriginalNameRole] = "originalName";
-    roles[OverviewRole] = "overview";
-    roles[ImagePathRole] = "imagePath";
-    roles[ReleaseYearRole] = "releaseYear";
-    roles[NameRole] = "name";
-    roles[VoteAvarageRole] = "voteAvarage";
-    roles[VoteCountRole] = "voteCount";
-    roles[KnownForDepartmentRole] = "knownForDepartment";
-    roles[KnownForRole] = "knownFor";
-    return roles;
+    return MediaListItem(
+                mediaType,
+                jsonObj["adult"].toBool(),
+                jsonObj["backdrop_path"].toString(),
+                genreNames,
+                jsonObj["id"].toInt(),
+                originalName,
+                jsonObj["overview"].toString(),
+                imagePath,
+                jsonObj["release_date"].toString().mid(0, 4),
+                name,
+                jsonObj["vote_average"].toDouble(),
+                jsonObj["vote_count"].toInt(),
+                jsonObj["known_for_department"].toString(),
+                knownFor);
 }
 
 bool MediaListModel::getDirty() const

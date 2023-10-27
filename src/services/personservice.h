@@ -11,6 +11,7 @@
 #include "src/models/personlistitem.h"
 #include "src/models/requestinfo.h"
 #include "src/models/medialistitem.h"
+#include "src/services/historyservice.h"
 
 class PersonService : public QObject
 {
@@ -20,6 +21,7 @@ class PersonService : public QObject
 public:
     PersonService(Api &api,
                   GenresListModel *genresListModel,
+                  HistoryService &historyService,
                   QObject *parent);
 
     Q_INVOKABLE void load(Person *person, int id);
@@ -31,6 +33,7 @@ signals:
 private:
     const Api::WorkerName apiWorkerName;
     Api &api;
+    HistoryService &historyService;
     GenresListModel *genresListModel;
     Person *model;
     RequestInfo *request;

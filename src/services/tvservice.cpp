@@ -1,8 +1,9 @@
 #include "tvservice.h"
 
-TvService::TvService(Api &api, QObject *parent) :
+TvService::TvService(Api &api, HistoryService &historyService, QObject *parent) :
     QObject(parent),
     api(api),
+    historyService(historyService),
     model(new Tv(this)),
     request(api.getRequestInfo(Api::LoadTv)),
     requestFavorite(api.getRequestInfo(Api::ToggleFavoriteTv)),
@@ -298,6 +299,8 @@ void TvService::apiRequestDone(QByteArray &data)
         }
         model->setWatchlist(accountStates["watchlist"].toBool());
     }
+
+    historyService.add(MediaListItem::TvType, model->getId(), data);
 
     qDebug() << "TvService: load from API - done";
 }

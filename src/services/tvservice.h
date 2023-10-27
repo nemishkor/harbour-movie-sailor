@@ -8,6 +8,7 @@
 #include "src/models/medialistitem.h"
 #include "src/models/tv.h"
 #include "src/models/requestinfo.h"
+#include "src/services/historyservice.h"
 
 class TvService : public QObject
 {
@@ -20,7 +21,7 @@ class TvService : public QObject
     Q_PROPERTY(RequestInfo* requestRemoveRating READ getRequestRemoveRating CONSTANT)
 
 public:
-    TvService(Api &api, QObject *parent);
+    TvService(Api &api, HistoryService &historyService, QObject *parent);
 
     Q_INVOKABLE void toggleFavorite();
     Q_INVOKABLE void toggleWatchlist();
@@ -38,6 +39,7 @@ public:
 
 private:
     Api &api;
+    HistoryService &historyService;
     Tv *model;
     RequestInfo *request;
     RequestInfo *requestFavorite;

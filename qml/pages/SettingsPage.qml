@@ -142,6 +142,32 @@ BasePage {
                 onClicked: { app.accountService.logout() }
             }
 
+            SectionHeader { text: qsTr("History") }
+
+            TextSwitch {
+                text: qsTr("Enable viewed media history")
+                description: qsTr("Local history that contains viewed movie, TV series and person pages. It does not sync with your TMDB account")
+                checked: app.settings.viewedMediaHistoryEnabled
+                onCheckedChanged: {
+                    app.settings.viewedMediaHistoryEnabled = checked
+                }
+            }
+
+            Slider {
+                visible: app.settings.viewedMediaHistoryEnabled
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                minimumValue: 5
+                maximumValue: 30
+                value: app.settings.viewedMediaHistoryDaysLimit
+                onValueChanged: {
+                    app.settings.viewedMediaHistoryDaysLimit = value
+                }
+                stepSize: 1
+                valueText: value + " " + qsTr("days")
+                label: qsTr("Viewed media history expiration")
+            }
+
             SectionHeader { text: qsTr("Cache") }
 
             KeyValue {
@@ -152,7 +178,6 @@ BasePage {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
             }
-
 
             Button {
                 anchors.horizontalCenter: parent.horizontalCenter

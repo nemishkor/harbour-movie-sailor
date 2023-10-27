@@ -87,7 +87,7 @@ const QJsonDocument GenresListModel::fillFromAPI(const QJsonDocument &json)
     return QJsonDocument(newJsonItems);
 }
 
-const QList<Genre> &GenresListModel::getItems() const
+QList<Genre> &GenresListModel::getItems()
 {
     return items;
 }

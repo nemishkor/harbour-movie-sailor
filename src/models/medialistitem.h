@@ -46,6 +46,9 @@ public:
     const QString &getKnownForDepartment() const;
     const QStringList &getKnownFor() const;
 
+    const QString &getHistoryDateTime() const;
+    void setHistoryDateTime(const QString &newHistoryDateTime);
+
 private:
     MediaType mediaType;
     bool adult;
@@ -61,7 +64,7 @@ private:
     int voteCount;
     QString knownForDepartment;
     QStringList knownFor;
-
+    QString historyDateTime;
 };
 
 #endif // MOVIELISTITEM_H

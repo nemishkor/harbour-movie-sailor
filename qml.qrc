@@ -7,5 +7,14 @@
         <file>images/icons/instagram.svg</file>
         <file>images/icons/imdb.svg</file>
         <file>images/icons/facebook.svg</file>
+        <file>images/icons/tv-television-svgrepo-com.svg</file>
+        <file>images/icons/cinema-pop-corn-popcorn-movies-svgrepo-com.svg</file>
+    </qresource>
+    <qresource prefix="/images/textures">
+        <file>images/textures/shader-texture.png</file>
+        <file>images/textures/shader-texture-l.png</file>
+        <file>images/textures/shader-texture-l-i.png</file>
+        <file>images/textures/shader-texture-l-i2.png</file>
+        <file>images/textures/shader-texture-2.png</file>
     </qresource>
 </RCC>

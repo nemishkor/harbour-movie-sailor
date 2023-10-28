@@ -100,6 +100,8 @@ SOURCES += src/harbour-movie-sailor.cpp \
 
 DISTFILES += qml/harbour-movie-sailor.qml \
     qml/Menu.qml \
+    qml/components/AccountPanelButton.qml \
+    qml/components/AccountPanelButtonSmall.qml \
     qml/components/Anatomy.qml \
     qml/components/AndOrListItem.qml \
     qml/components/BackdropBackgroundImage.qml \
@@ -135,6 +137,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/RemovableListItem.qml \
     qml/components/Spacer.qml \
     qml/components/Tag.qml \
+    qml/components/TexturedBackground.qml \
     qml/components/TvEpisode.qml \
     qml/components/TwoMediaBlocks.qml \
     qml/components/VoteSlider.qml \

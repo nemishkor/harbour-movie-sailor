@@ -45,23 +45,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorite movies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Watchlist TV</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Favorite TV</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Rated movies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rated TV episodes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -89,7 +73,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Could not login</source>
+        <source>Could not login.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV episodes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite TV series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watchlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watchlist TV series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hello</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

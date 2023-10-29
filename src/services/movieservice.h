@@ -46,6 +46,10 @@ public slots:
     void addRatingDone(const QByteArray &data);
     void removeRatingDone(const QByteArray &data);
 
+signals:
+    void movieIsLoaded(Movie *movie);
+    void movieIsDestroyed();
+
 };
 
 #endif // MOVIESERVICE_H

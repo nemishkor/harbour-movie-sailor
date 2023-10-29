@@ -216,6 +216,16 @@ BasePage {
                         }
                     }
 
+                    Label {
+                        visible: ratingRequestInfo.state === 3
+                        text: qsTr("Error: ") + ratingRequestInfo.error
+                    }
+
+                    Label {
+                        visible: removeRatingRequestInfo.state === 3
+                        text: qsTr("Error: ") + removeRatingRequestInfo.error
+                    }
+
                     Button {
                         width: parent.width
                         icon.source: "image://theme/icon-m-media?" + (parent.highlighted ? Theme.highlightColor : Theme.primaryColor)

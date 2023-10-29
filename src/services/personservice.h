@@ -29,6 +29,8 @@ public:
     RequestInfo *getRequest() const;
 
 signals:
+    void personIsLoaded(Person *model);
+    void personIsDestroyed();
 
 private:
     const Api::WorkerName apiWorkerName;
@@ -41,7 +43,6 @@ private:
 
 private slots:
     void apiRequestDone(QByteArray &data);
-
 };
 
 #endif // PERSONSERVICE_H

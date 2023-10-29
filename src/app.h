@@ -41,6 +41,8 @@ class App : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int menu READ getMenu WRITE setMenu NOTIFY menuChanged)
+    Q_PROPERTY(QString coverPosterImage READ getCoverPosterImage WRITE setCoverPosterImage NOTIFY coverPosterImageChanged)
+    Q_PROPERTY(QString coverProfileImage READ getCoverProfileImage WRITE setCoverProfileImage NOTIFY coverProfileImageChanged)
     Q_PROPERTY(Settings* settings READ getSettings CONSTANT)
     Q_PROPERTY(ConfigurationDetailsManager* config READ getConfigurationDetailsManager CONSTANT)
     Q_PROPERTY(MovieService* movieService READ getMovieService CONSTANT)
@@ -70,11 +72,21 @@ public:
     ConfigurationDetailsManager *getConfigurationDetailsManager() const;
     HistoryService *getHistoryService() const;
 
+    const QString &getCoverPosterImage() const;
+    void setCoverPosterImage(const QString &newCoverPosterImage);
+
+    const QString &getCoverProfileImage() const;
+    void setCoverProfileImage(const QString &newCoverProfileImage);
+
 signals:
     void menuChanged();
+    void coverPosterImageChanged();
+    void coverProfileImageChanged();
 
 private:
     int menu;
+    QString coverPosterImage;
+    QString coverProfileImage;
     FileCache *cache;
     System system;
     Account *account;
@@ -94,6 +106,9 @@ private:
 
 private slots:
     void validateContentLanguage();
+    void updateCoverImageByMovie(Movie *movie);
+    void updateCoverImageByTv(Tv *model);
+    void updateCoverImageByPerson(Person *person);
 
 };
 

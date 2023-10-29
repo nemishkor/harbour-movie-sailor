@@ -47,6 +47,8 @@ void MovieService::load(Movie *movie, int id)
 {
     qDebug() << "MovieService: load from API";
     model = movie;
+    connect(model, &QObject::destroyed, this, &MovieService::movieIsDestroyed);
+    movie->setId(id);
     api.loadMovie(id);
 }
 
@@ -186,6 +188,7 @@ void MovieService::apiRequestDone(const QByteArray &data)
         }
     }
 
+    emit movieIsLoaded(model);
     historyService.add(MediaListItem::MovieType, obj["id"].toInt(), data);
 
     qDebug() << "MovieService: load from API - done";

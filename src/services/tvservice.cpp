@@ -22,6 +22,8 @@ void TvService::load(Tv *tv, int id)
 {
     qDebug() << "TvService: load from API";
     model = tv;
+    connect(model, &QObject::destroyed, this, &TvService::tvIsDestroyed);
+    model->setId(id);
     api.loadTv(id);
 }
 
@@ -284,6 +286,7 @@ void TvService::apiRequestDone(QByteArray &data)
         model->setWatchlist(accountStates["watchlist"].toBool());
     }
 
+    emit tvIsLoaded(model);
     historyService.add(MediaListItem::TvType, obj["id"].toInt(), data);
 
     qDebug() << "TvService: load from API - done";

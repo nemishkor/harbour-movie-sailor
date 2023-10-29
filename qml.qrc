@@ -9,6 +9,8 @@
         <file>images/icons/facebook.svg</file>
         <file>images/icons/tv-television-svgrepo-com.svg</file>
         <file>images/icons/cinema-pop-corn-popcorn-movies-svgrepo-com.svg</file>
+        <file>images/icons/tv-television-old-vintage-svgrepo-com.svg</file>
+        <file>images/icons/cinema-film-svgrepo-com.svg</file>
     </qresource>
     <qresource prefix="/images/textures">
         <file>images/textures/shader-texture.png</file>

@@ -18,6 +18,10 @@
         <source>Unofficial client to TMDB</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Version: 0.4</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AccountMediaListPage</name>
@@ -159,13 +163,6 @@
     </message>
     <message>
         <source>Origin country</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CoverPage</name>
-    <message>
-        <source>Movie Sailor</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -531,6 +528,10 @@ votes</source>
     </message>
     <message>
         <source>Full crew list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -53,6 +53,9 @@ private slots:
     void addRatingDone(const QByteArray &data);
     void removeRatingDone(const QByteArray &data);
 
+signals:
+    void tvIsLoaded(Tv *model);
+    void tvIsDestroyed();
 };
 
 #endif // TVSERVICE_H

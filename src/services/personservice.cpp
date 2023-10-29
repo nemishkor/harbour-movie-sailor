@@ -19,6 +19,7 @@ void PersonService::load(Person *person, int id)
 {
     qDebug() << "PersonService: load from API";
     model = person;
+    connect(model, &QObject::destroyed, this, &PersonService::personIsDestroyed);
     api.loadPerson(id, form);
 }
 
@@ -82,6 +83,7 @@ void PersonService::apiRequestDone(QByteArray &data)
         }
     }
 
+    emit personIsLoaded(model);
     historyService.add(MediaListItem::PersonType, obj["id"].toInt(), data);
 
     qDebug() << "PersonService: load from API - done";

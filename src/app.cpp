@@ -19,6 +19,10 @@ App::App(QQmlContext *context) :
     accountService(new AccountService(account, api, *settings, genresService.getModel(), *movieService, tvService, this)),
     searchService(new SearchService(api, *movieService, tvService, *personService, genresService.getModel(), this))
 {
+    connect(movieService, &MovieService::movieIsLoaded, this, &App::updateCoverImageByMovie);
+    connect(&tvService, &TvService::tvIsLoaded, this, &App::updateCoverImageByTv);
+    connect(personService, &PersonService::personIsLoaded, this, &App::updateCoverImageByPerson);
+
     context->setContextProperty("countriesService", &countriesListService);
     context->setContextProperty("countriesListModel", countriesListService.getModel());
     context->setContextProperty("countriesRequestInfo", api.getRequestInfo(Api::ConfigurationCountries));
@@ -145,6 +149,32 @@ HistoryService *App::getHistoryService() const
     return historyService;
 }
 
+const QString &App::getCoverPosterImage() const
+{
+    return coverPosterImage;
+}
+
+void App::setCoverPosterImage(const QString &newCoverPosterImage)
+{
+    if (coverPosterImage == newCoverPosterImage)
+        return;
+    coverPosterImage = newCoverPosterImage;
+    emit coverPosterImageChanged();
+}
+
+const QString &App::getCoverProfileImage() const
+{
+    return coverProfileImage;
+}
+
+void App::setCoverProfileImage(const QString &newCoverProfileImage)
+{
+    if (coverProfileImage == newCoverProfileImage)
+        return;
+    coverProfileImage = newCoverProfileImage;
+    emit coverProfileImageChanged();
+}
+
 void App::validateContentLanguage()
 {
     if (!languagesListService.isInitialized() || system.getLanguage().isEmpty()) {
@@ -155,4 +185,22 @@ void App::validateContentLanguage()
         qDebug() << "Unable to find system language" << system.getLanguage() << "in the list of available languages. Revert to the default";
         settings->setLanguage("en-US");
     }
+}
+
+void App::updateCoverImageByMovie(Movie *movie)
+{
+    setCoverPosterImage(movie->getPosterPath());
+    setCoverProfileImage("");
+}
+
+void App::updateCoverImageByTv(Tv *model)
+{
+    setCoverPosterImage(model->getPosterPath());
+    setCoverProfileImage("");
+}
+
+void App::updateCoverImageByPerson(Person *person)
+{
+    setCoverPosterImage("");
+    setCoverProfileImage(person->getProfilePath());
 }

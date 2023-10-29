@@ -19,6 +19,10 @@ BasePage {
             PageHeader { title: qsTr("About") }
 
             Label {
+                text: qsTr("Version: 0.4")
+            }
+
+            Label {
                 text: qsTr("Unofficial client to TMDB")
                 textFormat: Text.PlainText
                 wrapMode: Text.WordWrap
@@ -54,10 +58,18 @@ BasePage {
                 text: "Social icons created by Freepik - Flaticon"
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
+                wrapMode: "WordWrap"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: Qt.openUrlExternally("https://www.flaticon.com")
                 }
+            }
+
+            Label {
+                text: "\"Tv Television Old Vintage\", \"Cinema Pop Corn Popcorn Movies\", \"Tv Television Old Vintage\", \"Cinema Film\" icons are created by wishforge.games under CC Attribution License"
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                x: Theme.horizontalPageMargin
+                wrapMode: "WordWrap"
             }
         }
     }

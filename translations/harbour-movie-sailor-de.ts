@@ -824,6 +824,10 @@ votes</source>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>There are no media that matched your query</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsPage</name>

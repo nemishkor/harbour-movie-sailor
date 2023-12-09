@@ -15,6 +15,7 @@ BasePage {
     FullPageRequestProgress { requestInfo: root.service.request }
 
     SilicaListView {
+        id: listView
         anchors.fill: parent
         model: root.service.list
         currentIndex: -1 // otherwise currentItem will steal focus
@@ -32,6 +33,14 @@ BasePage {
                     return qsTr("People")
             }
         }
+
+        ViewPlaceholder {
+            id: placeholder
+
+            enabled: listView.count === 0 && root.service.request.state === 2
+            text: qsTr("There are no media that matched your query")
+        }
+
         delegate: MoviesListItem {
             mediaType: model.mediaType
             visibleMediaType: root.service.form.type === 0

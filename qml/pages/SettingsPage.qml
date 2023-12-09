@@ -196,6 +196,11 @@ BasePage {
                     usedMemory.value = app.cache.usedMemory()
                 }
             }
+
+            Item {
+                width: parent.width
+                height: Theme.paddingMedium
+            }
         }
     }
 }

@@ -46,6 +46,55 @@ BasePage {
                 onTextChanged: root.service.form.query = searchField.text
                 EnterKey.enabled: searchField.length > 0
                 EnterKey.onClicked: pageStack.animatorPush("./SearchResultsPage.qml")
+                onActiveFocusChanged: {
+                    if (activeFocus)
+                        root.service.loadSearchHistory()
+                }
+            }
+
+            Label {
+                visible: app.settings.mediaSearchHistoryEnabled && searchField.activeFocus && searchHistoryRepeater.count
+                text: qsTr("Search history")
+                color: Theme.highlightColor
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                x: Theme.horizontalPageMargin
+                font.pixelSize: Theme.fontSizeSmall
+            }
+
+            Flow {
+                visible: app.settings.mediaSearchHistoryEnabled && searchField.activeFocus
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                x: Theme.horizontalPageMargin
+                spacing: Theme.paddingSmall
+
+                Repeater {
+                    id: searchHistoryRepeater
+
+                    model: app.historyService.searchList
+                    delegate: Rectangle {
+                        height: label.height + 2 * Theme.paddingSmall
+                        width: label.width + 2 * Theme.paddingMedium
+                        radius: 5 * Theme.pixelRatio
+                        color: Theme.rgba(Theme.secondaryColor, Theme.highlightBackgroundOpacity)
+
+                        Label {
+                            id: label
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: modelData
+                            x: Theme.paddingMedium
+                            color: Theme.primaryColor
+                            font.pixelSize: Theme.fontSizeSmall
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                searchField.text = modelData
+                                searchField.forceActiveFocus()
+                            }
+                        }
+                    }
+                }
             }
 
             Row {

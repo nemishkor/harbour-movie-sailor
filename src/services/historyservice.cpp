@@ -24,7 +24,15 @@ HistoryService::HistoryService(QList<Genre> &allGenres, const Settings &settings
                     "datetime INTEGER NOT NULL, "
                     "apiResponse TEXT NOT NULL)");
         if (createHistoryTable.lastError().isValid()) {
-            qDebug() << "HistoryService: could not create table" << createHistoryTable.lastError();
+            qDebug() << "HistoryService: could not create table history" << createHistoryTable.lastError();
+        }
+        QSqlQuery createSearchHistoryTable = db.exec(
+                    "CREATE TABLE IF NOT EXISTS search_history ("
+                    "media_type INTEGER NOT NULL, "
+                    "datetime INTEGER NOT NULL, "
+                    "term TEXT NOT NULL)");
+        if (createSearchHistoryTable.lastError().isValid()) {
+            qDebug() << "HistoryService: could not create table search_history" << createSearchHistoryTable.lastError();
         }
     }
 }
@@ -45,6 +53,27 @@ void HistoryService::add(MediaListItem::MediaType mediaType, int id, const QByte
         break;
     case MediaListItem::PersonType:
         add(3, id, apiResponse);
+        break;
+    }
+}
+
+void HistoryService::addSearch(SearchForm::MediaType mediaType, QString term)
+{
+    if (!settings.getMediaSearchHistoryEnabled())
+        return;
+
+    switch (mediaType) {
+    case SearchForm::MediaType::Any:
+        addSearch(0, term);
+        break;
+    case SearchForm::MediaType::Movie:
+        addSearch(1, term);
+        break;
+    case SearchForm::MediaType::Tv:
+        addSearch(2, term);
+        break;
+    case SearchForm::MediaType::Person:
+        addSearch(3, term);
         break;
     }
 }
@@ -82,6 +111,38 @@ void HistoryService::loadMore()
     qDebug() << "HistoryService: loadMore - done";
 }
 
+void HistoryService::loadSearchHistory(SearchForm &form)
+{
+    searchList.clear();
+    QSqlQuery query(db);
+    query.prepare("SELECT term FROM search_history WHERE media_type = ? ORDER BY datetime DESC LIMIT ?");
+    switch (form.getType()) {
+    case SearchForm::MediaType::Any:
+        query.addBindValue(0);
+        break;
+    case SearchForm::MediaType::Movie:
+        query.addBindValue(1);
+        break;
+    case SearchForm::MediaType::Tv:
+        query.addBindValue(2);
+        break;
+    case SearchForm::MediaType::Person:
+        query.addBindValue(3);
+        break;
+    }
+    query.addBindValue(10);
+    bool result = query.exec();
+    if (!result) {
+        qWarning() << "HistoryService: search load failed";
+        return;
+    }
+    while (query.next()) {
+        searchList.append(query.value(0).toString());
+    }
+    qInfo() << "HistoryService: search history count" << searchList.count();
+    emit searchListChanged();
+}
+
 void HistoryService::clear()
 {
     list->clear();
@@ -108,6 +169,19 @@ void HistoryService::setHasMore(bool newHasMore)
         return;
     hasMore = newHasMore;
     emit hasMoreChanged();
+}
+
+const QStringList &HistoryService::getSearchList() const
+{
+    return searchList;
+}
+
+void HistoryService::setSearchList(const QStringList &newSearchHistory)
+{
+    if (searchList == newSearchHistory)
+        return;
+    searchList = newSearchHistory;
+    emit searchListChanged();
 }
 
 void HistoryService::loadPage()
@@ -137,6 +211,14 @@ void HistoryService::add(int mediaType, int id, const QByteArray &apiResponse)
     list->setDirty(true);
 }
 
+void HistoryService::addSearch(int mediaType, const QString &term)
+{
+    deleteSearchRecords(mediaType, term);
+    insertSearch(mediaType, term);
+    deleteOldSearch();
+    list->setDirty(true);
+}
+
 void HistoryService::insert(int mediaType, int id, const QByteArray &apiResponse)
 {
     QSqlQuery query(db);
@@ -150,6 +232,18 @@ void HistoryService::insert(int mediaType, int id, const QByteArray &apiResponse
         qWarning() << "HistoryService: insert failed:" << query.lastError().text();
 }
 
+void HistoryService::insertSearch(int mediaType, const QString &term)
+{
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO search_history (media_type, datetime, term) VALUES (?, ?, ?)");
+    query.addBindValue(mediaType);
+    query.addBindValue((int) (QDateTime::currentMSecsSinceEpoch() / 1000));
+    query.addBindValue(term);
+    bool result = query.exec();
+    if (!result)
+        qWarning() << "HistoryService: insertSearch failed:" << query.lastError().text();
+}
+
 void HistoryService::deleteRecords(int mediaType, int id)
 {
     QSqlQuery query(db);
@@ -161,6 +255,17 @@ void HistoryService::deleteRecords(int mediaType, int id)
         qWarning() << "HistoryService: deleteRecords failed:" << query.lastError().text();
 }
 
+void HistoryService::deleteSearchRecords(int mediaType, const QString &term)
+{
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM search_history WHERE media_type = ? AND term = ?");
+    query.addBindValue(mediaType);
+    query.addBindValue(term);
+    bool result = query.exec();
+    if (!result)
+        qWarning() << "HistoryService: deleteSearchRecords failed:" << query.lastError().text();
+}
+
 void HistoryService::deleteOld()
 {
     QSqlQuery query(db);
@@ -169,4 +274,14 @@ void HistoryService::deleteOld()
     bool result = query.exec();
     if (!result)
         qWarning() << "HistoryService: deleteOld failed:" << query.lastError().text();
+}
+
+void HistoryService::deleteOldSearch()
+{
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM search_history WHERE datetime < ?");
+    query.addBindValue((int) (QDateTime::currentDateTimeUtc().addDays(-90).toMSecsSinceEpoch() / 1000));
+    bool result = query.exec();
+    if (!result)
+        qWarning() << "HistoryService: deleteOldSearch failed:" << query.lastError().text();
 }

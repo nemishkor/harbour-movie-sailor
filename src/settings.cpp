@@ -14,7 +14,7 @@ Settings::Settings(System &system, QObject *parent) :
     doNotShowRatingReminder = settings->value("doNotShowRatingReminder", false).toBool();
     viewedMediaHistoryEnabled = settings->value("viewedMediaHistoryEnabled", true).toBool();
     viewedMediaHistoryDaysLimit = settings->value("viewedMediaHistoryDaysLimit", 14).toUInt();
-    qDebug() << "viewedMediaHistoryDaysLimit" << viewedMediaHistoryDaysLimit;
+    mediaSearchHistoryEnabled = settings->value("mediaSearchHistoryEnabled", true).toBool();
 }
 
 const QString &Settings::getLanguage() const
@@ -87,5 +87,19 @@ void Settings::setViewedMediaHistoryDaysLimit(quint8 newVisitedPagesHistoryDaysL
     viewedMediaHistoryDaysLimit = newVisitedPagesHistoryDaysLimit;
     settings->setValue("viewedMediaHistoryDaysLimit", viewedMediaHistoryDaysLimit);
     emit viewedMediaHistoryDaysLimitChanged();
+}
+
+bool Settings::getMediaSearchHistoryEnabled() const
+{
+    return mediaSearchHistoryEnabled;
+}
+
+void Settings::setMediaSearchHistoryEnabled(bool newMediaSearchHistoryEnabled)
+{
+    if (mediaSearchHistoryEnabled == newMediaSearchHistoryEnabled)
+        return;
+    mediaSearchHistoryEnabled = newMediaSearchHistoryEnabled;
+    settings->setValue("mediaSearchHistoryEnabled", viewedMediaHistoryDaysLimit);
+    emit mediaSearchHistoryEnabledChanged();
 }
 

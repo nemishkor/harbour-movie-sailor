@@ -801,6 +801,10 @@ votes</source>
         <source>Discover TV shows</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Search history</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SearchResultsPage</name>
@@ -909,6 +913,14 @@ votes</source>
     </message>
     <message>
         <source>Viewed media history expiration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable media search history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save search history locally</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

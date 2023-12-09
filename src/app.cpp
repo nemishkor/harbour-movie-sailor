@@ -17,7 +17,7 @@ App::App(QQmlContext *context) :
     discoverMovieService(api, *cache, *settings, *movieService, genresService.getModel(), this),
     languagesListService(system, api, *cache, this),
     accountService(new AccountService(account, api, *settings, genresService.getModel(), *movieService, tvService, this)),
-    searchService(new SearchService(api, *movieService, tvService, *personService, genresService.getModel(), this))
+    searchService(new SearchService(api, *historyService, *movieService, tvService, *personService, genresService.getModel(), this))
 {
     connect(movieService, &MovieService::movieIsLoaded, this, &App::updateCoverImageByMovie);
     connect(&tvService, &TvService::tvIsLoaded, this, &App::updateCoverImageByTv);

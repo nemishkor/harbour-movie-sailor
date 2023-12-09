@@ -7,6 +7,7 @@
 #include "src/api.h"
 #include "src/models/searchform.h"
 #include "src/models/requestinfo.h"
+#include "src/services/historyservice.h"
 #include "src/services/movieservice.h"
 #include "src/services/tvservice.h"
 #include "src/services/personservice.h"
@@ -22,6 +23,7 @@ class SearchService : public QObject
 
 public:
     SearchService(Api &api,
+                  HistoryService &historyService,
                   MovieService &movieService,
                   TvService &tvService,
                   PersonService &personService,
@@ -29,6 +31,7 @@ public:
                   QObject *parent);
 
     Q_INVOKABLE void search();
+    Q_INVOKABLE void loadSearchHistory();
     SearchForm *getForm() const;
     RequestInfo *getRequest() const;
     MediaListModel *getList() const;
@@ -36,6 +39,7 @@ public:
 private:
     const Api::WorkerName apiWorkerName;
     Api &api;
+    HistoryService &historyService;
     MovieService &movieService;
     TvService &tvService;
     PersonService &personService;

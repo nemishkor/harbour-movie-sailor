@@ -17,6 +17,7 @@ class Settings : public QObject
     Q_PROPERTY(bool doNotShowRatingReminder READ getDoNotShowRatingReminder WRITE setDoNotShowRatingReminder NOTIFY doNotShowRatingReminderChanged)
     Q_PROPERTY(bool viewedMediaHistoryEnabled READ getViewedMediaHistoryEnabled WRITE setViewedMediaHistoryEnabled NOTIFY viewedMediaHistoryEnabledChanged)
     Q_PROPERTY(quint8 viewedMediaHistoryDaysLimit READ getViewedMediaHistoryDaysLimit WRITE setViewedMediaHistoryDaysLimit NOTIFY viewedMediaHistoryDaysLimitChanged)
+    Q_PROPERTY(bool mediaSearchHistoryEnabled READ getMediaSearchHistoryEnabled WRITE setMediaSearchHistoryEnabled NOTIFY mediaSearchHistoryEnabledChanged)
 
 public:
     Settings(System &system, QObject *parent);
@@ -39,6 +40,9 @@ public:
     quint8 getViewedMediaHistoryDaysLimit() const;
     void setViewedMediaHistoryDaysLimit(quint8 newVisitedPagesHistoryDaysLimit);
 
+    bool getMediaSearchHistoryEnabled() const;
+    void setMediaSearchHistoryEnabled(bool newMediaSearchHistoryEnabled);
+
 private:
     QSettings *settings;
     QString language;
@@ -46,6 +50,7 @@ private:
     bool doNotShowRatingReminder;
     bool viewedMediaHistoryEnabled;
     quint8 viewedMediaHistoryDaysLimit;
+    bool mediaSearchHistoryEnabled;
 
 signals:
     void languageChanged();
@@ -53,6 +58,7 @@ signals:
     void doNotShowRatingReminderChanged();
     void viewedMediaHistoryEnabledChanged();
     void viewedMediaHistoryDaysLimitChanged();
+    void mediaSearchHistoryEnabledChanged();
 };
 
 #endif // SETTINGS_H

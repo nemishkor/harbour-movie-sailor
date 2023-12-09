@@ -1,6 +1,7 @@
 #include "searchservice.h"
 
 SearchService::SearchService(Api &api,
+                             HistoryService &historyService,
                              MovieService &movieService,
                              TvService &tvService,
                              PersonService &personService,
@@ -9,6 +10,7 @@ SearchService::SearchService(Api &api,
     QObject(parent),
     apiWorkerName(Api::SearchMedia),
     api(api),
+    historyService(historyService),
     movieService(movieService),
     tvService(tvService),
     personService(personService),
@@ -32,7 +34,13 @@ void SearchService::search()
     form->setDirty(false);
 
     qDebug() << "type" << form->getType();
+    historyService.addSearch(form->getType(), form->getQuery());
     api.searchMedia(apiWorkerName, *form);
+}
+
+void SearchService::loadSearchHistory()
+{
+    historyService.loadSearchHistory(*form);
 }
 
 SearchForm *SearchService::getForm() const

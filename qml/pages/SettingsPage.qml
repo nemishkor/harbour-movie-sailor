@@ -168,6 +168,15 @@ BasePage {
                 label: qsTr("Viewed media history expiration")
             }
 
+            TextSwitch {
+                text: qsTr("Enable media search history")
+                description: qsTr("Save search history locally")
+                checked: app.settings.mediaSearchHistoryEnabled
+                onCheckedChanged: {
+                    app.settings.mediaSearchHistoryEnabled = checked
+                }
+            }
+
             SectionHeader { text: qsTr("Cache") }
 
             KeyValue {

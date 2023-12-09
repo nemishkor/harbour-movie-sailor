@@ -49,23 +49,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rated movies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Watchlist movies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Lists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please go to Settings page and login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rated TV series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -101,7 +89,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Watchlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hello</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Favorite movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rated movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rated TV series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -109,15 +113,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Watchlist</source>
+        <source>Watchlist movies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Watchlist TV series</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hello</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

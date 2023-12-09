@@ -114,7 +114,7 @@ BasePage {
                     icon: "image://theme/icon-m-outline-like"
                     typeLabelText: qsTr("Rated")
                     title: qsTr("Movies")
-                    click: function() {
+                    onClicked: function() {
                         pageStack.animatorPush("./AccountMediaListPage.qml", {
                             service: app.accountService.ratedMovies,
                             title: qsTr("Rated movies"), targetPage: "./MoviePage.qml"})
@@ -129,7 +129,7 @@ BasePage {
                     icon: "image://theme/icon-m-outline-like"
                     typeLabelText: qsTr("Rated")
                     title: qsTr("TV series")
-                    click: function() {
+                    onClicked: function() {
                         pageStack.animatorPush("./AccountMediaListPage.qml", {
                             service: app.accountService.ratedTv,
                             title: qsTr("Rated TV series"), targetPage: "./TvPage.qml"})
@@ -144,7 +144,7 @@ BasePage {
                     icon: "image://theme/icon-m-outline-like"
                     typeLabelText: qsTr("Rated")
                     title: qsTr("TV episodes")
-                    click: function() {
+                    onClicked: function() {
 
                     }
                 }
@@ -164,7 +164,7 @@ BasePage {
                     icon: "image://theme/icon-m-favorite-selected"
                     typeLabelText: qsTr("Favorite")
                     title: qsTr("Movies")
-                    click: function() {
+                    onClicked: function() {
                         pageStack.animatorPush("./AccountMediaListPage.qml", {
                             service: app.accountService.favoriteMovies,
                             title: qsTr("Favorite movies"), targetPage: "./MoviePage.qml"})
@@ -179,7 +179,7 @@ BasePage {
                     icon: "image://theme/icon-m-favorite-selected"
                     typeLabelText: qsTr("Favorite")
                     title: qsTr("TV series")
-                    click: function() {
+                    onClicked: function() {
                         pageStack.animatorPush("./AccountMediaListPage.qml", {
                         service: app.accountService.favoriteTv,
                         title: qsTr("Favorite TV series"), targetPage: "./TvPage.qml"})
@@ -201,7 +201,7 @@ BasePage {
                     icon: "image://theme/icon-m-media"
                     typeLabelText: qsTr("Watchlist")
                     title: qsTr("Movies")
-                    click: function() {
+                    onClicked: function() {
                         pageStack.animatorPush("./AccountMediaListPage.qml", {
                             service: app.accountService.watchlistMovies,
                             title: qsTr("Watchlist movies"), targetPage: "./MoviePage.qml"})
@@ -216,7 +216,7 @@ BasePage {
                     icon: "image://theme/icon-m-media"
                     typeLabelText: qsTr("Watchlist")
                     title: qsTr("TV series")
-                    click: function() {
+                    onClicked: function() {
                         pageStack.animatorPush("./AccountMediaListPage.qml", {
                         service: app.accountService.watchlistTv,
                         title: qsTr("Watchlist TV series"), targetPage: "./TvPage.qml"})
@@ -236,7 +236,7 @@ BasePage {
                     color: "#406E8E"
                     icon: "image://theme/icon-m-note"
                     typeLabelText: qsTr("Lists")
-                    click: function() {
+                    onClicked: function() {
                         pageStack.animatorPush("./ListsPage.qml")
                     }
                 }
@@ -254,7 +254,7 @@ BasePage {
                     color: "#8EA8C3"
                     icon: "image://theme/icon-m-history"
                     typeLabelText: qsTr("History")
-                    click: function() {
+                    onClicked: function() {
                         pageStack.animatorPush("./HistoryPage.qml")
                     }
                 }

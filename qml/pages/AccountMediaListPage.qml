@@ -56,7 +56,7 @@ BasePage {
 
             OrderBy {
                 visible: !placeholder.enabled
-                orderBy: "asc"
+                orderBy: "desc"
                 onClicked: {
                     orderBy = orderBy === "asc" ? "desc" : "asc"
                     root.service.form.sortBy = "created_at." + orderBy

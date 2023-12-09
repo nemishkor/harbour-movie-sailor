@@ -3,7 +3,7 @@
 AccountMoviesForm::AccountMoviesForm(QObject *parent) :
     QObject(parent),
     page(1),
-    sortBy("created_at.asc")
+    sortBy("created_at.desc")
 {
 
 }

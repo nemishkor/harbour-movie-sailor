@@ -120,6 +120,22 @@
         <source>Watchlist TV series</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Last viewed media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Movie</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Person</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AndOrListItem</name>

@@ -13,6 +13,7 @@
 #include <QStandardPaths>
 #include <QJsonDocument>
 
+#include "src/models/media.h"
 #include "src/models/medialistitem.h"
 #include "src/viewmodels/medialistmodel.h"
 #include "src/settings.h"
@@ -22,6 +23,7 @@ class HistoryService : public QObject
     Q_OBJECT
     Q_PROPERTY(MediaListModel* list READ getList CONSTANT)
     Q_PROPERTY(bool hasMore READ getHasMore WRITE setHasMore NOTIFY hasMoreChanged)
+    Q_PROPERTY(Media* lastHistoryItem READ getLastHistoryItem CONSTANT)
     Q_PROPERTY(QStringList searchList READ getSearchList WRITE setSearchList NOTIFY searchListChanged)
 public:
     HistoryService(QList<Genre> &allGenres, const Settings &settings, QObject *parent);
@@ -32,11 +34,14 @@ public:
     Q_INVOKABLE void loadMore();
     Q_INVOKABLE void loadSearchHistory(SearchForm &form);
     Q_INVOKABLE void clear();
+    Q_INVOKABLE void loadLastHistoryItem();
 
     MediaListModel *getList() const;
 
     bool getHasMore() const;
     void setHasMore(bool newHasMore);
+
+    Media *getLastHistoryItem() const;
 
     const QStringList &getSearchList() const;
     void setSearchList(const QStringList &newSearchHistory);
@@ -51,6 +56,7 @@ private:
     uint maxPage;
     const uint limitPerPage;
     bool hasMore;
+    Media *lastHistoryItem;
     QStringList searchList;
 
     void loadPage();

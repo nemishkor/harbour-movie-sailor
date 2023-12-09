@@ -48,6 +48,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/language.cpp \
     src/models/languagelistitem.cpp \
     src/models/loadpersonform.cpp \
+    src/models/media.cpp \
     src/models/medialistitem.cpp \
     src/models/movie.cpp \
     src/models/moviecollection.cpp \
@@ -219,6 +220,7 @@ HEADERS += \
     src/models/language.h \
     src/models/languagelistitem.h \
     src/models/loadpersonform.h \
+    src/models/media.h \
     src/models/medialistitem.h \
     src/models/movie.h \
     src/models/moviecollection.h \

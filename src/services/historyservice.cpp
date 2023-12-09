@@ -8,7 +8,8 @@ HistoryService::HistoryService(QList<Genre> &allGenres, const Settings &settings
     settings(settings),
     page(1),
     limitPerPage(30),
-    hasMore(false)
+    hasMore(false),
+    lastHistoryItem(new Media(this))
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
     QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/database.db";
@@ -153,6 +154,42 @@ void HistoryService::clear()
         qWarning() << "HistoryService: clear failed:" << query.lastError().text();
 }
 
+void HistoryService::loadLastHistoryItem()
+{
+    lastHistoryItem->setId(0);
+    QSqlQuery query(db);
+    query.prepare("SELECT media_type, id, datetime, apiResponse FROM history ORDER BY datetime DESC LIMIT 1");
+    bool result = query.exec();
+    if (!result) {
+        qWarning() << "HistoryService: loading of last history item has failed";
+        return;
+    }
+    while (query.next()) {
+
+
+        lastHistoryItem->setMediaType(static_cast<Media::MediaType>(query.value(0).toInt()));
+        lastHistoryItem->setId(query.value(1).toInt());
+        QDateTime dateTime = QDateTime::fromMSecsSinceEpoch((qint64)query.value(2).toInt() * 1000, Qt::UTC).toLocalTime();
+        QJsonObject json = QJsonDocument::fromJson(query.value(3).toString().toUtf8()).object();
+        QDateTime createdDate = dateTime.toLocalTime();
+        lastHistoryItem->setHistoryDateTime(createdDate.toLocalTime().toString(QLocale::system().dateTimeFormat(QLocale::ShortFormat)));
+
+        if (lastHistoryItem->getMediaType() == Media::TvType) {
+            lastHistoryItem->setName(json["name"].toString());
+            lastHistoryItem->setImagePath(json["poster_path"].toString());
+        } else if (lastHistoryItem->getMediaType() == Media::PersonType) {
+            lastHistoryItem->setName(json["name"].toString());
+            lastHistoryItem->setImagePath(json["profile_path"].toString());
+        } else {
+            lastHistoryItem->setName(json["title"].toString());
+            lastHistoryItem->setImagePath(json["poster_path"].toString());
+        }
+
+        qInfo() << "HistoryService: last history item was loaded" << lastHistoryItem->getId();
+        break;
+    }
+}
+
 MediaListModel *HistoryService::getList() const
 {
     return list;
@@ -182,6 +219,11 @@ void HistoryService::setSearchList(const QStringList &newSearchHistory)
         return;
     searchList = newSearchHistory;
     emit searchListChanged();
+}
+
+Media *HistoryService::getLastHistoryItem() const
+{
+    return lastHistoryItem;
 }
 
 void HistoryService::loadPage()

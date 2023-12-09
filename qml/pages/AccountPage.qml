@@ -28,6 +28,8 @@ BasePage {
             }
 
             Image {
+                id: avatar
+
                 visible: app.account.gavatar !== ""
                 source: "https://www.gravatar.com/avatar/" + app.account.gavatar + "?s=" + Theme.itemSizeMedium
                 width: Theme.itemSizeMedium
@@ -45,6 +47,15 @@ BasePage {
                     visible: false
                     radius: Theme.itemSizeMedium
                 }
+            }
+
+            Icon {
+                source: "image://theme/icon-m-media-artists?" + Theme.primaryColor
+                visible: avatar.status != Image.Ready
+                width: Theme.itemSizeMedium
+                height: Theme.itemSizeMedium
+                anchors.right: parent.right
+                anchors.rightMargin: Theme.horizontalPageMargin
             }
 
             Label {

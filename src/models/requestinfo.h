@@ -30,8 +30,6 @@ public:
     int getProgress();
     void setProgress(int progress);
 
-
-
 private:
     State state = State::StandBy;
     QString error = "";

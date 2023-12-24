@@ -20,6 +20,7 @@
 #include "src/models/movie.h"
 #include "src/models/searchpeopleform.h"
 #include "src/models/discovermovie.h"
+#include "src/models/discovertvform.h"
 #include "src/models/form.h"
 #include "src/models/searchform.h"
 #include "src/models/tv.h"
@@ -34,12 +35,14 @@ public:
         ConfigurationDetails,
         ConfigurationLanguages,
         DiscoverMovies,
+        DiscoverTv,
         Genres,
         Keywords,
         LoadMovie,
         LoadTv,
         MoviePeople,
         WatchMovieProviders,
+        WatchTvProviders,
         SearchCompanies,
         SearchPeople,
         RequestRefreshToken,
@@ -146,9 +149,11 @@ signals:
     void loadTvDone(QByteArray &);
     void loadPersonDone(QByteArray &);
     void discoverMoviesDone(QByteArray &);
+    void discoverTvDone(QByteArray &);
     void genresDone(QByteArray &);
     void keywordsDone(QByteArray &);
     void watchMovieProvidersDone(QByteArray &);
+    void watchTvProvidersDone(QByteArray &);
     void searchCompaniesDone(QByteArray &);
     void searchPersonsDone(QByteArray &);
     void requestRefreshTokenDone(QByteArray &);

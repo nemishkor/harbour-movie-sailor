@@ -26,6 +26,7 @@
 #include "src/services/countrieslistservice.h"
 #include "src/services/configurationdetailsmanager.h"
 #include "src/services/discovermovieservice.h"
+#include "src/services/discovertvservice.h"
 #include "src/services/historyservice.h"
 #include "src/services/genresmovieservice.h"
 #include "src/services/languageslistservice.h"
@@ -51,6 +52,7 @@ class App : public QObject
     Q_PROPERTY(SearchService* searchService READ getSearchService CONSTANT)
     Q_PROPERTY(FileCache* cache READ getCache CONSTANT)
     Q_PROPERTY(PersonService* personService READ getPersonService CONSTANT)
+    Q_PROPERTY(DiscoverTvService* discoverTvService READ getDiscoverTvService CONSTANT)
     Q_PROPERTY(HistoryService* historyService READ getHistoryService CONSTANT)
 
 public:
@@ -78,6 +80,8 @@ public:
     const QString &getCoverProfileImage() const;
     void setCoverProfileImage(const QString &newCoverProfileImage);
 
+    DiscoverTvService *getDiscoverTvService() const;
+
 signals:
     void menuChanged();
     void coverPosterImageChanged();
@@ -100,6 +104,7 @@ private:
     PersonService *personService;
     CountriesListService countriesListService;
     DiscoverMovieService discoverMovieService;
+    DiscoverTvService *discoverTvService;
     LanguagesListService languagesListService;
     AccountService *accountService;
     SearchService *searchService;

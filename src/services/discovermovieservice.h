@@ -32,7 +32,6 @@ public:
     DiscoverMovieService(Api &api,
                       FileCache &cache,
                       Settings &settings,
-                      MovieService &movieService,
                       GenresListModel *genres,
                       QObject *parent);
     Q_INVOKABLE void search();
@@ -54,7 +53,6 @@ public slots:
 
 private:
     Api &api;
-    MovieService &movieService;
     GenresListModel &genres;
     DiscoverMovie* form;
     MovieProvidersManager* movieProviders;

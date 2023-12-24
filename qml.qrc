@@ -19,4 +19,14 @@
         <file>images/textures/shader-texture-l-i2.png</file>
         <file>images/textures/shader-texture-2.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>images/icons/calendar-m.svg</file>
+        <file>images/icons/coin-m.svg</file>
+        <file>images/icons/heart-m.svg</file>
+        <file>images/icons/star-m.svg</file>
+        <file>images/icons/star-number-m.svg</file>
+        <file>images/icons/button-circle-round-add-m.svg</file>
+        <file>images/icons/deny-m.svg</file>
+        <file>images/icons/compass-m.svg</file>
+    </qresource>
 </RCC>

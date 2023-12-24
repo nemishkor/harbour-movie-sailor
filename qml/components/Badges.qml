@@ -15,20 +15,6 @@ Flow {
         id: repeater
 
         model: root.items
-        delegate: Rectangle {
-            height: label.height + 2 * Theme.paddingSmall
-            width: label.width + 2 * Theme.paddingSmall
-            radius: 5 * Theme.pixelRatio
-            color: root.color
-
-            Label {
-                id: label
-                anchors.verticalCenter: parent.verticalCenter
-                text: modelData
-                x: Theme.paddingSmall
-                color: root.textColor
-                font.pixelSize: Theme.fontSizeSmall
-            }
-        }
+        delegate: Badge { text: modelData }
     }
 }

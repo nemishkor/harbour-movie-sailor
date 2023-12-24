@@ -19,7 +19,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Version: 0.4</source>
+        <source>Version: 0.5</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -149,6 +149,17 @@
     </message>
 </context>
 <context>
+    <name>CombinationList</name>
+    <message>
+        <source>and</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CombineModeComboBox</name>
     <message>
         <source>Mode</source>
@@ -179,6 +190,13 @@
     </message>
     <message>
         <source>Origin country</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CountriesDialog</name>
+    <message>
+        <source>Select a country</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -332,6 +350,152 @@
     <message>
         <source></source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>DiscoverTvPage</name>
+    <message>
+        <source>TV discovery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First air year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Air dates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Air date from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Air date to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First air date from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First air date to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Popularity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Revenue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Primary release date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vote average</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vote count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(!) Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include results without first air date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other filters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include adult</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Screened Theatrically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Where to watch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose a country to select providers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>With providers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Without providers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum User Votes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request has failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>With providers mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All of them together</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Without providers mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DiscoverTvResultsPage</name>
+    <message>
+        <source>TV discovery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no media that matched your query</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load more</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -575,6 +739,21 @@ votes</source>
     </message>
 </context>
 <context>
+    <name>Order</name>
+    <message>
+        <source>Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Descending</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OrderBy</name>
     <message>
         <source>Order</source>
@@ -723,6 +902,17 @@ votes</source>
     </message>
     <message>
         <source>Crew credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ProvidersGrid</name>
+    <message>
+        <source>with</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>without</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -937,6 +1127,29 @@ votes</source>
     </message>
     <message>
         <source>Save search history locally</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SortingDialog</name>
+    <message>
+        <source>Popularity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Revenue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Primary release date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Avarage vote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vote count</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

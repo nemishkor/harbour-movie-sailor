@@ -16,6 +16,7 @@ BasePage {
 
     SilicaListView {
         id: listView
+
         anchors.fill: parent
         model: root.service.list
         currentIndex: -1 // otherwise currentItem will steal focus
@@ -32,13 +33,6 @@ BasePage {
                 if (root.service.form.type === 3)
                     return qsTr("People")
             }
-        }
-
-        ViewPlaceholder {
-            id: placeholder
-
-            enabled: listView.count === 0 && root.service.request.state === 2
-            text: qsTr("There are no media that matched your query")
         }
 
         delegate: MoviesListItem {
@@ -82,6 +76,11 @@ BasePage {
                 }
                 console.warn("Unknown media type");
             }
+        }
+
+        ViewPlaceholder {
+            enabled: listView.count === 0 && root.service.request.state === 2
+            text: qsTr("There are no media that matched your query")
         }
 
         PushUpMenu{

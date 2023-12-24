@@ -82,12 +82,8 @@ BasePage {
                             app.initializeCountries(false)
                             var params = {
                                 "entityId": discoverMovieService.form.watchRegion,
-                                "service": countriesService,
-                                "model": countriesListModel,
-                                "requestInfo": countriesRequestInfo,
-                                "title": qsTr("Select a country")
                             };
-                            var obj = pageStack.animatorPush("../components/ConfigurationDialog.qml", params)
+                            var obj = pageStack.animatorPush("../dialogs/CountriesDialog.qml", params)
 
                             obj.pageCompleted.connect(function(page) {
                                 page.accepted.connect(function() {

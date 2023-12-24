@@ -1,6 +1,9 @@
 #include "country.h"
 
-Country::Country(QObject *parent) : QObject(parent)
+Country::Country(QObject *parent) :
+    QObject(parent),
+    id(""),
+    name("")
 {
 
 }

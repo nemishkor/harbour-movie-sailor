@@ -68,10 +68,28 @@ BasePage {
             }
 
             Label {
-                text: "\"Tv Television Old Vintage\", \"Cinema Pop Corn Popcorn Movies\", \"Tv Television Old Vintage\", \"Cinema Film\" icons are created by wishforge.games under CC Attribution License"
+                text: "\"Tv Television Old Vintage\", \"Cinema Pop Corn Popcorn Movies\", \"Tv Television Old Vintage\", " +
+                      "\"Deny\", \"Button Circle Round Add\", \"Compass\", " +
+                      "\"Cinema Film\", \"Heart\", \"Coin\", \"Calendar\", \"Star\" icons are created by wishforge.games " +
+                      "under CC Attribution License"
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
                 wrapMode: "WordWrap"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: Qt.openUrlExternally("https://www.svgrepo.com/author/wishforge.games/")
+                }
+            }
+
+            Label {
+                text: "\"Coin\" icon is created by Vlad Cristea under CC Attribution License"
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                x: Theme.horizontalPageMargin
+                wrapMode: "WordWrap"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: Qt.openUrlExternally("https://www.svgrepo.com/author/Vlad%20Cristea/")
+                }
             }
         }
     }

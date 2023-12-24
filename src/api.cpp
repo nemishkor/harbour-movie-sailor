@@ -10,6 +10,7 @@ Api::Api(class Account *account, Settings &settings, QObject *parent) :
     baseUrl = "https://api.themoviedb.org/3/";
     #if defined(TMDB_API_TOKEN)
         token = QString(TMDB_API_TOKEN);
+        qDebug() << "Api: token is defined";
     #else
         qCritical() << "TMDB API token is not defined";
     #endif
@@ -21,12 +22,14 @@ Api::Api(class Account *account, Settings &settings, QObject *parent) :
     setupWorker(ConfigurationDetails, SIGNAL(configurationDetailsDone(QByteArray &)));
     setupWorker(ConfigurationLanguages, SIGNAL(configurationLanguagesDone(QByteArray &)));
     setupWorker(DiscoverMovies, SIGNAL(discoverMoviesDone(QByteArray &)));
+    setupWorker(DiscoverTv, SIGNAL(discoverTvDone(QByteArray &)));
     setupWorker(Genres, SIGNAL(genresDone(QByteArray &)));
     setupWorker(Keywords, SIGNAL(keywordsDone(QByteArray &)));
     setupWorker(LoadMovie, SIGNAL(movieDone(QByteArray &)));
     setupWorker(LoadTv, SIGNAL(loadTvDone(QByteArray &)));
     setupWorker(LoadPerson, SIGNAL(loadPersonDone(QByteArray &)));
     setupWorker(WatchMovieProviders, SIGNAL(watchMovieProvidersDone(QByteArray &)));
+    setupWorker(WatchTvProviders, SIGNAL(watchTvProvidersDone(QByteArray &)));
     setupWorker(SearchCompanies, SIGNAL(searchCompaniesDone(QByteArray &)));
     setupWorker(SearchPeople, SIGNAL(searchPersonsDone(QByteArray &)));
     setupWorker(RequestRefreshToken, SIGNAL(requestRefreshTokenDone(QByteArray &)));
@@ -509,6 +512,10 @@ void Api::getEndpointAndQuery(WorkerName workerName, QString &endpoint, QUrlQuer
         endpoint = "account/account_id";
         query.addQueryItem("session_id", settings.getSessionId());
         break;
+    case Api::DiscoverTv:
+        endpoint = "discover/tv";
+        query.addQueryItem("language", getLanguage());
+        break;
     case Api::FavoriteMovies:
         endpoint = "account/" + QString::number(account->getId()) + "/favorite/movies";
         query.addQueryItem("language", getLanguage());
@@ -529,6 +536,10 @@ void Api::getEndpointAndQuery(WorkerName workerName, QString &endpoint, QUrlQuer
         query.addQueryItem("language", getLanguage());
         query.addQueryItem("session_id", settings.getSessionId());
         break;
+    case Api::WatchTvProviders:
+        endpoint = "watch/providers/tv";
+        query.addQueryItem("language", getLanguage());
+        break;
     case Api::WatchlistMovies:
         endpoint = "account/" + QString::number(account->getId()) + "/watchlist/movies";
         query.addQueryItem("language", getLanguage());
@@ -545,7 +556,7 @@ void Api::getEndpointAndQuery(WorkerName workerName, QString &endpoint, QUrlQuer
         query.addQueryItem("session_id", settings.getSessionId());
         break;
     default:
-        qWarning() << "API: Invalid worker name was passed to the getResource method";
+        qWarning() << "API: Invalid worker name was passed to the getResource method:" << workerName;
         *ok = false;
         return;
     }

@@ -28,6 +28,8 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/listmodels/castslist.cpp \
     src/listmodels/crewlist.cpp \
     src/listmodels/historylist.cpp \
+    src/listmodels/providerslist.cpp \
+    src/listmodels/tvnetworkslist.cpp \
     src/logger.cpp \
     src/models/account.cpp \
     src/models/accountmoviesform.cpp \
@@ -40,6 +42,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/credits.cpp \
     src/models/crewlistitem.cpp \
     src/models/discovermovie.cpp \
+    src/models/discovertvform.cpp \
     src/models/episode.cpp \
     src/models/filterbylanguagelistitem.cpp \
     src/models/form.cpp \
@@ -48,6 +51,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/language.cpp \
     src/models/languagelistitem.cpp \
     src/models/loadpersonform.cpp \
+    src/models/loadtvwatchprovidersform.cpp \
     src/models/media.cpp \
     src/models/medialistitem.cpp \
     src/models/movie.cpp \
@@ -56,6 +60,8 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/networklistitem.cpp \
     src/models/person.cpp \
     src/models/personlistitem.cpp \
+    src/models/provider.cpp \
+    src/models/providerlistitem.cpp \
     src/models/requestinfo.cpp \
     src/models/requesttoken.cpp \
     src/models/searchform.cpp \
@@ -63,12 +69,16 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/searchpersonlistitem.cpp \
     src/models/seasonlistitem.cpp \
     src/models/tv.cpp \
+    src/models/tvnetwork.cpp \
+    src/models/tvtype.cpp \
+    src/models/watchmonetizationtype.cpp \
     src/services/accountmedialistservice.cpp \
     src/services/accountservice.cpp \
     src/services/companiesservice.cpp \
     src/services/configurationdetailsmanager.cpp \
     src/services/countrieslistservice.cpp \
     src/services/discovermovieservice.cpp \
+    src/services/discovertvservice.cpp \
     src/services/genresmovieservice.cpp \
     src/services/historyservice.cpp \
     src/services/keywordsservice.cpp \
@@ -107,7 +117,10 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/AndOrListItem.qml \
     qml/components/BackdropBackgroundImage.qml \
     qml/components/BackgroundItemWithIcon.qml \
+    qml/components/Badge.qml \
     qml/components/Badges.qml \
+    qml/components/ColoredIcon.qml \
+    qml/components/CombinationList.qml \
     qml/components/CompaniesValueButton.qml \
     qml/components/ConfigurationDialog.qml \
     qml/components/CreatedByList.qml \
@@ -144,16 +157,21 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/VoteSlider.qml \
     qml/components/VoteSliderLabel.qml \
     qml/components/VoteSliderPoint.qml \
+    qml/components/YearDialog.qml \
     qml/components/filters/CombineModeComboBox.qml \
     qml/components/filters/PeoplesValueButton.qml \
     qml/components/filters/PeoplesValueButtonTitle.qml \
     qml/components/filters/SearchResultItem.qml \
+    qml/controls/Order.qml \
+    qml/controls/ProvidersGrid.qml \
     qml/cover/CoverPage.qml \
     qml/dialogs/BaseDialog.qml \
     qml/dialogs/CompaniesDialog.qml \
+    qml/dialogs/CountriesDialog.qml \
     qml/dialogs/GenresDialog.qml \
     qml/dialogs/KeywordsDialog.qml \
     qml/dialogs/PeopleFilterDialog.qml \
+    qml/dialogs/SortingDialog.qml \
     qml/languages.js \
     qml/pages/AboutPage.qml \
     qml/pages/AccountMediaListPage.qml \
@@ -161,6 +179,8 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/pages/BasePage.qml \
     qml/pages/DiscoverMoviePage.qml \
     qml/pages/DiscoverMovieResultsPage.qml \
+    qml/pages/DiscoverTvPage.qml \
+    qml/pages/DiscoverTvResultsPage.qml \
     qml/pages/HistoryPage.qml \
     qml/pages/ListsPage.qml \
     qml/pages/LoginPage.qml \
@@ -200,6 +220,8 @@ HEADERS += \
     src/listmodels/castslist.h \
     src/listmodels/crewlist.h \
     src/listmodels/historylist.h \
+    src/listmodels/providerslist.h \
+    src/listmodels/tvnetworkslist.h \
     src/logger.h \
     src/models/account.h \
     src/models/accountmoviesform.h \
@@ -212,6 +234,7 @@ HEADERS += \
     src/models/credits.h \
     src/models/crewlistitem.h \
     src/models/discovermovie.h \
+    src/models/discovertvform.h \
     src/models/episode.h \
     src/models/filterbylanguagelistitem.h \
     src/models/form.h \
@@ -220,6 +243,7 @@ HEADERS += \
     src/models/language.h \
     src/models/languagelistitem.h \
     src/models/loadpersonform.h \
+    src/models/loadtvwatchprovidersform.h \
     src/models/media.h \
     src/models/medialistitem.h \
     src/models/movie.h \
@@ -228,13 +252,20 @@ HEADERS += \
     src/models/networklistitem.h \
     src/models/person.h \
     src/models/personlistitem.h \
+    src/models/provider.h \
+    src/models/providerlistitem.h \
     src/models/requestinfo.h \
     src/models/requesttoken.h \
     src/models/searchform.h \
     src/models/searchpeopleform.h \
     src/models/searchpersonlistitem.h \
     src/models/seasonlistitem.h \
+    src/models/sorting.h \
     src/models/tv.h \
+    src/models/tvnetwork.h \
+    src/models/tvstatus.h \
+    src/models/tvtype.h \
+    src/models/watchmonetizationtype.h \
     src/models/workernames.h \
     src/services/accountmedialistservice.h \
     src/services/accountservice.h \
@@ -242,6 +273,7 @@ HEADERS += \
     src/services/configurationdetailsmanager.h \
     src/services/countrieslistservice.h \
     src/services/discovermovieservice.h \
+    src/services/discovertvservice.h \
     src/services/genresmovieservice.h \
     src/services/historyservice.h \
     src/services/keywordsservice.h \

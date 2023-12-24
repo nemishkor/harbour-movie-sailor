@@ -14,7 +14,8 @@ App::App(QQmlContext *context) :
     tvService(api, *historyService, this),
     personService(new PersonService(api, genresService.getModel(), *historyService, this)),
     countriesListService(system, api, *cache, this),
-    discoverMovieService(api, *cache, *settings, *movieService, genresService.getModel(), this),
+    discoverMovieService(api, *cache, *settings, genresService.getModel(), this),
+    discoverTvService(new DiscoverTvService(api, genresService.getModel(), this)),
     languagesListService(system, api, *cache, this),
     accountService(new AccountService(account, api, *settings, genresService.getModel(), *movieService, tvService, this)),
     searchService(new SearchService(api, *historyService, *movieService, tvService, *personService, genresService.getModel(), this))
@@ -173,6 +174,11 @@ void App::setCoverProfileImage(const QString &newCoverProfileImage)
         return;
     coverProfileImage = newCoverProfileImage;
     emit coverProfileImageChanged();
+}
+
+DiscoverTvService *App::getDiscoverTvService() const
+{
+    return discoverTvService;
 }
 
 void App::validateContentLanguage()

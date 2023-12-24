@@ -5,6 +5,7 @@
 #include "src/app.h"
 #include "src/logger.h"
 #include "src/models/requestinfo.h"
+#include "src/models/discovertvform.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +23,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<Movie>("nemishkor.MovieSailor", 1, 0, "Movie");
     qmlRegisterType<Tv>("nemishkor.MovieSailor", 1, 0, "Tv");
+    qmlRegisterType<DiscoverTvForm>("nemishkor.MovieSailor", 1, 0, "DiscoverTvForm");
     qmlRegisterType<Person>("nemishkor.MovieSailor", 1, 0, "Person");
 
     App app(view.data()->rootContext());

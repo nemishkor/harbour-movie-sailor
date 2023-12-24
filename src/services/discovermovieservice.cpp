@@ -3,12 +3,10 @@
 DiscoverMovieService::DiscoverMovieService(Api &api,
                                            FileCache &cache,
                                            Settings &settings,
-                                           MovieService &movieService,
                                            GenresListModel *genres,
                                            QObject *parent) :
     QObject(parent),
     api(api),
-    movieService(movieService),
     genres(*genres),
     form(new DiscoverMovie(genres, this)),
     movieProviders(new MovieProvidersManager(api, cache, settings, form->getProviders(), this)),

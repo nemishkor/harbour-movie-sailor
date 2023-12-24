@@ -195,7 +195,6 @@ BasePage {
                     onClicked: pageStack.animatorPush("./DiscoverMoviePage.qml")
                 }
                 Button {
-                    enabled: false
                     text: qsTr("Discover TV shows")
                     onClicked: pageStack.animatorPush("./DiscoverTvPage.qml")
                 }

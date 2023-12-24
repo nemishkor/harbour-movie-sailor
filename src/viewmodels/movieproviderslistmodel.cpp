@@ -48,7 +48,6 @@ Qt::ItemFlags MovieProvidersListModel::flags(const QModelIndex &index) const
 
 void MovieProvidersListModel::add(const MovieProvider &item)
 {
-    qDebug() << "MovieProvidersListModel: add";
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     items.append(item);
     endInsertRows();

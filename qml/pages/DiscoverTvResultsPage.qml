@@ -31,6 +31,7 @@ BasePage {
             voteAvarage: model.voteAvarage
             voteCount: model.voteCount
             genres: model.genres
+             firstAirDate: model.firstAirDate
             onClicked: {
                 pageStack.animatorPush("./TvPage.qml", { tvId: model.id })
             }

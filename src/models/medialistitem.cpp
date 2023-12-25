@@ -13,8 +13,9 @@ MediaListItem::MediaListItem(
         const QString &title,
         float voteAvarage,
         int voteCount,
-        QString knownForDepartment,
-        QStringList knownFor) :
+        const QString &knownForDepartment,
+        QStringList knownFor,
+        const QDateTime &firstAirDate) :
     mediaType(mediaType),
     adult(adult),
     backdropPath(backdropPath),
@@ -28,8 +29,14 @@ MediaListItem::MediaListItem(
     voteAvarage(voteAvarage),
     voteCount(voteCount),
     knownForDepartment(knownForDepartment),
-    knownFor(knownFor)
+    knownFor(knownFor),
+    firstAirDate(firstAirDate)
 {
+}
+
+MediaListItem::MediaType MediaListItem::getMediaType() const
+{
+    return mediaType;
 }
 
 bool MediaListItem::getAdult() const
@@ -97,6 +104,11 @@ const QStringList &MediaListItem::getKnownFor() const
     return knownFor;
 }
 
+const QDateTime &MediaListItem::getFirstAirDate() const
+{
+    return firstAirDate;
+}
+
 const QString &MediaListItem::getHistoryDateTime() const
 {
     return historyDateTime;
@@ -105,9 +117,4 @@ const QString &MediaListItem::getHistoryDateTime() const
 void MediaListItem::setHistoryDateTime(const QString &newHistoryDateTime)
 {
     historyDateTime = newHistoryDateTime;
-}
-
-MediaListItem::MediaType MediaListItem::getMediaType() const
-{
-    return mediaType;
 }

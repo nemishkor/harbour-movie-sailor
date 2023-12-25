@@ -54,8 +54,10 @@ protected:
         VoteCountRole,
         KnownForDepartmentRole,
         KnownForRole,
+        FirstAirDateRole,
         HistoryDateTimeRole,
     };
+    QLocale locale;
     int totalPages;
     QList<MediaListItem> items;
     QHash<int, QByteArray> roleNames() const override;

@@ -19,6 +19,7 @@ ListItem {
     property var genres
     property string knownForDepartment
     property var knownFor
+    property string firstAirDate
     property string historyDateTime
 
     contentHeight: Math.max(container.height + 2 * Theme.paddingMedium, Theme.itemSizeLarge)
@@ -138,6 +139,14 @@ ListItem {
                 color: Theme.secondaryHighlightColor
                 wrapMode: "WordWrap"
                 font.italic: true
+                width: parent.width
+            }
+
+            Label {
+                visible: root.firstAirDate !== ""
+                text: qsTr("First air date: ") + root.firstAirDate
+                font.pixelSize: Theme.fontSizeTiny
+                color: Theme.highlightColor
                 width: parent.width
             }
 

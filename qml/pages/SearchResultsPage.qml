@@ -62,7 +62,8 @@ BasePage {
                         posterPath: model.imagePath,
                         title: model.name,
                         voteAvarage: model.voteAvarage,
-                        voteCount: model.voteCount
+                        voteCount: model.voteCount,
+                        firstAirDate: model.firstAirDate,
                     }
                     pageStack.animatorPush("./MoviePage.qml", params)
                     return;

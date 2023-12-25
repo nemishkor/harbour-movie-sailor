@@ -46,6 +46,8 @@ QVariant MediaListModel::data(const QModelIndex &index, int role) const
         return item.getKnownForDepartment();
     if(role == KnownForRole)
         return item.getKnownFor();
+    if(role == FirstAirDateRole)
+        return item.getFirstAirDate().toString(locale.dateFormat(QLocale::ShortFormat));
     if(role == HistoryDateTimeRole)
         return item.getHistoryDateTime();
 
@@ -149,6 +151,7 @@ QHash<int, QByteArray> MediaListModel::roleNames() const
     roles[KnownForDepartmentRole] = "knownForDepartment";
     roles[KnownForRole] = "knownFor";
     roles[HistoryDateTimeRole] = "historyDateTime";
+    roles[FirstAirDateRole] = "firstAirDate";
     return roles;
 }
 
@@ -169,6 +172,7 @@ MediaListItem MediaListModel::createListItem(QList<Genre> &allGenres, const QJso
     QString originalName = jsonObj["original_title"].toString();
     QString imagePath = jsonObj["poster_path"].toString();
     QStringList knownFor;
+    QDateTime firstAirDate;
 
     if (jsonObj.contains("media_type")) {
         QString apiMediaType = jsonObj["media_type"].toString();
@@ -189,6 +193,9 @@ MediaListItem MediaListModel::createListItem(QList<Genre> &allGenres, const QJso
     case MediaListItem::TvType:
         name = jsonObj["name"].toString();
         originalName = jsonObj["original_name"].toString();
+        if (jsonObj["first_air_date"].isString()) {
+            firstAirDate = QDateTime::fromString(jsonObj["first_air_date"].toString(), "yyyy-MM-dd");
+        }
         break;
     case MediaListItem::PersonType:
         name = jsonObj["name"].toString();
@@ -218,7 +225,8 @@ MediaListItem MediaListModel::createListItem(QList<Genre> &allGenres, const QJso
                 jsonObj["vote_average"].toDouble(),
                 jsonObj["vote_count"].toInt(),
                 jsonObj["known_for_department"].toString(),
-                knownFor);
+                knownFor,
+                firstAirDate);
 }
 
 bool MediaListModel::getDirty() const

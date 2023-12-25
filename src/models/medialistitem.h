@@ -1,6 +1,7 @@
 #ifndef MOVIELISTITEM_H
 #define MOVIELISTITEM_H
 
+#include <QDateTime>
 #include <QDebug>
 #include <QList>
 #include <QString>
@@ -28,8 +29,9 @@ public:
             const QString &title,
             float voteAvarage,
             int voteCount,
-            QString knownForDepartment,
-            QStringList knownFor);
+            const QString &knownForDepartment,
+            QStringList knownFor,
+            const QDateTime &firstAirDate);
 
     MediaType getMediaType() const;
     bool getAdult() const;
@@ -45,6 +47,7 @@ public:
     int getVoteCount() const;
     const QString &getKnownForDepartment() const;
     const QStringList &getKnownFor() const;
+    const QDateTime &getFirstAirDate() const;
 
     const QString &getHistoryDateTime() const;
     void setHistoryDateTime(const QString &newHistoryDateTime);
@@ -55,16 +58,17 @@ private:
     QString backdropPath;
     QStringList genres;
     int id;
-    QString originalName;
+    QString originalName; // title or name
     QString overview;
-    QString imagePath;
-    QString releaseYear;
-    QString name;
+    QString imagePath; // poster or person's photo
+    QString releaseYear; // for a movie
+    QString name; // title or name
     float voteAvarage;
     int voteCount;
-    QString knownForDepartment;
-    QStringList knownFor;
-    QString historyDateTime;
+    QString knownForDepartment; // for a person
+    QStringList knownFor; // for a person
+    QDateTime firstAirDate; // for a TV show
+    QString historyDateTime; // in case it renders history
 };
 
 #endif // MOVIELISTITEM_H

@@ -26,7 +26,10 @@ BasePage {
         anchors.fill: parent
         model: discoverMovieService.model
         visible: discoverMovieService.initialized && discoverMovieService.model.count > 0
+        quickScroll: false
+
         header: DiscoverPageHeader { title: qsTr("Movies") }
+
         delegate: MoviesListItem {
             backdropPath: model.backdropPath
             imagePath: model.imagePath
@@ -65,5 +68,7 @@ BasePage {
                 }
             }
         }
+
+        ScrollDecorator { flickable: listView; color: Theme.primaryColor }
     }
 }

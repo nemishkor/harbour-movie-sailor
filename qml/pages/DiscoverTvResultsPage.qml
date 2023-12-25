@@ -16,6 +16,7 @@ BasePage {
         model: root.service.model
         currentIndex: -1 // otherwise currentItem will steal focus
         width: parent.width
+        quickScroll: false
 
         header: DiscoverPageHeader { title: qsTr("TV shows") }
 
@@ -50,5 +51,7 @@ BasePage {
                 }
             }
         }
+
+        ScrollDecorator { flickable: listView; color: Theme.primaryColor }
     }
 }

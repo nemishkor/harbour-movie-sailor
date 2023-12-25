@@ -21,6 +21,7 @@ BasePage {
         model: root.service.list
         currentIndex: -1 // otherwise currentItem will steal focus
         width: parent.width
+        quickScroll: false
 
         header: PageHeader {
             title: {
@@ -94,5 +95,7 @@ BasePage {
                 }
             }
         }
+
+        ScrollDecorator { flickable: listView; color: Theme.primaryColor }
     }
 }

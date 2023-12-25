@@ -28,7 +28,7 @@ BasePage {
             width: page.width
             spacing: Theme.paddingMedium
 
-            PageHeader { title: qsTr("Movie discovery") }
+            DiscoverPageHeader { title: qsTr("Movies") }
 
             ValueButton {
                 id: sortedByItem

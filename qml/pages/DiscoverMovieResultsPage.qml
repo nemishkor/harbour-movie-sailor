@@ -26,7 +26,7 @@ BasePage {
         anchors.fill: parent
         model: discoverMovieService.model
         visible: discoverMovieService.initialized && discoverMovieService.model.count > 0
-        header: PageHeader { title: qsTr("Movies") }
+        header: DiscoverPageHeader { title: qsTr("Movies") }
         delegate: MoviesListItem {
             backdropPath: model.backdropPath
             imagePath: model.imagePath

@@ -124,6 +124,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/CompaniesValueButton.qml \
     qml/components/ConfigurationDialog.qml \
     qml/components/CreatedByList.qml \
+    qml/components/DiscoverPageHeader.qml \
     qml/components/FailedRequestInColumn.qml \
     qml/components/FilterSearchResultItem.qml \
     qml/components/FullPageRequestProgress.qml \

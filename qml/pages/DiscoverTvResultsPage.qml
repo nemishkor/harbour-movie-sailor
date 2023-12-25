@@ -17,7 +17,7 @@ BasePage {
         currentIndex: -1 // otherwise currentItem will steal focus
         width: parent.width
 
-        header: PageHeader { title: qsTr("TV discovery") }
+        header: DiscoverPageHeader { title: qsTr("TV shows") }
 
         delegate: MoviesListItem {
             backdropPath: model.backdropPath

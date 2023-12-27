@@ -24,7 +24,7 @@ PersonsListService::PersonsListService(Api &api,
 
 void PersonsListService::search()
 {
-    QString newKey = form->getQuery() + "|" + (form->getWithAdult() ? "true" : "false") + "|" + settings.getLanguage() + "|" + QString::number(form->getPage());
+    QString newKey = settings.getLanguage() + "|" + form->toString();
     qDebug() << "PersonsListService: search" << newKey;
 
     if (key.key != newKey) {
@@ -45,7 +45,7 @@ void PersonsListService::search()
     }
 
     qDebug() << "PersonsListService: search using API - start";
-    api.loadSearchPersons(*form);
+    api.getResource(Api::SearchPeople, *form);
 }
 
 SearchPersonListModel *PersonsListService::getSearchPersonListModel()

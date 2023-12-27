@@ -14,7 +14,8 @@ MovieProvidersManager::MovieProvidersManager(Api &api, FileCache &cache, Setting
 
 void MovieProvidersManager::initialize(const QString &region)
 {
-    QString newKey = settings.getLanguage() + "|" + region;
+    MovieWatchProvidersForm form(region);
+    QString newKey = settings.getLanguage() + "|" + form.toString();
     qDebug() << "MovieProvidersManager: initialize" << newKey;
     if (key.key != newKey) {
         key.key = newKey;
@@ -38,7 +39,7 @@ void MovieProvidersManager::initialize(const QString &region)
     }
 
     qDebug() << "MovieProvidersManager: initialize using API - start";
-    api.loadWatchMovieProviders(region);
+    api.getResource(Api::WatchMovieProviders, form);
 }
 
 void MovieProvidersManager::setInitialized(bool newInitialized)

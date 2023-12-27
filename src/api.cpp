@@ -60,24 +60,6 @@ RequestInfo *Api::getRequestInfo(WorkerName name)
     return workers[name]->getRequestInfo();
 }
 
-void Api::loadConfigurationCounries()
-{
-    QUrlQuery query;
-    query.addQueryItem("language", getLanguage());
-
-    getResource(ConfigurationCountries, "configuration/countries", query);
-}
-
-void Api::loadConfigurationDetails()
-{
-    getResource(ConfigurationDetails, "configuration");
-}
-
-void Api::loadConfigurationLanguages()
-{
-    getResource(ConfigurationLanguages, "configuration/languages");
-}
-
 void Api::loadMovie(int id)
 {
     QUrlQuery query;
@@ -129,45 +111,6 @@ void Api::loadTVGenres()
     query.addQueryItem("language", getLanguage());
 
     getResource(Genres, "genre/tv/list", query);
-}
-
-void Api::loadKeywords(const QString query, int page)
-{
-    QUrlQuery urlQuery;
-    urlQuery.addQueryItem("query", query);
-    urlQuery.addQueryItem("page", QString::number(page));
-
-    getResource(Keywords, "search/keyword", urlQuery);
-}
-
-void Api::loadWatchMovieProviders(const QString &region)
-{
-    QUrlQuery query;
-    query.addQueryItem("language", getLanguage());
-
-    if (!region.isEmpty()) {
-        query.addQueryItem("watch_region", region);
-    }
-
-    getResource(WatchMovieProviders, "watch/providers/movie", query);
-}
-
-void Api::loadSearchPersons(const SearchPeopleForm &form)
-{
-    QUrlQuery urlQuery;
-
-    urlQuery.addQueryItem("language", getLanguage());
-
-    urlQuery.addQueryItem("query", form.getQuery());
-    urlQuery.addQueryItem("include_adult", form.getWithAdult() ? "true" : "false");
-    urlQuery.addQueryItem("page", QString::number(form.getPage()));
-
-    getResource(SearchPeople, "search/person", urlQuery);
-}
-
-void Api::requestRefreshToken()
-{
-    getResource(RequestRefreshToken, "authentication/token/new");
 }
 
 void Api::createSessionId(const QByteArray &data)
@@ -397,6 +340,16 @@ void Api::getEndpointAndQuery(WorkerName workerName, QString &endpoint, QUrlQuer
         endpoint = "account/account_id";
         query.addQueryItem("session_id", settings.getSessionId());
         break;
+    case ConfigurationCountries:
+        endpoint = "configuration/countries";
+        query.addQueryItem("language", getLanguage());
+        break;
+    case ConfigurationDetails:
+        endpoint = "configuration";
+        break;
+    case ConfigurationLanguages:
+        endpoint = "configuration/languages";
+        break;
     case Api::DiscoverMovies:
         endpoint = "discover/movie";
         query.addQueryItem("language", getLanguage());
@@ -415,6 +368,9 @@ void Api::getEndpointAndQuery(WorkerName workerName, QString &endpoint, QUrlQuer
         query.addQueryItem("language", getLanguage());
         query.addQueryItem("session_id", settings.getSessionId());
         break;
+    case Keywords:
+        endpoint = "search/keyword";
+        break;
     case Api::RatedMovies:
         endpoint = "account/" + QString::number(account->getId()) + "/rated/movies";
         query.addQueryItem("language", getLanguage());
@@ -424,6 +380,17 @@ void Api::getEndpointAndQuery(WorkerName workerName, QString &endpoint, QUrlQuer
         endpoint = "account/" + QString::number(account->getId()) + "/rated/tv";
         query.addQueryItem("language", getLanguage());
         query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    case RequestRefreshToken:
+        endpoint = "authentication/token/new";
+        break;
+    case SearchPeople:
+        endpoint = "search/person";
+        query.addQueryItem("language", getLanguage());
+        break;
+    case WatchMovieProviders:
+        endpoint = "watch/providers/movie";
+        query.addQueryItem("language", getLanguage());
         break;
     case Api::WatchTvProviders:
         endpoint = "watch/providers/tv";

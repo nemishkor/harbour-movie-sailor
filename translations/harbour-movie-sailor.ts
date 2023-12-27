@@ -787,15 +787,15 @@ votes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Avarage vote</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Vote count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sort by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Average vote</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

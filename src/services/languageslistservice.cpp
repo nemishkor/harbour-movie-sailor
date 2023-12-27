@@ -33,7 +33,7 @@ void LanguagesListService::initialize()
     }
 
     qDebug() << "LanguagesListService: initialize using API - start";
-    api.loadConfigurationLanguages();
+    api.getResource(Api::ConfigurationLanguages);
 }
 
 FilterByLanguagesListModel *LanguagesListService::getModel()

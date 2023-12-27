@@ -9,6 +9,7 @@
 #include "src/cachekey.h"
 #include "src/filecache.h"
 #include "src/settings.h"
+#include "src/models/moviewatchprovidersform.h"
 #include "src/viewmodels/movieproviderslistmodel.h"
 
 class MovieProvidersManager : public QObject

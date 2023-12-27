@@ -69,18 +69,11 @@ public:
 
     RequestInfo* getRequestInfo(WorkerName name);
 
-    void loadConfigurationCounries();
-    void loadConfigurationDetails();
-    void loadConfigurationLanguages();
     void loadMovie(int id);
     void loadTv(int id);
     void loadPerson(int id, const Form &form);
     void loadMovieGenres();
     void loadTVGenres();
-    void loadKeywords(const QString query, int page);
-    void loadWatchMovieProviders(const QString &region);
-    void loadSearchPersons(const SearchPeopleForm &form);
-    void requestRefreshToken();
     void createSessionId(const QByteArray &data);
 
     void toggleFavorite(WorkerName workerName, const QString &type, int id, bool newValue);

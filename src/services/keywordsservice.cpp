@@ -14,7 +14,8 @@ KeywordsService::KeywordsService(Api &api, FileCache &cache, KeywordsListModel *
 
 void KeywordsService::search(const QString &query, int page)
 {
-    QString newKey = query + "|" + QString::number(page);
+    KeywordsForm form(query, page);
+    QString newKey = form.toString();
     qDebug() << "KeywordsService: initialize" << newKey;
 
     if (key.key != newKey) {
@@ -35,7 +36,7 @@ void KeywordsService::search(const QString &query, int page)
     }
 
     qDebug() << "KeywordsService: initialize using API - start";
-    api.loadKeywords(query, page);
+    api.getResource(Api::Keywords, form);
 }
 
 void KeywordsService::select(int id)

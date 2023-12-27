@@ -33,7 +33,7 @@ void CountriesListService::initialize()
     }
 
     qDebug() << "CountriesListService: initialize using API - start";
-    api.loadConfigurationCounries();
+    api.getResource(Api::ConfigurationCountries);
 }
 
 ConfigurationListModel *CountriesListService::getModel()

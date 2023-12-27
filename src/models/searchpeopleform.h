@@ -4,14 +4,19 @@
 #include <QObject>
 #include <QString>
 
-class SearchPeopleForm : public QObject
+#include "src/models/form.h"
+
+class SearchPeopleForm : public QObject, public Form
 {
     Q_OBJECT
     Q_PROPERTY(QString query READ getQuery WRITE setQuery NOTIFY queryChanged)
     Q_PROPERTY(bool withAdult READ getWithAdult WRITE setWithAdult NOTIFY withAdultChanged)
     Q_PROPERTY(int page READ getPage WRITE setPage NOTIFY pageChanged)
 public:
-    explicit SearchPeopleForm(QObject *parent);
+    SearchPeopleForm(QObject *parent);
+
+    void populateQuery(QUrlQuery &urlQuery) const override;
+    QString toString() const override;
 
     const QString &getQuery() const;
     void setQuery(const QString &newQuery);

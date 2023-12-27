@@ -28,7 +28,7 @@ void ConfigurationDetailsManager::initialize()
     }
 
     qDebug() << "ConfigurationDetailsManager: initialize using API - start";
-    api.loadConfigurationDetails();
+    api.getResource(Api::ConfigurationDetails);
 }
 
 ConfigurationDetails *ConfigurationDetailsManager::getModel()

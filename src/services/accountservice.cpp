@@ -61,7 +61,7 @@ void AccountService::createRequestToken()
         return;
     }
     qDebug() << "AccountService: request token is not valid. Request for refresh token";
-    api.requestRefreshToken();
+    api.getResource(Api::RequestRefreshToken);
 }
 
 void AccountService::createSessionId()

@@ -9,6 +9,21 @@ SearchPeopleForm::SearchPeopleForm(QObject *parent) :
 
 }
 
+void SearchPeopleForm::populateQuery(QUrlQuery &urlQuery) const
+{
+    urlQuery.addQueryItem("query", query);
+    urlQuery.addQueryItem("include_adult", withAdult ? "true" : "false");
+    urlQuery.addQueryItem("page", QString::number(page));
+}
+
+QString SearchPeopleForm::toString() const
+{
+    QUrlQuery urlQuery;
+    populateQuery(urlQuery);
+
+    return urlQuery.toString();
+}
+
 const QString &SearchPeopleForm::getQuery() const
 {
     return query;

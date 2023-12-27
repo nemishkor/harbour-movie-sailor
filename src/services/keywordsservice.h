@@ -8,6 +8,7 @@
 #include "src/api.h"
 #include "src/cachekey.h"
 #include "src/filecache.h"
+#include "src/models/keywordsform.h"
 #include "src/viewmodels/keywordslistmodel.h"
 #include "src/viewmodels/keywordssearchlistmodel.h"
 

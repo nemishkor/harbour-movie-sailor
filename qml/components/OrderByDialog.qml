@@ -27,8 +27,8 @@ Dialog {
             label: qsTr("Primary release date")
         }
         ListElement {
-            key: "vote_avarage"
-            label: qsTr("Avarage vote")
+            key: "vote_average"
+            label: qsTr("Average vote")
         }
         ListElement {
             key: "vote_count"

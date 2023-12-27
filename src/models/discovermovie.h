@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "src/models/country.h"
+#include "src/models/form.h"
 #include "src/models/language.h"
 #include "src/viewmodels/filterbycompanieslistmodel.h"
 #include "src/viewmodels/genreslistmodel.h"
@@ -11,7 +12,7 @@
 #include "src/viewmodels/searchpeoplelistmodel.h"
 #include "src/viewmodels/movieproviderslistmodel.h"
 
-class DiscoverMovie : public QObject
+class DiscoverMovie : public QObject, public Form
 {
     Q_OBJECT
     Q_PROPERTY(uint page READ getPage WRITE setPage NOTIFY pageChanged)
@@ -39,6 +40,9 @@ class DiscoverMovie : public QObject
 
 public:
     DiscoverMovie(GenresListModel *genres, QObject *parent);
+
+    void populateQuery(QUrlQuery &urlQuery) const override;
+    QString toString() const override;
 
     uint getPage() const;
     void setPage(uint newPage);

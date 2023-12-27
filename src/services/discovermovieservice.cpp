@@ -23,7 +23,7 @@ void DiscoverMovieService::search()
 {
     qDebug() << "DiscoverMovieService: search";
     setInitialized(false);
-    api.discoverMovies(*form);
+    api.getResource(Api::DiscoverMovies, *form);
 }
 
 void DiscoverMovieService::addCompanyFromSearch(int id)

@@ -214,10 +214,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Movie discovery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sort by</source>
         <translation type="unfinished"></translation>
     </message>
@@ -329,6 +325,10 @@
         <source>Year</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Movies</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DiscoverMovieResultsPage</name>
@@ -354,10 +354,6 @@
 </context>
 <context>
     <name>DiscoverTvPage</name>
-    <message>
-        <source>TV discovery</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Select</source>
         <translation type="unfinished"></translation>
@@ -482,19 +478,23 @@
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>TV shows</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DiscoverTvResultsPage</name>
-    <message>
-        <source>TV discovery</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>There are no media that matched your query</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Load more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV shows</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -735,6 +735,10 @@ votes</source>
     </message>
     <message>
         <source>Known for:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First air date: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>

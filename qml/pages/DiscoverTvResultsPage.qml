@@ -31,7 +31,7 @@ BasePage {
             voteAvarage: model.voteAvarage
             voteCount: model.voteCount
             genres: model.genres
-             firstAirDate: model.firstAirDate
+            firstAirDate: model.firstAirDate
             onClicked: {
                 pageStack.animatorPush("./TvPage.qml", { tvId: model.id })
             }
@@ -46,7 +46,6 @@ BasePage {
             visible: root.service.form.page < root.service.model.totalPages
             MenuItem {
                 text: qsTr("Load more")
-
                 onClicked: {
                     root.service.loadMore()
                 }

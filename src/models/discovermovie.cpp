@@ -23,6 +23,104 @@ DiscoverMovie::DiscoverMovie(GenresListModel *genres, QObject *parent) :
 {
 }
 
+void DiscoverMovie::populateQuery(QUrlQuery &urlQuery) const
+{
+    urlQuery.addQueryItem("page", QString::number(page));
+    urlQuery.addQueryItem("sort_by", sortBy + "." + order);
+
+    QString ids = genres->toQueryString();
+
+    if (!ids.isEmpty()) {
+        urlQuery.addQueryItem("with_genres", ids);
+    }
+
+    ids = anyRoleList->toQueryString();
+
+    if (!ids.isEmpty()) {
+        urlQuery.addQueryItem("with_people", ids);
+    }
+
+    ids = castRoleList->toQueryString();
+
+    if (!ids.isEmpty()) {
+        urlQuery.addQueryItem("with_cast", ids);
+    }
+
+    ids = crewRoleList->toQueryString();
+
+    if (!ids.isEmpty()) {
+        urlQuery.addQueryItem("with_crew", ids);
+    }
+
+    ids = companies->toQueryString();
+
+    if (!ids.isEmpty()) {
+        urlQuery.addQueryItem("with_companies", ids);
+    }
+
+    ids = keywords->toQueryString();
+
+    if (!ids.isEmpty()) {
+        urlQuery.addQueryItem("with_keywords", ids);
+    }
+
+    if (!watchRegion.isEmpty()) {
+        ids = providers->toQueryString();
+        if (!ids.isEmpty()) {
+            urlQuery.addQueryItem("with_watch_providers", ids);
+            urlQuery.addQueryItem("watch_region", watchRegion);
+        }
+    }
+
+    if (region->getId().isEmpty()) {
+        if (primaryReleaseYear.isEmpty()) {
+            if (!primaryReleaseDateGte.isEmpty()) {
+                urlQuery.addQueryItem("primary_release_date.gte", primaryReleaseDateGte);
+            }
+            if (!primaryReleaseDateLte.isEmpty()) {
+                urlQuery.addQueryItem("primary_release_date.lte", primaryReleaseDateLte);
+            }
+        } else {
+            urlQuery.addQueryItem("primary_release_year", primaryReleaseYear);
+        }
+    } else {
+        if (!primaryReleaseDateGte.isEmpty()) {
+            urlQuery.addQueryItem("release_date.gte", primaryReleaseDateGte);
+        }
+        if (!primaryReleaseDateLte.isEmpty()) {
+            urlQuery.addQueryItem("release_date.lte", primaryReleaseDateLte);
+        }
+    }
+
+    if (voteAverageGte > 0.0) {
+        urlQuery.addQueryItem("vote_average.gte", QString::number(voteAverageGte));
+    }
+
+    if (voteAverageLte < 10.0) {
+        urlQuery.addQueryItem("vote_average.lte", QString::number(voteAverageLte));
+    }
+
+    if (voteCountGte > 0) {
+        urlQuery.addQueryItem("vote_count.gte", QString::number(voteCountGte));
+    }
+
+    if (!originCountry->getId().isEmpty()) {
+        urlQuery.addQueryItem("with_origin_country", originCountry->getId());
+    }
+
+    if (!originLanguage->getId().isEmpty()) {
+        urlQuery.addQueryItem("with_original_language", originLanguage->getId());
+    }
+
+    urlQuery.addQueryItem("include_video", includeVideo ? "true" : "false");
+    urlQuery.addQueryItem("include_adult", includeAdult ? "true" : "false");
+}
+
+QString DiscoverMovie::toString() const
+{
+    return QString();
+}
+
 Country *DiscoverMovie::getOriginCountry() const
 {
     return originCountry;

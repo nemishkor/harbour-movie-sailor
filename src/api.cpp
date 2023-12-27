@@ -60,105 +60,6 @@ RequestInfo *Api::getRequestInfo(WorkerName name)
     return workers[name]->getRequestInfo();
 }
 
-void Api::discoverMovies(const DiscoverMovie &form)
-{
-    QUrlQuery query;
-
-    query.addQueryItem("language", getLanguage());
-
-    query.addQueryItem("page", QString::number(form.getPage()));
-    query.addQueryItem("sort_by", form.getSortBy() + "." + form.getOrder());
-
-    QString ids = form.getGenres()->toQueryString();
-
-    if (!ids.isEmpty()) {
-        query.addQueryItem("with_genres", ids);
-    }
-
-    ids = form.getAnyRoleList()->toQueryString();
-
-    if (!ids.isEmpty()) {
-        query.addQueryItem("with_people", ids);
-    }
-
-    ids = form.getCastRoleList()->toQueryString();
-
-    if (!ids.isEmpty()) {
-        query.addQueryItem("with_cast", ids);
-    }
-
-    ids = form.getCrewRoleList()->toQueryString();
-
-    if (!ids.isEmpty()) {
-        query.addQueryItem("with_crew", ids);
-    }
-
-    ids = form.getCompanies()->toQueryString();
-
-    if (!ids.isEmpty()) {
-        query.addQueryItem("with_companies", ids);
-    }
-
-    ids = form.getKeywords()->toQueryString();
-
-    if (!ids.isEmpty()) {
-        query.addQueryItem("with_keywords", ids);
-    }
-
-    if (!form.getWatchRegion().isEmpty()) {
-        ids = form.getProviders()->toQueryString();
-        if (!ids.isEmpty()) {
-            query.addQueryItem("with_watch_providers", ids);
-            query.addQueryItem("watch_region", form.getWatchRegion());
-        }
-    }
-
-    if (form.getRegion()->getId().isEmpty()) {
-        if (form.getPrimaryReleaseYear().isEmpty()) {
-            if (!form.getPrimaryReleaseDateGte().isEmpty()) {
-                query.addQueryItem("primary_release_date.gte", form.getPrimaryReleaseDateGte());
-            }
-            if (!form.getPrimaryReleaseDateLte().isEmpty()) {
-                query.addQueryItem("primary_release_date.lte", form.getPrimaryReleaseDateLte());
-            }
-        } else {
-            query.addQueryItem("primary_release_year", form.getPrimaryReleaseYear());
-        }
-    } else {
-        if (!form.getPrimaryReleaseDateGte().isEmpty()) {
-            query.addQueryItem("release_date.gte", form.getPrimaryReleaseDateGte());
-        }
-        if (!form.getPrimaryReleaseDateLte().isEmpty()) {
-            query.addQueryItem("release_date.lte", form.getPrimaryReleaseDateLte());
-        }
-    }
-
-    if (form.getVoteAverageGte() > 0.0) {
-        query.addQueryItem("vote_average.gte", QString::number(form.getVoteAverageGte()));
-    }
-
-    if (form.getVoteAverageLte() < 10.0) {
-        query.addQueryItem("vote_average.lte", QString::number(form.getVoteAverageLte()));
-    }
-
-    if (form.getVoteCountGte() > 0) {
-        query.addQueryItem("vote_count.gte", QString::number(form.getVoteCountGte()));
-    }
-
-    if (!form.getOriginCountry()->getId().isEmpty()) {
-        query.addQueryItem("with_origin_country", form.getOriginCountry()->getId());
-    }
-
-    if (!form.getOriginLanguage()->getId().isEmpty()) {
-        query.addQueryItem("with_original_language", form.getOriginLanguage()->getId());
-    }
-
-    query.addQueryItem("include_video", form.getIncludeVideo() ? "true" : "false");
-    query.addQueryItem("include_adult", form.getIncludeAdult() ? "true" : "false");
-
-    getResource(DiscoverMovies, "discover/movie", query);
-}
-
 void Api::loadConfigurationCounries()
 {
     QUrlQuery query;
@@ -511,6 +412,10 @@ void Api::getEndpointAndQuery(WorkerName workerName, QString &endpoint, QUrlQuer
         }
         endpoint = "account/account_id";
         query.addQueryItem("session_id", settings.getSessionId());
+        break;
+    case Api::DiscoverMovies:
+        endpoint = "discover/movie";
+        query.addQueryItem("language", getLanguage());
         break;
     case Api::DiscoverTv:
         endpoint = "discover/tv";

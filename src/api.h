@@ -68,7 +68,6 @@ public:
 
     RequestInfo* getRequestInfo(WorkerName name);
 
-    void discoverMovies(const DiscoverMovie &form);
     void loadConfigurationCounries();
     void loadConfigurationDetails();
     void loadConfigurationLanguages();

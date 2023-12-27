@@ -23,6 +23,8 @@ BasePage {
     FullPageRequestProgress { requestInfo: discoverMovieRequestInfo }
 
     SilicaListView {
+        id: listView
+
         anchors.fill: parent
         model: discoverMovieService.model
         visible: discoverMovieService.initialized && discoverMovieService.model.count > 0

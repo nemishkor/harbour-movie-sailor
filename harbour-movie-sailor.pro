@@ -58,6 +58,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/moviecollection.cpp \
     src/models/movieprovider.cpp \
     src/models/networklistitem.cpp \
+    src/models/nullform.cpp \
     src/models/person.cpp \
     src/models/personlistitem.cpp \
     src/models/provider.cpp \
@@ -251,6 +252,7 @@ HEADERS += \
     src/models/moviecollection.h \
     src/models/movieprovider.h \
     src/models/networklistitem.h \
+    src/models/nullform.h \
     src/models/person.h \
     src/models/personlistitem.h \
     src/models/provider.h \

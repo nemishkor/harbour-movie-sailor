@@ -22,6 +22,7 @@
 #include "src/models/discovermovie.h"
 #include "src/models/discovertvform.h"
 #include "src/models/form.h"
+#include "src/models/nullform.h"
 #include "src/models/searchform.h"
 #include "src/models/tv.h"
 
@@ -98,8 +99,7 @@ public:
     void removeRating(const class Movie &movie);
     void removeRating(const Tv &movie);
 
-    void getResource(WorkerName workerName);
-    void getResource(WorkerName workerName, const Form &form);
+    void getResource(WorkerName workerName, const Form &form = NullForm());
     void searchMedia(WorkerName workerName, const SearchForm &form);
 
 private:

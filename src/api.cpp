@@ -280,22 +280,6 @@ void Api::removeRating(const Tv &tv)
     removeRating(RemoveRatingTv, "tv", tv.getId());
 }
 
-void Api::getResource(WorkerName workerName)
-{
-    QString endpoint;
-    QUrlQuery query;
-    bool ok = true;
-
-    getEndpointAndQuery(workerName, endpoint, query, &ok);
-
-    if (!ok) {
-        qWarning() << "request is not Ok to send";
-        return;
-    }
-
-    getResource(workerName, endpoint, query);
-}
-
 void Api::getResource(WorkerName workerName, const Form &form)
 {
     QString endpoint;

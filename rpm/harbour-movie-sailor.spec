@@ -1,7 +1,7 @@
 Name:       harbour-movie-sailor
 
 Summary:    Movie Sailor
-Version:    0.5
+Version:    0.6
 Release:    1
 License:    MIT
 URL:        https://openrepos.net/content/nemishkor/movie-sailor

@@ -19,7 +19,7 @@ BasePage {
             PageHeader { title: qsTr("About") }
 
             Label {
-                text: qsTr("Version: 0.5")
+                text: qsTr("Version: 0.6")
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 x: Theme.horizontalPageMargin
             }

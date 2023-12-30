@@ -17,8 +17,11 @@ DiscoverTvForm::DiscoverTvForm(QObject *parent) :
     providersList(new ProvidersList(this)),
     withWatchProvidersCombinationMode(ListCombinationMode::AND),
     withoutWatchProvidersCombinationMode(ListCombinationMode::AND),
-    withOriginCountry(this),
-    withOriginLanguage(this)
+    withNetworks(new TvNetwork(this)),
+    withOriginCountry(new Country(this)),
+    withOriginLanguage(new Language(this)),
+    withRuntimeGte(-1),
+    withRuntimeLte(-1)
 {
     connect(providersList, &QAbstractListModel::dataChanged, this, &DiscoverTvForm::providersChanged);
     connect(providersList, &QAbstractListModel::rowsRemoved, this, &DiscoverTvForm::providersChanged);
@@ -118,6 +121,26 @@ void DiscoverTvForm::populateQuery(QUrlQuery &urlQuery) const
                 withoutProviders.join(QString::number(static_cast<int>(withoutWatchProvidersCombinationMode)))
             );
         }
+    }
+
+    if (withNetworks->getId() != -1) {
+        urlQuery.addQueryItem("with_networks", QString::number(withNetworks->getId()));
+    }
+
+    if (withOriginCountry->getId() != "") {
+        urlQuery.addQueryItem("with_origin_country", withOriginCountry->getId());
+    }
+
+    if (withOriginLanguage->getId() != "") {
+        urlQuery.addQueryItem("with_original_language", withOriginLanguage->getId());
+    }
+
+    if (withRuntimeGte > -1) {
+        urlQuery.addQueryItem("with_runtime.gte", QString::number(withRuntimeGte));
+    }
+
+    if (withRuntimeLte > -1) {
+        urlQuery.addQueryItem("with_runtime.lte", QString::number(withRuntimeLte));
     }
 }
 
@@ -356,6 +379,47 @@ void DiscoverTvForm::providersChanged()
     }
     emit withWatchProvidersChanged();
     emit withoutWatchProvidersChanged();
+}
+
+int DiscoverTvForm::getWithRuntimeLte() const
+{
+    return withRuntimeLte;
+}
+
+void DiscoverTvForm::setWithRuntimeLte(int newWithRuntimeLte)
+{
+    if (withRuntimeLte == newWithRuntimeLte)
+        return;
+    withRuntimeLte = newWithRuntimeLte;
+    emit withRuntimeLteChanged();
+}
+
+int DiscoverTvForm::getWithRuntimeGte() const
+{
+    return withRuntimeGte;
+}
+
+void DiscoverTvForm::setWithRuntimeGte(int newWithRuntimeGte)
+{
+    if (withRuntimeGte == newWithRuntimeGte)
+        return;
+    withRuntimeGte = newWithRuntimeGte;
+    emit withRuntimeGteChanged();
+}
+
+Language *DiscoverTvForm::getWithOriginLanguage() const
+{
+    return withOriginLanguage;
+}
+
+Country *DiscoverTvForm::getWithOriginCountry() const
+{
+    return withOriginCountry;
+}
+
+TvNetwork *DiscoverTvForm::getWithNetworks() const
+{
+    return withNetworks;
 }
 
 int DiscoverTvForm::getPage() const

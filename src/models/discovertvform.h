@@ -6,12 +6,12 @@
 #include <QString>
 
 #include "src/listmodels/providerslist.h"
-#include "src/listmodels/tvnetworkslist.h"
 #include "src/models/country.h"
 #include "src/models/company.h"
 #include "src/models/form.h"
 #include "src/models/language.h"
 #include "src/models/provider.h"
+#include "src/models/tvnetwork.h"
 #include "src/models/tvstatus.h"
 #include "src/models/tvtype.h"
 #include "src/models/watchmonetizationtype.h"
@@ -43,6 +43,11 @@ class DiscoverTvForm : public QObject, public Form
     Q_PROPERTY(QStringList withoutWatchProviders READ getWithoutWatchProviders WRITE setWithoutWatchProviders NOTIFY withoutWatchProvidersChanged)
     Q_PROPERTY(ListCombinationMode withWatchProvidersCombinationMode READ getWithWatchProvidersCombinationMode WRITE setWithWatchProvidersCombinationMode NOTIFY withWatchProvidersCombinationModeChanged)
     Q_PROPERTY(ListCombinationMode withoutWatchProvidersCombinationMode READ getWithoutWatchProvidersCombinationMode WRITE setWithoutWatchProvidersCombinationMode NOTIFY withoutWatchProvidersCombinationModeChanged)
+    Q_PROPERTY(TvNetwork* withNetworks READ getWithNetworks CONSTANT)
+    Q_PROPERTY(Country* withOriginCountry READ getWithOriginCountry CONSTANT)
+    Q_PROPERTY(Language* withOriginLanguage READ getWithOriginLanguage CONSTANT)
+    Q_PROPERTY(int withRuntimeGte READ getWithRuntimeGte WRITE setWithRuntimeGte NOTIFY withRuntimeGteChanged)
+    Q_PROPERTY(int withRuntimeLte READ getWithRuntimeLte WRITE setWithRuntimeLte NOTIFY withRuntimeLteChanged)
 
 public:
     enum Sorting {
@@ -128,6 +133,18 @@ public:
     int getPage() const;
     void setPage(int newPage);
 
+    TvNetwork *getWithNetworks() const;
+
+    Country *getWithOriginCountry() const;
+
+    Language *getWithOriginLanguage() const;
+
+    int getWithRuntimeGte() const;
+    void setWithRuntimeGte(int newWithRuntimeGte);
+
+    int getWithRuntimeLte() const;
+    void setWithRuntimeLte(int newWithRuntimeLte);
+
 signals:
     void airDateGteChanged();
     void airDateLteChanged();
@@ -148,6 +165,8 @@ signals:
     void withWatchProvidersChanged();
     void withoutWatchProvidersChanged();
     void pageChanged();
+    void withRuntimeGteChanged();
+    void withRuntimeLteChanged();
 
 public slots:
     void providersChanged();
@@ -176,9 +195,9 @@ private:
     QStringList withoutWatchProviders;
     ListCombinationMode withoutWatchProvidersCombinationMode;
 
-    QList<TVNetwork> withNetworks;
-    Country withOriginCountry;
-    Language withOriginLanguage;
+    TvNetwork *withNetworks;
+    Country *withOriginCountry;
+    Language *withOriginLanguage;
     int withRuntimeGte;
     int withRuntimeLte;
 

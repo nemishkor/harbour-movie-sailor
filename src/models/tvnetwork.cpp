@@ -1,18 +1,32 @@
 #include "tvnetwork.h"
 
-TVNetwork::TVNetwork(int id, const QString &name):
-    id(id),
-    name(name)
+TvNetwork::TvNetwork(QObject *parent) : QObject(parent), id(-1)
 {
 
 }
 
-int TVNetwork::getId() const
+int TvNetwork::getId() const
 {
     return id;
 }
 
-const QString &TVNetwork::getName() const
+void TvNetwork::setId(int newId)
+{
+    if (id == newId)
+        return;
+    id = newId;
+    emit idChanged();
+}
+
+const QString &TvNetwork::getName() const
 {
     return name;
+}
+
+void TvNetwork::setName(const QString &newName)
+{
+    if (name == newName)
+        return;
+    name = newName;
+    emit nameChanged();
 }

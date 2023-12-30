@@ -18,7 +18,8 @@ App::App(QQmlContext *context) :
     discoverTvService(new DiscoverTvService(api, genresService.getModel(), this)),
     languagesListService(system, api, *cache, this),
     accountService(new AccountService(account, api, *settings, genresService.getModel(), *movieService, tvService, this)),
-    searchService(new SearchService(api, *historyService, *movieService, tvService, *personService, genresService.getModel(), this))
+    searchService(new SearchService(api, *historyService, *movieService, tvService, *personService, genresService.getModel(), this)),
+    tvNetworksService(new TvNetworksService(api, *cache, this))
 {
     connect(movieService, &MovieService::movieIsLoaded, this, &App::updateCoverImageByMovie);
     connect(&tvService, &TvService::tvIsLoaded, this, &App::updateCoverImageByTv);
@@ -179,6 +180,11 @@ void App::setCoverProfileImage(const QString &newCoverProfileImage)
 DiscoverTvService *App::getDiscoverTvService() const
 {
     return discoverTvService;
+}
+
+TvNetworksService *App::getTvNetworksService() const
+{
+    return tvNetworksService;
 }
 
 void App::validateContentLanguage()

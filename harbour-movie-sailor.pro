@@ -73,6 +73,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/seasonlistitem.cpp \
     src/models/tv.cpp \
     src/models/tvnetwork.cpp \
+    src/models/tvnetworklistitem.cpp \
     src/models/tvtype.cpp \
     src/models/watchmonetizationtype.cpp \
     src/services/accountmedialistservice.cpp \
@@ -91,6 +92,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/services/personservice.cpp \
     src/services/personslistservice.cpp \
     src/services/searchservice.cpp \
+    src/services/tvnetworksservice.cpp \
     src/services/tvservice.cpp \
     src/settings.cpp \
     src/system.cpp \
@@ -174,6 +176,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/dialogs/CountriesDialog.qml \
     qml/dialogs/GenresDialog.qml \
     qml/dialogs/KeywordsDialog.qml \
+    qml/dialogs/NetworksDialog.qml \
     qml/dialogs/PeopleFilterDialog.qml \
     qml/dialogs/SortingDialog.qml \
     qml/languages.js \
@@ -270,6 +273,7 @@ HEADERS += \
     src/models/sorting.h \
     src/models/tv.h \
     src/models/tvnetwork.h \
+    src/models/tvnetworklistitem.h \
     src/models/tvstatus.h \
     src/models/tvtype.h \
     src/models/watchmonetizationtype.h \
@@ -290,6 +294,7 @@ HEADERS += \
     src/services/personservice.h \
     src/services/personslistservice.h \
     src/services/searchservice.h \
+    src/services/tvnetworksservice.h \
     src/services/tvservice.h \
     src/settings.h \
     src/system.h \

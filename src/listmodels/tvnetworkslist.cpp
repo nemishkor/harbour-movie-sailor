@@ -14,12 +14,19 @@ QVariant TVNetworksList::data(const QModelIndex &index, int role) const
 {
     if (index.row() < 0 || index.row() >= items.count())
         return QVariant();
-    const TVNetwork &item = items[index.row()];
+    const TVNetworkListItem &item = items[index.row()];
     if(role == IdRole)
         return item.getId();
     if(role == NameRole)
         return item.getName();
     return QVariant();
+}
+
+void TVNetworksList::add(const TVNetworkListItem &item)
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    items.append(item);
+    endInsertRows();
 }
 
 QHash<int, QByteArray> TVNetworksList::roleNames() const

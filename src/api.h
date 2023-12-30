@@ -41,6 +41,7 @@ public:
         Keywords,
         LoadMovie,
         LoadTv,
+        LoadTvNetworks,
         MoviePeople,
         WatchMovieProviders,
         WatchTvProviders,
@@ -74,6 +75,7 @@ public:
     void loadPerson(int id, const Form &form);
     void loadMovieGenres();
     void loadTVGenres();
+    void loadTvNetworks();
     void createSessionId(const QByteArray &data);
 
     void toggleFavorite(WorkerName workerName, const QString &type, int id, bool newValue);
@@ -139,6 +141,7 @@ signals:
     void loadAccountDone(QByteArray &);
     void movieDone(QByteArray &);
     void loadTvDone(QByteArray &);
+    void loadTvNetworksDone(QByteArray &);
     void loadPersonDone(QByteArray &);
     void discoverMoviesDone(QByteArray &);
     void discoverTvDone(QByteArray &);

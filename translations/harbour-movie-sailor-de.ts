@@ -482,6 +482,34 @@
         <source>TV shows</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select an origin country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Origin country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Any</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Origin language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Min runtime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max runtime</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DiscoverTvResultsPage</name>
@@ -739,6 +767,17 @@ votes</source>
     </message>
     <message>
         <source>First air date: </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NetworksDialog</name>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter by a TV network</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

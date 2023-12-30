@@ -2,8 +2,9 @@
 #define TVNETWORKSLIST_H
 
 #include <QAbstractListModel>
+#include <QSortFilterProxyModel>
 
-#include "src/models/tvnetwork.h"
+#include "src/models/tvnetworklistitem.h"
 
 class TVNetworksList : public QAbstractListModel
 {
@@ -15,12 +16,14 @@ public:
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
+    void add(const TVNetworkListItem &item);
+
 protected:
     enum TVNetworksRoles {
         IdRole = Qt::UserRole + 1,
-        NameRole
+        NameRole = Qt::DisplayRole
     };
-    QList<TVNetwork> items;
+    QList<TVNetworkListItem> items;
     QHash<int, QByteArray> roleNames() const override;
 };
 

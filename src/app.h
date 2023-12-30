@@ -32,6 +32,7 @@
 #include "src/services/languageslistservice.h"
 #include "src/services/movieservice.h"
 #include "src/services/personservice.h"
+#include "src/services/tvnetworksservice.h"
 #include "src/viewmodels/searchpeoplelistmodel.h"
 #include "src/viewmodels/filterbylanguageslistmodel.h"
 #include "src/viewmodels/configurationlistmodel.h"
@@ -54,6 +55,7 @@ class App : public QObject
     Q_PROPERTY(PersonService* personService READ getPersonService CONSTANT)
     Q_PROPERTY(DiscoverTvService* discoverTvService READ getDiscoverTvService CONSTANT)
     Q_PROPERTY(HistoryService* historyService READ getHistoryService CONSTANT)
+    Q_PROPERTY(TvNetworksService * tvNetworksService READ getTvNetworksService CONSTANT)
 
 public:
     App(QQmlContext *context);
@@ -81,6 +83,7 @@ public:
     void setCoverProfileImage(const QString &newCoverProfileImage);
 
     DiscoverTvService *getDiscoverTvService() const;
+    TvNetworksService *getTvNetworksService() const;
 
 signals:
     void menuChanged();
@@ -108,6 +111,7 @@ private:
     LanguagesListService languagesListService;
     AccountService *accountService;
     SearchService *searchService;
+    TvNetworksService *tvNetworksService;
 
 private slots:
     void validateContentLanguage();

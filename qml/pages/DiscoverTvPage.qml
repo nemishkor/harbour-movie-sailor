@@ -4,6 +4,7 @@ import nemishkor.MovieSailor 1.0
 import "../components"
 import "../components/filters"
 import "../controls"
+import "../dialogs"
 
 BasePage {
     id: page
@@ -378,6 +379,96 @@ BasePage {
                         checked: false
                         onCheckedChanged: {
                             tvDiscovery.screenedTheatrically = checked
+                        }
+                    }
+
+                    ValueButton {
+                        function openNetworksDialog() {
+                            var params = {
+                                entityId: tvDiscovery.withNetworks.id,
+                                entityName: tvDiscovery.withNetworks.name
+                            };
+                            var obj = pageStack.animatorPush("../dialogs/NetworksDialog.qml", params)
+
+                            obj.pageCompleted.connect(function(page) {
+                                page.accepted.connect(function() {
+                                    tvDiscovery.withNetworks.id = page.entityId
+                                    tvDiscovery.withNetworks.name = page.entityName
+                                })
+                            })
+                        }
+
+                        label: qsTr("Network")
+                        value: tvDiscovery.withNetworks.name === "" ? qsTr("Select") : tvDiscovery.withNetworks.name
+                        onClicked: openNetworksDialog()
+                    }
+
+                    ValueButton {
+                        function openOriginCountriesDialog() {
+                            app.initializeCountries(false)
+                            var params = {
+                                entityId: tvDiscovery.withOriginCountry.id,
+                                entityLabel: tvDiscovery.withOriginCountry.name,
+                                title: qsTr("Select an origin country")
+                            };
+                            var obj = pageStack.animatorPush("../dialogs/CountriesDialog.qml", params)
+                            obj.pageCompleted.connect(function(page) {
+                                page.accepted.connect(function() {
+                                    tvDiscovery.withOriginCountry.id = page.entityId
+                                    tvDiscovery.withOriginCountry.name = page.entityLabel
+                                })
+                            })
+                        }
+
+                        label: qsTr("Origin country")
+                        value: tvDiscovery.withOriginCountry.name ? tvDiscovery.withOriginCountry.name : qsTr("Any")
+                        onClicked: openOriginCountriesDialog()
+                    }
+
+                    ValueButton {
+                        function openOriginLanguageDialog() {
+                            var params = {
+                                languageId: tvDiscovery.withOriginLanguage.id
+                            };
+                            var obj = pageStack.animatorPush("../components/LanguageDialog.qml", params)
+                            obj.pageCompleted.connect(function(page) {
+                                page.accepted.connect(function() {
+                                    tvDiscovery.withOriginLanguage.name = page.languageEnglishName
+                                    tvDiscovery.withOriginLanguage.id = page.languageId
+                                })
+                            })
+                        }
+
+                        label: qsTr("Origin language")
+                        value: tvDiscovery.withOriginLanguage.name ? tvDiscovery.withOriginLanguage.name : qsTr("Any")
+                        onClicked: openOriginLanguageDialog()
+                    }
+
+                    Row {
+                        width: parent.width
+
+                        ComboBox {
+                            width: parent.width / 2
+                            label: qsTr("Min runtime")
+                            currentIndex: 0
+                            menu: ContextMenu {
+                                MenuItem { text: "-"; onClicked: tvDiscovery.withRuntimeGte = -1 }
+                                MenuItem { text: "15 min"; onClicked: tvDiscovery.withRuntimeGte = 15 }
+                                MenuItem { text: "30 min"; onClicked: tvDiscovery.withRuntimeGte = 30 }
+                                MenuItem { text: "45 min"; onClicked: tvDiscovery.withRuntimeGte = 45 }
+                            }
+                        }
+
+                        ComboBox {
+                            width: parent.width / 2
+                            label: qsTr("Max runtime")
+                            currentIndex: 0
+                            menu: ContextMenu {
+                                MenuItem { text: "-"; onClicked: tvDiscovery.withRuntimeLte = -1 }
+                                MenuItem { text: "30 min"; onClicked: tvDiscovery.withRuntimeLte = 30 }
+                                MenuItem { text: "45 min"; onClicked: tvDiscovery.withRuntimeLte = 45 }
+                                MenuItem { text: "60 min"; onClicked: tvDiscovery.withRuntimeLte = 60 }
+                            }
                         }
                     }
                 }

@@ -477,12 +477,9 @@ BasePage {
                             app.initializeCountries(false)
                             var params = {
                                 "entityId": discoverMovieService.form.originCountry.id,
-                                "service": countriesService,
-                                "model": countriesListModel,
-                                "requestInfo": countriesRequestInfo,
                                 "title": qsTr("Select an origin country")
                             };
-                            var obj = pageStack.animatorPush("../components/ConfigurationDialog.qml", params)
+                            var obj = pageStack.animatorPush("../components/CountriesDialog.qml", params)
                             obj.pageCompleted.connect(function(page) {
                                 page.accepted.connect(function() {
                                     discoverMovieService.form.originCountry.id = page.entityId

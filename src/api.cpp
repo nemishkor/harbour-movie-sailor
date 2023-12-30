@@ -21,6 +21,7 @@ Api::Api(class Account *account, Settings &settings, QObject *parent) :
     setupWorker(ConfigurationCountries, SIGNAL(configurationCountriesDone(QByteArray &)));
     setupWorker(ConfigurationDetails, SIGNAL(configurationDetailsDone(QByteArray &)));
     setupWorker(ConfigurationLanguages, SIGNAL(configurationLanguagesDone(QByteArray &)));
+    setupWorker(LoadTvNetworks, SIGNAL(loadTvNetworksDone(QByteArray &)));
     setupWorker(DiscoverMovies, SIGNAL(discoverMoviesDone(QByteArray &)));
     setupWorker(DiscoverTv, SIGNAL(discoverTvDone(QByteArray &)));
     setupWorker(Genres, SIGNAL(genresDone(QByteArray &)));
@@ -111,6 +112,17 @@ void Api::loadTVGenres()
     query.addQueryItem("language", getLanguage());
 
     getResource(Genres, "genre/tv/list", query);
+}
+
+void Api::loadTvNetworks()
+{
+    QDateTime date = QDateTime::currentDateTimeUtc().addDays(-1);
+    QString url = "https://files.tmdb.org/p/exports/tv_network_ids_" + date.toString("MM_dd_yyyy") + ".json.gz";
+    log(LoadTvNetworks, "GET", url);
+    QNetworkRequest request(url);
+    request.setRawHeader(QByteArray("Authorization"), QString("Bearer %1").arg(token).toUtf8());
+    request.setRawHeader(QByteArray("accept"), QByteArray("application/json"));
+    getWorker(LoadTvNetworks)->get(request);
 }
 
 void Api::createSessionId(const QByteArray &data)

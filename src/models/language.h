@@ -9,6 +9,7 @@ class Language : public QObject
     Q_OBJECT
     Q_PROPERTY(QString id READ getId WRITE setId NOTIFY idChanged)
     Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
+
 public:
     explicit Language(QObject *parent);
 

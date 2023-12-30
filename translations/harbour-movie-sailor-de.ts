@@ -149,6 +149,13 @@
     </message>
 </context>
 <context>
+    <name>CastPage</name>
+    <message>
+        <source>Cast</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CombinationList</name>
     <message>
         <source>and</source>
@@ -204,6 +211,13 @@
     <name>CreatedByList</name>
     <message>
         <source>Created by</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CrewPage</name>
+    <message>
+        <source>Crew</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -638,20 +652,6 @@ It will be saved here</source>
     <name>MediaSpokenLanguagesList</name>
     <message>
         <source>Spoken languages</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MovieCastPage</name>
-    <message>
-        <source>Cast</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MovieCrewPage</name>
-    <message>
-        <source>Crew</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1323,6 +1323,14 @@ votes</source>
     </message>
     <message>
         <source>Next episode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full crew list</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

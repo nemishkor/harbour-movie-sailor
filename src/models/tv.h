@@ -6,6 +6,7 @@
 #include <QList>
 #include <QString>
 
+#include "src/models/credits.h"
 #include "src/models/personlistitem.h"
 #include "src/models/episode.h"
 #include "src/models/networklistitem.h"
@@ -56,6 +57,7 @@ class Tv : public QObject
     Q_PROPERTY(bool favorite READ getFavorite WRITE setFavorite NOTIFY favoriteChanged)
     Q_PROPERTY(bool watchlist READ getWatchlist WRITE setWatchlist NOTIFY watchlistChanged)
     Q_PROPERTY(int rating READ getRating WRITE setRating NOTIFY ratingChanged)
+    Q_PROPERTY(Credits* credits READ getCredits CONSTANT)
 
 public:
     Tv(QObject *parent = nullptr);
@@ -160,6 +162,8 @@ public:
     int getRating() const;
     void setRating(int newRating);
 
+    Credits *getCredits() const;
+
 signals:
     void adultChanged();
     void backdropPathChanged();
@@ -227,6 +231,7 @@ private:
     bool favorite;
     bool watchlist;
     int rating;
+    Credits *credits;
 
 };
 

@@ -100,6 +100,7 @@ void TvService::apiRequestDone(QByteArray &data)
 
     QJsonArray items;
     QJsonArray::const_iterator it;
+    QJsonObject item;
 
     model->getCreatedBy()->clear();
     if (obj["created_by"].isArray()) {
@@ -284,6 +285,44 @@ void TvService::apiRequestDone(QByteArray &data)
             model->setRating((int)accountStates["rated"].toObject()["value"].toDouble());
         }
         model->setWatchlist(accountStates["watchlist"].toBool());
+    }
+
+    qDebug() << "TvService: set credits";
+    if (obj.contains("credits")) {
+        QJsonObject credits = obj["credits"].toObject();
+        items = credits["cast"].toArray();
+        for (it = items.constBegin(); it != items.constEnd(); it++) {
+            item = it->toObject();
+            model->getCredits()->getCast()->add(CastListItem(
+                    item["id"].toInt(),
+                    item["name"].toString(),
+                    item["original_name"].toString(),
+                    item["profile_path"].toString(),
+                    item["character"].toString()));
+        }
+
+        QList<CrewListItem> crewList;
+
+        items = credits["crew"].toArray();
+        for (it = items.constBegin(); it != items.constEnd(); it++) {
+            item = it->toObject();
+            crewList.append(CrewListItem(
+                                item["id"].toInt(),
+                                item["name"].toString(),
+                                item["original_name"].toString(),
+                                item["profile_path"].toString(),
+                                item["department"].toString(),
+                                item["job"].toString()));
+        }
+
+        std::sort(crewList.begin(), crewList.end(), [](const CrewListItem &a, const CrewListItem &b)
+        {
+            return (a.getDepartment() + a.getName()) < (b.getDepartment() + b.getName());
+        });
+
+        for (int i = 0; i < crewList.count(); i++) {
+            model->getCredits()->getCrew()->add(crewList.at(i));
+        }
     }
 
     emit tvIsLoaded(model);

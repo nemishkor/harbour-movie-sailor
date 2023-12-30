@@ -124,6 +124,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/BackgroundItemWithIcon.qml \
     qml/components/Badge.qml \
     qml/components/Badges.qml \
+    qml/components/CastPreview.qml \
     qml/components/ColoredIcon.qml \
     qml/components/CombinationList.qml \
     qml/components/CompaniesValueButton.qml \
@@ -184,6 +185,8 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/pages/AccountMediaListPage.qml \
     qml/pages/AccountPage.qml \
     qml/pages/BasePage.qml \
+    qml/pages/CastPage.qml \
+    qml/pages/CrewPage.qml \
     qml/pages/DiscoverMoviePage.qml \
     qml/pages/DiscoverMovieResultsPage.qml \
     qml/pages/DiscoverTvPage.qml \
@@ -191,8 +194,6 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/pages/HistoryPage.qml \
     qml/pages/ListsPage.qml \
     qml/pages/LoginPage.qml \
-    qml/pages/MovieCastPage.qml \
-    qml/pages/MovieCrewPage.qml \
     qml/pages/MoviePage.qml \
     qml/pages/PersonCreditsPage.qml \
     qml/pages/PersonPage.qml \

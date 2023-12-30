@@ -5,15 +5,17 @@ import QtGraphicalEffects 1.0
 BasePage {
     id: root
 
-    property var service: app.movieService
+    property string pageDescription
+    property alias model: listView.model
 
     SilicaListView {
+        id: listView
+
         anchors.fill: parent
         header: PageHeader {
             title: qsTr("Crew")
-            description: '"' + root.service.model.title + '"'
+            description: root.pageDescription
         }
-        model: root.service.model.credits.crew
         section {
             property: "department"
             delegate: SectionHeader {

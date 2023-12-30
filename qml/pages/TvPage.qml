@@ -344,6 +344,25 @@ BasePage {
                 wrapMode: "WordWrap"
             }
 
+            SectionHeader { text: qsTr("Cast"); visible: castView.count > 0 }
+
+            CastPreview {
+                mediaName: tv.name
+                model: tv.credits.cast
+            }
+
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Full crew list")
+                onClicked: {
+                    var params = {
+                        pageDescription: '"' + tv.name + '"',
+                        model: tv.credits.crew
+                    }
+                    pageStack.animatorPush("./CrewPage.qml", params)
+                }
+            }
+
             CreatedByList {
                 model: tv.createdBy
             }

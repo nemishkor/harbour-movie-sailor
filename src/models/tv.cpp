@@ -17,7 +17,8 @@ Tv::Tv(QObject *parent) :
     spokenLanguages(new LanguagesListModel(this)),
     voteAvarage(0.0),
     voteCount(0),
-    rating(0)
+    rating(0),
+    credits(new Credits(this))
 {
 
 }
@@ -423,4 +424,9 @@ void Tv::setRating(int newRating)
         return;
     rating = newRating;
     emit ratingChanged();
+}
+
+Credits *Tv::getCredits() const
+{
+    return credits;
 }

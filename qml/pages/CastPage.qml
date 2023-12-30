@@ -5,15 +5,19 @@ import QtGraphicalEffects 1.0
 BasePage {
     id: root
 
-    property var service: app.movieService
+    property alias model: listView.model
+    property string pageDescription
 
     SilicaListView {
+        id: listView
+
         anchors.fill: parent
         header: PageHeader {
+            id: pageHeader
+
             title: qsTr("Cast")
-            description: '"' + root.service.model.title + '"'
+            description: root.pageDescription
         }
-        model: root.service.model.credits.cast
         delegate: BackgroundItem {
             height: Math.max(image.height, info.height) + 2 * Theme.paddingMedium
             onClicked: pageStack.animatorPush("./PersonPage.qml", { personId: model.id })

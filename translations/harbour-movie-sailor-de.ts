@@ -1043,15 +1043,11 @@ votes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Discover movies</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Discover TV shows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Search history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discovery</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

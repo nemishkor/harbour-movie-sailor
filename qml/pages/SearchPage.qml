@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import QtGraphicalEffects 1.0
 import "../components"
 
 BasePage {
@@ -17,7 +18,50 @@ BasePage {
             width: parent.width
             spacing: Theme.paddingMedium
 
-            PageHeader { title: qsTr("Search") }
+            Item {
+                width: parent.width
+                height: Theme.itemSizeMedium
+
+                Rectangle {
+                    anchors.fill: parent
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 0.0
+                            color: Theme.rgba(Theme.highlightBackgroundColor, 0.1)
+                        }
+                        GradientStop {
+                            position: 1.0
+                            color: "transparent"
+                        }
+                    }
+                }
+
+                Icon {
+                    id: searchIcon
+
+                    anchors {
+                        right: parent.right
+                        rightMargin: Theme.paddingMedium
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    source: "image://theme/icon-m-search?" + Theme.highlightColor
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
+                }
+
+                Label {
+                    anchors {
+                        right: searchIcon.left
+                        rightMargin: Theme.paddingMedium
+                        verticalCenter: parent.verticalCenter
+                    }
+                    text: qsTr("Search")
+                    color: Theme.highlightColor
+                    font.pixelSize: Theme.fontSizeLarge
+                    truncationMode: TruncationMode.Fade
+                }
+            }
 
             ComboBox {
                 label: qsTr("Media type")
@@ -179,23 +223,70 @@ BasePage {
                 enabled: root.service.form.query !== ""
             }
 
-            Spacer {}
-
-            Separator {
+            Item {
                 width: parent.width
-                color: Theme.primaryColor
-                horizontalAlignment: Qt.AlignHCenter
+                height: Theme.paddingLarge
             }
 
-            Spacer {}
+            Item {
+                width: parent.width
+                height: Theme.itemSizeMedium
+
+                Rectangle {
+                    anchors.fill: parent
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 0.0
+                            color: Theme.rgba(Theme.highlightBackgroundColor, 0.1)
+                        }
+                        GradientStop {
+                            position: 1.0
+                            color: "transparent"
+                        }
+                    }
+                }
+
+                Icon {
+                    id: discoverIcon
+
+                    anchors {
+                        right: parent.right
+                        rightMargin: Theme.paddingMedium
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    source: "qrc:/images/icons/compass-m.svg"
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
+                    visible: false
+                }
+
+                ColorOverlay {
+                    anchors.fill: discoverIcon
+                    source: discoverIcon
+                    color: Theme.highlightColor
+                }
+
+                Label {
+                    anchors {
+                        right: discoverIcon.left
+                        rightMargin: Theme.paddingMedium
+                        verticalCenter: parent.verticalCenter
+                    }
+                    text: qsTr("Discovery")
+                    color: Theme.highlightColor
+                    font.pixelSize: Theme.fontSizeLarge
+                    truncationMode: TruncationMode.Fade
+                }
+            }
 
             ButtonLayout {
                 Button {
-                    text: qsTr("Discover movies")
+                    text: qsTr("Movies")
                     onClicked: pageStack.animatorPush("./DiscoverMoviePage.qml")
                 }
                 Button {
-                    text: qsTr("Discover TV shows")
+                    text: qsTr("TV shows")
                     onClicked: pageStack.animatorPush("./DiscoverTvPage.qml")
                 }
             }

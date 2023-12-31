@@ -8,6 +8,7 @@
 class CastsList : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
 public:
     CastsList(QObject *parent);
@@ -18,6 +19,9 @@ public:
     void clear();
 
     const QList<CastListItem> &getItems() const;
+
+signals:
+    void countChanged();
 
 protected:
     enum CastRoles {

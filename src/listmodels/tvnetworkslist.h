@@ -2,7 +2,6 @@
 #define TVNETWORKSLIST_H
 
 #include <QAbstractListModel>
-#include <QSortFilterProxyModel>
 
 #include "src/models/tvnetworklistitem.h"
 

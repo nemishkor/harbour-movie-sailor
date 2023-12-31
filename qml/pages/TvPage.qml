@@ -344,9 +344,10 @@ BasePage {
                 wrapMode: "WordWrap"
             }
 
-            SectionHeader { text: qsTr("Cast"); visible: castView.count > 0 }
+            SectionHeader { text: qsTr("Cast"); visible: tv.credits.cast.count > 0 }
 
             CastPreview {
+                id: castView
                 mediaName: tv.name
                 model: tv.credits.cast
             }
@@ -383,6 +384,16 @@ BasePage {
 
             TvEpisode {
                 episode: tv.nextEpisodeOnAir
+            }
+
+            SectionHeader {
+                text: qsTr("Videos")
+                visible: tv.videos.count > 0
+            }
+
+            VideosPreview {
+                id: videosPreview
+                model: tv.videos
             }
 
             MediaProductionCompaniesList {

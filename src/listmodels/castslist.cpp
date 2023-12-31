@@ -33,6 +33,7 @@ void CastsList::add(const CastListItem &item)
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     items.insert(item.getId(), item);
     endInsertRows();
+    emit countChanged();
 }
 
 void CastsList::clear()
@@ -40,6 +41,7 @@ void CastsList::clear()
     beginRemoveRows(QModelIndex(), 0, items.count() - 1);
     items.clear();
     endRemoveRows();
+    emit countChanged();
 }
 
 const QList<CastListItem> &CastsList::getItems() const

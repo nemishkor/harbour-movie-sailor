@@ -18,7 +18,8 @@ Tv::Tv(QObject *parent) :
     voteAvarage(0.0),
     voteCount(0),
     rating(0),
-    credits(new Credits(this))
+    credits(new Credits(this)),
+    videos(new VideosList(this))
 {
 
 }
@@ -429,4 +430,9 @@ void Tv::setRating(int newRating)
 Credits *Tv::getCredits() const
 {
     return credits;
+}
+
+VideosList *Tv::getVideos() const
+{
+    return videos;
 }

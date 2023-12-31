@@ -322,7 +322,7 @@ BasePage {
                 wrapMode: "WordWrap"
             }
 
-            SectionHeader { text: qsTr("Cast"); visible: castView.count > 0 }
+            SectionHeader { text: qsTr("Cast"); visible: movie.credits.cast.count > 0 }
 
             CastPreview {
                 mediaName: movie.title
@@ -394,6 +394,16 @@ BasePage {
                         }
                     }
                 }
+            }
+
+            SectionHeader {
+                text: qsTr("Videos")
+                visible: movie.videos.count > 0
+            }
+
+            VideosPreview {
+                id: videosPreview
+                model: movie.videos
             }
 
             MediaProductionCompaniesList {

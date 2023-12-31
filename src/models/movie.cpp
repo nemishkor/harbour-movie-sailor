@@ -13,7 +13,8 @@ Movie::Movie(QObject *parent) :
     favorite(false),
     watchlist(false),
     rating(0),
-    credits(new Credits(this))
+    credits(new Credits(this)),
+    videos(new VideosList(this))
 {
 
 }
@@ -327,4 +328,9 @@ void Movie::setRating(int newRating)
 Credits *Movie::getCredits() const
 {
     return credits;
+}
+
+VideosList *Movie::getVideos() const
+{
+    return videos;
 }

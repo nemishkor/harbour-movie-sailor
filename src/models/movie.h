@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QString>
 
+#include "src/listmodels/videoslist.h"
 #include "src/models/credits.h"
 #include "src/models/moviecollection.h"
 #include "src/viewmodels/companieslistmodel.h"
@@ -41,6 +42,7 @@ class Movie : public QObject
     Q_PROPERTY(bool watchlist READ getWatchlist WRITE setWatchlist NOTIFY watchlistChanged)
     Q_PROPERTY(int rating READ getRating WRITE setRating NOTIFY ratingChanged)
     Q_PROPERTY(Credits* credits READ getCredits CONSTANT)
+    Q_PROPERTY(VideosList* videos READ getVideos CONSTANT)
 
 public:
     Movie(QObject *parent = nullptr);
@@ -121,6 +123,8 @@ public:
 
     Credits *getCredits() const;
 
+    VideosList *getVideos() const;
+
 private:
     int id;
     QString backdropPath;
@@ -149,6 +153,7 @@ private:
     bool watchlist;
     int rating;
     Credits *credits;
+    VideosList *videos;
 
 signals:
     void idChanged();

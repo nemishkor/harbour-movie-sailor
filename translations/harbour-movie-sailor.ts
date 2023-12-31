@@ -19,7 +19,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Version: 0.5</source>
+        <source>Version: 0.6</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -742,6 +742,10 @@ votes</source>
         <source>Error: </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MoviesListItem</name>
@@ -1331,6 +1335,21 @@ votes</source>
     </message>
     <message>
         <source>Full crew list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VideosPreview</name>
+    <message>
+        <source>Unsupported site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>official</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -6,6 +6,7 @@
 #include <QList>
 #include <QString>
 
+#include "src/listmodels/videoslist.h"
 #include "src/models/credits.h"
 #include "src/models/personlistitem.h"
 #include "src/models/episode.h"
@@ -58,6 +59,7 @@ class Tv : public QObject
     Q_PROPERTY(bool watchlist READ getWatchlist WRITE setWatchlist NOTIFY watchlistChanged)
     Q_PROPERTY(int rating READ getRating WRITE setRating NOTIFY ratingChanged)
     Q_PROPERTY(Credits* credits READ getCredits CONSTANT)
+    Q_PROPERTY(VideosList* videos READ getVideos CONSTANT)
 
 public:
     Tv(QObject *parent = nullptr);
@@ -164,6 +166,8 @@ public:
 
     Credits *getCredits() const;
 
+    VideosList *getVideos() const;
+
 signals:
     void adultChanged();
     void backdropPathChanged();
@@ -232,6 +236,7 @@ private:
     bool watchlist;
     int rating;
     Credits *credits;
+    VideosList *videos;
 
 };
 

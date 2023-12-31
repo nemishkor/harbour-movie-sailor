@@ -30,6 +30,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/listmodels/historylist.cpp \
     src/listmodels/providerslist.cpp \
     src/listmodels/tvnetworkslist.cpp \
+    src/listmodels/videoslist.cpp \
     src/logger.cpp \
     src/models/account.cpp \
     src/models/accountmoviesform.cpp \
@@ -75,6 +76,7 @@ SOURCES += src/harbour-movie-sailor.cpp \
     src/models/tvnetwork.cpp \
     src/models/tvnetworklistitem.cpp \
     src/models/tvtype.cpp \
+    src/models/videolistitem.cpp \
     src/models/watchmonetizationtype.cpp \
     src/services/accountmedialistservice.cpp \
     src/services/accountservice.cpp \
@@ -161,6 +163,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/TexturedBackground.qml \
     qml/components/TvEpisode.qml \
     qml/components/TwoMediaBlocks.qml \
+    qml/components/VideosPreview.qml \
     qml/components/VoteSlider.qml \
     qml/components/VoteSliderLabel.qml \
     qml/components/VoteSliderPoint.qml \
@@ -201,6 +204,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/pages/SearchResultsPage.qml \
     qml/pages/SettingsPage.qml \
     qml/pages/TvPage.qml \
+    qml/pages/VideoWebViewPage.qml \
     rpm/harbour-movie-sailor.changes.in \
     rpm/harbour-movie-sailor.changes.run.in \
     rpm/harbour-movie-sailor.spec \
@@ -230,6 +234,7 @@ HEADERS += \
     src/listmodels/historylist.h \
     src/listmodels/providerslist.h \
     src/listmodels/tvnetworkslist.h \
+    src/listmodels/videoslist.h \
     src/logger.h \
     src/models/account.h \
     src/models/accountmoviesform.h \
@@ -277,6 +282,7 @@ HEADERS += \
     src/models/tvnetworklistitem.h \
     src/models/tvstatus.h \
     src/models/tvtype.h \
+    src/models/videolistitem.h \
     src/models/watchmonetizationtype.h \
     src/models/workernames.h \
     src/services/accountmedialistservice.h \

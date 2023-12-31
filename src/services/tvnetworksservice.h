@@ -11,6 +11,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QProcess>
+#include <QSortFilterProxyModel>
 
 #include "src/api.h"
 #include "src/cachekey.h"

@@ -325,6 +325,21 @@ void TvService::apiRequestDone(QByteArray &data)
         }
     }
 
+    qDebug() << "TvService: set videos";
+    if (obj.contains("videos")) {
+        items = obj["videos"].toObject()["results"].toArray();
+        for (it = items.constBegin(); it != items.constEnd(); it++) {
+            item = it->toObject();
+            VideoListItem video;
+            video.setKey(item["key"].toString());
+            video.setName(item["name"].toString());
+            video.setType(item["type"].toString());
+            video.setSite(item["site"].toString());
+            video.setOfficial(item["official"].toBool());
+            model->getVideos()->add(video);
+        }
+    }
+
     emit tvIsLoaded(model);
     historyService.add(MediaListItem::TvType, obj["id"].toInt(), data);
 

@@ -144,6 +144,7 @@ DISTFILES += qml/harbour-movie-sailor.qml \
     qml/components/LanguageDialog.qml \
     qml/components/LoginModal.qml \
     qml/components/MediaBackdropImage.qml \
+    qml/components/MediaCompactList.qml \
     qml/components/MediaLinksModal.qml \
     qml/components/MediaProductionCompaniesList.qml \
     qml/components/MediaProductionCountries.qml \

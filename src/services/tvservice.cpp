@@ -1,9 +1,10 @@
 #include "tvservice.h"
 
-TvService::TvService(Api &api, HistoryService &historyService, QObject *parent) :
+TvService::TvService(Api &api, HistoryService &historyService, GenresListModel *genresListModel, QObject *parent) :
     QObject(parent),
     api(api),
     historyService(historyService),
+    genresListModel(genresListModel),
     model(new Tv(this)),
     request(api.getRequestInfo(Api::LoadTv)),
     requestFavorite(api.getRequestInfo(Api::ToggleFavoriteTv)),
@@ -337,6 +338,38 @@ void TvService::apiRequestDone(QByteArray &data)
             video.setSite(item["site"].toString());
             video.setOfficial(item["official"].toBool());
             model->getVideos()->add(video);
+        }
+    }
+
+    qDebug() << "TvService: set recommendations";
+    if (obj.contains("recommendations")) {
+        int recommendationsIndex = 1;
+        int recommendationsLimit = 3;
+        items = obj["recommendations"].toObject()["results"].toArray();
+        for (it = items.constBegin(); it != items.constEnd(); it++) {
+            if (recommendationsIndex > recommendationsLimit) {
+                break;
+            }
+            item = it->toObject();
+            model->getRecommendations()->add(genresListModel->getItems(), item, MediaListItem::MediaType::TvType);
+
+            recommendationsIndex++;
+        }
+    }
+
+    qDebug() << "TvService: set similar";
+    if (obj.contains("similar")) {
+        int similarIndex = 1;
+        int similarLimit = 3;
+        items = obj["similar"].toObject()["results"].toArray();
+        for (it = items.constBegin(); it != items.constEnd(); it++) {
+            if (similarIndex > similarLimit) {
+                break;
+            }
+            item = it->toObject();
+            model->getSimilar()->add(genresListModel->getItems(), item, MediaListItem::MediaType::TvType);
+
+            similarIndex++;
         }
     }
 

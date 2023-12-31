@@ -11,6 +11,7 @@
 #include "src/viewmodels/companieslistmodel.h"
 #include "src/viewmodels/countrieslistmodel.h"
 #include "src/viewmodels/languageslistmodel.h"
+#include "src/viewmodels/medialistmodel.h"
 
 class Movie : public QObject
 {
@@ -43,6 +44,8 @@ class Movie : public QObject
     Q_PROPERTY(int rating READ getRating WRITE setRating NOTIFY ratingChanged)
     Q_PROPERTY(Credits* credits READ getCredits CONSTANT)
     Q_PROPERTY(VideosList* videos READ getVideos CONSTANT)
+    Q_PROPERTY(MediaListModel* recommendations READ getRecommendations CONSTANT)
+    Q_PROPERTY(MediaListModel* similar READ getSimilar CONSTANT)
 
 public:
     Movie(QObject *parent = nullptr);
@@ -125,6 +128,10 @@ public:
 
     VideosList *getVideos() const;
 
+    MediaListModel *getRecommendations() const;
+
+    MediaListModel *getSimilar() const;
+
 private:
     int id;
     QString backdropPath;
@@ -154,6 +161,8 @@ private:
     int rating;
     Credits *credits;
     VideosList *videos;
+    MediaListModel *recommendations;
+    MediaListModel *similar;
 
 signals:
     void idChanged();

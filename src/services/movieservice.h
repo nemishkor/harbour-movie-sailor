@@ -19,7 +19,7 @@ class MovieService : public QObject
     Q_PROPERTY(RequestInfo* request READ getRequest CONSTANT)
 
 public:
-    MovieService(Api &api, System &system, HistoryService &historyService, QObject *parent);
+    MovieService(Api &api, System &system, HistoryService &historyService, GenresListModel *genresListModel, QObject *parent);
 
     Q_INVOKABLE void toggleFavorite();
     Q_INVOKABLE void toggleWatchlist();
@@ -36,6 +36,7 @@ private:
     Api &api;
     System &system;
     HistoryService &historyService;
+    GenresListModel *genresListModel;
     Movie *model;
     RequestInfo *request;
 

@@ -65,7 +65,7 @@ void Api::loadMovie(int id)
 {
     QUrlQuery query;
     query.addQueryItem("language", getLanguage());
-    QString appendToResponse = "credits,videos";
+    QString appendToResponse = "credits,videos,recommendations,similar";
 
     if (!settings.getSessionId().isEmpty()) {
         query.addQueryItem("session_id", settings.getSessionId());
@@ -81,7 +81,7 @@ void Api::loadTv(int id)
 {
     QUrlQuery query;
     query.addQueryItem("language", getLanguage());
-    QString appendToResponse = "credits,videos";
+    QString appendToResponse = "credits,videos,recommendations,similar";
 
     if (!settings.getSessionId().isEmpty()) {
         query.addQueryItem("session_id", settings.getSessionId());

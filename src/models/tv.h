@@ -18,6 +18,7 @@
 #include "src/viewmodels/personlistmodel.h"
 #include "src/viewmodels/networkslistmodel.h"
 #include "src/viewmodels/seasonslistmodel.h"
+#include "src/viewmodels/medialistmodel.h"
 
 class Tv : public QObject
 {
@@ -60,6 +61,8 @@ class Tv : public QObject
     Q_PROPERTY(int rating READ getRating WRITE setRating NOTIFY ratingChanged)
     Q_PROPERTY(Credits* credits READ getCredits CONSTANT)
     Q_PROPERTY(VideosList* videos READ getVideos CONSTANT)
+    Q_PROPERTY(MediaListModel* recommendations READ getRecommendations CONSTANT)
+    Q_PROPERTY(MediaListModel* similar READ getSimilar CONSTANT)
 
 public:
     Tv(QObject *parent = nullptr);
@@ -168,6 +171,10 @@ public:
 
     VideosList *getVideos() const;
 
+    MediaListModel *getRecommendations() const;
+
+    MediaListModel *getSimilar() const;
+
 signals:
     void adultChanged();
     void backdropPathChanged();
@@ -237,6 +244,8 @@ private:
     int rating;
     Credits *credits;
     VideosList *videos;
+    MediaListModel *recommendations;
+    MediaListModel *similar;
 
 };
 

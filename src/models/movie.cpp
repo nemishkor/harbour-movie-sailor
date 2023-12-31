@@ -14,7 +14,9 @@ Movie::Movie(QObject *parent) :
     watchlist(false),
     rating(0),
     credits(new Credits(this)),
-    videos(new VideosList(this))
+    videos(new VideosList(this)),
+    recommendations(new MediaListModel(this)),
+    similar(new MediaListModel(this))
 {
 
 }
@@ -333,4 +335,14 @@ Credits *Movie::getCredits() const
 VideosList *Movie::getVideos() const
 {
     return videos;
+}
+
+MediaListModel *Movie::getRecommendations() const
+{
+    return recommendations;
+}
+
+MediaListModel *Movie::getSimilar() const
+{
+    return similar;
 }

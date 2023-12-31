@@ -45,7 +45,7 @@ BasePage {
         mimeType: "text/x-url"
     }
 
-    FullPageRequestProgress { id: requestInfo; requestInfo: root.service.request }
+    FullPageRequestProgress { requestInfo: root.service.request; z: 1 }
 
     SilicaFlickable {
         id: flickable
@@ -406,17 +406,23 @@ BasePage {
                 model: movie.videos
             }
 
-            MediaProductionCompaniesList {
-                model: movie.productionCompanies
+            MediaProductionCompaniesList { model: movie.productionCompanies }
+            MediaProductionCountries { model: movie.productionCountries }
+            MediaSpokenLanguagesList { model: movie.spokenLanguages }
+
+            SectionHeader {
+                text: qsTr("Recommendations")
+                visible: movie.recommendations.count > 0
             }
 
-            MediaProductionCountries {
-                model: movie.productionCountries
+            MediaCompactList { model: movie.recommendations }
+
+            SectionHeader {
+                text: qsTr("Similar")
+                visible: tv.similar.count > 0
             }
 
-            MediaSpokenLanguagesList {
-                model: movie.spokenLanguages
-            }
+            MediaCompactList { model: tv.similar }
 
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin

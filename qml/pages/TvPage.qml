@@ -38,7 +38,7 @@ BasePage {
         mimeType: "text/x-url"
     }
 
-    FullPageRequestProgress { requestInfo: tvService.request }
+    FullPageRequestProgress { requestInfo: tvService.request; z: 1 }
 
     SilicaFlickable {
         id: flickable
@@ -364,49 +364,46 @@ BasePage {
                 }
             }
 
-            CreatedByList {
-                model: tv.createdBy
-            }
+            CreatedByList { model: tv.createdBy }
 
             SectionHeader {
                 text: qsTr("Last episode")
                 visible: tv.lastEpisodeOnAir.id !== 0
             }
 
-            TvEpisode {
-                episode: tv.lastEpisodeOnAir
-            }
+            TvEpisode { episode: tv.lastEpisodeOnAir }
 
             SectionHeader {
                 text: qsTr("Next episode")
                 visible: tv.nextEpisodeOnAir.id !== 0
             }
 
-            TvEpisode {
-                episode: tv.nextEpisodeOnAir
-            }
+            TvEpisode { episode: tv.nextEpisodeOnAir }
 
             SectionHeader {
                 text: qsTr("Videos")
                 visible: tv.videos.count > 0
             }
 
-            VideosPreview {
-                id: videosPreview
-                model: tv.videos
+            VideosPreview { model: tv.videos }
+
+            MediaProductionCompaniesList { model: tv.productionCompanies }
+            MediaProductionCountries { model: tv.productionCountries }
+            MediaSpokenLanguagesList { model: tv.spokenLanguages }
+
+            SectionHeader {
+                text: qsTr("Recommendations")
+                visible: tv.recommendations.count > 0
             }
 
-            MediaProductionCompaniesList {
-                model: tv.productionCompanies
+            MediaCompactList { model: tv.recommendations }
+
+            SectionHeader {
+                text: qsTr("Similar")
+                visible: tv.similar.count > 0
             }
 
-            MediaProductionCountries {
-                model: tv.productionCountries
-            }
-
-            MediaSpokenLanguagesList {
-                model: tv.spokenLanguages
-            }
+            MediaCompactList { model: tv.similar }
 
             Label {
                 width: parent.width - 2 * Theme.horizontalPageMargin

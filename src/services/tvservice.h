@@ -21,7 +21,7 @@ class TvService : public QObject
     Q_PROPERTY(RequestInfo* requestRemoveRating READ getRequestRemoveRating CONSTANT)
 
 public:
-    TvService(Api &api, HistoryService &historyService, QObject *parent);
+    TvService(Api &api, HistoryService &historyService, GenresListModel *genresListModel, QObject *parent);
 
     Q_INVOKABLE void load(Tv *tv, int id);
     Q_INVOKABLE void toggleFavorite();
@@ -39,6 +39,7 @@ public:
 private:
     Api &api;
     HistoryService &historyService;
+    GenresListModel *genresListModel;
     Tv *model;
     RequestInfo *request;
     RequestInfo *requestFavorite;

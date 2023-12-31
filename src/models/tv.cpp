@@ -19,7 +19,9 @@ Tv::Tv(QObject *parent) :
     voteCount(0),
     rating(0),
     credits(new Credits(this)),
-    videos(new VideosList(this))
+    videos(new VideosList(this)),
+    recommendations(new MediaListModel(this)),
+    similar(new MediaListModel(this))
 {
 
 }
@@ -435,4 +437,14 @@ Credits *Tv::getCredits() const
 VideosList *Tv::getVideos() const
 {
     return videos;
+}
+
+MediaListModel *Tv::getRecommendations() const
+{
+    return recommendations;
+}
+
+MediaListModel *Tv::getSimilar() const
+{
+    return similar;
 }

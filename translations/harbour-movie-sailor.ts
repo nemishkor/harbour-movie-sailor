@@ -746,6 +746,14 @@ votes</source>
         <source>Videos</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Recommendations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Similar</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MoviesListItem</name>
@@ -1339,6 +1347,14 @@ votes</source>
     </message>
     <message>
         <source>Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recommendations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Similar</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

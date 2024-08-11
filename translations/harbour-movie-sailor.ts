@@ -19,7 +19,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Version: 0.6</source>
+        <source>Version: 0.9</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

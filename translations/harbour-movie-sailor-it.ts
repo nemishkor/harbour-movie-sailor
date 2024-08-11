@@ -19,8 +19,8 @@
         <translation>Cleint non ufficiale per TMDB</translation>
     </message>
     <message>
-        <source>Version: 0.6</source>
-        <translation>Versione: 0.6</translation>
+        <source>Version: 0.9</source>
+        <translation type="unfinished">Versione: 0.9</translation>
     </message>
 </context>
 <context>
